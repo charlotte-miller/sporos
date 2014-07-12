@@ -8,7 +8,6 @@ gem 'whenever',          :require => false
 gem 'sitemap_generator', :require => false
 # gem 'ox'
 # gem 'profanalyzer'
-# gem 'unicorn'
 
 
 # Model Extentions
@@ -38,11 +37,9 @@ gem 'streamio-ffmpeg'
 # Resque Queue
 # =============
 gem 'resque'
-gem 'request_store'
 # gem "thin", "~> 1.4.1"
 # gem 'slim', '<= 1.3.0'
 # gem 'sinatra', :require => nil
-
 
 
 # Monitoring
@@ -50,6 +47,9 @@ gem 'request_store'
 gem 'newrelic_rpm'
 gem 'airbrake'
 
+group :production do
+  gem 'unicorn'
+end
 
 # Not required in production environments by default.
 group :assets do
@@ -63,9 +63,11 @@ end
 gem 'therubyracer', :platforms => :ruby, :require => false
 gem 'bootstrap-sass', '~> 3.2.0'
 gem "haml-rails"
+gem 'handlebars_assets'
 
 
 group :development, :test do
+  gem 'zeus'
   gem 'thin'
   # gem 'capistrano-rails', :require => nil
   
@@ -74,26 +76,26 @@ group :development, :test do
   gem 'jasmine-headless-webkit', '~> 0.8.4'
 
   # TDD
-  gem 'spring'
   gem 'growl'
   gem 'rb-fsevent'
   gem 'guard-rspec'#, '~> 3.0.2'
-  # gem 'guard-spring'
-  gem 'guard-jasmine-headless-webkit'  # brew install qt --build-from-source
+  gem 'guard-bundler'
+  # gem 'guard-jasmine-headless-webkit'  # brew install qt --build-from-source
   
   # Rspec
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'timecop'
   gem "faker"
-  # gem 'capybara'
-  # gem 'capybara-webkit'
-  # gem 'capybara-screenshot', git:'git@github.com:mattheworiordan/capybara-screenshot.git'
-  gem 'shoulda-matchers', '~> 2.4.0'
+  gem 'minitest'
+  gem 'shoulda-matchers', '~> 2.6.0'
   gem 'rspec_candy'
   gem 'syntax'
   gem 'vcr'
   gem "rspec-instafail"
+  # gem 'capybara'
+  # gem 'capybara-webkit'
+  # gem 'capybara-screenshot', git:'git@github.com:mattheworiordan/capybara-screenshot.git'
   
   # Debugger
   gem 'pry-rails'

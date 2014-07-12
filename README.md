@@ -2,7 +2,7 @@
 From the Greek for 'seed', Sporos is a digital version of the Parable of the Sower (Matthew 13).
 
 ## How Can I Help?
-This project uses a number of popular open source frameworks includeing [Twitter Bootstrap](http://getbootstrap.com/), [Backbone.js](backbonejs.org), [Ruby on Rails](http://rubyonrails.org/), and [Elastic Search](http://www.elasticsearch.org/).  These projects are well documented, and make it easy to jump-in and start contirbuting!
+This project uses a number of popular open source frameworks includeing [Twitter Bootstrap](http://getbootstrap.com/), [Backbone.js](http://backbonejs.org), [Ruby on Rails](http://rubyonrails.org/), and [Elastic Search](http://www.elasticsearch.org/).  These projects are well documented, and make it easy to jump-in and start contirbuting!
 
 ### Local Setup
 **If you have never used Ruby on Rails** you will need to [setup your local machine](https://github.com/cornerstone-sf/sporos/wiki/Rails-Setup) before getting started.

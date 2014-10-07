@@ -210,7 +210,7 @@
 }
 
 #main-header{
-  background: url('/images/sf_background.jpg') no-repeat center center;
+  background: url('/assets/sf_background.jpg') no-repeat center center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -218,6 +218,10 @@
   height:500px;
   @include transitionValue(height);
 
+  .submit > .glyphicon{
+    top:3px;
+  }
+  
   &.search-focused{
     height:100%;
     

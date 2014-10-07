@@ -14,17 +14,16 @@
     %link{ rel:'dns-prefetch', href:'//assets3.cornerstonesf.chruch'}
     
     / Use title if it's in the page YAML frontmatter
-    %title= current_page.data.title || "Cornerstone SF Church"
+    %title= @title || "Cornerstone SF Church"
     
     = stylesheet_link_tag "application", media:'all'
   
-  %body{class: page_classes}
+  %body
     #view-port
-      #main-page.current
+      = homepage_toggle do
         = yield
-      #page
     
     / = partial 'layouts/ie'
     = javascript_include_tag  "vendor", digest:'v1'
     = javascript_include_tag  "application"
-    = yield_content :javascripts
+    = yield :javascripts

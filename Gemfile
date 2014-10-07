@@ -8,7 +8,7 @@ gem 'configy'
 gem 'oj'
 gem 'whenever',          :require => false
 gem 'sitemap_generator', :require => false
-gem 'parallel'
+# gem 'parallel'
 # gem 'ox'
 # gem 'profanalyzer'
 # gem 'truncate_html'
@@ -76,11 +76,10 @@ group :assets do
   gem 'uglifier', '>= 1.3.0', :require => false
 end
 
-# gem 'jquery-rails'
 gem 'therubyracer', :platforms => :ruby, :require => false
 gem 'bootstrap-sass', '~> 3.2.0'
 gem "haml-rails"
-gem 'handlebars_assets'
+gem 'handlebars_assets', '0.17.1'
 
 
 group :development, :test do
@@ -97,8 +96,6 @@ group :development, :test do
   gem 'guard-bundler'
   gem "teaspoon"
   gem "guard-teaspoon"
-  # gem 'jasmine-rails'
-  # gem 'guard-jasmine', git:'git@github.com:guard/guard-jasmine.git', branch:'jasmine-2'
   
   # Rspec
   gem 'rspec-rails'
@@ -127,6 +124,8 @@ group :development, :test do
   gem 'quiet_assets'
   gem 'rails-backbone-generator', :require => false  
   # gem 'activerecord-import', '~> 0.3.0' #for seed file
+  
+  gem 'lorem_ipsum_amet'
 end
 
 group :test do

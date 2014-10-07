@@ -1,13 +1,11 @@
----
-title: 'Home'
----
+- @title = 'Cornerstone Church SF'
 
 - content_for(:javascripts) do
-  = javascript_include_tag 'initalizers/main'
+  = javascript_include_tag 'initializers/main'
 
 
 %header#headroom.header
-  #headroom-content
+  #headroom-contentlay
     %a#headroom-logo{href:'#'}
       = image_tag 'white_cornerstone.png', class:'logo-img'
 
@@ -41,17 +39,17 @@ title: 'Home'
 #main-body
   #evergreen-links
     #new-to-cornerstone.evergreen-link
-      %a{href:'#'}
+      %a{href:'/new'}
         .panel.panel-default
           .panel-body New to Cornerstone?
 
     #times-and-locations.evergreen-link
-      %a{href:'#'}
+      %a{href:'/times-and-locations'}
         .panel.panel-default
           .panel-body Service Times, Locations & Parking
       
     #invest-in-cornerstone.evergreen-link
-      %a{href:'#'}
+      %a{href:'/invest'}
         .panel.panel-default
           .panel-body Invest in Cornerstone
     
@@ -81,7 +79,7 @@ title: 'Home'
   
     #cards
       #card-sizer
-      - placeholder_img = lorem.image '640x360', text:'default'
+      - placeholder_img = placeholder_image '640x360', text:'default'
       - 75.times do |card_number|
         - ministry_class = (m=%w{men women rendezvous teens kids outreach})[card_number%m.length]
         .card{class:ministry_class}
@@ -89,12 +87,12 @@ title: 'Home'
             - if rand(1..5) != 1
               %img.thumbnail-img{alt: card_number,
                   src: placeholder_img,
-                  data: {src:lorem.image('640x360', random_color:false, text: "#{ministry_class} [#{card_number+1}]" )},
+                  data: {src:placeholder_image('640x360', random_color:false, text: "#{ministry_class} [#{card_number+1}]" )},
                   height:'360',
                   width:'640'}
             .captions
-              %h3= lorem.words rand(2..4)
-              %p= lorem.paragraph
+              %h3= LoremIpsum.w rand(2..4)
+              %p= LoremIpsum.p 1
       
       
 #current-media

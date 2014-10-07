@@ -1,11 +1,16 @@
 Rails.application.routes.draw do
-  mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
-  # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root                         'special_pages#homepage'
+  get 'new'                 => 'special_pages#new_to_cornerstone'
+  get 'times-and-locations' => 'special_pages#times_and_locations'
+  get 'invest'              => 'special_pages#invest_in_cornerstone' 
 
+  resources :media do
+  end
+  
+  
+  
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
@@ -48,10 +53,11 @@ Rails.application.routes.draw do
   #   resources :posts, concerns: :toggleable
   #   resources :photos, concerns: :toggleable
 
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+  namespace :admin do
+    # Directs /admin/products/* to Admin::PostsController
+    # (app/controllers/admin/posts_controller.rb)
+    # resources :posts
+  end
+  
+  mount JasmineRails::Engine => '/specs' if defined?(JasmineRails) && Rails.env.development?
 end

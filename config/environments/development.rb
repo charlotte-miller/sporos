@@ -39,4 +39,6 @@ Rails.application.configure do
   
   # config.web_console.automount = true
   # config.web_console.default_mount_path = '/terminal' # Optional, defaults to /console
+  
+  config.assets.precompile += %w( teaspoon.css teaspoon-teaspoon.js jasmine/2.0.0.js jasmine/1.3.1.js teaspoon-jasmine.js)
 end

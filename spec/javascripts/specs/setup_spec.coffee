@@ -1,9 +1,6 @@
-#= require_tree ./specs
-
 describe "Working Specs", ->
   beforeEach ->
-    jasmine.getFixtures().fixturesPath = '/spec/javascripts/fixtures'
-    loadFixtures('headroom.html','main.html')
+    fixture.load('headroom.html','main.html')
     # CStone.Community.Search.init()
   
   

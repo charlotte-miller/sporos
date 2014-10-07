@@ -95,8 +95,10 @@ group :development, :test do
   gem 'rb-fsevent'
   gem 'guard-rspec'#, '~> 3.0.2'
   gem 'guard-bundler'
-  gem 'jasmine-rails'
-  gem 'guard-jasmine', git:'git@github.com:guard/guard-jasmine.git', branch:'jasmine-2'
+  gem "teaspoon"
+  gem "guard-teaspoon"
+  # gem 'jasmine-rails'
+  # gem 'guard-jasmine', git:'git@github.com:guard/guard-jasmine.git', branch:'jasmine-2'
   
   # Rspec
   gem 'rspec-rails'

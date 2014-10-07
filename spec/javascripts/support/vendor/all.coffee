@@ -1,5 +1,5 @@
-#= require jasmine-jquery
-#= require sinonjs
-#= require jasmine-sinon
+#  require jasmine-jquery
+#  require sinonjs
+#  require jasmine-sinon
 #  require jquery-ajax
-#= require ./backbone-factory
+#  require ./backbone-factory

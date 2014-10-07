@@ -30,28 +30,18 @@ rspec_options ={
 # end
 
 
-# guard 'jasmine-headless-webkit' do
-#   watch(%r{^app/views/.*\.jst$})
-#
-#   # Run All
-#   watch(%r{^spec/javascripts/factories\..*})                    { jasmine_spec_location }
-#   watch(%r{^spec/javascripts/helpers(.*)\.(js|coffee)$})        { jasmine_spec_location }
-#   watch(%r{^app/assets/javascripts/([^/]*)\.(js|coffee)$})      { jasmine_spec_location }
-#   watch(%r{^app/assets/javascripts/fixtures(.*)\.(js|coffee)$}) { jasmine_spec_location }
-#
-#   # Single Spec
-#   watch(%r{^public/javascripts/(.*)\.js$})              { |m| newest_js_file("spec/javascripts/#{m[1]}_spec") }
-#   watch(%r{^app/assets/javascripts/(.*)\.(js|coffee)$}) { |m| newest_js_file("spec/javascripts/#{m[1]}_spec") }
-#   watch(%r{^spec/javascripts/(.*)_spec\..*})            { |m| newest_js_file("spec/javascripts/#{m[1]}_spec") }
-# end
 
-jasmine_options ={
-   # :server => :none, jasmine_url:'http://localhost:3000/specs'
-   port:  '8888', server: :unicorn, server_mount: '/specs'
-}
-guard :jasmine, jasmine_options do
-  watch(%r{spec/javascripts/spec\.(js\.coffee|js|coffee)$}) { 'spec/javascripts' }
-  watch(%r{spec/javascripts/.+_spec\.(js\.coffee|js|coffee)$})
-  watch(%r{spec/javascripts/fixtures/.+$})
-  watch(%r{app/assets/javascripts/(.+?)\.(js\.coffee|js|coffee)(?:\.\w+)*$}) { |m| "spec/javascripts/#{ m[1] }_spec.#{ m[2] }" }
+guard :teaspoon do
+    watch(%r{^app/views/.*\.jst$})
+
+    # Run All
+    watch(%r{^spec/javascripts/factories\..*})                    #{ jasmine_spec_location }
+    watch(%r{^spec/javascripts/helpers(.*)\.(js|coffee)$})        #{ jasmine_spec_location }
+    watch(%r{^app/assets/javascripts/([^/]*)\.(js|coffee)$})      #{ jasmine_spec_location }
+    watch(%r{^app/assets/javascripts/fixtures(.*)\.(js|coffee)$}) #{ jasmine_spec_location }
+
+    # Single Spec
+    watch(%r{^public/javascripts/(.*)\.js$})              { |m| newest_js_file("spec/javascripts/#{m[1]}_spec") }
+    watch(%r{^app/assets/javascripts/(.*)\.(js|coffee)$}) { |m| newest_js_file("spec/javascripts/#{m[1]}_spec") }
+    watch(%r{^spec/javascripts/(.*)_spec\..*})            { |m| newest_js_file("spec/javascripts/#{m[1]}_spec") }
 end

@@ -1,0 +1,1 @@
+CStone.Community.Pages.init()

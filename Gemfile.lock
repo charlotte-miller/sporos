@@ -1,37 +1,49 @@
 GIT
-  remote: git@github.com:chip-miller/paperclip-ffmpeg.git
-  revision: c174d89c6ac8b6e66a8b88bb3d006d45ec6aa60a
+  remote: git@github.com:guard/guard-jasmine.git
+  revision: d6a80e58401a782455667719bf054ef9faced35b
+  branch: jasmine-2
   specs:
-    paperclip-ffmpeg (1.0.0)
-      paperclip (>= 2.5.2)
+    guard-jasmine (1.19.2)
+      childprocess
+      guard (>= 2.0.0)
+      multi_json
+      thor
+      tilt
 
 GEM
   remote: https://rubygems.org/
   specs:
-    actionmailer (4.1.4)
-      actionpack (= 4.1.4)
-      actionview (= 4.1.4)
-      mail (~> 2.5.4)
-    actionpack (4.1.4)
-      actionview (= 4.1.4)
-      activesupport (= 4.1.4)
-      rack (~> 1.5.2)
+    actionmailer (4.2.0.beta1)
+      actionpack (= 4.2.0.beta1)
+      actionview (= 4.2.0.beta1)
+      mail (~> 2.5, >= 2.5.4)
+      rails-dom-testing (~> 1.0, >= 1.0.2)
+    actionpack (4.2.0.beta1)
+      actionview (= 4.2.0.beta1)
+      activesupport (= 4.2.0.beta1)
+      rack (~> 1.6.0.beta)
       rack-test (~> 0.6.2)
-    actionview (4.1.4)
-      activesupport (= 4.1.4)
+      rails-deprecated_sanitizer (~> 1.0, >= 1.0.2)
+      rails-dom-testing (~> 1.0, >= 1.0.2)
+    actionview (4.2.0.beta1)
+      activesupport (= 4.2.0.beta1)
       builder (~> 3.1)
       erubis (~> 2.7.0)
-    activemodel (4.1.4)
-      activesupport (= 4.1.4)
+      rails-deprecated_sanitizer (~> 1.0, >= 1.0.2)
+      rails-dom-testing (~> 1.0, >= 1.0.2)
+    activejob (4.2.0.beta1)
+      globalid (>= 0.2.3)
+    activemodel (4.2.0.beta1)
+      activesupport (= 4.2.0.beta1)
       builder (~> 3.1)
-    activerecord (4.1.4)
-      activemodel (= 4.1.4)
-      activesupport (= 4.1.4)
-      arel (~> 5.0.0)
+    activerecord (4.2.0.beta1)
+      activemodel (= 4.2.0.beta1)
+      activesupport (= 4.2.0.beta1)
+      arel (>= 6.0.0.beta1, < 6.1)
     activerecord-tableless (1.3.4)
       activerecord (>= 2.3.0)
-    activesupport (4.1.4)
-      i18n (~> 0.6, >= 0.6.9)
+    activesupport (4.2.0.beta1)
+      i18n (>= 0.7.0.beta1, < 0.8)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
       thread_safe (~> 0.1)
@@ -47,16 +59,20 @@ GEM
     annotate (2.6.5)
       activerecord (>= 2.3.0)
       rake (>= 0.8.7)
-    arel (5.0.1.20140414130214)
+    arel (6.0.0.beta1)
     aws-sdk (1.47.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
     bcrypt (3.1.7)
     bootstrap-sass (3.2.0.0)
       sass (~> 3.2)
+    bower-rails (0.9.0)
     builder (3.2.2)
     celluloid (0.15.2)
       timers (~> 1.1.0)
+    chartkick (1.3.2)
+    childprocess (0.5.5)
+      ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
     climate_control (0.0.3)
       activesupport (>= 3.0)
@@ -85,10 +101,15 @@ GEM
       devise (>= 2.1.0)
     diff-lcs (1.2.5)
     docile (1.1.5)
-    elasticsearch-rails (0.1.4)
+    elasticsearch (1.0.4)
+      elasticsearch-api (= 1.0.4)
+      elasticsearch-transport (= 1.0.4)
+    elasticsearch-api (1.0.4)
+      multi_json
+    elasticsearch-transport (1.0.4)
+      faraday
+      multi_json
     erubis (2.7.0)
-    ethon (0.7.1)
-      ffi (>= 1.3.0)
     eventmachine (1.0.3)
     execjs (2.2.1)
     factory_girl (4.4.0)
@@ -98,11 +119,18 @@ GEM
       railties (>= 3.0.0)
     faker (1.4.1)
       i18n (~> 0.5)
+    fakeredis (0.5.0)
+      redis (~> 3.0)
+    faraday (0.9.0)
+      multipart-post (>= 1.2, < 3)
     ffi (1.9.3)
     formatador (0.2.5)
     friendly_id (5.0.4)
       activerecord (>= 4.0.0)
-    growl (1.0.3)
+    globalid (0.3.0)
+      activesupport (>= 4.1.0)
+    groupdate (2.2.1)
+      activesupport (>= 3)
     guard (2.6.1)
       formatador (>= 0.2.4)
       listen (~> 2.7)
@@ -130,20 +158,20 @@ GEM
     hashie (1.2.0)
     highline (1.6.21)
     hike (1.2.3)
-    i18n (0.6.11)
-    jasmine-core (1.3.1)
-    jasmine-headless-webkit (0.8.4)
-      coffee-script
-      jasmine-core (~> 1.1)
-      multi_json
-      rainbow
-      sprockets (~> 2)
-    jasmine-rails (0.9.1)
+    i18n (0.7.0.beta1)
+    jasmine-core (2.0.2)
+    jasmine-rails (0.10.2)
       jasmine-core (>= 1.3, < 3.0)
       phantomjs
       railties (>= 3.1.0)
       sprockets-rails
+    jquery-rails (3.1.1)
+      railties (>= 3.0, < 5.0)
+      thor (>= 0.14, < 2.0)
     json (1.8.1)
+    kaminari (0.16.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     kgio (2.9.2)
     libv8 (3.16.14.3)
     listen (2.7.9)
@@ -151,18 +179,18 @@ GEM
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
     lumberjack (1.0.9)
-    mail (2.5.4)
-      mime-types (~> 1.16)
-      treetop (~> 1.4.8)
+    mail (2.6.1)
+      mime-types (>= 1.16, < 3)
     method_source (0.8.2)
-    mime-types (1.25.1)
+    mime-types (2.3)
     mini_portile (0.6.0)
-    minitest (5.4.0)
+    minitest (5.4.2)
     mono_logger (1.1.0)
     multi_json (1.10.1)
+    multipart-post (2.0.0)
     mysql2 (0.3.16)
     newrelic_rpm (3.9.0.229)
-    nokogiri (1.6.2.1)
+    nokogiri (1.6.3.1)
       mini_portile (= 0.6.0)
     oj (2.9.9)
     options (2.3.2)
@@ -172,8 +200,9 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
       mime-types
+    parallel (1.3.2)
+    patron (0.4.18)
     phantomjs (1.9.7.1)
-    polyglot (0.3.5)
     posix-spawn (0.3.8)
     progress_bar (1.0.2)
       highline (~> 1.6.1)
@@ -186,28 +215,34 @@ GEM
       pry (>= 0.9.10)
     quiet_assets (1.0.3)
       railties (>= 3.1, < 5.0)
-    rack (1.5.2)
+    rack (1.6.0.beta)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
-    rails (4.1.4)
-      actionmailer (= 4.1.4)
-      actionpack (= 4.1.4)
-      actionview (= 4.1.4)
-      activemodel (= 4.1.4)
-      activerecord (= 4.1.4)
-      activesupport (= 4.1.4)
+    rails (4.2.0.beta1)
+      actionmailer (= 4.2.0.beta1)
+      actionpack (= 4.2.0.beta1)
+      actionview (= 4.2.0.beta1)
+      activejob (= 4.2.0.beta1)
+      activemodel (= 4.2.0.beta1)
+      activerecord (= 4.2.0.beta1)
+      activesupport (= 4.2.0.beta1)
       bundler (>= 1.3.0, < 2.0)
-      railties (= 4.1.4)
-      sprockets-rails (~> 2.0)
+      railties (= 4.2.0.beta1)
+      sprockets-rails (~> 3.0.0.beta1)
     rails-backbone-generator (0.1.8)
-    railties (4.1.4)
-      actionpack (= 4.1.4)
-      activesupport (= 4.1.4)
+    rails-deprecated_sanitizer (1.0.3)
+      activesupport (>= 4.2.0.alpha)
+    rails-dom-testing (1.0.3)
+      activesupport
+      nokogiri (~> 1.6.0)
+      rails-deprecated_sanitizer (>= 1.0.1)
+    railties (4.2.0.beta1)
+      actionpack (= 4.2.0.beta1)
+      activesupport (= 4.2.0.beta1)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rainbow (2.0.0)
     raindrops (0.13.0)
     rake (10.3.2)
     rb-fsevent (0.9.4)
@@ -218,6 +253,8 @@ GEM
     redis (3.1.0)
     redis-namespace (1.5.0)
       redis (~> 3.0, >= 3.0.4)
+    redis-sentinel (1.4.4)
+      redis
     ref (1.0.5)
     resque (1.25.2)
       mono_logger (~> 1.0)
@@ -225,6 +262,19 @@ GEM
       redis-namespace (~> 1.3)
       sinatra (>= 0.9.2)
       vegas (~> 0.1.2)
+    resque-retry (1.2.1)
+      resque (~> 1.25)
+      resque-scheduler (~> 2.5)
+    resque-scheduler (2.5.1)
+      redis (>= 3.0.0)
+      resque (~> 1.25)
+      rufus-scheduler (~> 2.0)
+    resque-web (0.0.6)
+      coffee-rails
+      jquery-rails
+      resque
+      sass-rails
+      twitter-bootstrap-rails
     resque_spec (0.16.0)
       resque (>= 1.19.0)
       rspec-core (>= 3.0.0)
@@ -255,16 +305,26 @@ GEM
     rspec_candy (0.3.1)
       rspec
       sneaky-save
+    ruby_gntp (0.3.4)
+    rufus-scheduler (2.0.24)
+      tzinfo (>= 0.3.22)
     safe_yaml (1.0.3)
-    sass (3.2.19)
-    sass-rails (4.0.3)
+    sass (3.4.5)
+    sass-rails (5.0.0.beta1)
       railties (>= 4.0.0, < 5.0)
-      sass (~> 3.2.0)
-      sprockets (~> 2.8, <= 2.11.0)
-      sprockets-rails (~> 2.0)
+      sass (~> 3.2)
+      sprockets (~> 2.12)
+      sprockets-rails (>= 2.0, < 4.0)
     sdoc (0.4.0)
       json (~> 1.8)
       rdoc (~> 4.0, < 5.0)
+    searchjoy (0.0.6)
+      chartkick
+      groupdate
+    searchkick (0.8.0)
+      activemodel
+      elasticsearch (>= 1)
+      hashie
     shoulda-matchers (2.6.1)
       activesupport (>= 3.0.0)
     simplecov (0.8.2)
@@ -281,17 +341,16 @@ GEM
     slop (3.5.0)
     sneaky-save (0.0.5)
       activerecord (>= 3.2.0)
-    sprockets (2.11.0)
+    sprockets (2.12.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sprockets-rails (2.1.3)
-      actionpack (>= 3.0)
-      activesupport (>= 3.0)
+    sprockets-rails (3.0.0.beta1)
+      actionpack (>= 4.0)
+      activesupport (>= 4.0)
       sprockets (~> 2.8)
     state_machine (1.2.0)
-    streamio-ffmpeg (1.0.0)
     syntax (1.2.0)
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
@@ -305,12 +364,12 @@ GEM
     tilt (1.4.1)
     timecop (0.7.1)
     timers (1.1.0)
-    treetop (1.4.15)
-      polyglot
-      polyglot (>= 0.3.1)
-    typhoeus (0.6.9)
-      ethon (>= 0.7.1)
-    tzinfo (1.2.1)
+    twitter-bootstrap-rails (2.2.8)
+      actionpack (>= 3.1)
+      execjs
+      rails (>= 3.1)
+      railties (>= 3.1)
+    tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.5.1)
       execjs (>= 0.3.0)
@@ -344,52 +403,58 @@ DEPENDENCIES
   annotate (>= 2.5.0)
   aws-sdk
   bootstrap-sass (~> 3.2.0)
+  bower-rails
   cocaine
   coffee-rails (~> 4.0.0)
   configy
   devise
   devise-encryptable
-  elasticsearch-rails
   factory_girl_rails
   faker
+  fakeredis
   friendly_id (~> 5.0.4)
-  growl
   guard-bundler
+  guard-jasmine!
   guard-rspec
   haml-rails
   handlebars_assets
-  jasmine-headless-webkit (~> 0.8.4)
   jasmine-rails
+  kaminari
   minitest
   mysql2
   newrelic_rpm
   oj
   paperclip
-  paperclip-ffmpeg!
+  parallel
+  patron
   posix-spawn
   progress_bar
   pry-rails
   quiet_assets
-  rails (= 4.1.4)
+  rails (= 4.2.0.beta1)
   rails-backbone-generator
   rb-fsevent
+  redis-sentinel
   resque
+  resque-retry
+  resque-web
   resque_spec
   rspec-instafail
   rspec-rails
   rspec_candy
-  sass-rails (~> 4.0.3)
+  ruby_gntp
+  sass-rails (~> 5.0.0.beta1)
   sdoc (~> 0.4.0)
+  searchjoy
+  searchkick
   shoulda-matchers (~> 2.6.0)
   simplecov
   sitemap_generator
   state_machine
-  streamio-ffmpeg
   syntax
   therubyracer
   thin
   timecop
-  typhoeus
   uglifier (>= 1.3.0)
   unicorn
   vcr

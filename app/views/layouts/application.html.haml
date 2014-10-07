@@ -1,0 +1,30 @@
+!!!
+%html{ lang:'en'}
+  %head
+    %meta{charset: "utf-8"}
+    %meta{ name:"viewport", content:"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"}
+    = csrf_meta_tags
+    
+    / DNS Prefetch
+    %meta{ 'http-equiv'=>'x-dns-prefetch-control', content:'on'}
+    %link{ rel:'dns-prefetch', href:'//media.cornerstonesf.chruch'}
+    %link{ rel:'dns-prefetch', href:'//direct.cornerstonesf.chruch'}
+    %link{ rel:'dns-prefetch', href:'//assets1.cornerstonesf.chruch'}
+    %link{ rel:'dns-prefetch', href:'//assets2.cornerstonesf.chruch'}
+    %link{ rel:'dns-prefetch', href:'//assets3.cornerstonesf.chruch'}
+    
+    / Use title if it's in the page YAML frontmatter
+    %title= current_page.data.title || "Cornerstone SF Church"
+    
+    = stylesheet_link_tag "application", media:'all'
+  
+  %body{class: page_classes}
+    #view-port
+      #main-page.current
+        = yield
+      #page
+    
+    / = partial 'layouts/ie'
+    = javascript_include_tag  "vendor", digest:'v1'
+    = javascript_include_tag  "application"
+    = yield_content :javascripts

@@ -1,0 +1,15 @@
+%ul.suggestion-nav-sources
+  {{#each this}}
+  {{#if showMe}}
+  %li.suggestion-nav-source{class:'{{focusClass}}'}
+    %a{href:'#search/filter/{{name}}', data:{source:'{{name}}'}}
+      %i.icon{class:'{{name}}'}
+      {{title}}
+      {{#if isAll}}
+      %span.caret
+      {{/if}}
+      {{#if count}}
+      %span.count {{count}}
+      {{/if}}
+  {{/if}}
+  {{/each}}

@@ -1,0 +1,277 @@
+.header{
+  .logo-img{
+    height:inherit;
+    width:auto;
+  }
+
+  .submit{
+    @extend .btn;
+    @extend .btn-lg;
+    @extend .btn-default;
+    border-width: 2px;
+    border-left-width: 1px;
+  }
+
+  .hint{
+    color:white;
+    text-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+    .thin{
+      font-weight:lighter;
+    }
+  }
+  
+  .text, .twitter-typeahead{
+    @extend .form-control;
+    @extend .input-lg;
+  
+    // &:focus{
+    //  border-color:inherit;
+    //  -webkit-box-shadow:none;
+    //  box-shadow:none;
+    // }
+  }
+  
+  .twitter-typeahead{
+    padding:0px;
+  }
+  
+  .tt-dropdown-menu{
+    background:white;
+  }
+  
+  .search-suggestions{
+    position:relative;
+    clear:both;
+    margin:0 15px;
+    
+    .search-suggestions-dropdown{
+      @extend .col-xs-12;
+      @extend .dropdown-menu;
+      @extend .dropdown-menu-right;
+      display:block;
+    
+      &:after {
+        position: absolute;
+        top: -14px;
+        right: 15px;
+        display: inline-block;
+        border-right: 13px solid transparent;
+        border-left: 13px solid transparent;
+        border-bottom: 15px solid #ffffff;
+        content: '';
+      }
+    
+      .init-help{}
+      .empty-help{}
+    
+      .search-results{
+        
+        .suggestions-nav{
+          @extend .col-sm-3;
+          overflow:hidden;
+          
+          .caret{ @include transitionValue(transform); }
+          
+          @media (max-width: $screen-xs-max) {
+            height:50px;
+            
+            &.expanded{
+              height:100%;
+              
+              .caret{
+                @include rotate(-180deg);
+                //border-top-width: 0;
+                //border-bottom: 4px solid
+              }
+            }
+          }
+          
+          .suggestion-nav-sources{
+            @extend .nav;
+            @extend .nav-pills;
+            @extend .nav-stacked;
+            
+            .caret{
+              @extend .visible-xs-inline-block;
+            }
+            
+            .count{
+              @extend .pull-right;
+            }
+          }
+        }
+        .suggestions{
+          @extend .col-sm-9;
+          @include transitionValue(height);
+          height: 300px;
+          overflow:auto;
+          border-left:1px solid $gray-lighter;
+          
+          @media (max-width: $screen-xs-max) {
+            border-left:none;
+            border-top:1px solid $gray-lighter;
+          }
+          
+          .suggestion-list{ 
+            list-style-type:none;
+            padding:0;
+            margin:0;
+            
+            .suggestion{
+              @extend .text;
+              @include text-overflow();
+              margin:5px 0;
+              
+              &.active{
+                background-color:#cccccc;
+              }
+            }
+          }
+        }
+        
+        .icon{
+          @extend .glyphicon;
+          padding-right:5px;
+          
+          &.all{          @extend .glyphicon-search;  }
+          &.ministry{     @extend .glyphicon-user;  }
+          &.music{        @extend .glyphicon-music;  }
+          &.sermon{       @extend .glyphicon-play-circle;  }
+          &.announcement{ @extend .glyphicon-bullhorn;  }
+          &.event{        @extend .glyphicon-calendar;  }
+          &.page{         @extend .glyphicon-list-alt;  }
+          &.question{     @extend .glyphicon-comment;  }
+        }
+      }
+    }
+  }
+}
+
+#headroom{
+  @extend .container-fluid;
+  position:fixed;
+  overflow:hidden;
+  top:0px;
+  left:0px;
+  height:0px;
+  background-color: rgba(3, 3, 3, 0.7);
+  z-index:9999;
+  @include transitionValue(height);
+  
+  &.search-focused{
+    height:75%;
+    
+    #headroom-content{
+      top:40px;
+    }
+  }
+  
+  &.headroom--pinned.headroom--not-top{
+    height:100px;
+    
+    #headroom-content{
+      top:10px;
+    }
+  }
+  
+  #headroom-content{
+    @extend .row;
+    position:relative;
+    top:-170px;
+    @include transitionValue(top);
+    
+    #headroom-logo{
+      @extend .col-xs-3;
+      height:80px;
+    }
+
+    #headroom-search {
+      .search-form{
+        @extend .col-xs-offset-3;
+        @extend .col-xs-6;
+        top:25px;
+      
+        .text, .twitter-typeahead, .submit{
+          @extend .input-sm;
+        }
+      
+        #headroom-search-input{
+          border-radius:3px 0 0 3px;
+        }
+      
+        .submit{
+          @extend .btn-sm;
+          border-bottom-width: 1px;
+          border-radius:0 3px 3px 0;
+        }
+      }
+    }
+  }
+}
+
+#main-header{
+  background: url('/images/sf_background.jpg') no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height:500px;
+  @include transitionValue(height);
+
+  &.search-focused{
+    height:100%;
+    
+    .container > #main-header-content{
+       top:10%;
+    }
+    
+    .suggestions{
+      height:500px;
+    }
+    
+    .submit > .glyphicon {
+      @extend .glyphicon-remove;
+    }
+  }
+  
+  .container{
+    height:inherit;
+    
+    #main-header-content{
+      @extend .row;
+      @include verticalAlign(30%);
+      @include transitionValue(top);
+      z-index:9999;
+
+      #logo{
+        @extend .col-md-4;
+        display:inline-block;
+        
+        margin-top:20px;
+        border-right:white solid 1px;
+        text-align:right;
+        
+
+        @media (max-width: $screen-md-min) {
+          border-right:none;
+          height:110px;
+        }
+      }
+  
+      #global-search{
+        .search-form{
+          @extend .col-md-8;
+          margin-top: 60px;
+        
+          @media (max-width: $screen-md-min) {
+            margin-top: 15px;
+          }
+      
+          #global-search-input{
+            border-radius: 6px 0 0 6px;
+          }
+        }
+      }
+    }
+  }
+}

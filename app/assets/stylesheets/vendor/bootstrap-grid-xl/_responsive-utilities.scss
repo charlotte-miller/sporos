@@ -1,0 +1,95 @@
+//
+// Responsive: Utility classes for Bootstrap Grid XL
+// --------------------------------------------------
+
+
+// Visibility utilities
+
+
+@media (min-width: $screen-xl) {
+  @include responsive-visibility('.visible-xs.visible-xl');
+}
+
+@media (min-width: $screen-xl) {
+  @include responsive-visibility('.visible-sm.visible-xl');
+}
+
+@media (min-width: $screen-xl) {
+  @include responsive-visibility('.visible-md.visible-xl');
+}
+
+@media (min-width: $screen-xl) {
+  @include responsive-visibility('.visible-lg.visible-xl');
+}
+
+
+
+@include responsive-invisibility('.visible-xl');
+
+@media (max-width: $screen-xs-max) {
+  @include responsive-visibility('.visible-xl.visible-xs');
+}
+
+
+@media (min-width: $screen-sm) and (max-width: $screen-sm-max) {
+  @include responsive-visibility('.visible-xl.visible-sm');
+}
+
+
+@media (min-width: $screen-md) and (max-width: $screen-md-max) {
+  @include responsive-visibility('.visible-xl.visible-md');
+}
+
+@media (min-width: $screen-lg) and (max-width: $screen-md-max) {
+  @include responsive-visibility('.visible-xl.visible-lg');
+}
+
+@media (min-width: $screen-xl) {
+  @include responsive-visibility('.visible-xl');
+}
+
+
+
+@media (min-width: $screen-xl) {
+  @include responsive-invisibility('.hidden-xs.hidden-xl');
+}
+
+@media (min-width: $screen-xl) {
+  @include responsive-invisibility('.hidden-sm.hidden-xl');
+}
+
+@media (min-width: $screen-xl) {
+  @include responsive-invisibility('.hidden-md.hidden-xl');
+}
+
+@media (min-width: $screen-xl) {
+  @include responsive-invisibility('.hidden-lg.hidden-xl');
+}
+
+
+
+@include responsive-visibility('.hidden-xl');
+
+@media (max-width: $screen-xs-max) {
+  @include responsive-invisibility('.hidden-xl.hidden-xs');
+}
+
+
+@media (min-width: $screen-sm) and (max-width: $screen-sm-max) {
+  @include responsive-invisibility('.hidden-xl.hidden-sm');
+}
+
+
+@media (min-width: $screen-md) and (max-width: $screen-md-max) {
+  @include responsive-invisibility('.hidden-xl.hidden-md');
+}
+
+
+@media (min-width: $screen-lg) and (max-width: $screen-lg-max) {
+  @include responsive-invisibility('.hidden-xl.hidden-lg');
+}
+
+
+@media (min-width: $screen-xl) {
+  @include responsive-invisibility('.hidden-xl');
+}

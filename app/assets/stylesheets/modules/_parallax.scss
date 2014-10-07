@@ -1,0 +1,27 @@
+.parallax {
+  perspective: 1px;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.parallax_layer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.parallax_layer--base {
+  @extend .parallax_layer;
+  transform: translateZ(0) scale(1);
+}
+.parallax_layer--back {
+  @extend .parallax_layer;
+  transform: translateZ(-2px) scale(3);
+}
+
+.parallax__group {
+  position: relative;
+  height: 100vh;
+  transform-style: preserve-3d;
+}

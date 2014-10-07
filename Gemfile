@@ -1,13 +1,17 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.4'
+gem 'rails', '4.2.0.beta1'
+gem 'sass-rails', '~> 5.0.0.beta1'
+
 gem 'mysql2'
 gem 'configy'
 gem 'oj'
 gem 'whenever',          :require => false
 gem 'sitemap_generator', :require => false
+gem 'parallel'
 # gem 'ox'
 # gem 'profanalyzer'
+# gem 'truncate_html'
 
 
 # Model Extentions
@@ -18,25 +22,39 @@ gem 'acts_as_interface'
 gem 'devise'
 gem 'devise-encryptable'
 gem "friendly_id", '~> 5.0.4'
-gem 'elasticsearch-rails'
+gem 'kaminari'
+
+# Search
+# =======
+# gem 'elasticsearch-rails'
+gem 'searchkick'
+gem "searchjoy"
+gem 'patron'
 
 
 # Media Download/Processing/Storage
 # =================================
 # gem 'anemone'
-gem 'typhoeus'
+# gem 'typhoeus'
 gem 'cocaine'
 gem 'posix-spawn'
 gem 'aws-sdk'
 gem 'paperclip'
-gem 'paperclip-ffmpeg', git: 'git@github.com:chip-miller/paperclip-ffmpeg.git'
-gem 'streamio-ffmpeg'
+# gem 'paperclip-ffmpeg', git: 'git@github.com:chip-miller/paperclip-ffmpeg.git'
+# gem 'streamio-ffmpeg'
 # gem 'paperclip-optimizer'
 
 
 # Resque Queue
 # =============
 gem 'resque'
+gem 'resque-web'
+gem 'resque-retry'
+gem 'redis-sentinel'
+# gem 'redis-store'
+# gem "redis", "~> 3.0.1", :require => ["redis"]
+# gem "redis-namespace", "~> 1.2.0"
+# gem "newrelic-redis"
 # gem "thin", "~> 1.4.1"
 # gem 'slim', '<= 1.3.0'
 # gem 'sinatra', :require => nil
@@ -53,10 +71,9 @@ end
 
 # Not required in production environments by default.
 group :assets do
-  gem 'sass-rails', '~> 4.0.3'
+  # gem 'sass-rails', '~> 4.0.3'
   gem 'coffee-rails', '~> 4.0.0'
   gem 'uglifier', '>= 1.3.0', :require => false
-  # gem 'bootswatch-rails', git: 'git@github.com:log0ymxm/bootswatch-rails.git'
 end
 
 # gem 'jquery-rails'
@@ -67,20 +84,19 @@ gem 'handlebars_assets'
 
 
 group :development, :test do
+  gem "bower-rails"
+  
   gem 'zeus'
   gem 'thin'
   # gem 'capistrano-rails', :require => nil
   
-  # Jasmine
-  gem 'jasmine-rails'
-  gem 'jasmine-headless-webkit', '~> 0.8.4'
-
   # TDD
-  gem 'growl'
+  gem 'ruby_gntp'
   gem 'rb-fsevent'
   gem 'guard-rspec'#, '~> 3.0.2'
   gem 'guard-bundler'
-  # gem 'guard-jasmine-headless-webkit'  # brew install qt --build-from-source
+  gem 'jasmine-rails'
+  gem 'guard-jasmine', git:'git@github.com:guard/guard-jasmine.git', branch:'jasmine-2'
   
   # Rspec
   gem 'rspec-rails'
@@ -100,6 +116,7 @@ group :development, :test do
   # Debugger
   gem 'pry-rails'
   gem 'progress_bar'
+  # gem 'web-console', '~> 2.0'
   
   # Documentation
   gem 'annotate', ">=2.5.0"
@@ -115,5 +132,6 @@ group :test do
   gem 'simplecov', :require => false
   gem "activerecord-tableless", "~> 1.0"  #used by DummyClass when testing concerns
   gem "resque_spec"
+  gem "fakeredis", :require => "fakeredis/rspec"
 end
 

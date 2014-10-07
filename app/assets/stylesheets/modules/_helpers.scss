@@ -1,0 +1,23 @@
+@mixin verticalAlign($percent) {
+  position: relative;
+  top: $percent;
+  -webkit-transform: translateY(-$percent);
+  -ms-transform: translateY(-$percent);
+  transform: translateY(-$percent);
+}
+
+@mixin transitionValue($val){
+  -webkit-transition-duration: 0.5s;
+  -moz-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+
+  -webkit-transition-property: $val;
+  -moz-transition-property: $val;
+  -o-transition-property: $val;
+  transition-property: $val;
+}
+
+%verticalCenter{
+  @include verticalAlign(50%);
+}

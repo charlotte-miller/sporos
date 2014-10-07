@@ -1,0 +1,22 @@
+/*!
+ * Bootstrap grid XL
+ *
+ * Extra large grid for Bootstrap (SCSS version)
+ *
+ * Extends Bootstrap v3.0.0 by adding an "XL" size for the grid system
+ * used for screen widths of 1600px or more
+ *
+ * Copyright 2013 Anim Yeboah
+ * Licensed under the MIT License
+ * http://opensource.org/licenses/MIT
+ */
+
+// Core variables and mixins
+@import "variables";
+@import "mixins";
+
+// Core CSS
+@import "grid";
+
+// Utility classes
+@import "responsive-utilities";

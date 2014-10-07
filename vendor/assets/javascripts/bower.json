@@ -1,0 +1,22 @@
+{
+  "name": "dsl-generated dependencies",
+  "dependencies": {
+    "fastclick": "~1.0.3",
+    "jquery": "~2.1.1",
+    "velocity": "~1.0.0",
+    "isotope": "~2.0.1",
+    "typeahead.js": "~0.10.5",
+    "handlebars": "~2.0.0",
+    "underscore": "~1.7.0",
+    "backbone": "~1.1.2",
+    "backbone-relational": "~0.8.8",
+    "Backbone.BindTo": "~1.1.0",
+    "Backbone.Handlebars": "~1.0.0",
+    "headroom.js": "~0.7.0",
+    "backbone_query": "*",
+    "backbone-filtered-collection": "~0.4.0",
+    "jasmine-jquery": "~2.0.5",
+    "jasmine-sinon": "~0.4.0",
+    "jasmine-ajax": "~2.0.1"
+  }
+}

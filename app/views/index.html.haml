@@ -1,0 +1,102 @@
+---
+title: 'Home'
+---
+
+- content_for(:javascripts) do
+  = javascript_include_tag 'initalizers/main'
+
+
+%header#headroom.header
+  #headroom-content
+    %a#headroom-logo{href:'#'}
+      = image_tag 'white_cornerstone.png', class:'logo-img'
+
+    #headroom-search.search
+      %form.search-form{role:'search'}
+        .input-group
+          %input#headroom-search-input.text{type:'text', placeholder:'What are you looking for?'}
+          .input-group-btn
+            %button.submit{type:'submit'}
+              %i.glyphicon.glyphicon-search
+
+
+#main-header.header
+  .container
+    #main-header-content
+      %a#logo{href:'#'}
+        = image_tag 'white_cornerstone.png', class:'logo-img'
+      
+      #global-search.search
+        %form.search-form{role:'search'}
+          .input-group
+            %input#global-search-input.text{type:'text', placeholder:'What are you looking for?'}
+            .input-group-btn  
+              %button.submit{type:'submit'}
+                %i.glyphicon.glyphicon-search
+          .hint 
+            Examples:&nbsp;
+            %span.thin Kids, &nbsp;Parking, &nbsp;Small Groups, &nbsp;Luke 12:12, &nbsp;Current Series, &nbsp;Get Involved
+
+
+#main-body
+  #evergreen-links
+    #new-to-cornerstone.evergreen-link
+      %a{href:'#'}
+        .panel.panel-default
+          .panel-body New to Cornerstone?
+
+    #times-and-locations.evergreen-link
+      %a{href:'#'}
+        .panel.panel-default
+          .panel-body Service Times, Locations & Parking
+      
+    #invest-in-cornerstone.evergreen-link
+      %a{href:'#'}
+        .panel.panel-default
+          .panel-body Invest in Cornerstone
+    
+  %hr
+  
+  #comming-up
+    .row
+      %h3 Coming Up
+      %nav#community-feed
+        %ul#community-feed-links
+          %li#all-link.active
+            %a.ministry{href:'/community', data:{toggle:'tab'}} All
+          %li#men-link
+            %a.ministry{href:'/men', data:{toggle:'tab'}} Men
+          %li#women-link
+            %a.ministry{href:'/women', data:{toggle:'tab'}} Women
+          %li#rendezvous-link
+            %a.ministry{href:'/rendezvous', data:{toggle:'tab'}} Rendezvous
+          %li#adults-link
+            %a.ministry{href:'/adults', data:{toggle:'tab'}} Adults
+          %li#teens-link
+            %a.ministry{href:'/teens', data:{toggle:'tab'}} Teens
+          %li#kids-link
+            %a.ministry{href:'/kids', data:{toggle:'tab'}} Kids
+          %li#outreach-link
+            %a.ministry{href:'/outreach', data:{toggle:'tab'}} Outreach
+  
+    #cards
+      #card-sizer
+      - placeholder_img = lorem.image '640x360', text:'default'
+      - 75.times do |card_number|
+        - ministry_class = (m=%w{men women rendezvous teens kids outreach})[card_number%m.length]
+        .card{class:ministry_class}
+          %a.thumbnail{href: "/contents/#{card_number+1}"}
+            - if rand(1..5) != 1
+              %img.thumbnail-img{alt: card_number,
+                  src: placeholder_img,
+                  data: {src:lorem.image('640x360', random_color:false, text: "#{ministry_class} [#{card_number+1}]" )},
+                  height:'360',
+                  width:'640'}
+            .captions
+              %h3= lorem.words rand(2..4)
+              %p= lorem.paragraph
+      
+      
+#current-media
+  %h3 Current Media
+  

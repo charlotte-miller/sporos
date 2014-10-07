@@ -27,6 +27,8 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+  config.quiet_assets = false
+  
   # Adds additional error checking when serving assets at runtime.
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.
@@ -34,4 +36,7 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+  
+  # config.web_console.automount = true
+  # config.web_console.default_mount_path = '/terminal' # Optional, defaults to /console
 end

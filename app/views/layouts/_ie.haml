@@ -1,0 +1,5 @@
+/ [if lt IE 10]
+  / load polyfills
+
+=surround '<!--[if !IE]> -->', '<!-- <![endif]-->' do
+  / load non-ie-safe content

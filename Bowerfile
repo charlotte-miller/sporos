@@ -1,0 +1,29 @@
+# A sample Bowerfile
+# Check out https,//github.com/42dev/bower-rails#ruby-dsl-configuration for more options
+
+group :vendor, assets_path:'assets/javascripts' do
+  asset "fastclick", "~1.0.3"
+  asset "jquery", "~2.1.1"
+  asset "velocity", "~1.0.0"
+  # asset "unveil", "~1.3.0"
+  asset "isotope", "~2.0.1"
+  asset "typeahead.js", "~0.10.5"
+  asset "handlebars", "~2.0.0"
+  asset "underscore", "~1.7.0"
+  asset "backbone", "~1.1.2"
+  asset "backbone-relational", "~0.8.8"
+  asset "Backbone.BindTo", "~1.1.0"
+  asset "Backbone.Handlebars", "~1.0.0"
+  # asset "moment", "~2.8.2"
+  # asset "vide", "~0.1.2"
+  # asset "shine", "~0.2.7"
+  asset "headroom.js", "~0.7.0"
+  asset "backbone_query", "*"
+  asset "backbone-filtered-collection", "~0.4.0"
+  asset "jasmine-jquery", "~2.0.5"
+  asset "jasmine-sinon", "~0.4.0"
+  asset "jasmine-ajax", "~2.0.1"
+end
+
+group :lib do  
+end

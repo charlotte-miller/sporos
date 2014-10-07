@@ -1,0 +1,2 @@
+%ol.suggestion-list
+  {{views 'CStone.Community.Search.Views.SuggestionsResult' results_collection}}

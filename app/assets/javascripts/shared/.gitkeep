@@ -1,5 +1,0 @@
-class CStone.Community.Search
-
-  constructor: (args) ->
-    # body...
-  

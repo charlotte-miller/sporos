@@ -1,6 +1,6 @@
 #= require community/search/models/result
 
-class CStone.Community.Search.Collections.Results extends Backbone.Collection
+class CStone.Community.Search.Collections.Results extends CStone.Shared.Backbone.ExtendedCollection
   model: CStone.Community.Search.Models.Result
   
   initialize: =>

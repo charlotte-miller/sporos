@@ -1,4 +1,4 @@
-class CStone.Community.Search.Collections.Sources extends Backbone.Collection
+class CStone.Community.Search.Collections.Sources extends CStone.Shared.Backbone.ExtendedCollection
   PRESENTATION_ORDER = 'ministry event sermon music page announcement question'.split(' ')
   
   ###

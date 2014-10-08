@@ -10,7 +10,6 @@
 #= require velocity
 #= require isotope/dist/isotope.pkgd
 #= require typeahead.js/dist/bloodhound.js
-#= require shared/jquery.unveil-1.3.0
 #= require handlebars
 #= require underscore
 #= require backbone

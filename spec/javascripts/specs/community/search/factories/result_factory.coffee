@@ -1,9 +1,13 @@
+BackboneFactory.define_sequence 'id', (n)-> n
+
 # ====================================================
 # =                      Model                       =
 # ====================================================
-BackboneFactory.define 'result', Community.Search.Models.Result, ->
-  # title:       'Your Title Here'
-  # description: 'string, function, or another Factory'
+BackboneFactory.define 'result', CStone.Community.Search.Models.Result, ->
+  id: BackboneFactory.next('id')
+  source: 'ministry'
+  payload: "Men's Ministry"
+  destination: '/men'
   # size:         _(['Tall', 'Grande', 'Venti', 'Trenta']).shuffle()[0]
   # section:      Factory.section()
 
@@ -15,7 +19,7 @@ BackboneFactory.define 'result', Community.Search.Models.Result, ->
 # =                   Collection                     =
 # ====================================================
 _(window.Factory ||= {}).extend({
-  results:   (overrides)->   new Community.Search.Collections.Results  _({
+  results:   (overrides)->   new CStone.Community.Search.Collections.Results  _({
     models: _([1,2,3]).map -> BackboneFactory.create('result', ->)
     }).extend( overrides )
 

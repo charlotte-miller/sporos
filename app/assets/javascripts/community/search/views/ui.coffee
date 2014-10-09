@@ -1,10 +1,10 @@
 class CStone.Community.Search.Views.UI extends Backbone.View
 
   events:
-    'focus  .search-form' : 'onFocus'
-    'click  .submit'      : 'onIcon'
-    'submit .search-form' : 'onSubmit'
-    'keyup .text'         : 'onInputChange'
+    'focus  .text'          : 'onFocus'
+    'click  .search-button' : 'onIcon'
+    'submit .search-form'   : 'onSubmit'
+    'keyup .text'           : 'onInputChange'
     
   initialize: =>
     @sources_collection = CStone.Community.Search.sources
@@ -20,12 +20,15 @@ class CStone.Community.Search.Views.UI extends Backbone.View
     
   onIcon: (e)=>
     e.preventDefault()
-    if @dropdown.isVisible then @dropdown.hide() else @dropdown.show()
-    @$('.text').focus()
+    if @dropdown.isVisible
+      @dropdown.hide()
+      @$('.submit').blur()
+    else
+      @$('.text').focus() #triggers @dropdown.show()
     
-  onSubmit: (e)=>
+  onSubmit: (e)->
     e.preventDefault()
-    @dropdown
+    # select focused result and hide
     
   onInputChange: (e)=>
     search_term = e.target.value

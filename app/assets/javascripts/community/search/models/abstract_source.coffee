@@ -8,6 +8,9 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.Model
   """.toLowerCase().split(/\s+/)
   
   initialize: =>
+    _(['name']).forEach (requirement)=>
+      throw Error("A Source MUST have a #{requirement}") unless @get(requirement)
+    
     unless @get('title')
       name = @get('name')
       @set(title: name.charAt(0).toUpperCase() + name.slice(1))

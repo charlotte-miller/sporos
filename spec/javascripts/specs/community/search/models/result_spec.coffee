@@ -1,5 +1,4 @@
 describe "CStone.Community.Search.Models", ->
-
   describe "Result", ->
     @result = Factory.result()
 

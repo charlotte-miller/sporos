@@ -22,7 +22,7 @@ group :vendor, assets_path:'assets/javascripts' do
   asset "backbone_query", "*"
   asset "backbone-filtered-collection", "~0.4.0"
   asset "jasmine-jquery", "~2.0.5"
-  asset "jasmine-sinon", "~0.4.0"
+  asset "jasmine-sinon", "~0.3.2"
   asset "jasmine-ajax", "~2.0.1"
 end
 

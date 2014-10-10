@@ -6,7 +6,11 @@ describe "CStone.Community.Search.Views", ->
     beforeEach =>
       fixture.load('main.html')
       @view = new CStone.Community.Search.Views.UI( el:'#global-search' )
-      
+      @clock = sinon.useFakeTimers()
+    
+    afterEach =>
+      @clock.restore()
+    
     
     describe "Dropdown", =>
       beforeEach =>
@@ -31,54 +35,7 @@ describe "CStone.Community.Search.Views", ->
             $('.search-button').trigger('click')
             expect(@dropdown.show).toHaveBeenCalled()
             expect(@dropdown.show.callCount).toEqual 1
-        
-        describe "Entering Text Into the Search Box", =>
-          it "searches the @sources_collection w/ the input value", =>
-            spyOn(@view.sources_collection, 'search')
-            "dog".split('').forEach (letter)->
-              $('.text').val($('.text').val()+letter)
-              $('.text').trigger('keydown')
-            expect(@view.sources_collection.search).toHaveBeenCalled()
-            expect(@view.sources_collection.search.callCount).toEqual 3
-            expect(@view.sources_collection.search.mostRecentCall.args).toEqual ['dog']
-        
-          it "it ignores identical searches", =>
-            spyOn(@view.sources_collection, 'search')
-            $('.text').val('dog')
-            _(3).times -> $('.text').trigger('keydown')
-            expect(@view.sources_collection.search).toHaveBeenCalled()
-            expect(@view.sources_collection.search.callCount).toEqual 1
-            expect(@view.sources_collection.search.mostRecentCall.args).toEqual ['dog']
-          
-        describe "Up Arrow is Keyed", =>
-          it "move dropdown menu cursor up 1 suggestion", =>
-            spyOn(@dropdown.collection, 'moveFocus')
-            $('.text').simulateKey('up_arrow')
-            expect(@dropdown.collection.moveFocus).toHaveBeenCalled()
-            expect(@dropdown.collection.moveFocus.mostRecentCall.args).toEqual 'up'
-            
-        
-        describe "Down Arrow is Keyed", =>
-          it "move dropdown menu cursor down 1 suggestion", =>
-            spyOn(@dropdown.collection, 'moveFocus')
-            $('.text').simulateKey('down_arrow')
-            expect(@dropdown.collection.moveFocus).toHaveBeenCalled()
-            expect(@dropdown.collection.moveFocus.mostRecentCall.args).toEqual 'down'
-          
-          
-        describe "Left Arrow is Keyed", =>
-          
-        describe "Right Arrow is Keyed", =>
-          
-        describe "Tab is Keyed", =>
-          
-        describe "Enter is Keyed", =>
-          
-        describe "Esc is Keyed", =>
-          
-        describe "Suggestion is Clicked", =>
-          
-        
+                           
       
       describe "OPEN", =>
         beforeEach =>
@@ -106,9 +63,10 @@ describe "CStone.Community.Search.Views", ->
         describe "Entering Text Into the Search Box", =>
           it "searches the @sources_collection w/ the input value", =>
             spyOn(@view.sources_collection, 'search')
-            "dog".split('').forEach (letter)->
+            "dog".split('').forEach (letter)=>
               $('.text').val($('.text').val()+letter)
               $('.text').trigger('keydown')
+              @clock.tick(1)
             expect(@view.sources_collection.search).toHaveBeenCalled()
             expect(@view.sources_collection.search.callCount).toEqual 3
             expect(@view.sources_collection.search.mostRecentCall.args).toEqual ['dog']
@@ -116,13 +74,27 @@ describe "CStone.Community.Search.Views", ->
           it "it ignores identical searches", =>
             spyOn(@view.sources_collection, 'search')
             $('.text').val('dog')
-            _(3).times -> $('.text').trigger('keydown')
+            _(3).times =>
+              $('.text').trigger('keydown')
+              @clock.tick(1)
             expect(@view.sources_collection.search).toHaveBeenCalled()
             expect(@view.sources_collection.search.callCount).toEqual 1
-            expect(@view.sources_collection.search.mostRecentCall.args).toEqual ['dog']
       
+        describe "Up Arrow is Keyed", =>
+          it "move dropdown menu cursor up 1 suggestion", =>
+            spyOn(@dropdown.collection, 'moveFocus')
+            $('.text').simulateKey('up_arrow')
+            expect(@dropdown.collection.moveFocus).toHaveBeenCalled()
+            expect(@dropdown.collection.moveFocus.mostRecentCall.args).toEqual ['up']
+            
+        
         describe "Down Arrow is Keyed", =>
-          
+          it "move dropdown menu cursor down 1 suggestion", =>
+            spyOn(@dropdown.collection, 'moveFocus')
+            $('.text').simulateKey('down_arrow')
+            expect(@dropdown.collection.moveFocus).toHaveBeenCalled()
+            expect(@dropdown.collection.moveFocus.mostRecentCall.args).toEqual ['down']
+ 
         describe "Left Arrow is Keyed", =>
           
         describe "Right Arrow is Keyed", =>

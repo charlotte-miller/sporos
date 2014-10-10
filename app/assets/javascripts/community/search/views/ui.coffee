@@ -57,7 +57,7 @@ class CStone.Community.Search.Views.UI extends Backbone.View
         @$('.text').blur()
         #@hint(hide)
       else
-        _.defer => #breaks everything
+        _.defer =>
           search_term = e.target.value
           if @current_search != search_term
             @current_search = search_term

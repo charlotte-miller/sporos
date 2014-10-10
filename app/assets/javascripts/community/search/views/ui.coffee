@@ -4,7 +4,7 @@ class CStone.Community.Search.Views.UI extends Backbone.View
     'focus  .text'          : 'onFocus'
     'click  .search-button' : 'onIcon'
     'submit .search-form'   : 'onSubmit'
-    'keyup .text'           : 'onInputChange'
+    'keydown .text'         : 'onInputKey'
     
   initialize: =>
     @sources_collection = CStone.Community.Search.sources
@@ -30,8 +30,39 @@ class CStone.Community.Search.Views.UI extends Backbone.View
     e.preventDefault()
     # select focused result and hide
     
-  onInputChange: (e)=>
-    search_term = e.target.value
-    if @current_search != search_term
-      @current_search = search_term
-      @sources_collection.search search_term
+  onInputKey: (e)=>
+    switch e.which
+      when 38 #up
+        e.preventDefault()
+        @dropdown.collection.moveFocus('up')
+      when 40 #down
+        e.preventDefault()
+        @dropdown.collection.moveFocus('down')
+      when 39 #right
+        e.preventDefault()
+        $target = $(e.target)
+        $target.val @currentHint()
+        $target.putCursorAtEnd()
+      when 9  #tab
+        e.preventDefault()
+        $target = $(e.target)
+        $target.val @currentHint()
+        $target.putCursorAtEnd()
+      when 13 #enter
+        e.preventDefault()
+        console.log 'enter'
+      when 27 #esc
+        e.preventDefault()
+        @dropdown.hide()
+        @$('.text').blur()
+        #@hint(hide)
+      else
+        _.defer => #breaks everything
+          search_term = e.target.value
+          if @current_search != search_term
+            @current_search = search_term
+            @sources_collection.search search_term
+          
+  
+  currentHint: =>
+    @dropdown.collection.currentFocus().get('payload')

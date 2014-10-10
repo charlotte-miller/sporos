@@ -3,7 +3,7 @@ class CStone.Community.Search.Views.Suggestions extends Backbone.View
   template: HandlebarsTemplates['suggestions']
   
   bindToCollection:
-    'filtered:updated' : 'throttledRender'
+    'filtered:updated' : 'render'
   
   events:
     'click .suggestion-nav-source' : 'onNavClick'
@@ -14,7 +14,6 @@ class CStone.Community.Search.Views.Suggestions extends Backbone.View
     @sources_collection = options.sources_collection
     @parent_ui          = options.parent_ui
     @isMain = (@context_selector == '#global-search')
-    @throttledRender = _.debounce(@render, 100)
     super
   
   render: =>

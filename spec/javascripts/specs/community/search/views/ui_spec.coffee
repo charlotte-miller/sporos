@@ -4,7 +4,7 @@ describe "CStone.Community.Search.Views", ->
     CStone.Community.Search.results = Factory.results()
     
     beforeEach =>
-      fixture.load('main.html')
+      fixture.load('search')
       @view = new CStone.Community.Search.Views.UI( el:'#global-search' )
       @clock = sinon.useFakeTimers()
     
@@ -23,16 +23,18 @@ describe "CStone.Community.Search.Views", ->
         expect(@dropdown.parent_ui).toEqual @view
       
       describe "CLOSED", =>
-        describe "Input Control Gains Focus", =>
+        describe "Input Control Gains Focus", =>  #transient
           it "opens when .text is FOCUSED", =>
             spyOn(@dropdown, "show")
             $('.text').trigger('focus')
+            @clock.tick(10)
             expect(@dropdown.show).toHaveBeenCalled()
             expect(@dropdown.show.callCount).toEqual 1
-      
+    
           it "opens when .search-button is CLICKED", =>
             spyOn(@dropdown, "show")
             $('.search-button').trigger('click')
+            @clock.tick(10)
             expect(@dropdown.show).toHaveBeenCalled()
             expect(@dropdown.show.callCount).toEqual 1
                            

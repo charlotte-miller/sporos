@@ -12,7 +12,7 @@
     border-left-width: 1px;
   }
 
-  .hint{
+  .examples{
     color:white;
     text-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
     .thin{
@@ -20,10 +20,9 @@
     }
   }
   
-  .text, .twitter-typeahead{
+  .text, .search-hint{
     @extend .form-control;
     @extend .input-lg;
-  
     // &:focus{
     //  border-color:inherit;
     //  -webkit-box-shadow:none;
@@ -31,12 +30,18 @@
     // }
   }
   
-  .twitter-typeahead{
-    padding:0px;
-  }
-  
-  .tt-dropdown-menu{
-    background:white;
+  .search-form{
+    .search-hint{
+      position:absolute;
+      z-index:0;
+      border-radius: 6px !important;
+      padding-right:68px; //account for button
+      color:red;
+    }
+    .text{
+      z-index:99;
+      background-color:transparent;
+    }
   }
   
   .search-suggestions{

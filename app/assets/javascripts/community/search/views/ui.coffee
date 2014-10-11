@@ -6,6 +6,7 @@ class CStone.Community.Search.Views.UI extends Backbone.View
     'submit .search-form'   : 'onSubmit'
     'keydown .text'         : 'onInputKey'
     
+  
   initialize: =>
     @sources_collection = CStone.Community.Search.sources
     @dropdown = new CStone.Community.Search.Views.Suggestions
@@ -13,6 +14,8 @@ class CStone.Community.Search.Views.UI extends Backbone.View
       context_selector: "##{@el.id}"
       sources_collection: @sources_collection
       parent_ui: @
+      
+    @bindTo @dropdown.collection, 'filtered:updated', 'updateHint'
   
   onFocus: (e)=>
     e.preventDefault()
@@ -63,6 +66,9 @@ class CStone.Community.Search.Views.UI extends Backbone.View
             @current_search = search_term
             @sources_collection.search search_term
           
+  
+  updateHint: =>
+    @$('.search-hint').val(@currentHint())
   
   currentHint: =>
     @dropdown.collection.currentFocus().get('payload')

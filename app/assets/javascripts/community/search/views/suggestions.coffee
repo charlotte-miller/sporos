@@ -47,10 +47,9 @@ class CStone.Community.Search.Views.Suggestions extends Backbone.View
   
   
   onNavClick: (e)=>
-    # TODO
-    # @$('.suggestion-nav-source').click =>
-    #   if @$('.caret:visible', @).length > 0
-    #     @$(@).closest('.suggestions-nav').toggleClass('expanded')
+    # if e.target.dataset.source == 'all' && @$('.caret:visible').length > 0
+    #   $(e.target).closest('.suggestions-nav').toggleClass('expanded')
+    #   return 'to prevent re-render'
     
     @collection.filterBySource(e.target.dataset.source)
     to_focus = @sources_collection.findWhere(name: @collection.current_filter() )

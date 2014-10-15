@@ -48,4 +48,5 @@ guard :teaspoon, teaspoon_options do
     watch(%r{^public/javascripts/(.+)\.js$})                    { |m| "specs/#{m[1]}_spec" }
     watch(%r{^app/assets/javascripts/(.+)\.(js|coffee)$})       { |m| "specs/#{m[1]}_spec" }
     watch(%r{^spec/javascripts/specs/(.+)_spec\.(js|coffee)$})  { |m| "specs/#{m[1]}_spec" }
+    watch(%r{^lib/assets/javascripts/.*\/(.*)\.(js|coffee)$})   { |m| "specs/lib/#{m[1]}_spec" }
 end

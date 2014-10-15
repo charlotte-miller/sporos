@@ -1,3 +1,23 @@
+jQuery.fn.cursorPosition = ->
+  selectionStart = $(this)[0].selectionStart
+  if _.isNumber(selectionStart)
+    return selectionStart
+  else if document.selection
+    range = document.selection.createRange()
+    range.moveStart "character", -valueLength
+    return range.text.length
+
+
+jQuery.fn.isCursorAtEnd = ->
+  $input = $(this)
+  valueLength = undefined
+  selectionStart = undefined
+  range = undefined
+  valueLength = $input.val().length
+  cursorPosiiton = $input.cursorPosition()
+  cursorPosiiton is valueLength
+
+
 jQuery.fn.putCursorAtEnd = ->
   @each ->
     $(this).focus()

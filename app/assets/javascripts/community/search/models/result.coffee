@@ -11,3 +11,7 @@ class CStone.Community.Search.Models.Result extends Backbone.Model
     source:  @get('source')
     payload: @get('payload')
     destination: @get('destination')
+  
+  open: =>
+    window.location= @get('destination')
+    #or something fancier

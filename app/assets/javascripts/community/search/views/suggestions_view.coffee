@@ -4,6 +4,7 @@ class CStone.Community.Search.Views.Suggestions extends Backbone.View
   
   bindToCollection:
     'filtered:updated' : 'render'
+    'reset:clear_all'  : 'render'
   
   events:
     'click .suggestion-nav-source' : 'onNavClick'

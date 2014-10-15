@@ -41,13 +41,35 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.Model
   
   
   # Private #########
+  startPhraseTokenizer = (str, word_cap=3)-> [str.split(/\s+/, word_cap).join(' ')]
   significantWordTokenizer = (query)->
-    q = query.toLowerCase()
-    q_array = Bloodhound.tokenizers.whitespace(q)
+    q_array = Bloodhound.tokenizers.whitespace(query)
     q_array = _(q_array).difference( STOPWORDS )
+    
+  
+  defaultDatumTokenizer = (datum)->
+    q = datum.payload.toLowerCase()
+    answer = _([
+      significantWordTokenizer(q),
+      startPhraseTokenizer(q)
+    ]).inject(((memo,tokens)->_.union(memo,tokens)),[])
+    # console.log "Data: ['#{answer.join('\', \'')}']"
+    answer
+  
+  defaultQueryTokenizer = (query)->
+    q = query.toLowerCase()
+    unless query.match /\s+/
+      answer = [q]
+    else
+      finished_words = q.match(/(.*)\s+\S*$/)[1]
+      answer = _([
+        significantWordTokenizer(finished_words),
+        startPhraseTokenizer(q)
+      ]).inject(((memo,tokens)->_.union(memo,tokens)),[])
+    # console.log "Query: ['#{answer.join('\', \'')}']"
+    answer
 
-  defaultDatumTokenizer = (datum)-> significantWordTokenizer(datum.payload)
-  defaultQueryTokenizer = significantWordTokenizer
+
   defaultDupDetector    = (remoteMatch, localMatch)-> (remoteMatch.payload == localMatch.payload)
   defaultSorter         = (a, b) ->
     if a.score > b.score then return  1

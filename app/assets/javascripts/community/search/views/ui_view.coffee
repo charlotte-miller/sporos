@@ -34,27 +34,36 @@ class CStone.Community.Search.Views.UI extends Backbone.View
     # select focused result and hide
     
   onInputKey: (e)=>
-    switch e.which
-      when 38 #up
+    specialKeyCodeMap =
+      9: 'tab',
+      27: 'esc',
+      37: 'left',
+      39: 'right',
+      13: 'enter',
+      38: 'up',
+      40: 'down'
+    
+    switch specialKeyCodeMap[e.which]
+      when 'up'
         e.preventDefault()
         @dropdown.collection.moveFocus('up')
-      when 40 #down
+      when 'down'
         e.preventDefault()
         @dropdown.collection.moveFocus('down')
-      when 39 #right
+      when 'right'
         e.preventDefault()
         $target = $(e.target)
         $target.val @currentHint()
         $target.putCursorAtEnd()
-      when 9  #tab
+      when 'tab'
         e.preventDefault()
         $target = $(e.target)
         $target.val @currentHint()
         $target.putCursorAtEnd()
-      when 13 #enter
+      when 'enter'
         e.preventDefault()
         console.log 'enter'
-      when 27 #esc
+      when 'esc'
         e.preventDefault()
         @dropdown.hide()
         @$('.text').blur()

@@ -8,9 +8,11 @@ class CStone.Community.Search.Models.Result extends Backbone.Model
       throw Error("A Result MUST have a #{requirement}") unless @get(requirement)
   
   toJSON: =>
+    id: @get('id')
     source:  @get('source')
     payload: @get('payload')
     destination: @get('destination')
+    focusClass: if @get('focus') then 'active' else ''
   
   open: =>
     window.location= @get('destination')

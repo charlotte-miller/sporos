@@ -2,15 +2,17 @@ class CStone.Community.Search.Views.SuggestionsResults extends Backbone.View
   className: 'suggestions'
   template: HandlebarsTemplates['suggestions/results']
   templateData: =>
-    results_collection: @collection.filtered
+    results_collection: @collection.filtered.toJSON()
     
   events:
-    'keyNorth' : ''
-    'keySouth' : ''
-    'keyEast'  : ''
-    'keyWest'  : ''
+    'click .suggestion'     : 'onClick'
+    'mouseover .suggestion' : 'onMouseover'
   
-  # track selected suggestion
-  # render collections
-  # delegate execution to the model
+  onClick: (e)=>
+    result = @collection.get(e.target.dataset.resultId)
+    result.open()
   
+  onMouseover: (e)=>
+    result = @collection.get(e.target.dataset.resultId)
+    unless result.get('focus')
+      @collection.updateFocus(result)

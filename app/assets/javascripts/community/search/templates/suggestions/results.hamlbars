@@ -1,2 +1,6 @@
 %ol.suggestion-list
-  {{views 'CStone.Community.Search.Views.SuggestionsResult' results_collection}}
+  {{#each results_collection}}
+  %li.suggestion{class:'{{focusClass}}', data:{result_id:'{{id}}'}}
+    %i.icon{class:'{{source}}'}
+    {{ payload }}
+  {{/each}}

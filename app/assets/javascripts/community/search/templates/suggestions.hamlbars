@@ -1,6 +1,4 @@
 .search-suggestions-dropdown
-  .init-help
-  .empty-help
   .search-results
     {{view 'CStone.Community.Search.Views.SuggestionsSources' collection=sources_collection results_collection=results_collection }}
-    {{view 'CStone.Community.Search.Views.SuggestionsResults' collection=results_collection}}
+    {{view 'CStone.Community.Search.Views.SuggestionsResults' collection=results_collection parent_view=parent_view }}

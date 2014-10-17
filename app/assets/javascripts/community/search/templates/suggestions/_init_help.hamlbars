@@ -1,0 +1,9 @@
+#init-help.search-help
+  #init-help-top
+    %h2#init-help-text
+      %i.icon
+      Search for
+      %span.text-spinner Events, Music, Ministries, Sermons
+  
+  #init-help-bottom
+    / %img#init-help-img{src:'assets/placeholder.jpg'}

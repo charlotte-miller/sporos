@@ -6,6 +6,7 @@
 #= require jquery
 #= require headroom.js/dist/headroom.js
 #= require headroom.js/dist/jQuery.headroom.js
+#= require vendor_modified/jquery.simple-text-rotator
 #  require vide
 #= require velocity
 #= require isotope/dist/isotope.pkgd

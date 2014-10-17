@@ -59,7 +59,7 @@ class CStone.Community.Search.Collections.Results extends CStone.Shared.Backbone
     @updateFocus()
     
   updateFocus: (optional_model)=>
-    return unless @filtered.length
+    return @trigger('filtered:updated') unless @filtered.length
     @filtered.where(focus:true).forEach (m)-> m.set(focus:false)
     filtered_optional_model = optional_model && @filtered.findWhere(id:optional_model.id)
     focused = filtered_optional_model || @filtered.first()

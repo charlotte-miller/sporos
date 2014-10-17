@@ -24,6 +24,7 @@ class CStone.Community.Search.Views.Suggestions extends Backbone.View
   templateData: =>
     results_collection: @collection
     sources_collection: @sources_collection
+    parent_view: @
   
   show: =>
     @isVisible = true

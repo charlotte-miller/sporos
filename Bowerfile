@@ -5,6 +5,7 @@ group :vendor, assets_path:'assets/javascripts' do
   asset "fastclick", "~1.0.3"
   asset "jquery", "~2.1.1"
   asset "velocity", "~1.0.0"
+  # asset "simple-text-rotator", "~1.0.0"
   # asset "unveil", "~1.3.0"
   asset "isotope", "~2.0.1"
   asset "typeahead.js", "~0.10.5"

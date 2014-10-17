@@ -12,8 +12,12 @@ class CStone.Community.Search.Views.SuggestionsResults extends Backbone.View
   
   render: =>
     super
-    @$('.text-spinner').textrotator()
+    @interval = @$('.text-spinner').textrotator()
       # callback: ->
+  
+  remove: =>
+    clearInterval(@interval)
+    super
   
   events:
     'click .suggestion'     : 'onClick'

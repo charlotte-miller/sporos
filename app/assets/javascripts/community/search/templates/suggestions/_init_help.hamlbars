@@ -1,9 +1,8 @@
 #init-help.search-help
-  #init-help-top
-    %h2#init-help-text
+  #init-help-content
+    %h3#init-help-text
       %i.icon
-      Search for
-      %span.text-spinner Events, Music, Ministries, Sermons
-  
-  #init-help-bottom
-    / %img#init-help-img{src:'assets/placeholder.jpg'}
+      Try Searching:
+      %a.text-spinner{href:'#'} "When does Church start", "Parking", "Child care", "BART &amp; MUNI", "Haiti Mission", "Videos", "Music", "1 Peter 2 (or any bible verse)", "Ministries"
+      %p.lead We want you to find what you are looking for, so start typing to learn more about our community &amp; media library.
+    / #init-help-recent-searches

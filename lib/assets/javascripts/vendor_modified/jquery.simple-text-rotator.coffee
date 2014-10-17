@@ -48,8 +48,8 @@
 
         settings.callback() if settings.callback?
 
-      setInterval rotate, settings.speed
-      return
+      interval = setInterval rotate, settings.speed
+      return interval #for future clearInterval(interval)
 
 
   return

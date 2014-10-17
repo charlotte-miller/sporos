@@ -21,3 +21,7 @@
 %verticalCenter{
   @include verticalAlign(50%);
 }
+
+%truncate{
+  @include text-overflow();
+}

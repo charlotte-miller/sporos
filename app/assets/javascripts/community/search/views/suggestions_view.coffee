@@ -13,7 +13,7 @@ class CStone.Community.Search.Views.Suggestions extends Backbone.View
   constructor: (options)->
     @context_selector   = options.context_selector
     @sources_collection = options.sources_collection
-    @parent_ui          = options.parent_ui
+    @parent_view          = options.parent_view
     @isMain = (@context_selector == '#global-search')
     super
   
@@ -40,7 +40,7 @@ class CStone.Community.Search.Views.Suggestions extends Backbone.View
         CStone.Shared.ScrollSpy.addCallback (scroll)=>
           if scroll > 400
             @hide()
-            @parent_ui.$('.text').blur()
+            @parent_view.$('.text').blur()
     
   hide: =>
     @isVisible = false
@@ -57,7 +57,7 @@ class CStone.Community.Search.Views.Suggestions extends Backbone.View
     to_focus = @sources_collection.findWhere(name: @collection.current_filter() )
     @sources_collection.updateFocus(to_focus)
     @render()
-    @parent_ui.$('.text').focus()
+    @parent_view.$('.text').focus()
     
     
   # Internal #################################

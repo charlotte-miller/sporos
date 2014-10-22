@@ -3,8 +3,9 @@ class CStone.Community.Search.Views.SuggestionsResults extends Backbone.View
   template: HandlebarsTemplates['suggestions/results']
   templateData: =>
     results_collection: @collection.filtered.toJSON()
-    init_help: @needsInitHelp()
-    empty_help: @needsEmptyHelp()
+    init_help: @state()=='pre-search'
+    empty_help: @state()=='no-results'
+    current_search: @currentSearch()
     
   constructor: (options)->
     @parent_view = options.parent_view
@@ -31,7 +32,13 @@ class CStone.Community.Search.Views.SuggestionsResults extends Backbone.View
     result = @collection.get(e.target.dataset.resultId)
     unless result.get('focus')
       @collection.updateFocus(result)
-      
-  needsInitHelp:  => !@collection.length && !@parent_view.parent_ui.current_search
-  needsEmptyHelp: => @isSearching() && !@collection.length
-  isSearching:    => @parent_view.parent_ui.current_search
+  
+  currentSearch: =>
+    @parent_view.parent_view.current_search
+  
+  state: =>
+    is_searching = !!@currentSearch()
+    return 'pre-search'   unless is_searching
+    return 'searching'    if is_searching && @collection.length
+    return 'no-results'   if is_searching
+    

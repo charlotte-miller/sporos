@@ -20,7 +20,7 @@ describe "CStone.Community.Search.Views", ->
         expect(@dropdown).toBeA CStone.Community.Search.Views.Suggestions
         expect(@dropdown.collection).toEqual CStone.Community.Search.results
         expect(@dropdown.sources_collection).toEqual CStone.Community.Search.sources
-        expect(@dropdown.parent_ui).toEqual @view
+        expect(@dropdown.parent_view).toEqual @view
       
       describe "CLOSED", =>
         describe "Input Control Gains Focus", =>  #transient

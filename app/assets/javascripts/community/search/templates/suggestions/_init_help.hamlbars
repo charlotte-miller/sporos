@@ -1,6 +1,6 @@
 #init-help.search-help
-  #init-help-content
-    %h3#init-help-text
+  .search-help-content
+    %h3.search-help-text
       %i.icon
       Try Searching:
       %a.text-spinner{href:'#'} "When does Church start", "Parking", "Child care", "BART &amp; MUNI", "Haiti Mission", "Videos", "Music", "1 Peter 2", "Ministries"

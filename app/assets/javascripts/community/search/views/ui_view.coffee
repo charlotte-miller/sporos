@@ -9,12 +9,13 @@ class CStone.Community.Search.Views.UI extends Backbone.View
     
   
   initialize: =>
+    @current_search = @$('.text').val()
     @sources_collection = CStone.Community.Search.sources
     @dropdown = new CStone.Community.Search.Views.Suggestions
       collection: CStone.Community.Search.results
       context_selector: "##{@el.id}"
       sources_collection: @sources_collection
-      parent_ui: @
+      parent_view: @
       
     @bindTo @dropdown.collection, 'filtered:updated', 'updateHint'
   
@@ -83,6 +84,7 @@ class CStone.Community.Search.Views.UI extends Backbone.View
   clearSearch: =>
     @$('.search-hint').val('')
     unless @$('.text').val()
+      @current_search = ''
       @dropdown.collection.reset()
       @dropdown.collection.trigger('reset:clear_all')
   

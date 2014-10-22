@@ -2,7 +2,7 @@
 {{> suggestions/_init_help }}
 {{/if}}
 {{#if empty_help}}
-{{> suggestion/_empty_help }}
+{{> suggestions/_empty_help }}
 {{/if}}
 %ol.suggestion-list
   {{#each results_collection}}

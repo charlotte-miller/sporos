@@ -70,58 +70,64 @@
       .search-help{
         height:100%;
         @extend .row;
+        
+        .search-help-content{
+          @extend .col-md-offset-1;
+          @extend .col-md-10;
+          @extend %verticalCenter;
+          @extend .animated;
+          @extend .fadeIn;
+
+          @media (max-width: $screen-md-min) {
+            @include verticalAlign(15%);
+          
+            .search-help-text{
+              font-size:22px;
+              .icon{font-size:38px;}
+              .lead{font-size:18px;}
+            }
+          }
+        
+          @media (max-width: $screen-xs-min) {
+            @include verticalAlign(5%);
+          
+            .search-help-text{
+              font-size:18px;
+              .icon{font-size:32px; }
+              .lead{font-size:16px;}
+            }
+          }
+        
+          .search-help-text{
+            line-height:60px;
+            height:50%;
+            text-align:left;
+            @extend %truncate;
+          
+            .icon{
+              @extend .glyphicon;
+              font-size:40px;
+              top:10px;
+            }
+          
+            .lead{
+              white-space:normal;
+            }
+          }
+        }
       }
       
-      //#init-help
-      #init-help-content{
-        @extend .col-md-offset-1;
-        @extend .col-md-10;
-        @extend %verticalCenter;
-        @extend .animated;
-        @extend .fadeIn;
-
-        @media (max-width: $screen-md-min) {
-          @include verticalAlign(15%);
-          
-          #init-help-text{
-            font-size:22px;
-            .icon{font-size:38px;}
-            .lead{font-size:18px;}
-          }
-        }
-        
-        @media (max-width: $screen-xs-min) {
-          @include verticalAlign(5%);
-          
-          #init-help-text{
-            font-size:18px;
-            .icon{font-size:32px; }
-            .lead{font-size:16px;}
-          }
-        }
-        
-        #init-help-text{
-          line-height:60px;
-          height:50%;
-          text-align:left;
-          @extend %truncate;
-          
-          .icon{
-            @extend .glyphicon;
-            @extend .glyphicon-search;
-            font-size:40px;
-            top:10px;
-          }
-          
-          .lead{
-            white-space:normal;
-          }
+      #init-help{
+        .icon{
+          @extend .glyphicon-search;
         }
       }
       
       
       #empty-help{
-        
+        .icon{
+          @extend .glyphicon-exclamation-sign;
+        }
       }
     
       .search-results{

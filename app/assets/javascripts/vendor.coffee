@@ -11,7 +11,7 @@
 #= require velocity
 #= require isotope/dist/isotope.pkgd
 #= require typeahead.js/dist/bloodhound.js
-#= require handlebars
+#= require handlebars/handlebars.runtime.js
 #= require underscore
 #= require backbone
 #= require backbone-filtered-collection

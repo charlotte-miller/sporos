@@ -79,7 +79,7 @@ end
 gem 'therubyracer', :platforms => :ruby, :require => false
 gem 'bootstrap-sass', '~> 3.2.0'
 gem "haml-rails"
-gem 'handlebars_assets', '0.17.1'
+gem 'handlebars_assets'#, '0.17.1'
 
 
 group :development, :test do

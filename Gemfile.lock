@@ -100,7 +100,7 @@ GEM
       multi_json
     erubis (2.7.0)
     eventmachine (1.0.3)
-    execjs (2.2.1)
+    execjs (2.2.2)
     factory_girl (4.4.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.4.1)
@@ -142,7 +142,7 @@ GEM
       activesupport (>= 4.0.1)
       haml (>= 3.1, < 5.0)
       railties (>= 4.0.1)
-    handlebars_assets (0.17.1)
+    handlebars_assets (0.18)
       execjs (>= 1.2.9)
       multi_json
       sprockets (>= 2.0.3)
@@ -408,7 +408,7 @@ DEPENDENCIES
   guard-rspec
   guard-teaspoon
   haml-rails
-  handlebars_assets (= 0.17.1)
+  handlebars_assets
   kaminari
   lorem_ipsum_amet
   minitest

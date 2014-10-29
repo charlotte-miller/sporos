@@ -1,4 +1,4 @@
-class CStone.Community.Search.Models.Result extends Backbone.Model
+class CStone.Community.Search.Models.Result extends Backbone.RelationalModel
   
   defaults:
     score:0
@@ -17,3 +17,5 @@ class CStone.Community.Search.Models.Result extends Backbone.Model
   open: =>
     window.location= @get('destination')
     #or something fancier
+    
+CStone.Community.Search.Models.Result.setup()

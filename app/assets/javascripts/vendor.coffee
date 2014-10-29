@@ -16,7 +16,7 @@
 #= require backbone
 #= require backbone-filtered-collection
 #  require backbone_query/backbone-query
-#  require backbone-relational
+#= require backbone-relational
 #= require Backbone.BindTo
 #= require Backbone.Handlebars
 #  require moment

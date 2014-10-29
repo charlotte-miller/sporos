@@ -30,5 +30,8 @@ _(window.Factory ||= {}).extend({
 # =               Complex Factories                 =
 # ====================================================
 refreshFactoryInterface()
+Factory.results_from_session = (overrides)-> Factory.session(results: Factory.results(overrides).models).get('results')
+Factory.result_from_session  = (overrides)-> Factory.session(results: Factory.results(overrides).models).get('results').first()
+
 # section_w_section_materials: (overrides)-> Factory.section( _( section_materials: Factory.section_materials().models ).extend(overrides) )
 # distributor_w_offers:        (overrides)-> Factory.distributor( _(offers: Factory.offers().models ).extend(overrides))

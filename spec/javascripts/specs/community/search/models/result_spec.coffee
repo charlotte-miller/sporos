@@ -1,10 +1,8 @@
 describe "CStone.Community.Search.Models", ->
   describe "Result", ->
-    @result = Factory.result()
-
+    beforeEach =>
+      @result = Factory.result_from_session()
+    
     it "should build from factory", =>
       expect(@result).toBeA( CStone.Community.Search.Models.Result )
-      # expect(@result).toHaveAssociated('examples')
-
-    it "should have better tests", =>
-      # TODO
+      expect(@result).toHaveAssociated('session')

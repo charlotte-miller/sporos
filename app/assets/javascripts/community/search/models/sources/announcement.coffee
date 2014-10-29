@@ -9,3 +9,4 @@ class SearchNamespace.Sources.Announcement extends SearchNamespace.AbstractSourc
     local:  [{ payload: 'dog', id:1 }, { payload: 'pig', id:2 }, { payload: 'moose man', id:3 }]
     # remote: 'http://example.com/animals?q=%QUERY'
 
+SearchNamespace.Sources.Announcement.setup()

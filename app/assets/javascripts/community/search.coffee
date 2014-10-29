@@ -8,24 +8,24 @@ class CStone.Community.Search
   
   #### Interface ####
   # CStone.Community.Search.init()
+  # CStone.Community.Search.session
   # CStone.Community.Search.main
   # CStone.Community.Search.header
-  # CStone.Community.Search.sources #internal
-  # CStone.Community.Search.results #internal
   
   @init: =>
     @initalized = true
     
-    @sources = new @Collections.Sources([
-      new @Models.Sources.Announcement(),
-      new @Models.Sources.Event(),
-      new @Models.Sources.Ministry(),
-      new @Models.Sources.Music(),
-      new @Models.Sources.Page(),
-      new @Models.Sources.Question(),
-      new @Models.Sources.Sermon(),
-    ])
-    @results = new @Collections.Results()
+    @session = new @Models.Session
+      results: []
+      sources: [
+        {name: 'announcement' },
+        {name: 'event'        },
+        {name: 'ministry'     },
+        {name: 'music'        },
+        {name: 'page'         },
+        {name: 'question'     },
+        {name: 'sermon'       },
+      ]
     
     @main   = new @Views.UI( el:'#global-search'   )
     @header = new @Views.UI( el:'#headroom-search' )

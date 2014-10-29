@@ -1,15 +1,14 @@
 describe "CStone.Community.Search.Views", ->
   describe "UI", ->
-    CStone.Community.Search.sources = Factory.sources()
-    CStone.Community.Search.results = Factory.results()
+    CStone.Community.Search.session = Factory.session()
     
     beforeEach =>
       fixture.load('search')
       @view = new CStone.Community.Search.Views.UI( el:'#global-search' )
-      # @clock = sinon.useFakeTimers()
+      @clock = sinon.useFakeTimers()
     
-    # afterEach =>
-      # @clock.restore()
+    afterEach =>
+      @clock.restore()
     
     
     describe "Dropdown", =>
@@ -18,8 +17,8 @@ describe "CStone.Community.Search.Views", ->
       
       it "is a CStone.Community.Search.Views.Suggestions", =>
         expect(@dropdown).toBeA CStone.Community.Search.Views.Suggestions
-        expect(@dropdown.collection).toEqual CStone.Community.Search.results
-        expect(@dropdown.sources_collection).toEqual CStone.Community.Search.sources
+        expect(@dropdown.collection).toEqual CStone.Community.Search.session.get('results')
+        expect(@dropdown.sources_collection).toEqual CStone.Community.Search.session.get('sources')
         expect(@dropdown.parent_view).toEqual @view
       
       describe "CLOSED", =>

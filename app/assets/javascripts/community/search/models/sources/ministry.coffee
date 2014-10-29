@@ -8,3 +8,5 @@ class SearchNamespace.Sources.Ministry extends SearchNamespace.AbstractSource
     name:   'ministry'
     local:  [{ payload: 'doggy', id:21 }, { payload: 'pig', id:22 }, { payload: 'moose', id:23 }]
     # remote: 'http://example.com/animals?q=%QUERY'
+
+SearchNamespace.Sources.Ministry.setup()

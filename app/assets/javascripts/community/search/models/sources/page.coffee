@@ -8,3 +8,5 @@ class SearchNamespace.Sources.Page extends SearchNamespace.AbstractSource
     name:   'page'
     local:  [{ payload: 'dog', id:41 }, { payload: 'pig', id:42 }, { payload: 'moose', id:43 }]
     # remote: 'http://example.com/animals?q=%QUERY'
+    
+SearchNamespace.Sources.Page.setup()

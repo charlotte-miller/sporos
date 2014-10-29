@@ -8,3 +8,5 @@ class SearchNamespace.Sources.Question extends SearchNamespace.AbstractSource
     name:   'question'
     local:  [{ payload: 'dog', id:51 }, { payload: 'pig', id:52 }, { payload: 'moose', id:53 }]
     # remote: 'http://example.com/animals?q=%QUERY'
+    
+SearchNamespace.Sources.Question.setup()

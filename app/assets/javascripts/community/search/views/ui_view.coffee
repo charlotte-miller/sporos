@@ -1,18 +1,20 @@
 class CStone.Community.Search.Views.UI extends Backbone.View
 
   events:
-    'focus  .text'          : 'onFocus'
-    'click  .search-button' : 'onIcon'
-    'submit .search-form'   : 'onSubmit'
-    'keydown .text'         : 'onInputKey'
-    'keyup   .text'         : 'onInputKey'
+    'focus  .text'          : 'onFocus'       # _openDropdown
+    'click  .search-button' : 'onIcon'        # toggleDropdown
+    'submit .search-form'   : 'onSubmit'      # submitFocused
+    'keydown .text'         : 'onInputKey'    # 
+    'keyup   .text'         : 'onInputKey'    # 
     
   
   initialize: =>
-    @current_search = @$('.text').val()
-    @sources_collection = CStone.Community.Search.sources
+    @session = CStone.Community.Search.session
+    @session.set current_search: @$('.text').val()
+    
+    @sources_collection = @session.get('sources')
     @dropdown = new CStone.Community.Search.Views.Suggestions
-      collection: CStone.Community.Search.results
+      collection: @session.get('results')
       context_selector: "##{@el.id}"
       sources_collection: @sources_collection
       parent_view: @
@@ -21,20 +23,16 @@ class CStone.Community.Search.Views.UI extends Backbone.View
   
   onFocus: (e)=>
     e.preventDefault()
-    @dropdown.show()
+    @_openDropdown()
     
   onIcon: (e)=>
     e.preventDefault()
-    if @dropdown.isVisible
-      @dropdown.hide()
-      @$('.submit').blur()
-      @clearSearch()
-    else
-      @$('.text').focus() #triggers @dropdown.show()
+    @_toggleDropdown()
     
   onSubmit: (e)->
     e.preventDefault()
-    # select focused result and hide
+    $target = $(e.target)
+    @selectFocused($target, 'submit')
     
   onInputKey: (e)=>
     $target = $(e.target)
@@ -62,7 +60,7 @@ class CStone.Community.Search.Views.UI extends Backbone.View
         when 'enter'
           @selectFocused($target, 'submit')
         when 'esc'
-          @dropdown.hide()
+          @_closeDropdown()
           @$('.text').blur()
           @clearSearch()
 
@@ -73,20 +71,30 @@ class CStone.Community.Search.Views.UI extends Backbone.View
         return @clearSearch() unless e.target.value.length && $target.isCursorAtEnd()
       @submitSearch e.target.value
   
+  
+  # 1) Clean this up into declarative private functions - Unwind any dependencies
+  # 2) use _functions for event listeners (commit here)
+  # 3) refactor @dropdown.render() into _open / __closeDropdown
+  # 
+  # __openDropdown
+  # __closeDropdown
+  # _toggleDropdown
+  # _finishHintedSuggestion
+  # _clearSuggestion
+  # _clearInput
+  # _openFocused
+  
+  
   submitSearch: (query)=>
-    if @current_search != query
-      @current_search = query
-      @sources_collection.search query
+    @session.set current_search: query
   
   updateHint: =>
     @$('.search-hint').val(@currentHint())
     
   clearSearch: =>
-    @$('.search-hint').val('')
-    unless @$('.text').val()
-      @current_search = ''
-      @dropdown.collection.reset()
-      @dropdown.collection.trigger('reset:clear_all')
+    @_clearHint()
+    @_clearSearch unless @$('.text').val()
+
   
   currentHint: (original_capitalization=false)=>
     focused =  @dropdown.collection.currentFocus()
@@ -109,3 +117,41 @@ class CStone.Community.Search.Views.UI extends Backbone.View
     else
       @submitSearch @currentHint()
    
+  # Internal DOM Functions
+  # -------------------------
+    
+  _openDropdown: =>
+    @dropdown.show()
+
+  _closeDropdown: =>
+    @dropdown.hide()
+
+  _toggleDropdown: =>
+    if @dropdown.isVisible
+      @_closeDropdown()
+      @$('.submit, .text').blur()
+      @clearSearch()
+    else
+      @$('.text').focus() #triggers @_openDropdown()
+
+  _clearHint: =>
+    @$('.search-hint').val('')
+  
+  _finishHintedSuggestion: =>
+
+
+  _clearSuggestion: =>
+
+
+  _clearInput: =>
+
+
+  _openFocused: =>
+
+
+  # Internal Model Functions
+  # -------------------------
+  
+  _clearSearch: =>
+    @session.set current_search: ''
+

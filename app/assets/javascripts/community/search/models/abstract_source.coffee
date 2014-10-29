@@ -1,11 +1,20 @@
-class CStone.Community.Search.Models.AbstractSource extends Backbone.Model
-  # Interface: https://github.com/twitter/typeahead.js/blob/master/doc/jquery_typeahead.md#datasets
-
+class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalModel
   STOPWORDS = """
     I a about an am are as at be by for from
     how in is it of on or that the this to
     was what when where who will with w/ the
   """.toLowerCase().split(/\s+/)
+  
+  subModelTypeAttribute: 'name'
+  subModelTypes:
+    'announcement' : 'CStone.Community.Search.Models.Sources.Announcement'
+    'event'        : 'CStone.Community.Search.Models.Sources.Event'
+    'ministry'     : 'CStone.Community.Search.Models.Sources.Ministry'
+    'music'        : 'CStone.Community.Search.Models.Sources.Music'
+    'page'         : 'CStone.Community.Search.Models.Sources.Page'
+    'question'     : 'CStone.Community.Search.Models.Sources.Question'
+    'sermon'       : 'CStone.Community.Search.Models.Sources.Sermon'
+  
   
   initialize: =>
     _(['name']).forEach (requirement)=>
@@ -34,13 +43,13 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.Model
     @bloodhound.get query, (async_results)=>
       # unless _(async_results).isEmpty()
       processed_results = async_results # @processResults(async_results)
-      CStone.Community.Search.results.updateSingleSource(@get('name'), processed_results)
+      @get('session').get('results').updateSingleSource(@get('name'), processed_results)
 
   processResults: (results)->
     throw new Error "Abstract Funciton - Overwrite in child"
   
   
-  # Private #########
+  # Internal #########
   startPhraseTokenizer = (str, word_cap=3)-> [str.split(/\s+/, word_cap).join(' ')]
   significantWordTokenizer = (query)->
     q_array = Bloodhound.tokenizers.whitespace(query)
@@ -74,3 +83,6 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.Model
   defaultSorter         = (a, b) ->
     if a.score > b.score then return  1
     if a.score < b.score then -1 else 0
+    
+    
+CStone.Community.Search.Models.AbstractSource.setup()

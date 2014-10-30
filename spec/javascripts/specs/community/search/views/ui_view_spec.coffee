@@ -97,7 +97,7 @@ describe "CStone.Community.Search.Views", ->
         describe "Right Arrow is Keyed", =>
           it "accepts the hinted suggestion", =>
             @$input.val('123')
-            @view.currentHint = -> '12345'
+            @view.session.currentHint = -> '12345'
             expect(@$input.cursorPosition()).toEqual 3
             @$input.simulateKey('right_arrow')
             expect(@$input.cursorPosition()).toEqual 5
@@ -105,7 +105,7 @@ describe "CStone.Community.Search.Views", ->
         describe "Tab is Keyed", =>
           it "accepts the hinted suggestion", =>
             @$input.val('123')
-            @view.currentHint = -> '12345'
+            @view.session.currentHint = -> '12345'
             expect(@$input.cursorPosition()).toEqual 3
             @$input.simulateKey('tab')
             expect(@$input.cursorPosition()).toEqual 5
@@ -118,7 +118,7 @@ describe "CStone.Community.Search.Views", ->
           
           it "accepts the hinted suggestion", =>
             @$input.val('123')
-            @view.currentHint = -> '12345'
+            @view.session.currentHint = -> '12345'
             expect(@$input.cursorPosition()).toEqual 3
             @$input.simulateKey('enter')
             expect(@$input.cursorPosition()).toEqual 5
@@ -172,31 +172,4 @@ describe "CStone.Community.Search.Views", ->
           xit "opens the result", =>
             spyOn(@target_result, 'open')
             
-          
-          
-    describe '#currentHint(original_capitalization=false)', =>
-      stubFocusedPayload = (str)=>
-        @view.dropdown = collection: currentFocus: -> get: -> str
-      
-      it "matches the capitalization of the current search term", =>
-        [ 'Bible', 'BIBLE', 'bible', 'The Bible'].forEach (str)=>
-          @view.current_search = str
-          stubFocusedPayload(str.toLowerCase())
-          expect(@view.currentHint()).toEqual str
-          
-      it "returns the original payload when original_capitalization=TRUE", =>
-        [ 'Bible', 'BIBLE', 'bible', 'The Bible'].forEach (str)=>
-          @view.current_search = str
-          stubFocusedPayload(str)
-          expect(@view.currentHint(true)).toEqual str
-      
-      it "returns an empty string if nothing matches", =>
-        @view.current_search = "apples"
-        stubFocusedPayload("oranges")
-        expect(@view.currentHint()).toEqual ''
-        
-      it "returns an empty string if the term stops matching", =>
-        @view.current_search = "apple pie"
-        stubFocusedPayload("apple fritters")
-        expect(@view.currentHint()).toEqual ''
-      
+                

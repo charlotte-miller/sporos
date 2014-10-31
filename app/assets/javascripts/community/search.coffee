@@ -28,4 +28,4 @@ class CStone.Community.Search
       ]
     
     @main   = new @Views.UI( el:'#global-search'   )
-    @header = new @Views.UI( el:'#headroom-search' )
+    # @header = new @Views.UI( el:'#headroom-search' )

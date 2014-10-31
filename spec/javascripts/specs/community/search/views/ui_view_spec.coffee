@@ -5,15 +5,16 @@ describe "CStone.Community.Search.Views", ->
     beforeEach =>
       fixture.load('search')
       @view = new CStone.Community.Search.Views.UI( el:'#global-search' )
-      @clock = sinon.useFakeTimers()
+      # @clock = sinon.useFakeTimers()
     
     afterEach =>
-      @clock.restore()
+      # @clock.restore()
     
     
     describe "Dropdown", =>
       beforeEach =>
         @dropdown = @view.dropdown
+        @session = @view.session
       
       it "is a CStone.Community.Search.Views.Suggestions", =>
         expect(@dropdown).toBeA CStone.Community.Search.Views.Suggestions
@@ -23,22 +24,23 @@ describe "CStone.Community.Search.Views", ->
       
       describe "CLOSED", =>
         describe "Input Control Gains Focus", =>  #transient
+          beforeEach =>
+            spyOn(@session, "set")
+          
           it "opens when .text is FOCUSED", =>
-            spyOn(@dropdown, "show")
             $('.text').trigger('focus')
-            expect(@dropdown.show).toHaveBeenCalled()
-            expect(@dropdown.show.callCount).toEqual 1
+            expect(@session.set).toHaveBeenCalledWith({dropdown_visible:true})
+            expect(@session.set.callCount).toEqual 1
     
           it "opens when .search-button is CLICKED", =>
-            spyOn(@dropdown, "show")
             $('.search-button').trigger('click')
-            expect(@dropdown.show).toHaveBeenCalled()
-            expect(@dropdown.show.callCount).toEqual 1
+            expect(@session.set).toHaveBeenCalledWith('dropdown_visible', true)
+            expect(@session.set.callCount).toEqual 1
                            
       
       describe "OPEN", =>
         beforeEach =>
-          @dropdown.show()
+          @view._openDropdown()
           @$input = $('.text')
         
         describe "Input Control Loses Focus", =>
@@ -61,22 +63,16 @@ describe "CStone.Community.Search.Views", ->
             @view
     
         describe "Entering Text Into the Search Box", =>
-          it "searches the @sources_collection w/ the input value", =>
-            spyOn(@view.sources_collection, 'search')
+          beforeEach =>
+            spyOn(@session, 'set')
+          
+          it "updates @session.current_search w/ the input value", =>
             "dog".split('').forEach (letter)->
               $('.text').val($('.text').val()+letter)
               $('.text').trigger('keyup')
-            expect(@view.sources_collection.search).toHaveBeenCalled()
-            expect(@view.sources_collection.search.callCount).toEqual 3
-            expect(@view.sources_collection.search.mostRecentCall.args).toEqual ['dog']
-        
-          it "it ignores identical searches", =>
-            spyOn(@view.sources_collection, 'search')
-            $('.text').val('dog')
-            _(3).times ->
-              $('.text').trigger('keyup')
-            expect(@view.sources_collection.search).toHaveBeenCalled()
-            expect(@view.sources_collection.search.callCount).toEqual 1
+            expect(@session.set.callCount).toEqual 3
+            ['d', 'do', 'dog'].forEach (term)=>
+              expect(@session.set).toHaveBeenCalledWith({current_search:term})
         
       
         describe "Up Arrow is Keyed", =>
@@ -150,23 +146,26 @@ describe "CStone.Community.Search.Views", ->
           
         describe 'Backspace is Keyed', =>
           beforeEach =>
-            spyOn(@view, 'clearSearch')
+            @view.session.set(hint_visible:true)
+            spyOn(@view, '_updateHint')
           
           it "behaves naturally when the cursor is at the end", =>
             @$input.val('123')
             @$input.simulateKey('backspace')
-            expect(@view.clearSearch).not.toHaveBeenCalled()
+            expect(@view._updateHint).not.toHaveBeenCalled()
           
           it "clears the hint when the cursor is NOT at the end", =>
             @$input.val('123')
             @$input[0].setSelectionRange 1,1 #put cursor in middle
             @$input.simulateKey('backspace')
-            expect(@view.clearSearch).toHaveBeenCalled()
+            expect(@view._updateHint).toHaveBeenCalled()
+            expect(@view.session.get('hint_visible')).toBeFalsy()
           
           it "clears the hint when there is no more search term", =>
             @$input.val('')
             @$input.simulateKey('backspace')
-            expect(@view.clearSearch).toHaveBeenCalled()
+            expect(@view._updateHint).toHaveBeenCalled()
+            expect(@view.session.get('hint_visible')).toBeFalsy()
         
         describe "Suggestion is Clicked", =>
           xit "opens the result", =>

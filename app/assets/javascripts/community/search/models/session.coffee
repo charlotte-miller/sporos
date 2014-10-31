@@ -1,8 +1,9 @@
 class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
   
   initialize: =>
-    @on 'change:current_search', @_onChangeCurrentSearch
-    @on 'change:dropdown_visible', @_onChangeDropdownVisible
+    @on 'change:current_search',   @_searchSourcesForCurrentSearch
+    @on 'change:current_search',   @_storeSearchHistory
+    @on 'change:dropdown_visible', @_hideHintWhenHidingDropdown
     @listenTo @get('results'), 'filtered:updated', @_updateCurrentHint
   
   defaults:
@@ -24,7 +25,12 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
       key:             'sources'
       relatedModel:    'CStone.Community.Search.Models.AbstractSource'
       collectionType:  'CStone.Community.Search.Collections.Sources'
-    }
+    },
+    # {
+    #   type:            'HasOne'
+    #   key:             'search_history'
+    #   relatedModel:    'CStone.Community.Search.Models.SearchHistory'
+    # }
   ]).map (relation)-> _(relation).extend(reverseRelation: {key:'session', type:'HasOne'})
 
   # Public Helpers
@@ -56,7 +62,7 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
   # Internal
   # ----------------------------------------------------------------------
 
-  _onChangeCurrentSearch: =>
+  _searchSourcesForCurrentSearch: =>
     query = @get('current_search')
     return if ///^#{@previous('current_search')}$///i.test query
     if query
@@ -65,7 +71,7 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
       @get('results').reset()
       @get('results').trigger('reset:clear_all')
 
-  _onChangeDropdownVisible: =>
+  _hideHintWhenHidingDropdown: =>
     @set(hint_visible:false) unless @get('dropdown_visible')
   
   _updateCurrentHint: =>
@@ -78,4 +84,10 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
     else
       @set(current_hint: '', current_hint_w_original_capitalization: '', hint_visible:false)
       
+  _storeSearchHistory:=>
+    # add @get('current_search') to a seperate SearchHistory object
+    # collaps typing into the 'final' product
+    # store the selected (opened) result
+    # store dead-ends (zero results) and the next thing they search/select
+
 CStone.Community.Search.Models.Session.setup()

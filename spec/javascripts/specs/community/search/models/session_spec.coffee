@@ -20,12 +20,12 @@ describe "CStone.Community.Search.Models", ->
           @session.set(current_search:'foo')
           expect(@session.get('sources').search).toHaveBeenCalledWith 'foo'
       
-        it "does nothing WHEN a identical (case indifferent) string is repeatedly set", =>
+        it "does nothing WHEN an identical (case indifferent) string is set repeatedly", =>
           [ '', 'BIBLE', 'The Bible'].forEach (str)=>
             @session.set(current_search:str)
             @session.get('sources').search.reset()
             @session.get('results').reset.reset()
-            @session.set(current_search:str)
+            @session.set(current_search:str.toLowerCase())
             expect(@session.get('sources').search).not.toHaveBeenCalled()
             expect(@session.get('results').reset).not.toHaveBeenCalled()
       

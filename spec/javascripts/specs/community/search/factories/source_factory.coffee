@@ -3,7 +3,7 @@
 # ====================================================
 BackboneFactory.define 'source', CStone.Community.Search.Models.AbstractSource, ->
   name:   'ministry'
-  local:  [{ payload: 'doggy', id:21 }, { payload: 'pig', id:22 }, { payload: 'moose', id:23 }]
+  local:  [{ payload: 'doggy', id:21 }, { payload: 'pig', id:22 }, { payload: 'moose', id:23 }, { payload: "men's ministry", id:25 }]
   
   # session: Factory.session(sources:'dummy')
   # title:       'Your Title Here'

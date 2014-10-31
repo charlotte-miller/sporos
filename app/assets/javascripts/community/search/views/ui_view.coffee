@@ -4,14 +4,16 @@ class CStone.Community.Search.Views.UI extends Backbone.View
     'focus  .text'          : 'onInputFocus'
     'click  .search-button' : 'onIconClick'
     'submit .search-form'   : 'onSubmit'
-    'keydown .text'         : 'onInputKey'
-    'keyup   .text'         : 'onInputKey'
+    'keydown  .text'        : 'onInputKey'
+    'keypress .text'        : 'onInputKey'
+    'cut      .text'        : 'onInputKey'
+    'paste    .text'        : 'onInputKey'
     
   modelEvents: =>
-    @listenTo @session, 'change:current_search',    @_updateText
-    @listenTo @session, 'change:current_hint',      @_updateHint
-    @listenTo @session, 'change:hint_visible',      @_updateHint
-    @listenTo @session, 'change:dropdown_visible',  @_toggleDropdown
+    @listenTo @session, 'change:current_search',    @thenUpdateText
+    @listenTo @session, 'change:current_hint',      @thenUpdateHint
+    @listenTo @session, 'change:hint_visible',      @thenUpdateHint
+    @listenTo @session, 'change:dropdown_visible',  @thenToggleDropdown
   
 
   initialize: =>
@@ -23,11 +25,11 @@ class CStone.Community.Search.Views.UI extends Backbone.View
       parent_view: @
 
     @modelEvents()
-    @session.set current_search: @$('.text').val()          
+    @session.set current_search: @$('.text').val()
   
   # 1) Clean this up into declarative private functions - Unwind any dependencies
   # 2) use _functions for event listeners (commit here)
-  # 3) refactor @dropdown.render() into _open / __closeDropdown
+  # 3) refactor @dropdown.render() into _open / _thenCloseDropdown
 
   # React to DOM - Change Models
   # ----------------------------------------------------------------------
@@ -46,6 +48,7 @@ class CStone.Community.Search.Views.UI extends Backbone.View
 
   onInputKey: (e)=>
     $target = $(e.target)
+    key_code = e.which || e.keyCode
     specialKeyCodeMap =
       9 : 'tab',
       27: 'esc',
@@ -53,9 +56,9 @@ class CStone.Community.Search.Views.UI extends Backbone.View
       13: 'enter',
       38: 'up',
       40: 'down'
-         
+    
     # keydown allows preventDefault()
-    if e.type=='keydown' && specialKeyCodeMap[e.which]
+    if e.type=='keydown' && specialKeyCodeMap[key_code]
       e.preventDefault()
       switch specialKeyCodeMap[e.which]
         when 'up'
@@ -70,40 +73,44 @@ class CStone.Community.Search.Views.UI extends Backbone.View
           @session.acceptHint()
           @session.openFocused()
         when 'esc'
-          @_closeDropdown()
+          @session.set(dropdown_visible:false)
 
-    # keyup finishes updating the input (allow default)
-    if e.type=='keyup' && !specialKeyCodeMap[e.which]
-      backspace_keys = [8,91,93] #covers backspace and command backspace
-      if _(backspace_keys).include(e.which)
-        @session.set(hint_visible:false) unless e.target.value.length && $target.isCursorAtEnd()
-      @session.set( current_search: e.target.value )
+    if !specialKeyCodeMap[key_code]
+      # if e.type=='keydown' && letterKeyCodeMap[key_code]
+      #   letter = if e.shiftKey then letterKeyCodeMap[key_code].toUpperCase() else letterKeyCodeMap[key_code]
+      #   @session.set current_search: @session.get('current_search')+letter
+        
+      _.defer =>
+        backspace_keys = [8,91,93] #covers backspace and command backspace
+        if _(backspace_keys).include(key_code) || e.type=='cut'
+          @session.set(hint_visible:false) unless e.target.value.length && $target.isCursorAtEnd()
+        @session.set( current_search: e.target.value )
 
 
   
   # React to Models - Change DOM
   # ----------------------------------------------------------------------
   
-  _openDropdown: =>
+  thenOpenDropdown: =>
     @dropdown.show()
     @$('.text').focus()
 
-  _closeDropdown: =>
+  thenCloseDropdown: =>
     @dropdown.hide()
     @$('.submit, .text').blur()
 
-  _toggleDropdown: =>
+  thenToggleDropdown: =>
     if @session.get('dropdown_visible')
-      @_openDropdown()
+      @thenOpenDropdown()
     else
-      @_closeDropdown()
+      @thenCloseDropdown()
   
-  _updateText: =>
+  thenUpdateText: =>
     return if @$('.text').val() == @session.get('current_search')
     @$('.text').val(@session.get('current_search'))
     @$('.text').putCursorAtEnd()
   
-  _updateHint: =>
+  thenUpdateHint: =>
     if @session.get('hint_visible')
       @$('.search-hint').val(@session.get('current_hint'))
     else

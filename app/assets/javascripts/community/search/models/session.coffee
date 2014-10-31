@@ -64,7 +64,7 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
 
   _searchSourcesForCurrentSearch: =>
     query = @get('current_search')
-    return if ///^#{@previous('current_search')}$///i.test query
+    return if ///^#{@previous('current_search')||''}$///i.test query
     if query
       @get('sources').search(query)
     else

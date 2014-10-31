@@ -1,15 +1,14 @@
 describe "CStone.Community.Search.Views", ->
   describe "UI", ->
-    CStone.Community.Search.session = Factory.session()
     
     beforeEach =>
       fixture.load('search')
+      CStone.Community.Search.session = Factory.session()
       @view = new CStone.Community.Search.Views.UI( el:'#global-search' )
-      # @clock = sinon.useFakeTimers()
+      @clock = sinon.useFakeTimers()
     
     afterEach =>
-      # @clock.restore()
-    
+      @clock.restore()
     
     describe "Dropdown", =>
       beforeEach =>
@@ -40,7 +39,7 @@ describe "CStone.Community.Search.Views", ->
       
       describe "OPEN", =>
         beforeEach =>
-          @view._openDropdown()
+          @view.thenOpenDropdown()
           @$input = $('.text')
         
         describe "Input Control Loses Focus", =>
@@ -67,9 +66,10 @@ describe "CStone.Community.Search.Views", ->
             spyOn(@session, 'set')
           
           it "updates @session.current_search w/ the input value", =>
-            "dog".split('').forEach (letter)->
+            "dog".split('').forEach (letter)=>
               $('.text').val($('.text').val()+letter)
-              $('.text').trigger('keyup')
+              $('.text').trigger('keypress')
+              @clock.tick(1)
             expect(@session.set.callCount).toEqual 3
             ['d', 'do', 'dog'].forEach (term)=>
               expect(@session.set).toHaveBeenCalledWith({current_search:term})
@@ -92,79 +92,74 @@ describe "CStone.Community.Search.Views", ->
            
         describe "Right Arrow is Keyed", =>
           it "accepts the hinted suggestion", =>
-            @$input.val('123')
-            @view.session.currentHint = -> '12345'
-            expect(@$input.cursorPosition()).toEqual 3
+            spyOn(@session, 'acceptHint')
             @$input.simulateKey('right_arrow')
-            expect(@$input.cursorPosition()).toEqual 5
+            expect(@session.acceptHint).toHaveBeenCalled()
           
         describe "Tab is Keyed", =>
           it "accepts the hinted suggestion", =>
-            @$input.val('123')
-            @view.session.currentHint = -> '12345'
-            expect(@$input.cursorPosition()).toEqual 3
-            @$input.simulateKey('tab')
-            expect(@$input.cursorPosition()).toEqual 5
+            spyOn(@session, 'acceptHint')
+            @$input.simulateKey('right_arrow')
+            expect(@session.acceptHint).toHaveBeenCalled()
             
         describe "Enter is Keyed", =>
           beforeEach =>
-            @target_model = Factory.result()
+            @session.set current_search: 'men'
+            @target_model = @session.get('results').first()
+            @session.get('results').updateFocus(@target_model)
             spyOn(@target_model, 'open')
-            @view.dropdown = collection: currentFocus: => @target_model
           
           it "accepts the hinted suggestion", =>
-            @$input.val('123')
-            @view.session.currentHint = -> '12345'
-            expect(@$input.cursorPosition()).toEqual 3
             @$input.simulateKey('enter')
-            expect(@$input.cursorPosition()).toEqual 5
+            expect(@session.get('current_search')).toEqual "men's ministry"
+            expect(@$input.cursorPosition()).toEqual 14
           
           it "opens the result", =>
             @$input.simulateKey('enter')
             expect(@target_model.open).toHaveBeenCalled()
-            
-          
+                  
           
         describe "Esc is Keyed", =>
           beforeEach =>
-            @$hint = $('.search-hint')
-            @$input.val('Men')
-            @$hint.val("Men's Ministry")
-            
+            @session.set(current_search:'men')
           
           it "hides the dropdown", =>
-            expect(@dropdown.isVisible).toBeTruthy()
+            expect(@session.get('dropdown_visible')).toBeTruthy()
             @$input.simulateKey('escape')
-            expect(@dropdown.isVisible).toBeFalsy()
+            expect(@session.get('dropdown_visible')).toBeFalsy()
             
           it "clears the hint", =>
-            expect(@$hint.val()).toEqual "Men's Ministry"
+            @session.set(hint_visible:true)
             @$input.simulateKey('escape')
-            expect(@$hint.val()).toEqual ''
+            expect(@session.get('hint_visible')).toBeFalsy()
           
           
           
         describe 'Backspace is Keyed', =>
           beforeEach =>
             @view.session.set(hint_visible:true)
-            spyOn(@view, '_updateHint')
+            spyOn(@view, 'thenUpdateHint')
+            @view.modelEvents() #point callback to spy
           
           it "behaves naturally when the cursor is at the end", =>
             @$input.val('123')
             @$input.simulateKey('backspace')
-            expect(@view._updateHint).not.toHaveBeenCalled()
+            @clock.tick(1)
+            expect(@view.thenUpdateHint).not.toHaveBeenCalled()
           
           it "clears the hint when the cursor is NOT at the end", =>
             @$input.val('123')
             @$input[0].setSelectionRange 1,1 #put cursor in middle
             @$input.simulateKey('backspace')
-            expect(@view._updateHint).toHaveBeenCalled()
+            @clock.tick(1)
+            expect(@view.thenUpdateHint).toHaveBeenCalled()
             expect(@view.session.get('hint_visible')).toBeFalsy()
           
           it "clears the hint when there is no more search term", =>
             @$input.val('')
             @$input.simulateKey('backspace')
-            expect(@view._updateHint).toHaveBeenCalled()
+            @clock.tick(1)
+            expect(@view.thenUpdateHint).toHaveBeenCalled()
             expect(@view.session.get('hint_visible')).toBeFalsy()
         
         describe "Suggestion is Clicked", =>

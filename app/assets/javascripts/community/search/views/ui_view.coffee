@@ -17,18 +17,12 @@ class CStone.Community.Search.Views.UI extends Backbone.View
   
   initialize: =>
     @session = CStone.Community.Search.session
-    @dropdown = new CStone.Community.Search.Views.Suggestions
-      context_selector: "##{@el.id}"
-      collection: @session.get('results')
-      sources_collection: @session.get('sources')
-      parent_view: @
-
     @modelEvents()
     @session.set current_search: @$('.text').val()
+    # if @el.id == 'global-search'
+    CStone.Shared.ScrollSpy.addCallback (scroll)=>
+      @session.set(dropdown_visible:false) if scroll > 400
   
-  # 1) Clean this up into declarative private functions - Unwind any dependencies
-  # 2) use _functions for event listeners (commit here)
-  # 3) refactor @dropdown.render() into _open / _thenCloseDropdown
 
   # React to DOM - Change Models
   # ----------------------------------------------------------------------
@@ -94,11 +88,11 @@ class CStone.Community.Search.Views.UI extends Backbone.View
   # ----------------------------------------------------------------------
   
   thenOpenDropdown: =>
-    @dropdown.show()
+    @_createDropdown()
     @$('.text').focus()
 
   thenCloseDropdown: =>
-    @dropdown.hide()
+    @_destroyDropdown()
     @$('.submit, .text').blur()
 
   thenToggleDropdown: =>
@@ -117,3 +111,17 @@ class CStone.Community.Search.Views.UI extends Backbone.View
       @$('.search-hint').val(@session.get('current_hint'))
     else
       @$('.search-hint').val('')
+
+  # Internal
+  # ----------------------------------------------------------------------
+  _createDropdown: =>
+    @dropdown = new CStone.Community.Search.Views.Suggestions
+      context_selector: "##{@el.id}"
+      collection: @session.get('results')
+      sources_collection: @session.get('sources')
+      parent_view: @
+    @dropdown.render()
+    
+  _destroyDropdown: =>
+    @dropdown.remove()
+    @dropdown = null

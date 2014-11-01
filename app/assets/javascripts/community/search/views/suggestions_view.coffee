@@ -1,34 +1,29 @@
 class CStone.Community.Search.Views.Suggestions extends Backbone.View
   className: 'search-suggestions'
   template: HandlebarsTemplates['suggestions']
+  templateData: =>
+    results_collection: @collection
+    sources_collection: @sources_collection
+    parent_view: @
+  
+  events:
+    'click .suggestion-nav-source' : 'onNavClick'
   
   bindToCollection:
     'filtered:updated' : 'render'
     'reset:clear_all'  : 'render'
   
-  events:
-    'click .suggestion-nav-source' : 'onNavClick'
-    
-  
   constructor: (options)->
+    @session = CStone.Community.Search.session
     @context_selector   = options.context_selector
     @sources_collection = options.sources_collection
-    @parent_view          = options.parent_view
+    @parent_view        = options.parent_view
     @isMain = (@context_selector == '#global-search')
     super
   
   render: =>
     super
     $(@context_selector).append(@el)
-  
-  templateData: =>
-    results_collection: @collection
-    sources_collection: @sources_collection
-    parent_view: @
-  
-  show: =>
-    @isVisible = true
-    @render()
     _.defer =>
       if @isMain
         $mainHeader.addClass('search-focused')
@@ -36,15 +31,9 @@ class CStone.Community.Search.Views.Suggestions extends Backbone.View
           container: $('#main-page')
           easing:   CStone.Animation.layoutTransition.easing
           duration: CStone.Animation.layoutTransition.duration
-        
-        CStone.Shared.ScrollSpy.addCallback (scroll)=>
-          if scroll > 400
-            @hide()
-            @parent_view.$('.text').blur()
     
-  hide: =>
-    @isVisible = false
-    @remove()
+  remove: =>
+    super
     _.defer => $mainHeader.removeClass('search-focused') if @isMain
   
   
@@ -60,6 +49,7 @@ class CStone.Community.Search.Views.Suggestions extends Backbone.View
     @parent_view.$('.text').focus()
     
     
-  # Internal #################################
-      
+  # Internal
+  # ----------------------------------------------------------------------
+  
   $mainHeader = $('#main-header')

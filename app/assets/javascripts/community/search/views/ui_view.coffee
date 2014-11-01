@@ -15,7 +15,6 @@ class CStone.Community.Search.Views.UI extends Backbone.View
     @listenTo @session, 'change:hint_visible',      @thenUpdateHint
     @listenTo @session, 'change:dropdown_visible',  @thenToggleDropdown
   
-
   initialize: =>
     @session = CStone.Community.Search.session
     @dropdown = new CStone.Community.Search.Views.Suggestions
@@ -59,27 +58,30 @@ class CStone.Community.Search.Views.UI extends Backbone.View
     
     # keydown allows preventDefault()
     if e.type=='keydown' && specialKeyCodeMap[key_code]
-      e.preventDefault()
       switch specialKeyCodeMap[e.which]
         when 'up'
+          e.preventDefault()
           @session.moveFocus('up')
         when 'down'
+          e.preventDefault()
           @session.moveFocus('down')
         when 'right'
-          @session.acceptHint()
+          if $target.isCursorAtEnd()
+            e.preventDefault()
+            @session.acceptHint()
         when 'tab'
-          @session.acceptHint()
+          e.preventDefault()
+          if $target.isCursorAtEnd()
+            @session.acceptHint()
         when 'enter'
+          e.preventDefault()
           @session.acceptHint()
           @session.openFocused()
         when 'esc'
+          e.preventDefault()
           @session.set(dropdown_visible:false)
 
     if !specialKeyCodeMap[key_code]
-      # if e.type=='keydown' && letterKeyCodeMap[key_code]
-      #   letter = if e.shiftKey then letterKeyCodeMap[key_code].toUpperCase() else letterKeyCodeMap[key_code]
-      #   @session.set current_search: @session.get('current_search')+letter
-        
       _.defer =>
         backspace_keys = [8,91,93] #covers backspace and command backspace
         if _(backspace_keys).include(key_code) || e.type=='cut'
@@ -115,7 +117,3 @@ class CStone.Community.Search.Views.UI extends Backbone.View
       @$('.search-hint').val(@session.get('current_hint'))
     else
       @$('.search-hint').val('')
-
-
-
-  

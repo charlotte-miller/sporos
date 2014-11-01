@@ -26,6 +26,7 @@ class CStone.Community.Search.Views.SuggestionsResults extends Backbone.View
     'mouseover .suggestion' : 'onMouseover'
   
   onClick: (e)=>
+    @session.acceptHint()
     result = @collection.get(e.target.dataset.resultId)
     result.open()
   

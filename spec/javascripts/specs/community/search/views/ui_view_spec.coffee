@@ -12,8 +12,9 @@ describe "CStone.Community.Search.Views", ->
     
     describe "Dropdown", =>
       beforeEach =>
-        @dropdown = @view.dropdown
         @session = @view.session
+        @session.set(dropdown_visible:true)
+        @dropdown = @view.dropdown
       
       it "is a CStone.Community.Search.Views.Suggestions", =>
         expect(@dropdown).toBeA CStone.Community.Search.Views.Suggestions
@@ -22,6 +23,9 @@ describe "CStone.Community.Search.Views", ->
         expect(@dropdown.parent_view).toEqual @view
       
       describe "CLOSED", =>
+        beforeEach =>
+          @session.set(dropdown_visible:false)
+        
         describe "Input Control Gains Focus", =>  #transient
           beforeEach =>
             spyOn(@session, "set")
@@ -39,15 +43,14 @@ describe "CStone.Community.Search.Views", ->
       
       describe "OPEN", =>
         beforeEach =>
-          @view.thenOpenDropdown()
           @$input = $('.text')
         
         describe "Input Control Loses Focus", =>
           it "closes when .search-button (X icon) is CLICKED", =>
-            spyOn(@dropdown, "hide")
+            spyOn(@dropdown, "remove")
             $('.search-button').trigger('click')
-            expect(@dropdown.hide).toHaveBeenCalled()
-            expect(@dropdown.hide.callCount).toEqual 1
+            expect(@dropdown.remove).toHaveBeenCalled()
+            expect(@dropdown.remove.callCount).toEqual 1
         
           xit "selects the focused suggestion on SUBMIT", =>
             @view

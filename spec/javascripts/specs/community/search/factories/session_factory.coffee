@@ -8,7 +8,7 @@ BackboneFactory.define 'session', CStone.Community.Search.Models.Session, ->
   results:        Factory.results().models
   sources:        Factory.sources().models
   current_search: ''
-  active_ui:      'main'
+  active_ui:      null
   
   # title:       'Your Title Here'
   # description: 'string, function, or another Factory'

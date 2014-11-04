@@ -13,6 +13,7 @@ describe "CStone.Community.Search.Views", ->
     describe "Dropdown", =>
       beforeEach =>
         @session = @view.session
+        @session.set(active_ui:'foo')
         @session.set(dropdown_visible:true)
         @dropdown = @view.dropdown
       
@@ -30,14 +31,17 @@ describe "CStone.Community.Search.Views", ->
           it "opens when .text is FOCUSED", =>
             spyOn(@session, "set")
             $('.text').trigger('focus')
-            expect(@session.set).toHaveBeenCalledWith({dropdown_visible:true, active_ui:'foo'})
-            expect(@session.set.callCount).toEqual 1
+            expect(@session.set).toHaveBeenCalledWith(dropdown_visible:true)
     
           it "opens when .search-button is CLICKED", =>
             spyOn(@session, "set")
             $('.search-button').trigger('click')
             expect(@session.set).toHaveBeenCalledWith('dropdown_visible', true)
                            
+          it "sets @session.get('active_ui') when .text is FOCUSED", =>
+            $('.text').trigger('focus')
+            expect(@session.get('active_ui')).toEqual('foo')
+
           it "sets @session.get('active_ui') when .search-button is CLICKED", =>
             $('.search-button').trigger('click')
             expect(@session.get('active_ui')).toEqual('foo')
@@ -142,9 +146,9 @@ describe "CStone.Community.Search.Views", ->
           
         describe 'Backspace is Keyed', =>
           beforeEach =>
-            @view.session.set(hint_visible:true)
+            @session.set(hint_visible:true)
             spyOn(@view, 'thenUpdateHint')
-            @view.modelEvents() #point callback to spy
+            @view.modelEvents('activate') #point callback to spy
           
           it "behaves naturally when the cursor is at the end", =>
             @$input.val('123')

@@ -1,14 +1,13 @@
-class CStone.Community.Search.Views.SuggestionsSources extends Backbone.View
+class CStone.Community.Search.Views.SuggestionsSources extends CStone.Shared.Backbone.ExtendedView
   className:'suggestions-nav'
   template: HandlebarsTemplates['suggestions/sources']
     
-  constructor: (options)->
-    @results_collection = options.results_collection
-    @throttledRender    = _.debounce(@render, 100)
-    super
-    
   initialize: =>
-    @bindTo @results_collection, 'filtered:updated', 'updateFocus'
+    @collection         = @session.get('sources')
+    @results_collection = @session.get('results')
+    @throttledRender    = _.debounce(@render, 100)
+    
+    @listenTo @results_collection, 'filtered:updated', @updateFocus
   
   templateData: =>
     grouped_results = @results_collection.allGrouped()

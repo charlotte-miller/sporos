@@ -92,3 +92,11 @@ describe "CStone.Community.Search.Models", ->
         stubFocusedPayload("apple fritters")
         @session.get('results').trigger('filtered:updated')
         expect(@session.get('current_hint')).toEqual ''
+        
+    describe '@get("active_ui")', =>
+      it "is NULL when the dropdown is closed", =>
+        @session.set(active_ui:'main', dropdown_visible:true)
+        expect(@session.get('active_ui')).toEqual 'main'
+        @session.set(dropdown_visible:false)
+        expect(@session.get('active_ui')).toEqual null
+        

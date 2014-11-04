@@ -1,10 +1,8 @@
-class CStone.Community.Search.Views.Suggestions extends Backbone.View
+class CStone.Community.Search.Views.Suggestions extends CStone.Shared.Backbone.ExtendedView
   className: 'search-suggestions'
   template: HandlebarsTemplates['suggestions']
   templateData: =>
-    results_collection: @collection
-    sources_collection: @sources_collection
-    parent_view: @
+    session: @session
   
   events:
     'click .suggestion-nav-source' : 'onNavClick'
@@ -13,29 +11,9 @@ class CStone.Community.Search.Views.Suggestions extends Backbone.View
     'filtered:updated' : 'render'
     'reset:clear_all'  : 'render'
   
-  constructor: (options)->
-    @session = CStone.Community.Search.session
-    @context_selector   = options.context_selector
-    @sources_collection = options.sources_collection
-    @parent_view        = options.parent_view
-    @isMain = (@context_selector == '#global-search')
-    super
-  
-  render: =>
-    super
-    $(@context_selector).append(@el)
-    _.defer =>
-      if @isMain
-        $mainHeader.addClass('search-focused')
-        $mainHeader.velocity 'scroll',
-          container: $('#main-page')
-          easing:   CStone.Animation.layoutTransition.easing
-          duration: CStone.Animation.layoutTransition.duration
-    
-  remove: =>
-    super
-    _.defer => $mainHeader.removeClass('search-focused') if @isMain
-  
+  initialize: =>
+    @collection= @session.get('results')
+    @sources_collection= @session.get('sources')
   
   onNavClick: (e)=>
     # if e.target.dataset.source == 'all' && @$('.caret:visible').length > 0
@@ -47,9 +25,3 @@ class CStone.Community.Search.Views.Suggestions extends Backbone.View
     @sources_collection.updateFocus(to_focus)
     @render()
     @parent_view.$('.text').focus()
-    
-    
-  # Internal
-  # ----------------------------------------------------------------------
-  
-  $mainHeader = $('#main-header')

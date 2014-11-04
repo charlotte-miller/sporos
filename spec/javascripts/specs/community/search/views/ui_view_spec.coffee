@@ -4,7 +4,7 @@ describe "CStone.Community.Search.Views", ->
     beforeEach =>
       fixture.load('search')
       CStone.Community.Search.session = Factory.session()
-      @view = new CStone.Community.Search.Views.UI( el:'#global-search' )
+      @view = new CStone.Community.Search.Views.UI( el:'#global-search', ui_name:'foo' )
       @clock = sinon.useFakeTimers()
     
     afterEach =>
@@ -26,20 +26,22 @@ describe "CStone.Community.Search.Views", ->
         beforeEach =>
           @session.set(dropdown_visible:false)
         
-        describe "Input Control Gains Focus", =>  #transient
-          beforeEach =>
-            spyOn(@session, "set")
-          
+        describe "Input Control Gains Focus", =>
           it "opens when .text is FOCUSED", =>
+            spyOn(@session, "set")
             $('.text').trigger('focus')
-            expect(@session.set).toHaveBeenCalledWith({dropdown_visible:true})
+            expect(@session.set).toHaveBeenCalledWith({dropdown_visible:true, active_ui:'foo'})
             expect(@session.set.callCount).toEqual 1
     
           it "opens when .search-button is CLICKED", =>
+            spyOn(@session, "set")
             $('.search-button').trigger('click')
             expect(@session.set).toHaveBeenCalledWith('dropdown_visible', true)
-            expect(@session.set.callCount).toEqual 1
                            
+          it "sets @session.get('active_ui') when .search-button is CLICKED", =>
+            $('.search-button').trigger('click')
+            expect(@session.get('active_ui')).toEqual('foo')
+          
       
       describe "OPEN", =>
         beforeEach =>

@@ -1,4 +1,4 @@
-class CStone.Community.Search.Views.UI extends Backbone.View
+class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedView
 
   events:
     'focus  .text'          : 'onInputFocus'
@@ -9,29 +9,34 @@ class CStone.Community.Search.Views.UI extends Backbone.View
     'cut      .text'        : 'onInputKey'
     'paste    .text'        : 'onInputKey'
     
-  modelEvents: =>
-    @listenTo @session, 'change:current_search',    @thenUpdateText
-    @listenTo @session, 'change:current_hint',      @thenUpdateHint
-    @listenTo @session, 'change:hint_visible',      @thenUpdateHint
-    @listenTo @session, 'change:dropdown_visible',  @thenToggleDropdown
+  modelEvents: (active=false)=>
+    if active
+      @listenTo @session, 'change:current_search',    @thenUpdateText
+      @listenTo @session, 'change:current_hint',      @thenUpdateHint
+      @listenTo @session, 'change:hint_visible',      @thenUpdateHint
+      @listenTo @session, 'change:dropdown_visible',  @thenToggleDropdown
+      @listenTo @session, 'change:dropdown_visible',  @thenToggleMainUI
+    else
+      @stopListening @session
   
   initialize: =>
     @session = CStone.Community.Search.session
-    @modelEvents()
-    @session.set current_search: @$('.text').val()
-    # if @el.id == 'global-search'
-    CStone.Shared.ScrollSpy.addCallback (scroll)=>
-      @session.set(dropdown_visible:false) if scroll > 400
+    @session.on 'change:active_ui', @onUIActivationChange
   
+  onUIActivationChange: (e)=>
+    active = @ui_name == @session.get('active_ui')
+    @modelEvents(active)
 
   # React to DOM - Change Models
   # ----------------------------------------------------------------------
   onInputFocus: (e)=>
     e.preventDefault()
+    @session.set active_ui: @ui_name #triggers listeners - must be first
     @session.set dropdown_visible:true
   
   onIconClick: (e)=>
     e.preventDefault()
+    @session.set active_ui: @ui_name #triggers listeners - must be first
     @session.toggle('dropdown_visible')
   
   onSubmit: (e)->
@@ -112,14 +117,26 @@ class CStone.Community.Search.Views.UI extends Backbone.View
     else
       @$('.search-hint').val('')
 
+  thenToggleMainUI: =>
+    return unless @ui_name=='main'
+    $mainHeader = $('#main-header')
+    if @session.get('dropdown_visible')
+      _.defer ->
+        $mainHeader.addClass('search-focused')
+        $mainHeader.velocity 'scroll',
+          container: $('#main-page')
+          easing:   CStone.Animation.layoutTransition.easing
+          duration: CStone.Animation.layoutTransition.duration
+    else
+      _.defer -> $mainHeader.removeClass('search-focused')
+  
   # Internal
   # ----------------------------------------------------------------------
   _createDropdown: =>
     @dropdown = new CStone.Community.Search.Views.Suggestions
-      context_selector: "##{@el.id}"
-      collection: @session.get('results')
-      sources_collection: @session.get('sources')
+      session: @session
       parent_view: @
+    @$el.append(@dropdown.el)
     @dropdown.render()
     
   _destroyDropdown: =>

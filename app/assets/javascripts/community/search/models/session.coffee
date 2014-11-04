@@ -4,11 +4,13 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
     @on 'change:current_search',   @_searchSourcesForCurrentSearch
     @on 'change:current_search',   @_storeSearchHistory
     @on 'change:dropdown_visible', @_hideHintWhenHidingDropdown
+    @on 'change:dropdown_visible', @_clearActiveUiWhenHidingDropdown
     @listenTo @get('results'), 'filtered:updated', @_updateCurrentHint
   
   defaults:
     dropdown_visible:false
     hint_visible:false
+    active_ui:null #['main','header']
     current_search:''
     current_hint:''
     current_hint_w_original_capitalization:''
@@ -48,9 +50,10 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
       current_hint:   @get('current_hint_w_original_capitalization')
   
   # toggle dropdown_visible, hint_visible, etc.
-  toggle: (flag)=>
+  toggle: (flag, additional_options)=>
     val = @get(flag)
     throw new Error('Cannot Toggle a non-boolean value') unless _(val).isBoolean()
+    @set(additional_options) if additional_options
     @set(flag, !val)
 
   openFocused: =>
@@ -83,6 +86,9 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
       @set(current_hint: hint, current_hint_w_original_capitalization: focused, hint_visible:true)
     else
       @set(current_hint: '', current_hint_w_original_capitalization: '', hint_visible:false)
+  
+  _clearActiveUiWhenHidingDropdown: =>
+    @set(active_ui:null) unless @get('dropdown_visible')
       
   _storeSearchHistory:=>
     # add @get('current_search') to a seperate SearchHistory object

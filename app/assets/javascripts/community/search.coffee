@@ -27,5 +27,11 @@ class CStone.Community.Search
         {name: 'sermon'       },
       ]
     
-    @main   = new @Views.UI( el:'#global-search'   )
-    # @header = new @Views.UI( el:'#headroom-search' )
+    @main   = new @Views.UI( ui_name: 'main',   el:'#global-search'   )
+    @header = new @Views.UI( ui_name: 'header', el:'#headroom-search' )
+    
+    CStone.Shared.ScrollSpy.addCallback (scroll)=>
+      scroll_past = scroll > 400
+      active_main = @session.get('active_ui')=='main'
+      if scroll_past && active_main
+        @session.set(dropdown_visible:false)

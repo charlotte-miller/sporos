@@ -1,4 +1,4 @@
-class CStone.Community.Search.Views.SuggestionsResults extends Backbone.View
+class CStone.Community.Search.Views.SuggestionsResults extends CStone.Shared.Backbone.ExtendedView
   className: 'suggestions'
   template: HandlebarsTemplates['suggestions/results']
   templateData: =>
@@ -7,19 +7,18 @@ class CStone.Community.Search.Views.SuggestionsResults extends Backbone.View
     empty_help:     @session.searchState()=='no-results'
     current_search: @session.get('current_search')
     
-  constructor: (options)->
-    @parent_view = options.parent_view
-    @session = CStone.Community.Search.session
-    super
+  initialize: =>
+    @collection = @session.get('results')
   
   render: =>
     super
     @interval = @$('.text-spinner').textrotator()
-      # callback: ->
+    return @ #chain
   
   remove: =>
-    clearInterval(@interval)
     super
+    clearInterval(@interval)
+    return @ #chain
   
   events:
     'click .suggestion'     : 'onClick'

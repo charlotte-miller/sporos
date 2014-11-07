@@ -32,7 +32,7 @@
   }
   
   .search-form{
-    @include transitionValue(margin);
+    @extend %transitionMargin;
     
     .search-hint{
       position:absolute;
@@ -46,18 +46,20 @@
       background-color:transparent;
     }
   }
-  
-  .search-suggestions{
-    position:relative;
-    clear:both;
-    margin:0 15px;
-    
+}
+
+.search-suggestions{
+  position:relative;
+  clear:both;
+  margin:0 15px;
+}
+
     .search-suggestions-dropdown{
       @extend .col-xs-12;
       @extend .dropdown-menu;
       @extend .dropdown-menu-right;
       display:block;
-    
+
       &:after {
         position: absolute;
         top: -14px;
@@ -68,162 +70,158 @@
         border-bottom: 15px solid #ffffff;
         content: '';
       }
-    
-      .search-help{
-        height:100%;
-        @extend .row;
-        
-        .search-help-content{
-          @extend .col-md-offset-1;
-          @extend .col-md-10;
-          @extend %verticalCenter;
-          @extend .animated;
-          @extend .fadeIn;
-
-          @media (max-width: $screen-md-min) {
-            @include verticalAlign(15%);
-          
-            .search-help-text{
-              font-size:22px;
-              .icon{font-size:38px;}
-              .lead{font-size:18px;}
-            }
-          }
-        
-          @media (max-width: $screen-xs-min) {
-            @include verticalAlign(5%);
-          
-            .search-help-text{
-              font-size:18px;
-              .icon{font-size:32px; }
-              .lead{font-size:16px;}
-            }
-          }
-        
-          .search-help-text{
-            line-height:60px;
-            height:50%;
-            text-align:left;
-            @extend %truncate;
-          
-            .icon{
-              @extend .glyphicon;
-              font-size:40px;
-              top:10px;
-            }
-          
-            .lead{
-              white-space:normal;
-            }
-          }
-        }
-      }
-      
-      #init-help{
-        .icon{
-          @extend .glyphicon-search;
-        }
-      }
-      
-      
-      #empty-help{
-        .icon{
-          @extend .glyphicon-exclamation-sign;
-        }
-      }
-    
-      .search-results{
-        
-        .suggestions-nav{
-          @extend .col-sm-3;
-          overflow:hidden;
-          
-          .caret{ @include transitionValue(transform); }
-          
-          @media (max-width: $screen-xs-max) {
-            height:50px;
-            
-            &.expanded{
-              height:100%;
-              
-              .caret{
-                @include rotate(-180deg);
-                //border-top-width: 0;
-                //border-bottom: 4px solid
-              }
-            }
-          }
-          
-          .suggestion-nav-sources{
-            @extend .nav;
-            @extend .nav-pills;
-            @extend .nav-stacked;
-            white-space:nowrap;
-            
-            a{
-              @extend %truncate;
-              padding-right:22px !important;
-            }
-            
-            .caret{
-              @extend .visible-xs-inline-block;
-            }
-            
-            .count{
-              position: absolute;
-              right: 0px;
-              padding: 0 15px 0 5px;
-              background-color: inherit;
-            }
-          }
-        }
-        .suggestions{
-          @extend .col-sm-9;
-          @include transitionValue(height);
-          height: 300px;
-          overflow:auto;
-          border-left:1px solid $gray-lighter;
-          
-          @media (max-width: $screen-xs-max) {
-            border-left:none;
-            border-top:1px solid $gray-lighter;
-          }
-          
-          .suggestion-list{ 
-            list-style-type:none;
-            padding:0;
-            margin:0;
-            
-            .suggestion{
-              @extend .text;
-              @extend %truncate;
-              margin:5px 0;
-              
-              &.active{
-                background-color:#cccccc;
-              }
-            }
-          }
-        }
-        
-        .icon{
-          @extend .glyphicon;
-          padding-right:5px;
-          
-          &.all{          @extend .glyphicon-search;  }
-          &.ministry{     @extend .glyphicon-user;  }
-          &.music{        @extend .glyphicon-music;  }
-          &.sermon{       @extend .glyphicon-play-circle;  }
-          &.announcement{ @extend .glyphicon-bullhorn;  }
-          &.event{        @extend .glyphicon-calendar;  }
-          &.page{         @extend .glyphicon-list-alt;  }
-          &.question{     @extend .glyphicon-comment;  }
-        }
-      }
     }
-  }
-}
+
+        .search-help{
+          height:100%;
+          @extend .row;
+        }
+
+            .search-help-content{
+              @extend .col-md-offset-1;
+              @extend .col-md-10;
+              @extend %verticalCenter;
+              @extend .fadeIn;
+
+              @media (max-width: $screen-md-min) {
+                @include verticalAlign(15%);
+  
+                .search-help-text{
+                  font-size:22px;
+                  .icon{font-size:38px;}
+                  .lead{font-size:18px;}
+                }
+              }
+
+              @media (max-width: $screen-xs-min) {
+                @include verticalAlign(5%);
+  
+                .search-help-text{
+                  font-size:18px;
+                  .icon{font-size:32px; }
+                  .lead{font-size:16px;}
+                }
+              }
+
+              .search-help-text{
+                line-height:60px;
+                height:50%;
+                text-align:left;
+                @extend %truncate;
+  
+                .icon{
+                  @extend .glyphicon;
+                  font-size:40px;
+                  top:10px;
+                }
+  
+                .lead{
+                  white-space:normal;
+                }
+              }
+            }
+
+                #init-help{
+                  .icon{
+                    @extend .glyphicon-search;
+                  }
+                }
+
+                #empty-help{
+                  .icon{
+                    @extend .glyphicon-exclamation-sign;
+                  }
+                }
+
+        .search-results{
+    
+          .icon{
+            @extend .glyphicon;
+            padding-right:5px;
+    
+            &.all{          @extend .glyphicon-search;  }
+            &.ministry{     @extend .glyphicon-user;  }
+            &.music{        @extend .glyphicon-music;  }
+            &.sermon{       @extend .glyphicon-play-circle;  }
+            &.announcement{ @extend .glyphicon-bullhorn;  }
+            &.event{        @extend .glyphicon-calendar;  }
+            &.page{         @extend .glyphicon-list-alt;  }
+            &.question{     @extend .glyphicon-comment;  }
+          }
+        }
+
+            .suggestions-nav{
+              @extend .col-sm-3;
+              overflow:hidden;
+  
+              .caret{ @extend %transitionTransform; }
+  
+              @media (max-width: $screen-xs-max) {
+                height:50px;
+    
+                &.expanded{
+                  height:100%;
+      
+                  .caret{
+                    @include rotate(-180deg);
+                    //border-top-width: 0;
+                    //border-bottom: 4px solid
+                  }
+                }
+              }
+  
+              .suggestion-nav-sources{
+                @extend .nav;
+                @extend .nav-pills;
+                @extend .nav-stacked;
+                white-space:nowrap;
+    
+                a{
+                  @extend %truncate;
+                  padding-right:22px !important;
+                }
+    
+                .caret{
+                  @extend .visible-xs-inline-block;
+                }
+    
+                .count{
+                  position: absolute;
+                  right: 0px;
+                  padding: 0 15px 0 5px;
+                  background-color: inherit;
+                }
+              }
+            }
+            
+            .suggestions{
+              @extend .col-sm-9;
+              @extend %transitionHeight;
+              height: 300px;
+              overflow:auto;
+              border-left:1px solid $gray-lighter;
+  
+              @media (max-width: $screen-xs-max) {
+                border-left:none;
+                border-top:1px solid $gray-lighter;
+              }  
+            }
+
+                .suggestion-list{ 
+                  list-style-type:none;
+                  padding:0;
+                  margin:0;
+                }
+
+                    .suggestion{
+                      @extend .text;
+                      @extend %truncate;
+                      margin:5px 0;
+  
+                      &.active{
+                        background-color:#cccccc;
+                      }
+                    }
 
 @import 'header/headroom';
-
 @import 'header/main';

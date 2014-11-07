@@ -6,19 +6,18 @@ html, body{
   width: 100%;
   height: 100%;
   overflow:hidden;
-  
-  #main-page, #page{ 
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    overflow-y:auto;
-  }
-
-  #main-page{ }
-
-  #page{
-    left:100%;
-  }
-  
 }
+
+    #main-page, #page{ 
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      overflow-y:auto;
+    }
+
+    #main-page{ }
+
+    #page{
+      left:100%;
+    }

@@ -1,76 +1,77 @@
 #main-body{
   @extend .container-fluid;
-  
-  #evergreen-links{
-    @extend .row;
-    margin:20px 0 -20px 0;
-
-    .evergreen-link{
-      @extend .col-sm-4;
-
-      .panel{
-        text-align:center;
-        height:100px;
-      }
-    }
-
-    #new-to-cornerstone{ }
-    #times-and-locations{ }
-    #invest-in-cornerstone{ }
-  }
-
-  #comming-up{
-  //  @extend .row;
-
-    padding: 0px 18px;
-    @media (min-width: $screen-md-min) {
-      padding:0px 32px;
-    }
-  
-    nav#community-feed{
-      @extend .pull-right;
-      font-size: $font-size-large;
-    
-      #community-feed-links{
-        @extend .nav;
-        @extend .nav-tabs;
-            
-        #adults-link{
-          @extend .visible-xs;
-        }
-      
-        #men-link, #women-link, #rendezvous-link{
-          @extend .hidden-xs;
-        }
-      }
-    }
-  
-    #cards{
-      @extend .row;
-    
-      .card{
-        @extend .col-sm-6;
-        @extend .col-md-4;
-        @extend .col-lg-3;
-        @extend .col-xl-2;
-        display: inline-flex;
-        padding:  .25rem;
-      
-        .thumbnail{
-          overflow:hidden;
-        
-          .thumbnail-img{
-           height: auto;
-           width: 100%;
-          }
-        
-          .captions{
-            text-align: justify;
-          }
-        }
-      }
-    }
-  }
-
-  #current-media{}
 }
+    
+    #evergreen-links{
+      @extend .row;
+      margin:20px 0 -20px 0;
+
+      .evergreen-link{
+        @extend .col-sm-4;
+
+        .panel{
+          text-align:center;
+          height:100px;
+        }
+      }
+    }
+
+        #new-to-cornerstone{ }
+        #times-and-locations{ }
+        #invest-in-cornerstone{ }
+
+    #comming-up{
+      padding: 0px 18px;
+      @media (min-width: $screen-md-min) {
+        padding:0px 32px;
+      }
+    }
+    
+        #community-feed{
+          @extend .pull-right;
+          font-size: $font-size-large;
+        }
+        
+            #community-feed-links{
+              @extend .nav;
+              @extend .nav-tabs;
+            }
+            
+              #adults-link{
+                @extend .visible-xs;
+              }
+
+              #men-link, #women-link, #rendezvous-link{
+                @extend .hidden-xs;
+              }
+
+
+        #cards{
+          @extend .row;
+
+          .card{
+            @extend .col-sm-6;
+            @extend .col-md-4;
+            @extend .col-lg-3;
+            @extend .col-xl-2;
+            display: inline-flex;
+            padding:  .25rem;
+  
+            .thumbnail{
+              overflow:hidden;
+    
+              .thumbnail-img{
+               height: auto;
+               width: 100%;
+              }
+    
+              .captions{
+                text-align: justify;
+              }
+            }
+          }
+        }
+    
+    
+
+    #current-media{}

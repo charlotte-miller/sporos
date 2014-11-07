@@ -1,0 +1,70 @@
+#main-header{
+  background: url('/assets/sf_background.jpg') no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height:500px;
+  @include transitionValue(height);
+
+  .submit > .glyphicon{
+    top:3px;
+  }
+  
+  &.search-focused{
+    height:100%;
+    
+    .container > #main-header-content{
+       top:10%;
+    }
+    
+    .suggestions{
+      height:500px;
+    }
+    
+    .submit > .glyphicon {
+      @extend .glyphicon-remove;
+    }
+  }
+  
+  .container{
+    height:inherit;
+    
+    #main-header-content{
+      @extend .row;
+      @include verticalAlign(30%);
+      @include transitionValue(top);
+      z-index:9999;
+
+      #logo{
+        @extend .col-md-4;
+        display:inline-block;
+        
+        margin-top:20px;
+        border-right:white solid 1px;
+        text-align:right;
+        
+
+        @media (max-width: $screen-md-min) {
+          border-right:none;
+          height:110px;
+        }
+      }
+  
+      #global-search{
+        .search-form{
+          @extend .col-md-8;
+          margin-top: 60px;
+        
+          @media (max-width: $screen-md-min) {
+            margin-top: 15px;
+          }
+      
+          #global-search-input{
+            border-radius: 6px 0 0 6px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -15,7 +15,7 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
       @listenTo @session, 'change:current_hint',      @thenUpdateHint
       @listenTo @session, 'change:hint_visible',      @thenUpdateHint
       @listenTo @session, 'change:dropdown_visible',  @thenToggleDropdown
-      @listenTo @session, 'change:dropdown_visible',  @thenToggleMainUI
+      @listenTo @session, 'change:dropdown_visible',  @thenScrollToMainUI
     else
       @stopListening @session
   
@@ -94,10 +94,13 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
   
   thenOpenDropdown: =>
     @_createDropdown()
+    @$el.addClass('search-focused')
+    @session.set(current_search:$('.text').val())
     @$('.text').focus()
 
   thenCloseDropdown: =>
     @_destroyDropdown()
+    @$el.removeClass('search-focused')
     @$('.submit, .text').blur()
 
   thenToggleDropdown: =>
@@ -117,18 +120,12 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
     else
       @$('.search-hint').val('')
 
-  thenToggleMainUI: =>
-    return unless @ui_name=='main'
-    $mainHeader = $('#main-header')
-    if @session.get('dropdown_visible')
-      _.defer ->
-        $mainHeader.addClass('search-focused')
-        $mainHeader.velocity 'scroll',
-          container: $('#main-page')
-          easing:   CStone.Animation.layoutTransition.easing
-          duration: CStone.Animation.layoutTransition.duration
-    else
-      _.defer -> $mainHeader.removeClass('search-focused')
+  thenScrollToMainUI: =>
+    return unless @ui_name=='main' && @session.get('dropdown_visible')
+    $('#main-header').velocity 'scroll',
+      container: $('#main-page')
+      easing:   CStone.Animation.layoutTransition.easing
+      duration: CStone.Animation.layoutTransition.duration
   
   # Internal
   # ----------------------------------------------------------------------
@@ -136,7 +133,7 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
     @dropdown = new CStone.Community.Search.Views.Suggestions
       session: @session
       parent_view: @
-    @$el.append(@dropdown.el)
+    @$('.search').append(@dropdown.el)
     @dropdown.render()
     
   _destroyDropdown: =>

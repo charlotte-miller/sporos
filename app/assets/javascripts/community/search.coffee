@@ -27,8 +27,8 @@ class CStone.Community.Search
         {name: 'sermon'       },
       ]
     
-    @main   = new @Views.UI( ui_name: 'main',   el:'#global-search'   )
-    @header = new @Views.UI( ui_name: 'header', el:'#headroom-search' )
+    @main   = new @Views.UI( ui_name: 'main',   el:'#main-header' )
+    @header = new @Views.UI( ui_name: 'header', el:'#headroom'    )
     
     CStone.Shared.ScrollSpy.addCallback (scroll)=>
       scroll_past = scroll > 400

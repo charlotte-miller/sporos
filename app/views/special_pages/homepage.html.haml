@@ -64,7 +64,7 @@
     #cards
       #card-sizer
       - placeholder_img = placeholder_image '640x360', text:'default'
-      - 75.times do |card_number|
+      - 25.times do |card_number|
         - ministry_class = (m=%w{men women rendezvous teens kids outreach})[card_number%m.length]
         .card{class:ministry_class}
           %a.thumbnail{href: "/contents/#{card_number+1}"}

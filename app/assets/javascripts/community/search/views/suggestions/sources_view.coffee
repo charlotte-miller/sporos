@@ -7,7 +7,7 @@ class CStone.Community.Search.Views.SuggestionsSources extends CStone.Shared.Bac
     @results_collection = @session.get('results')
     @throttledRender    = _.debounce(@render, 100)
     
-    @listenTo @results_collection, 'filtered:updated', @updateFocus
+    @listenTo @results_collection, 'filtered:change', @updateFocus
   
   templateData: =>
     grouped_results = @results_collection.allGrouped()

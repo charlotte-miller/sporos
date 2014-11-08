@@ -9,6 +9,36 @@ class CStone.Community.Search.Views.SuggestionsResults extends CStone.Shared.Bac
     
   initialize: =>
     @collection = @session.get('results')
+    @modelEvents()
+  
+  events:
+    'click .suggestion'     : 'onClick'
+    'mouseover .suggestion' : 'onMouseover'
+  
+  modelEvents: =>
+    @listenTo @collection, 'filtered:add',    @render
+    @listenTo @collection, 'filtered:remove', @render
+    @listenTo @collection, 'filtered:reset',  @render
+    @listenTo @collection, 'filtered:change:focus', @updateFocus
+  
+  # React to DOM - Change Models
+  # ----------------------------------------------------------------------
+  onClick: (e)=>
+    @session.acceptHint()
+    result = @collection.get(e.target.dataset.resultId)
+    result.open()
+  
+  onMouseover: (e)=>
+    result = @collection.get(e.target.dataset.resultId)
+    unless result.get('focus')
+      @collection.updateFocus(result)
+  
+  
+  # React to Models - Change DOM
+  # ----------------------------------------------------------------------
+  updateFocus: (result)=>
+    @$('.suggestion.active').removeClass('active')
+    @$(".suggestion[data-result-id=#{result.id}]").addClass('active')
   
   render: =>
     super
@@ -19,18 +49,3 @@ class CStone.Community.Search.Views.SuggestionsResults extends CStone.Shared.Bac
     super
     clearInterval(@interval)
     return @ #chain
-  
-  events:
-    'click .suggestion'     : 'onClick'
-    'mouseover .suggestion' : 'onMouseover'
-  
-  onClick: (e)=>
-    @session.acceptHint()
-    result = @collection.get(e.target.dataset.resultId)
-    result.open()
-  
-  onMouseover: (e)=>
-    result = @collection.get(e.target.dataset.resultId)
-    unless result.get('focus')
-      @collection.updateFocus(result)
-      

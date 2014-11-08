@@ -34,7 +34,6 @@ describe "CStone.Community.Search.Collections", ->
         focused = @filtered.where(focus:true)[0]
         expect(focused).toEqual @filtered.first()
       
-      
       it "focuses the first model if not specified", =>
         expect(@runner()).toEqual @filtered.first()
       

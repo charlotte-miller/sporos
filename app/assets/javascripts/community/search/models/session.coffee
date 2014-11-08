@@ -5,7 +5,8 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
     @on 'change:current_search',   @_storeSearchHistory
     @on 'change:dropdown_visible', @_hideHintWhenHidingDropdown
     @on 'change:dropdown_visible', @_clearActiveUiWhenHidingDropdown
-    @listenTo @get('results'), 'filtered:updated', @_updateCurrentHint
+    @listenTo @get('results'), 'filtered:change', @_updateCurrentHint
+    @listenTo @get('results'), 'filtered:reset',  @_updateCurrentHint
   
   defaults:
     dropdown_visible:false
@@ -72,7 +73,6 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
       @get('sources').search(query)
     else
       @get('results').reset()
-      @get('results').trigger('reset:clear_all')
 
   _hideHintWhenHidingDropdown: =>
     @set(hint_visible:false) unless @get('dropdown_visible')

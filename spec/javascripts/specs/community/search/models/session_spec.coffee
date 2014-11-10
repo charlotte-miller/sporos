@@ -44,7 +44,7 @@ describe "CStone.Community.Search.Models", ->
           expect(@session.get('hint_visible')).toBeFalsy()
         
       
-      # describe '@get("results"), filtered:updated', =>
+      # describe '@get("results"), filtered:change', =>
         
       
     
@@ -71,26 +71,26 @@ describe "CStone.Community.Search.Models", ->
         [ 'Bible', 'BIBLE', 'bible', 'The Bible'].forEach (str)=>
           @session.set current_search: str
           stubFocusedPayload(str.toLowerCase())
-          @session.get('results').trigger('filtered:updated')
+          @session.get('results').trigger('filtered:change')
           expect(@session.get('current_hint')).toEqual str
           
       it "returns the original payload when original_capitalization=TRUE", =>
         [ 'Bible', 'BIBLE', 'bible', 'The Bible'].forEach (str)=>
           @session.set current_search: str
           stubFocusedPayload(str)
-          @session.get('results').trigger('filtered:updated')
+          @session.get('results').trigger('filtered:change')
           expect(@session.get('current_hint_w_original_capitalization')).toEqual str
       
       it "returns an empty string if nothing matches", =>
         @session.set current_search: "apples"
         stubFocusedPayload("oranges")
-        @session.get('results').trigger('filtered:updated')
+        @session.get('results').trigger('filtered:change')
         expect(@session.get('current_hint')).toEqual ''
         
       it "returns an empty string if the term stops matching", =>
         @session.set current_search: "apple pie"
         stubFocusedPayload("apple fritters")
-        @session.get('results').trigger('filtered:updated')
+        @session.get('results').trigger('filtered:change')
         expect(@session.get('current_hint')).toEqual ''
         
     describe '@get("active_ui")', =>

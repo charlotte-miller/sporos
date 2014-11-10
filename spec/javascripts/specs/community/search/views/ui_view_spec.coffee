@@ -19,7 +19,7 @@ describe "CStone.Community.Search.Views", ->
       
       it "is a CStone.Community.Search.Views.Suggestions", =>
         expect(@dropdown).toBeA CStone.Community.Search.Views.Suggestions
-        expect(@dropdown.collection).toEqual CStone.Community.Search.session.get('results')
+        expect(@dropdown.results_collection).toEqual CStone.Community.Search.session.get('results')
         expect(@dropdown.sources_collection).toEqual CStone.Community.Search.session.get('sources')
         expect(@dropdown.parent_view).toEqual @view
       
@@ -86,18 +86,18 @@ describe "CStone.Community.Search.Views", ->
       
         describe "Up Arrow is Keyed", =>
           it "move dropdown menu cursor up 1 suggestion", =>
-            spyOn(@dropdown.collection, 'moveFocus')
+            spyOn(@dropdown.results_collection, 'moveFocus')
             $('.text').simulateKey('up_arrow')
-            expect(@dropdown.collection.moveFocus).toHaveBeenCalled()
-            expect(@dropdown.collection.moveFocus.mostRecentCall.args).toEqual ['up']
+            expect(@dropdown.results_collection.moveFocus).toHaveBeenCalled()
+            expect(@dropdown.results_collection.moveFocus.mostRecentCall.args).toEqual ['up']
             
         
         describe "Down Arrow is Keyed", =>
           it "move dropdown menu cursor down 1 suggestion", =>
-            spyOn(@dropdown.collection, 'moveFocus')
+            spyOn(@dropdown.results_collection, 'moveFocus')
             $('.text').simulateKey('down_arrow')
-            expect(@dropdown.collection.moveFocus).toHaveBeenCalled()
-            expect(@dropdown.collection.moveFocus.mostRecentCall.args).toEqual ['down']
+            expect(@dropdown.results_collection.moveFocus).toHaveBeenCalled()
+            expect(@dropdown.results_collection.moveFocus.mostRecentCall.args).toEqual ['down']
            
         describe "Right Arrow is Keyed", =>
           it "accepts the hinted suggestion", =>

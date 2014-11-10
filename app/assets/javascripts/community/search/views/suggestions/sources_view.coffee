@@ -6,8 +6,11 @@ class CStone.Community.Search.Views.SuggestionsSources extends CStone.Shared.Bac
     @collection         = @session.get('sources')
     @results_collection = @session.get('results')
     @throttledRender    = _.debounce(@render, 100)
+    @modelEvents()
     
-    @listenTo @results_collection, 'filtered:change', @updateFocus
+  modelEvents: =>
+    @listenTo @results_collection, 'filtered:change',        @thenUpdateFocus
+    @listenTo @results_collection, 'filtered:filters:reset', @thenUpdateFocus
   
   templateData: =>
     grouped_results = @results_collection.allGrouped()
@@ -29,7 +32,10 @@ class CStone.Community.Search.Views.SuggestionsSources extends CStone.Shared.Bac
     
     return source_nav_data
     
-  updateFocus: =>
+
+  # React to Models - Change DOM
+  # ----------------------------------------------------------------------
+  thenUpdateFocus: =>
     sources  = @results_collection.sources()
     filter = if sources.length == 1 then sources[0] else @results_collection.current_filter()
     to_focus = @collection.findWhere(name: filter )

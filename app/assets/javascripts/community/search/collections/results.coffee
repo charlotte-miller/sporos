@@ -24,7 +24,7 @@ class CStone.Community.Search.Collections.Results extends CStone.Shared.Backbone
   currentFocus: =>
     @filtered.findWhere(focus:true)
   
-  current_filter: =>
+  currentFilter: =>
     _filters = @filtered.getFilters()
     return 'all' if _(_filters).isEmpty()
     _filters[0]

@@ -8,6 +8,9 @@ describe "CStone.Community.Search.Views", ->
       @first_result = @view.collection.first()
       spyOn(@first_result, 'open')
 
+    it "has a Results collection", =>
+      expect(@view.collection).toEqual @session.get('results')
+
     describe 'EVENTS', =>
       describe 'click', =>
         it "accepts the hint", =>

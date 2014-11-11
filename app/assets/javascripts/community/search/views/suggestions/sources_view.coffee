@@ -2,6 +2,9 @@ class CStone.Community.Search.Views.SuggestionsSources extends CStone.Shared.Bac
   className:'suggestions-nav'
   template: HandlebarsTemplates['suggestions/sources']
     
+  events:
+    'click .suggestion-nav-source' : 'onNavClick'
+  
   initialize: =>
     @collection         = @session.get('sources')
     @results_collection = @session.get('results')
@@ -33,11 +36,27 @@ class CStone.Community.Search.Views.SuggestionsSources extends CStone.Shared.Bac
     return source_nav_data
     
 
+  # React to DOM - Change Models
+  # ----------------------------------------------------------------------
+  onNavClick: (e)=>
+    if @$('.caret:visible').length
+      if 'all' == @results_collection.currentFilter() == e.target.dataset.source
+        @$el.toggleClass('expanded')
+        return 'to prevent re-render'
+
+    @results_collection.filterBySource(e.target.dataset.source)
+    to_focus = @sources_collection.findWhere(name: @results_collection.currentFilter() )
+    @sources_collection.updateFocus(to_focus)
+    @render()
+    @parent_view.$('.text').focus()
+    
+    
+  
   # React to Models - Change DOM
   # ----------------------------------------------------------------------
   thenUpdateFocus: =>
     sources  = @results_collection.sources()
-    filter = if sources.length == 1 then sources[0] else @results_collection.current_filter()
+    filter = if sources.length == 1 then sources[0] else @results_collection.currentFilter()
     to_focus = @collection.findWhere(name: filter )
     @collection.updateFocus(to_focus)
     @render()

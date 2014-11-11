@@ -49,6 +49,9 @@ describe "CStone.Community.Search.Models", ->
       
     
     describe '#searchState()', =>
+      beforeEach =>
+        @session.get('results').reset()
+      
       it "returns 'pre-search' when nothing is currently being searched", =>
         @session.set current_search: ''
         expect(@session.searchState()).toEqual 'pre-search'
@@ -99,4 +102,19 @@ describe "CStone.Community.Search.Models", ->
         expect(@session.get('active_ui')).toEqual 'main'
         @session.set(dropdown_visible:false)
         expect(@session.get('active_ui')).toEqual null
+        
+    
+    describe '@set(current_search:"term")', =>
+      beforeEach =>
+        @results = @session.get('results')
+        @sources = @session.get('sources')
+        @results.reset()
+
+      
+      it "returns ALL results that match a search term", =>
+        expect(@sources.length).toEqual 3
+        expect(@results.pluck('payload')).toEqual []
+        @session.set(current_search:'men')
+        expect(@results.length).toEqual 3
+        expect(@results.pluck('payload')).toEqual ["Men's Ministry", "Men's Ministry", "Men's Ministry"]
         

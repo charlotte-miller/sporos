@@ -116,7 +116,7 @@ describe "CStone.Community.Search.Views", ->
           
           it "accepts the hinted suggestion", =>
             @$input.simulateKey('enter')
-            expect(@session.get('current_search')).toEqual "men's ministry"
+            expect(@session.get('current_search')).toEqual "Men's Ministry"
             expect(@$input.cursorPosition()).toEqual 14
           
           it "opens the result", =>

@@ -1,9 +1,15 @@
+BackboneFactory.define_sequence 'source_name', (n)->
+  'ministry event sermon music page announcement question'.split(' ')[n%7]
+
+BackboneFactory.define_sequence 'source_data', (n)->
+  [{ payload: 'doggy', id:100+n }, { payload: 'pig', id:200+n }, { payload: 'moose', id:300+n }, { payload: "Men's Ministry", id:400+n }]
+
 # ====================================================
 # =                      Model                       =
 # ====================================================
 BackboneFactory.define 'source', CStone.Community.Search.Models.AbstractSource, ->
-  name:   'ministry'
-  local:  [{ payload: 'doggy', id:21 }, { payload: 'pig', id:22 }, { payload: 'moose', id:23 }, { payload: "men's ministry", id:25 }]
+  name:   BackboneFactory.next('source_name')
+  local:  BackboneFactory.next('source_data')
   
   # session: Factory.session(sources:'dummy')
   # title:       'Your Title Here'

@@ -77,3 +77,22 @@ describe "CStone.Community.Search.Collections", ->
           @results.moveFocus('down')
           expect( @results.currentFocus() ).toEqual @last_result
             
+    describe '#updateSingleSource(source, models_data=[])', =>
+      it "adds new sources to the collection", =>
+        @results.updateSingleSource('foo', [{id:123}])
+        expect(@results.pluck('source')).toContain 'foo'
+      
+      it "adds new models to an existing source's collection", =>
+        @results.updateSingleSource('event', [{id:123}])
+        expect(@results.pluck('id')).toContain 123
+        
+      it "removes old models from the collection", =>
+        old_event = @results.findWhere(source:'event')
+        expect(@results.models).toContain old_event
+        @results.updateSingleSource('event', [{id:123}])
+        expect(@results.models).not.toContain old_event
+        
+      it "scopes changes to a single source", =>
+        @results.updateSingleSource('event', [{id:123}])
+        expect(@results.length).toEqual 3
+      

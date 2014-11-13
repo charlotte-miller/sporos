@@ -30,23 +30,23 @@ guard 'rspec', rspec_options do
 end
 
 
-teaspoon_options = {
-  all_on_start: false,
-  all_after_pass: true
-}
-
-guard :teaspoon, teaspoon_options do
-    watch(%r{^app/assets/.*\.hamlbars$})                          { 'spec/javascripts' }
-
-    # Run All
-    watch(%r{^spec/javascripts/.*_factory\.(js|coffee)$})         { 'spec/javascripts' }
-    watch(%r{^spec/javascripts/helpers(.*)\.(js|coffee)$})        { 'spec/javascripts' }
-    watch(%r{^app/assets/javascripts/([^/]*)\.(js|coffee)$})      { 'spec/javascripts' }
-    watch(%r{^app/assets/javascripts/fixtures(.*)\.(js|coffee)$}) { 'spec/javascripts' }
-
-    # Single Spec
-    watch(%r{^public/javascripts/(.+)\.js$})                    { |m| "specs/#{m[1]}_spec" }
-    watch(%r{^app/assets/javascripts/(.+)\.(js|coffee)$})       { |m| "specs/#{m[1]}_spec" }
-    watch(%r{^spec/javascripts/specs/(.+)_spec\.(js|coffee)$})  { |m| "specs/#{m[1]}_spec" }
-    watch(%r{^lib/assets/javascripts/.*\/(.*)\.(js|coffee)$})   { |m| "specs/lib/#{m[1]}_spec" }
-end
+# teaspoon_options = {
+#   all_on_start: false,
+#   all_after_pass: true
+# }
+#
+# guard :teaspoon, teaspoon_options do
+#     watch(%r{^app/assets/.*\.hamlbars$})                          { 'spec/javascripts' }
+#
+#     # Run All
+#     watch(%r{^spec/javascripts/.*_factory\.(js|coffee)$})         { 'spec/javascripts' }
+#     watch(%r{^spec/javascripts/helpers(.*)\.(js|coffee)$})        { 'spec/javascripts' }
+#     watch(%r{^app/assets/javascripts/([^/]*)\.(js|coffee)$})      { 'spec/javascripts' }
+#     watch(%r{^app/assets/javascripts/fixtures(.*)\.(js|coffee)$}) { 'spec/javascripts' }
+#
+#     # Single Spec
+#     watch(%r{^public/javascripts/(.+)\.js$})                    { |m| "specs/#{m[1]}_spec" }
+#     watch(%r{^app/assets/javascripts/(.+)\.(js|coffee)$})       { |m| "specs/#{m[1]}_spec" }
+#     watch(%r{^spec/javascripts/specs/(.+)_spec\.(js|coffee)$})  { |m| "specs/#{m[1]}_spec" }
+#     watch(%r{^lib/assets/javascripts/.*\/(.*)\.(js|coffee)$})   { |m| "specs/lib/#{m[1]}_spec" }
+# end

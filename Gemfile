@@ -4,6 +4,7 @@ gem 'rails', '4.2.0.beta4'
 gem 'sass-rails', '~> 5.0.0.beta1'
 
 gem 'mysql2'
+# gem 'pg'
 gem 'configy'
 gem 'oj'
 gem 'whenever',          :require => false

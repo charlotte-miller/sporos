@@ -18,7 +18,7 @@ module AttachableFile
     #    :s3_credentials   => AppConfig.s3.credentials,
     #    :path             => ':rails_env/:class/:attachment/:updated_at-:basename.:extension'
     #  
-    #  attr_accessible :video_original_url
+    #  attr_accessor :video_original_url
     #  attr_reader :video_remote_url
     #  def video_remote_url=(url_str)
     #    return if url_str.nil?

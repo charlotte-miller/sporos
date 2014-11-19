@@ -22,15 +22,15 @@ class Group < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
-  attr_accessible :description, :name, :is_public, :state, :meets_every_days
-  attr_accessible :members, :members_attributes,  as: 'leader'
+  # attr_accessible :description, :name, :is_public, :state, :meets_every_days
+  # attr_accessible :members, :members_attributes,  as: 'leader'
   
   
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------
-  has_one  :current_meeting,    :conditions => {state: 'current'},  :class_name => "Meeting", foreign_key: 'group_id'
-  has_many :meetings,           :dependent => :destroy,             :class_name => "Meeting", foreign_key: 'group_id'
+  has_one  :current_meeting,    -> { where state: 'current'},  :class_name => "Meeting", foreign_key: 'group_id'
+  has_many :meetings,           :dependent => :destroy,        :class_name => "Meeting", foreign_key: 'group_id'
   has_many :questions,          as: 'source'
   
   has_many :members,            :through => :group_memberships, source:'member', inverse_of: :groups  
@@ -63,10 +63,10 @@ class Group < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Scopes
   # ---------------------------------------------------------------------------------
-  # scope :for_user, lambda {|user| where(user)}
-  scope :is_currently, lambda {|state| {:conditions => { :state => state.to_s }} }
-  scope :is_public,    where(is_public: true)
-  scope :publicly_searchable, is_public.is_currently(:open)
+  # scope :for_user, -> {|user| where(user)}
+  scope :is_currently,    lambda {|state| {:conditions => { :state => state.to_s }} }
+  scope :is_public,           -> {where(is_public: true)}
+  scope :publicly_searchable, -> {is_public.is_currently(:open)}
 
   
   

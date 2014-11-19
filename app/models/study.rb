@@ -6,7 +6,8 @@
 #  slug                    :string(255)      not null
 #  podcast_id              :integer          not null
 #  title                   :string(255)      not null
-#  description             :string(255)
+#  description             :text(65535)
+#  keywords                :text(65535)
 #  ref_link                :string(255)
 #  poster_img_file_name    :string(255)
 #  poster_img_content_type :string(255)
@@ -14,7 +15,6 @@
 #  poster_img_updated_at   :datetime
 #  poster_img_original_url :string(255)
 #  poster_img_fingerprint  :string(255)
-#  keywords                :text(65535)      not null
 #  lessons_count           :integer          default("0")
 #  last_published_at       :datetime
 #  created_at              :datetime
@@ -35,10 +35,10 @@ class Study < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
-  attr_accessible :title, :description, :ref_link,  :poster_img, :poster_img_remote_url, :podcast, :podcast_id
-  attr_accessible *column_names, *reflections.keys, :poster_img, :poster_img_remote_url, :podcast, :podcast_id, as: 'sudo'
+  # attr_accessible :title, :description, :ref_link,  :poster_img, :poster_img_remote_url, :podcast, :podcast_id
+  # attr_accessible *column_names, *reflections.keys, :poster_img, :poster_img_remote_url, :podcast, :podcast_id, as: 'sudo'
   delegate :church_name, to: :podcast
-  serialize :keywords
+  serialize :keywords, Array
   
   friendly_id :title #remove after v 5.0.0
   slug_candidates :title, [:title, :church_name]
@@ -50,14 +50,14 @@ class Study < ActiveRecord::Base
                       # :processors => [:thumbnail, :pngquant]
 
   # http://sunspot.github.com/
-  searchable do
-    string(  :title)                { searchable_title title } #, boost: 2.0 
-    string(  :lesson_title    )     { searchable_title lessons.select(:title).map(&:title).join(' | ') }
-    text     :description
-    string(  :church_name     )     { church_name       }
-    integer( :church_id       )     { podcast.church_id }
-    # string(  :tags          )     { tags.select(:text).map(&:text).join(' | ')}
-  end
+  # searchable do
+  #   string(  :title)                { searchable_title title } #, boost: 2.0
+  #   string(  :lesson_title    )     { searchable_title lessons.select(:title).map(&:title).join(' | ') }
+  #   text     :description
+  #   string(  :church_name     )     { church_name       }
+  #   integer( :church_id       )     { podcast.church_id }
+  #   # string(  :tags          )     { tags.select(:text).map(&:text).join(' | ')}
+  # end
   
   
   # ---------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ class Study < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   belongs_to :podcast, :inverse_of => :studies
   has_one :church,     :through => :podcast, :inverse_of => :studies
-  has_many :lessons, :order => 'position ASC', :dependent => :destroy, :inverse_of => :study do
+  has_many :lessons, -> {order 'position ASC'}, {:dependent => :destroy, :inverse_of => :study} do
     def number(n, strict=false)
       raise ActiveRecord::RecordNotFound if strict && (n > self.length) #lessons_count
       where(position:n).first
@@ -83,7 +83,7 @@ class Study < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Scopes
   # ---------------------------------------------------------------------------------
-  scope :w_lessons, includes(:lessons)
+  scope :w_lessons, -> {includes(:lessons)}
   
   
   # ---------------------------------------------------------------------------------

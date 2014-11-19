@@ -4,12 +4,12 @@ class CreateStudies < ActiveRecord::Migration
       t.string      :slug,          null:false
       t.integer     :podcast_id,    null:false
       t.string      :title,         null:false
-      t.string      :description
+      t.text        :description
+      t.text        :keywords     #array: true, default: []
       t.string      :ref_link
       t.attachment  :poster_img
       t.string      :poster_img_original_url
       t.string      :poster_img_fingerprint
-      t.text        :keywords,      null:false
       t.integer     :lessons_count, default: 0
                     
       t.datetime    :last_published_at

@@ -19,15 +19,36 @@
 class BlockRequest < ActiveRecord::Base
   include SourceableModels
   
-  attr_accessible :requester, :approver, :source
+  # ---------------------------------------------------------------------------------
+  # Attributes
+  # ---------------------------------------------------------------------------------
+  # attr_accessible :requester, :approver, :source
   
+  
+  # ---------------------------------------------------------------------------------
+  # Associations
+  # ---------------------------------------------------------------------------------
   belongs_to :requester, :class_name  => "User",        :foreign_key => "user_id"
   belongs_to :approver,  :class_name  => "AdminUser",   :foreign_key => "admin_user_id"
   belongs_to :source,    :polymorphic =>  true,        :counter_cache => true
   # has_one  :author,    :class_name => "user", :through => :source
   
+  
+  # ---------------------------------------------------------------------------------
+  # Validations
+  # ---------------------------------------------------------------------------------
   validates_presence_of :requester, :approver, :source
   
+  
+  # ---------------------------------------------------------------------------------
+  # Scopes
+  # ---------------------------------------------------------------------------------
+  
+  
+  
+  # ---------------------------------------------------------------------------------
+  # Methods
+  # ---------------------------------------------------------------------------------
   def offender
     source.author
   end

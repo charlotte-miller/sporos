@@ -46,7 +46,7 @@ class AdminUser < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  # attr_accessible :email, :password, :password_confirmation, :remember_me
   delegate :name, :first_name, :last_name, :profile_image, to: 'user'
     
   

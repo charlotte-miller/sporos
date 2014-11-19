@@ -55,19 +55,19 @@ class Lesson < ActiveRecord::Base
   acts_as_list scope: :study
 
   # Private 'sudo' access to everything
-  attr_accessible *column_names, :study, :audio_remote_url, :video_remote_url, :poster_img, :poster_img_remote_url, as: 'sudo'
+  # attr_accessible *column_names, :study, :audio_remote_url, :video_remote_url, :poster_img, :poster_img_remote_url, as: 'sudo'
   
   # Public
-  attr_accessible :study, :study_id, :position, :title, :author, :description, :backlink, :published_at, :machine_sorted,
-                  :audio, :video, :poster_img, :audio_remote_url, :video_remote_url, :poster_img_remote_url
+  # attr_accessible :study, :study_id, :position, :title, :author, :description, :backlink, :published_at, :machine_sorted,
+                  # :audio, :video, :poster_img, :audio_remote_url, :video_remote_url, :poster_img_remote_url
 
 
   # http://sunspot.github.com/
-  searchable do
-    string( :title  )      { searchable_title title        }
-    string( :study_title ) { searchable_title study.title }
-    text    :description
-  end 
+  # searchable do
+  #   string( :title  )      { searchable_title title        }
+  #   string( :study_title ) { searchable_title study.title }
+  #   text    :description
+  # end
   
   # ---------------------------------------------------------------------------------
   # Associations

@@ -21,7 +21,7 @@ class GroupMembership < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
-  attr_accessible :group_id, :user_id, :is_public
+  # attr_accessible :group_id, :user_id, :is_public
   alias_attribute :last_attended_at, :updated_at
     
   
@@ -54,7 +54,7 @@ class GroupMembership < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Scopes
   # ---------------------------------------------------------------------------------
-  scope :is_public, where(is_public: true)
+  scope :is_public, -> {where(is_public: true)}
   
   
   # ---------------------------------------------------------------------------------

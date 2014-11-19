@@ -27,7 +27,7 @@ class Question < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
-  attr_accessible :author, :source, :text
+  # attr_accessible :author, :source, :text
     
   
   # ---------------------------------------------------------------------------------
@@ -61,7 +61,7 @@ class Question < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Scopes
   # ---------------------------------------------------------------------------------
-  default_scope joins(:author).recent
+  default_scope -> {joins(:author).recent}
 
   # scope :recent,   reorder( 'created_at ASC')
   # scope :popular,  reorder( 'stared_count'  )

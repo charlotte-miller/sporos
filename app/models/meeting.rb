@@ -24,7 +24,7 @@ class Meeting < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
-  attr_accessible :date_of, :group_id, :lesson_id, :state
+  # attr_accessible :date_of, :group_id, :lesson_id, :state
   acts_as_list scope: :group   
   
   # ---------------------------------------------------------------------------------

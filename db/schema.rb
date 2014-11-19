@@ -204,7 +204,8 @@ ActiveRecord::Schema.define(version: 20130731050223) do
     t.string   "slug",                    limit: 255,               null: false
     t.integer  "podcast_id",              limit: 4,                 null: false
     t.string   "title",                   limit: 255,               null: false
-    t.string   "description",             limit: 255
+    t.text     "description",             limit: 65535
+    t.text     "keywords",                limit: 65535
     t.string   "ref_link",                limit: 255
     t.string   "poster_img_file_name",    limit: 255
     t.string   "poster_img_content_type", limit: 255
@@ -212,7 +213,6 @@ ActiveRecord::Schema.define(version: 20130731050223) do
     t.datetime "poster_img_updated_at"
     t.string   "poster_img_original_url", limit: 255
     t.string   "poster_img_fingerprint",  limit: 255
-    t.text     "keywords",                limit: 65535,             null: false
     t.integer  "lessons_count",           limit: 4,     default: 0
     t.datetime "last_published_at"
     t.datetime "created_at"

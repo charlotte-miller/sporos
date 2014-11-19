@@ -2,7 +2,6 @@
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
 
-require 'sunspot_test'
 require Rails.root.join('spec/support/initializers/quickerclip.rb')
 AWS.stub!
 

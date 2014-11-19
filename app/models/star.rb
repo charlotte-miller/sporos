@@ -16,12 +16,12 @@
 #
 
 class Star < ActiveRecord::Base
-  attr_accessible :source, :user_id
+  # attr_accessible :source, :user_id
   
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
-  attr_accessible :homepage, :name
+  # attr_accessible :homepage, :name
 
   # ---------------------------------------------------------------------------------
   # Associations

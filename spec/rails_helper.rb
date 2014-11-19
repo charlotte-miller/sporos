@@ -5,11 +5,11 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'spec_helper'
-# require "paperclip/matchers" # /support
 require 'rspec_candy/all'
 require 'webmock/rspec'
 require 'vcr'
 require 'pry'
+# require "paperclip/matchers" # /support
 # require 'capybara/rspec'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -43,9 +43,6 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = true
   config.infer_spec_type_from_file_location!
   config.order = "random"
-  
-  config.filter_run focus: true
-  config.run_all_when_everything_filtered = true
   
   config.infer_spec_type_from_file_location!
 end

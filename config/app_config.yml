@@ -11,11 +11,41 @@
 #   xml_rpc_url: http://localhost:8008/
 
 common:
+  dev_user: developer
+  dev_pass: developer
+  domains:
+    media: media.cornerstonesf.chruch
+    media_cdn: cdn.media.cornerstonesf.chruch
+    cdn: www.cornerstonesf.chruch
+  s3:
+    url: s3-us-west-2.amazonaws.com #s3.amazonaws.com
+    bucket: media.cornerstonesf.chruch
+    credentials:
+      access_key_id: AKIAJAW4PTOXOO6POA7Q
+      secret_access_key: 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
+  redis:
+    host: 'localhost'
+    port: 6379
+    timeout: 2
+    pool: 5
+  crawler_user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36' #http://www.useragentstring.com/pages/All/
+  devise:
+    secret_key: '0082e339f557aa3bd6bf6574779ad8c01ae5e70493b94895a5340b815926a09ebc7d319f7b0518ffdddd1e9dd8361af6e2bceb442446918bbeb95802564c92dd'
+    pepper:     '7bfc982773957f715e0d65a138b355b26b4727e85d8323136b11c65451a315a56b630e99a9c7c4580701d7048df9d6bb0516e71ff0552e778e9533fc9b442c93'
 
 development:
+  domains:
+    cdn: www.cornerstonesf.chruch
+    media: media.cornerstonesf.chruch
+    media_cdn: media.cornerstonesf.chruch 
+    
 
 test:
 
 production:
+  
+  redis:
+    host: 'redis-master.cornerstonesf.chruch'
+    pool: 10
 
 #custom_environment:

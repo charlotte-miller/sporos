@@ -53,6 +53,16 @@ Rails.application.routes.draw do
   #   resources :posts, concerns: :toggleable
   #   resources :photos, concerns: :toggleable
 
+
+  devise_for :users, :skip => [:sessions]
+  as :user do
+    get     'join' => 'devise/registrations#new', :as => :new_registrations
+    get     'login' => 'devise/sessions#new',      :as => :new_user_session
+    post    'login' => 'devise/sessions#create',   :as => :user_session
+    delete  'logout' => 'devise/sessions#destroy', :as => :destroy_user_session
+    get     'logout'  => 'devise/sessions#destroy' #convenience
+  end
+
   namespace :admin do
     # Directs /admin/products/* to Admin::PostsController
     # (app/controllers/admin/posts_controller.rb)

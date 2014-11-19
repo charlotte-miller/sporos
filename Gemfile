@@ -21,7 +21,6 @@ gem 'state_machine'
 gem 'acts_as_list'
 gem 'acts_as_interface'
 gem 'devise'
-gem 'devise-encryptable'
 gem "friendly_id", '~> 5.0.4'
 gem 'kaminari'
 
@@ -48,9 +47,10 @@ gem 'paperclip'
 
 # Resque Queue
 # =============
-gem 'resque'
+gem 'resque', '~> 1.25.2'
 gem 'resque-web'
 gem 'resque-retry'
+# gem 'resque-multi-job-forks'
 gem 'redis-sentinel'
 # gem 'redis-store'
 # gem "redis", "~> 3.0.1", :require => ["redis"]

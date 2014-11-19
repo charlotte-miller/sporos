@@ -5,14 +5,14 @@ followSymbolicLinks = true
 
 # Extra files to include
 #
-myExtraIncludes = ".tm_properties,.htaccess,.gitignore"
+myExtraIncludes = ".tm_properties,.htaccess,.gitignore,.rspec,.resque"
 fileBrowserGlob  = "{*,$myExtraIncludes}"
 include = "{$include,$myExtraIncludes}"
  
 # If you also want to hide them from your project manager pane, add
 # the following line to your project's local .tm_properties.
 #
-excludeInBrowser      = "{$excludeInBrowser,log,bin,Rakefile,config.ru}" 
+excludeInBrowser      = "{$excludeInBrowser,log,bin,Rakefile,config.ru,Capfile,zeus.json}" 
 
 # Hide log, vendor and tmp directories from search popups.
 #

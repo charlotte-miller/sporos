@@ -18,7 +18,7 @@
 #  index_meetings_on_lesson_id              (lesson_id)
 #
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Meeting do
   it { should belong_to :group  }

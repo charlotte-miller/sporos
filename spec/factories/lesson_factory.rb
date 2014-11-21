@@ -38,6 +38,7 @@
 #  index_lessons_on_backlink               (backlink)
 #  index_lessons_on_study_id_and_position  (study_id,position)
 #
+include ActionDispatch::TestProcess
 
 FactoryGirl.define do
   factory :lesson do
@@ -49,9 +50,9 @@ FactoryGirl.define do
     description { Faker::Lorem.paragraph(rand(2..5)) }
     author      { Faker::Name.name }
     backlink    "http://link.com/salt-and-light"
-    poster_img  File.new(Rails.root.join('spec/files', 'poster_image.jpg'), 'rb')
-    video       File.new(Rails.root.join('spec/files', 'video.m4v'), 'rb')
-    audio       File.new(Rails.root.join('spec/files', 'audio.m4a'), 'rb')
+    poster_img  { fixture_file_upload(Rails.root.join('spec/files/', 'poster_image.jpg'), 'image/jpg', true) }
+    video       { fixture_file_upload(Rails.root.join('spec/files/', 'video.m4v'       ), 'video/mp4', true) }
+    audio       { fixture_file_upload(Rails.root.join('spec/files/', 'audio.m4a'       ), 'audio/mp4', true) }
     video_original_url 'http://example.com/video.m4v'
     audio_original_url 'http://example.com/audio.m4a'
     published_at Time.now

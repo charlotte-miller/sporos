@@ -16,7 +16,7 @@
 #  index_block_requests_on_user_id                    (user_id)
 #
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe BlockRequest do
   

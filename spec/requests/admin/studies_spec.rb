@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "Studies" do
   describe "GET /admin/studies" do

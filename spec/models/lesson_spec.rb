@@ -39,7 +39,7 @@
 #  index_lessons_on_study_id_and_position  (study_id,position)
 #
 
-require 'spec_helper'
+require 'rails_helper'
 require 'cocaine'
 require 'spec/models/lesson/adapters/web_sites/dummy_klass'
 

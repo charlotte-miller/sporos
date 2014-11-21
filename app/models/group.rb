@@ -53,11 +53,13 @@ class Group < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # StateMachine
   # ---------------------------------------------------------------------------------
-  state_machine :initial => :open do
-    state :open do
-      def accepting_members?  ;true;  end
-    end
+  include AASM
+  aasm column:'state' do #no_direct_assignment:true
+    state :open, initial: true
   end
+  #   do
+  #     def accepting_members?  ;true;  end
+  #   end
   
 
   # ---------------------------------------------------------------------------------

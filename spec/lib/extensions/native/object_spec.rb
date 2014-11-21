@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Object do
   describe '#try_these(:method, :method)' do

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require 'set'
 
 shared_examples 'it has_public_id' do |options|

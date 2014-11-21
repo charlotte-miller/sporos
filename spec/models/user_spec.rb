@@ -39,7 +39,7 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe User do
   subject { build(:user) }

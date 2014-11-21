@@ -17,12 +17,14 @@ gem 'sitemap_generator', :require => false
 
 # Model Extentions
 # ================
-gem 'state_machine'
+gem 'aasm', '~>4.0.1'
 gem 'acts_as_list'
 gem 'acts_as_interface'
 gem 'devise'
+# gem 'cancancan', '~> 1.9'
 gem "friendly_id", '~> 5.0.4'
 gem 'kaminari'
+gem 'protected_attributes'
 
 # Search
 # =======
@@ -105,6 +107,7 @@ group :development, :test do
   gem "faker"
   gem 'minitest'
   gem 'shoulda-matchers', '~> 2.6.0'
+  gem 'rspec-activemodel-mocks'
   gem 'rspec_candy'
   gem 'syntax'
   gem 'vcr'

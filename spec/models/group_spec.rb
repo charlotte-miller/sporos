@@ -17,7 +17,7 @@
 #  index_groups_on_state_and_is_public  (state,is_public)
 #
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Group do
   it { should have_one(  :current_meeting )}

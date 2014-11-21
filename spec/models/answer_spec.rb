@@ -17,7 +17,7 @@
 #  index_answers_on_question_id  (question_id)
 #
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Answer do
   pending 'Add some tests'

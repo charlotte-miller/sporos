@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe StudiesController do
   let!(:study)  { create(:study_w_lesson) }

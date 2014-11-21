@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require Rails.root.join('lib/paperclip_processors/audio_to_video')
 
 module Paperclip

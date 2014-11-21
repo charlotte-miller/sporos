@@ -2,21 +2,24 @@
 #
 # Table name: group_memberships
 #
-#  id         :integer          not null, primary key
-#  group_id   :integer          not null
-#  user_id    :integer          not null
-#  is_public  :boolean          default("1")
-#  role_level :integer          default("0")
-#  created_at :datetime
-#  updated_at :datetime
+#  id              :integer          not null, primary key
+#  group_id        :integer          not null
+#  user_id         :integer          not null
+#  is_public       :boolean          default("1")
+#  role_level      :integer          default("0")
+#  state           :string(255)      default("pending"), not null
+#  request_sent_at :datetime
+#  created_at      :datetime
+#  updated_at      :datetime
 #
 # Indexes
 #
 #  index_group_memberships_on_group_id_and_user_id   (group_id,user_id) UNIQUE
+#  index_group_memberships_on_state                  (state)
 #  index_group_memberships_on_user_id_and_is_public  (user_id,is_public)
 #
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe GroupMembership do
   it { should belong_to( :member ).class_name( 'User' )}

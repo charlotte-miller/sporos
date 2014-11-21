@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require 'open-uri'
 require 'spec/models/lesson/adapters/web_sites/dummy_klass'
 

@@ -34,7 +34,7 @@
 #  index_admin_users_on_unlock_token          (unlock_token) UNIQUE
 #
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe AdminUser do
   it "builds from factory", :internal do

@@ -87,15 +87,18 @@ ActiveRecord::Schema.define(version: 20130731050223) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "group_memberships", force: true do |t|
-    t.integer  "group_id",   limit: 4,                null: false
-    t.integer  "user_id",    limit: 4,                null: false
-    t.boolean  "is_public",  limit: 1, default: true
-    t.integer  "role_level", limit: 4, default: 0
+    t.integer  "group_id",        limit: 4,                       null: false
+    t.integer  "user_id",         limit: 4,                       null: false
+    t.boolean  "is_public",       limit: 1,   default: true
+    t.integer  "role_level",      limit: 4,   default: 0
+    t.string   "state",           limit: 255, default: "pending", null: false
+    t.datetime "request_sent_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "group_memberships", ["group_id", "user_id"], name: "index_group_memberships_on_group_id_and_user_id", unique: true, using: :btree
+  add_index "group_memberships", ["state"], name: "index_group_memberships_on_state", using: :btree
   add_index "group_memberships", ["user_id", "is_public"], name: "index_group_memberships_on_user_id_and_is_public", using: :btree
 
   create_table "groups", force: true do |t|

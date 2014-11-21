@@ -55,6 +55,11 @@ class User < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
+  attr_protected :id, :encrypted_password, :password_salt, :reset_password_token, :reset_password_sent_at, 
+                 :remember_created_at, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, 
+                 :last_sign_in_ip, :confirmation_token, :confirmed_at, :confirmation_sent_at, :unconfirmed_email, 
+                 :failed_attempts, :locked_at, :encrypted_password
+  
   has_public_id :public_id, prefix:'MEM', length:20
   
   has_attachable_file :profile_image, :path => ':rails_env/:class/:attachment/:id/:hash.:extension',
@@ -80,6 +85,7 @@ class User < ActiveRecord::Base
       where(group_id:group_id).first
     end
   end 
+  
   
   # ---------------------------------------------------------------------------------
   # Validations

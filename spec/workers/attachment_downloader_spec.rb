@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe AttachmentDownloader do
   it { should be_processed_in 'attachments' }

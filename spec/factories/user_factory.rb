@@ -38,6 +38,7 @@
 #  index_users_on_public_id             (public_id) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
+include ActionDispatch::TestProcess
 
 FactoryGirl.define do
   factory :user, aliases: [:requester, :author, :member] do
@@ -50,6 +51,6 @@ FactoryGirl.define do
     sequence(   :email)  {|n| "example@domain#{n}.com"}
     password    'super-secret'
     password_confirmation  {|me| me.password }
-    profile_image File.open(File.join(Rails.root, 'spec/files/', 'user_profile_image.jpg' ))
+    profile_image { fixture_file_upload(Rails.root.join('spec/files/', 'user_profile_image.jpg'), 'image/jpg', true) }
   end
 end

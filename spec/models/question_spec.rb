@@ -21,7 +21,7 @@
 #  index_questions_on_user_id                         (user_id)
 #
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Question do
   it { pending "should have_many  :answers"   } 

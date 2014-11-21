@@ -27,7 +27,7 @@
 #  index_studies_on_slug                              (slug) UNIQUE
 #
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Study do
   it { should have_many(:lessons) }

@@ -15,7 +15,7 @@
 #  index_stars_on_user_id                    (user_id)
 #
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Star do
   pending "add some tests"

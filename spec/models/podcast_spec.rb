@@ -16,7 +16,7 @@
 #  index_podcasts_on_church_id  (church_id)
 #
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Podcast do
   before(:each) do

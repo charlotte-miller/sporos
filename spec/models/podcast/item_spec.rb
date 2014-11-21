@@ -14,7 +14,7 @@
 #  updated_at  :datetime         not null
 #
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Podcast::Item do
   before(:all) { @podcast_xml = File.read(File.join(Rails.root, 'spec/files/podcast_xml', 'itunes.xml')) }

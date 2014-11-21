@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe StudiesHelper do
   let(:collection) { (1..5).to_a }

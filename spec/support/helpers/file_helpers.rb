@@ -7,7 +7,7 @@ def audio_file
 end
 
 def img_file
-  (@_opened_files << File.new(Rails.root.join('spec/files', 'pixel.gif'), 'rb')).last
+  (@_opened_files << File.new(Rails.root.join('spec/files', 'pixel.jpg'), 'rb')).last
 end
 
 def video_upload

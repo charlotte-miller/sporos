@@ -11,7 +11,7 @@ rspec_options ={
   all_on_start: false,
   # all_after_pass:false,
   cmd: 'zeus test',
-  run_all: { cli:"--profile" }
+  # run_all: { cli:"--profile" }
 }
 
 guard 'rspec', rspec_options do

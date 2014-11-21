@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'InstanceAfterSave' do
   let(:any_model) { build(:church) }

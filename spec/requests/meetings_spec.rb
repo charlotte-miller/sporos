@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "Meetings" do
   describe "GET groups/:group_id/meetings" do

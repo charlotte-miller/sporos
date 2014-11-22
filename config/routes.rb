@@ -44,6 +44,7 @@ Rails.application.routes.draw do
     get     'logout'  => 'devise/sessions#destroy' #convenience
   end
 
+  devise_for :admin_user # to remove
   namespace :admin do
     resources :studies, :lessons
   end

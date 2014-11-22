@@ -22,8 +22,8 @@ class Group < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
-  # attr_accessible :description, :name, :is_public, :state, :meets_every_days
-  # attr_accessible :members, :members_attributes,  as: 'leader'
+  attr_accessible :description, :name, :is_public, :state, :meets_every_days
+  attr_accessible :members, :members_attributes,  as: 'leader'
   
   
   # ---------------------------------------------------------------------------------
@@ -33,9 +33,9 @@ class Group < ActiveRecord::Base
   has_many :meetings,           :dependent => :destroy,        :class_name => "Meeting", foreign_key: 'group_id'
   has_many :questions,          as: 'source'
   
-  has_many :members,            :through => :group_memberships, source:'member', inverse_of: :groups  
+  has_many :members,            :through => :group_memberships
   # has_many :leaders,            :through => :group_memberships, source: 'member', conditions: 'group_memberships.role_level > 1'
-  has_many :group_memberships,  :dependent => :destroy
+  has_many :group_memberships,  :dependent => :destroy, inverse_of: :group
   accepts_nested_attributes_for :group_memberships, 
                                 allow_destroy: true, 
                                 reject_if: lambda { !(attributes[:members_attributes].try(:[], :user_id)) }

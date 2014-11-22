@@ -11,5 +11,5 @@ require 'rails_helper'
 #   end
 # end
 describe Admin::LessonsHelper do
-  # pending "add some examples to (or delete) #{__FILE__}"
+  # skip "add some examples to (or delete) #{__FILE__}"
 end

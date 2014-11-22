@@ -3,17 +3,16 @@ require 'rails_helper'
 describe Admin::LessonsController do
   login_admin_user
   
-  before(:each) do
-    # https://github.com/thoughtbot/paperclip/issues/197
+  before(:all) do
     AWS.stub!
+    @study  = create(:study)
+    @lesson = create(:lesson, study:@study)
+    @valid_attributes = attributes_for(:lesson).merge( study_id:@study.id)
   end
   
-  let!(:study) { create(:study) }
-  let!(:lesson){ create(:lesson, study:study)}
-  let(:valid_attributes){ 
-    attributes_for(:lesson).merge( study_id:study.id)
-    .tap {|hash| [:audio, :video, :poster_img].each {|media| hash[media]= fixture_file_upload(hash[media].to_path)} }
-  }
+  let!(:study) { @study }
+  let!(:lesson){ @lesson}
+  let(:valid_attributes){ @valid_attributes }
   
   describe "GET index" do
     before(:each) { get :index, {} }

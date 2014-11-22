@@ -18,5 +18,5 @@
 require 'rails_helper'
 
 describe Star do
-  pending "add some tests"
+  skip "add some tests"
 end

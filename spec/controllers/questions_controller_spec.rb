@@ -3,27 +3,36 @@ require 'rails_helper'
 describe QuestionsController do
   login_user
   
-  let!(:question)        { create(:question) }
-  let(:valid_attributes) { attributes_for(:question).merge(author: current_user) }
+  before(:all) do
+    @study   = create(:study)
+    @lesson  = create(:lesson, study_id:@study.id)
+    @group   = create(:group)  
+    @meeting = create(:meeting, lesson:@lesson, group:@group)
+    @valid_attributes = attributes_for(:question).merge(author: @user)
+  end
+
+  let!(:question) { create(:question, author:@user, source:@lesson, permanent_approver:nil) }
+  let(:valid_attributes) { @valid_attributes }
 
   describe 'from Lesson' do
-    let!(:study) { create(:study)}
-    let(:lesson) { create(:lesson, study_id:study.id) }
+    let!(:study)  { @study }
+    let!(:lesson) { @lesson }
     
     describe "GET index" do
       it "loads" do
         get :index, {study_id:study.id, lesson_id:lesson.id}
-        should respond_with(:success)
+        is_expected.to respond_with(:success)
       end
 
       it "requires authentication" do
-        get :index, {study_id:study.id, lesson_id:lesson.id}, {}#clears current_user
-        should redirect_to '/login'
+        sign_out current_user
+        get :index, {study_id:study.id, lesson_id:lesson.id}
+        is_expected.to redirect_to '/login'
       end
 
       it "assigns all questions as @questions" do
         get :index, {study_id:study.id, lesson_id:lesson.id}
-        assigns(:questions).should eq([question])
+        expect(assigns(:questions)).to eq([question])
       end
     end
 
@@ -34,7 +43,8 @@ describe QuestionsController do
       end
 
       it "requires authentication" do
-        get :show, {study_id:study.id, lesson_id:lesson.id, :id => question.to_param}, {}#clears current_user
+        sign_out current_user
+        get :show, {study_id:study.id, lesson_id:lesson.id, :id => question.to_param}
         should redirect_to '/login'
       end
 
@@ -51,7 +61,8 @@ describe QuestionsController do
       end
 
       it "requires authentication" do
-        get :index, {study_id:study.id, lesson_id:lesson.id}, {}#clears current_user
+        sign_out current_user
+        get :index, {study_id:study.id, lesson_id:lesson.id}
         should redirect_to '/login'
       end
 
@@ -63,7 +74,8 @@ describe QuestionsController do
 
     describe "POST create" do
       it "requires authentication" do
-        post :create, {study_id:study.id, lesson_id:lesson.id, :question => valid_attributes}, {}#clears current_user
+        sign_out current_user
+        post :create, {study_id:study.id, lesson_id:lesson.id, :question => valid_attributes}
         should redirect_to '/login'
       end
       
@@ -112,9 +124,9 @@ describe QuestionsController do
   end
 
   describe 'from Group' do
-    let!(:group)   { create(:group) }
-    let!(:meeting) { create(:meeting) }
-      
+    let!(:group)   { @group }
+    let!(:meeting) { @meeting }
+
     describe "GET index" do
       it "loads" do
         get :index, {group_id:group.id, meeting_id:meeting.id}
@@ -122,7 +134,8 @@ describe QuestionsController do
       end
 
       it "requires authentication" do
-        get :index, {group_id:group.id, meeting_id:meeting.id}, {}#clears current_user
+        sign_out current_user
+        get :index, {group_id:group.id, meeting_id:meeting.id}
         should redirect_to '/login'
       end
 
@@ -139,10 +152,11 @@ describe QuestionsController do
       end
 
       it "requires authentication" do
-        get :show, {group_id:group.id, meeting_id:meeting.id, :id => question.to_param}, {}#clears current_user
+        sign_out current_user
+        get :show, {group_id:group.id, meeting_id:meeting.id, :id => question.to_param}
         should redirect_to '/login'
       end
-      
+
       it "assigns the requested question as @question" do
         get :show, {group_id:group.id, meeting_id:meeting.id, :id => question.to_param}
         assigns(:question).should eq(question)
@@ -154,9 +168,10 @@ describe QuestionsController do
         get :new, {group_id:group.id, meeting_id:meeting.id}
         should respond_with(:success)
       end
-      
+
       it "requires authentication" do
-        get :new, {group_id:group.id, meeting_id:meeting.id}, {}#clears current_user
+        sign_out current_user
+        get :new, {group_id:group.id, meeting_id:meeting.id}
         should redirect_to '/login'
       end
 
@@ -169,10 +184,11 @@ describe QuestionsController do
     describe "POST create" do
       describe "with valid params" do
         it "requires authentication" do
-          post :create, {group_id:group.id, meeting_id:meeting.id, :question => valid_attributes}, {}#clears current_user
-          should redirect_to '/login'
+          sign_out current_user
+          post :create, {group_id:group.id, meeting_id:meeting.id, :question => valid_attributes}
+          is_expected.to redirect_to '/login'
         end
-        
+
         it "creates a new Question" do
           expect {
             post :create, {group_id:group.id, meeting_id:meeting.id, :question => valid_attributes}
@@ -181,22 +197,23 @@ describe QuestionsController do
 
         it "assigns a newly created question as @question" do
           post :create, {group_id:group.id, meeting_id:meeting.id, :question => valid_attributes}
-          assigns(:question).should be_a(Question)
-          assigns(:question).should be_persisted
+          expect( assigns(:question)).to be_a(Question)
+          expect( assigns(:question)).to be_persisted
         end
 
         it "redirects to the created question" do
           post :create, {group_id:group.id, meeting_id:meeting.id, :question => valid_attributes}
-          response.should redirect_to(assigns(:question))
+          expect(response).to redirect_to(assigns(:question))
         end
       end
 
       describe "with invalid params" do
         it "requires authentication" do
-          post :create, {group_id:group.id, meeting_id:meeting.id, :question => {"text" => "" } }, {}#clears current_user
+          sign_out current_user
+          post :create, {group_id:group.id, meeting_id:meeting.id, :question => {"text" => "" } }
           should redirect_to '/login'
         end
-        
+
         it "assigns a newly created but unsaved question as @question" do
           # Trigger the behavior that occurs when invalid params are submitted
           Question.any_instance.stub(:save).and_return(false)
@@ -216,30 +233,30 @@ describe QuestionsController do
     describe '#current_source' do
       it "should be a Meeting" do
         get :index, {group_id:group.id, meeting_id:meeting.id}
-        controller.send(:current_source).should eql meeting 
+        controller.send(:current_source).should eql meeting
       end
-      
-      it "MUST belong to the current_user" do
-        pending "something like: return current_user.meetings.find( params.delete(:meeting_id) ) if params[:meeting_id]"
+
+      skip "MUST belong to the current_user" do
+        # "something like: return current_user.meetings.find( params.delete(:meeting_id) ) if params[:meeting_id]"
         # could also use something like:
-        # current_user.group_memberships.map(&:group_id).include? params[:group_id] 
+        # current_user.group_memberships.map(&:group_id).include? params[:group_id]
         # but we should check the users rights to a given meeting not just group :(
       end
     end
   end
-  
-  describe 'prevent horizontal privalage escalation' do
-    it "should only return questions a user has access to" do
-      pending('not sure weather to go back to nesting (user has ownership of upstream info) 
-               or create a query for checking a users privlages') # leaning toward nesting
-    end
-  end
+
+  # describe 'prevent horizontal privalage escalation' do
+  #   it "should only return questions a user has access to" do
+  #     skip('not sure weather to go back to nesting (user has ownership of upstream info)
+  #              or create a query for checking a users privlages') # leaning toward nesting
+  #   end
+  # end
   
   # describe 'private methods' do
   #   describe 'before_filters' do
   #     
   #     describe '#merge_author_and_source' do
-  #       pending
+  #       skip
   #     end
   #     
   #   end

@@ -24,7 +24,7 @@
 require 'rails_helper'
 
 describe Question do
-  it { pending "should have_many  :answers"   } 
+  it { skip "should have_many  :answers"   } 
   it { should belong_to( :source             )}
   it { should belong_to( :author             )}
   it { should belong_to( :permanent_approver )}
@@ -32,13 +32,13 @@ describe Question do
   describe 'lesson' do
     context "source is a lesson" do
       it "should have a lesson" do
-        pending
+        skip
       end
     end
     
     context "source is a meeting" do
       it "should have a lesson through meeting" do
-        pending
+        skip
       end
     end
   end

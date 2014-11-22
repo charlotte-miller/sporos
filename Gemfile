@@ -106,12 +106,13 @@ group :development, :test do
   gem 'timecop'
   gem "faker"
   gem 'minitest'
-  gem 'shoulda-matchers', '~> 2.6.0'
+  gem 'shoulda-matchers', '~> 2.7.0'
   gem 'rspec-activemodel-mocks'
   gem 'rspec_candy'
   gem 'syntax'
   gem 'vcr'
   gem "rspec-instafail"
+  gem 'database_cleaner'
   # gem 'capybara'
   # gem 'capybara-webkit'
   # gem 'capybara-screenshot', git:'git@github.com:mattheworiordan/capybara-screenshot.git'

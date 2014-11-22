@@ -38,7 +38,7 @@ describe Lesson::AttachedMedia do
     end
     
     it "runs the :pngquant processor" do
-      pending 'TODO'
+      skip 'TODO'
       PngQuant.should_receive(:new)
     end  
     

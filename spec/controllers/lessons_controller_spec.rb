@@ -1,9 +1,15 @@
 require 'rails_helper'
 
 describe LessonsController do
-  let!(:study)           { create(:study) }
-  let!(:lesson)          { create(:lesson, study:study) }
-  let(:valid_attributes) { attributes_for(:lesson, study:study) }
+  before(:all) do
+    @study  = create(:study)
+    @lesson = create(:lesson, study:@study)
+    @valid_attributes = attributes_for(:lesson, study:@study)
+  end
+  
+  let!(:study)           { @study }
+  let!(:lesson)          { @lesson }
+  let(:valid_attributes) { @valid_attributes }
   let(:valid_session)    { {} }
   
   describe "GET index" do    
@@ -56,6 +62,7 @@ describe LessonsController do
       it "follows an old friendly_id" do
         study = create(:study)
         old_title = study.to_param
+        study.slug=nil || study.save!
         new_title = study.update_attributes(title:'New Title') && study.to_param
         get :show, {:study_id => old_title, id:lesson}, valid_session
         should respond_with(:moved_permanently)

@@ -15,7 +15,7 @@ describe "answers/show" do
   end
 
   it "renders attributes in <p>" do
-    pending 'better test/tempate'
+    skip 'better test/tempate'
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     rendered.should match(//)

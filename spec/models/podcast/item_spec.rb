@@ -88,7 +88,7 @@ describe Podcast::Item do
     end
     
     # it "uses the original link feedburner:origLink" do
-    #   pending
+    #   skip
     # end
   end
   
@@ -114,7 +114,7 @@ describe Podcast::Item do
     end
     
     # it "uses the original link feedburner:origEnclosureLink" do
-    #   pending
+    #   skip
     # end
   end
   
@@ -138,21 +138,21 @@ describe Podcast::Item do
 
   # describe '#next' do
   #   it "returns the next item" do
-  #     pending
+  #     skip
   #   end
   #   
   #   it "returns nil at the end of the list" do
-  #     pending
+  #     skip
   #   end
   # end
   # 
   # describe '#previous' do
   #   it "returns the previous item" do
-  #     pending
+  #     skip
   #   end
   #   
   #   it "returns nil at the start of the list" do
-  #     pending
+  #     skip
   #   end
   # end
   

@@ -42,4 +42,13 @@ RSpec.configure do |config|
   config.order = "random"
   
   config.infer_spec_type_from_file_location!
+  
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+  
+  # Makes before(:all) useful again!
+  config.before(:all) { DatabaseCleaner.start }
+  config.after(:all)  {DatabaseCleaner.clean}
 end

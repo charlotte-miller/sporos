@@ -92,7 +92,7 @@ describe GroupsController do
       
       it "scopes queries to the current_user" do
         load_page!
-        pending
+        skip
       end
     end
 
@@ -112,7 +112,7 @@ describe GroupsController do
       end
       
       it "scopes queries to the current_user" do
-        pending
+        skip
       end
       
       it "updates the users GroupMembership#last_attended_at" do
@@ -147,13 +147,13 @@ describe GroupsController do
       end
       
       it "scopes queries to the current_user" do
-        pending
+        skip
       end
     end
 
     describe "POST create" do
       it "sets current_user as 'leader'" do
-        pending
+        skip
         # assigns(:group).leader.should eql current_user
       end
       
@@ -215,7 +215,7 @@ describe GroupsController do
         end
         
         it "scopes updates to the current_user" do
-          pending
+          skip
         end
       end
 
@@ -250,7 +250,7 @@ describe GroupsController do
     end
     
     it "scopes deletes to the current_user" do
-      pending
+      skip
     end
   end
 

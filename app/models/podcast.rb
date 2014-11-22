@@ -20,8 +20,8 @@ class Podcast < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
-  # attr_accessible :title, :url
-  # attr_accessible :church_id, :last_checked, :last_updated, :as => :factory_girl
+  attr_accessible :title, :url
+  attr_accessible :church_id, :last_checked, :last_updated, :as => :factory_girl
   delegate :name, :homepage, :to => :church, :prefix => :church # church_name, church_homepage
 
   # ---------------------------------------------------------------------------------

@@ -4,18 +4,20 @@ describe Admin::StudiesController do
   login_admin_user
   
   before(:each) do
-    # https://github.com/thoughtbot/paperclip/issues/197
     AWS.stub!
   end
   
-  let!(:podcast){ create(:podcast) }
-  let!(:study){ create(:study, podcast:podcast) }
-  let(:valid_attributes){ 
-    attributes_for(:study)
-    .merge({ podcast_id:podcast.id, title:study.slug })
-    .except(:lessons)
-    .tap {|hash| hash[:poster_img]= fixture_file_upload(hash[:poster_img].to_path) }
-  }
+  before(:all) do
+    @podcast = create(:podcast)
+    @study   = create(:study, podcast:@podcast)
+    @valid_attributes = attributes_for(:study)
+      .merge({ podcast_id:@podcast.id, title:@study.slug })
+      .except(:lessons)
+  end
+  
+  let!(:podcast){ @podcast }
+  let!(:study){ @study }
+  let(:valid_attributes){ @valid_attributes }
   
   describe "GET index" do
     before(:each) { get :index, {} }

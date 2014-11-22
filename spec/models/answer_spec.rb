@@ -20,5 +20,5 @@
 require 'rails_helper'
 
 describe Answer do
-  pending 'Add some tests'
+  skip 'Add some tests'
 end

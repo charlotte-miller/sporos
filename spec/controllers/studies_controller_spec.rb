@@ -1,9 +1,15 @@
 require 'rails_helper'
 
 describe StudiesController do
-  let!(:study)  { create(:study_w_lesson) }
-  let(:podcast) { study.podcast  }
-  let(:valid_attributes) { attributes_for(:study, podcast: podcast).merge({podcast_id: podcast.id}) }
+  before(:all) do
+    @study = create(:study_w_lesson)
+    @podcast = @study.podcast
+    @valid_attributes = attributes_for(:study, podcast: @podcast).merge({podcast_id: @podcast.id})
+  end
+  
+  let!(:study)  { @study }
+  let(:podcast) { @podcast  }
+  let(:valid_attributes) { @valid_attributes }
   let(:valid_session) { {} }
 
   describe "GET index" do
@@ -50,7 +56,7 @@ describe StudiesController do
       end
     
       it "redirects to current_user's last viewed lesson" do
-        pending
+        skip
       end
     end
     

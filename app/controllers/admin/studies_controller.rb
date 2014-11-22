@@ -19,10 +19,10 @@ class Admin::StudiesController < Admin::BaseController
     end
   end
 
-  # GET /admin/studies/1
-  # GET /admin/studies/1.json
+  # GET /admin/studies/name-of-study
+  # GET /admin/studies/name-of-study.json
   def show
-    @study = Study.find(params[:id])
+    @study = Study.friendly.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -43,7 +43,7 @@ class Admin::StudiesController < Admin::BaseController
 
   # GET /admin/studies/1/edit
   def edit
-    @study = Study.find(params[:id])
+    @study = Study.friendly.find(params[:id])
   end
 
   # POST /admin/studies
@@ -62,10 +62,10 @@ class Admin::StudiesController < Admin::BaseController
     end
   end
 
-  # PUT /admin/studies/1
-  # PUT /admin/studies/1.json
+  # PUT /admin/studies/name-of-study
+  # PUT /admin/studies/name-of-study.json
   def update
-    @study = Study.find(params[:id])
+    @study = Study.friendly.find(params[:id])
 
     respond_to do |format|
       if @study.update_attributes(params[:study])
@@ -78,10 +78,10 @@ class Admin::StudiesController < Admin::BaseController
     end
   end
 
-  # DELETE /admin/studies/1
-  # DELETE /admin/studies/1.json
+  # DELETE /admin/studies/name-of-study
+  # DELETE /admin/studies/name-of-study.json
   def destroy
-    @study = Study.find(params[:id])
+    @study = Study.friendly.find(params[:id])
     @study.destroy
 
     respond_to do |format|

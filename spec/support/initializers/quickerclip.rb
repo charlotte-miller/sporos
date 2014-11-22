@@ -10,24 +10,54 @@ RSpec.configure do |config|
 end
 
 module Paperclip
+
   class Geometry
     def self.from_file file
       parse($paperclip_stub_size)
     end
   end
+
   class Thumbnail
     def make
-      src = fixture_file_upload('spec/files/pixel.gif')
+      src_path = Rails.root.join('spec/files/', 'pixel.jpg') #user_profile_image.jpg
       dst = Tempfile.new([@basename, @format].compact.join("."))
       dst.binmode
-      FileUtils.cp(src.path, dst.path)
+      FileUtils.cp(src_path.to_s, dst.path)
       return dst
     end
   end
+
   class Attachment
     def post_process
     end
   end
+
+  class Ffmpeg
+    def identify
+      {}
+    end
+  end
+
+  class MediaTypeSpoofDetector
+    # def type_from_file_command_with_unfake
+    #   Cocaine::CommandLine.unfake!
+    #   original_response = type_from_file_command_without_unfake
+    #   Cocaine::CommandLine.fake!
+    #   return original_response
+    # end
+    # alias_method_chain :type_from_file_command, :unfake
+    
+    def type_from_file_command
+      case @file.extname
+        when /jpe?g/  then 'image/jpeg'
+        when '.gif'   then 'image/gif'
+        when '.m4v'   then 'video/mp4'
+        when '.mp3'   then 'audio/mpeg'
+        when '.m4a'   then 'audio/mp4'
+      end
+    end
+  end
+
   module Storage
     module Filesystem
       def flush_writes

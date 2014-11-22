@@ -35,13 +35,12 @@ class Study < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
-  # attr_accessible :title, :description, :ref_link,  :poster_img, :poster_img_remote_url, :podcast, :podcast_id
-  # attr_accessible *column_names, *reflections.keys, :poster_img, :poster_img_remote_url, :podcast, :podcast_id, as: 'sudo'
+  attr_accessible :title, :description, :ref_link,  :poster_img, :poster_img_remote_url, :podcast, :podcast_id
+  attr_accessible *column_names, *reflections.keys, :poster_img, :poster_img_remote_url, :podcast, :podcast_id, as: 'sudo'
   delegate :church_name, to: :podcast
   serialize :keywords, Array
   
-  friendly_id :title #remove after v 5.0.0
-  slug_candidates :title, [:title, :church_name]
+  slug_candidates :title, [:title, :year], [:title, :month, :year], [:title, :month, :date, :year]
   
   has_attachable_file :poster_img, path: ':rails_env/:class/:attachment/:id/:hash.:extension',
                       :hash_data => ":class/:attachment/:id/:fingerprint-:style",
@@ -127,7 +126,7 @@ class Study < ActiveRecord::Base
     self.updated_at        = Time.now
     self.save!
   end
-  
+    
   def organization
     # future association
   end

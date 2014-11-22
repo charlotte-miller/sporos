@@ -30,7 +30,7 @@ FactoryGirl.define do
     ignore do
       new_member {FactoryGirl.create(:member)}
     end
-    members { [new_member] }
+    group_memberships { [FactoryGirl.create(:group_membership, member:new_member)] }
   end
   
   factory :group_w_member_and_meeting, :parent => :group_w_member do

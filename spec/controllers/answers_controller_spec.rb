@@ -3,10 +3,15 @@ require 'rails_helper'
 describe AnswersController do
   login_user
   
-  let(:question) { create(:question) }
-  let(:answer)   { create(:answer, question:question)}
-  let(:valid_attributes) { attributes_for(:answer).slice(:text) }
-  let(:valid_session) { {} }
+  before(:all) do
+    @lesson   = create(:lesson)
+    @question = create(:question, author:@user, source:@lesson, permanent_approver:nil)
+    @valid_attributes = attributes_for(:answer, author:@user, question:@question).slice(:text)
+  end
+  
+  let(:valid_attributes) { @valid_attributes }
+  let(:question) { @question }
+  let(:answer) { create(:answer, author:@user, question:@question)}
 
   describe "GET index" do
     before(:each) { answer } #create
@@ -17,7 +22,8 @@ describe AnswersController do
     end
     
     it "requires authentication" do
-      get :index, {question_id:question.id}, {}#clears current_user
+      sign_out current_user
+      get :index, {question_id:question.id}
       should redirect_to '/login'
     end
     
@@ -36,7 +42,8 @@ describe AnswersController do
     end
 
     it "requires authentication" do
-      get :show, {:id => answer.to_param}, {}#clears current_user
+      sign_out current_user
+      get :show, {:id => answer.to_param}
       should redirect_to '/login'
     end
     
@@ -48,7 +55,8 @@ describe AnswersController do
 
   describe "POST create" do
     it "requires authentication" do
-      post :create, {question_id:question.id, :answer => valid_attributes}, {}#clears current_user
+      sign_out current_user
+      post :create, {question_id:question.id, :answer => valid_attributes}
       should redirect_to '/login'
     end
     
@@ -90,12 +98,13 @@ describe AnswersController do
 
   describe "PUT update" do
     it "requires authentication" do
-      put :update, {:id => answer.to_param, :answer => { "text" => "foo" }}, {}#clears current_user
+      sign_out current_user
+      put :update, {:id => answer.to_param, :answer => { "text" => "foo" }}
       should redirect_to '/login'
     end
     
     it "is accessable only by the original author" do
-      pending
+      skip
       put :update, {:id => answer.to_param, :answer => { "text" => "foo" }}
     end
     
@@ -139,12 +148,13 @@ describe AnswersController do
     before(:each) { answer } #create
     
     it "requires authentication" do
-      delete :destroy, {:id => answer.to_param}, {}#clears current_user
+      sign_out current_user
+      delete :destroy, {:id => answer.to_param}
       should redirect_to '/login'
     end
     
     it "is accessable only by the original author" do
-      pending
+      skip
       delete :destroy, {:id => answer.to_param}
     end
     

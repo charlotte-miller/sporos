@@ -24,7 +24,7 @@ class GroupMembership < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
-  # attr_accessible :group_id, :user_id, :is_public
+  attr_accessible :group_id, :user_id, :is_public
   alias_attribute :last_attended_at, :updated_at
     
   

@@ -76,7 +76,7 @@ class User < ActiveRecord::Base
   # Associations
   # ---------------------------------------------------------------------------------
   has_many :block_requests,                                     inverse_of: :requester
-  has_many :groups,            :through => :group_memberships#,  inverse_of: :members
+  has_many :groups,            :through => :group_memberships
   has_many :group_memberships, :dependent => :destroy,          inverse_of: :member do
     
     # association wrapped in #membership_in(group)

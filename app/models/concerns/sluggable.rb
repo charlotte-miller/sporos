@@ -5,7 +5,7 @@ module Sluggable
 
   included do
     extend FriendlyId
-    # friendly_id :slug_candidates  #update after v 5.0.0
+    friendly_id :slug_candidates, use: [:slugged, :history]
   end
   
   module ClassMethods
@@ -20,5 +20,20 @@ module Sluggable
     def slug_candidates *args
       define_method(:slug_candidates) {args}
     end
+  end
+  
+  # Canidate Helpers
+  # Example: slug_candidates :title, [:title, :year], [:title, :month, :year]
+  #
+  def year
+    (created_at || Time.now).year
+  end
+  
+  def month
+    (created_at || Time.now).strftime("%B")
+  end
+  
+  def date
+    (created_at || Time.now).day
   end
 end

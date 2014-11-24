@@ -55,20 +55,18 @@ class Group < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   include AASM
   aasm column:'state' do #no_direct_assignment:true
-    state :open, initial: true
+    state :is_open, initial: true
+    state :is_closed
+    state :is_invite_only
   end
-  #   do
-  #     def accepting_members?  ;true;  end
-  #   end
   
 
   # ---------------------------------------------------------------------------------
   # Scopes
   # ---------------------------------------------------------------------------------
   # scope :for_user, -> {|user| where(user)}
-  scope :is_currently,    lambda {|state| {:conditions => { :state => state.to_s }} }
   scope :is_public,           -> {where(is_public: true)}
-  scope :publicly_searchable, -> {is_public.is_currently(:open)}
+  scope :publicly_searchable, -> {is_public.is_open}
 
   
   

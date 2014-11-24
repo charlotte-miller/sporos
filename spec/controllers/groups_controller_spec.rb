@@ -1,8 +1,13 @@
 require 'rails_helper'
 
 describe GroupsController do  
-  let!(:group){ create(:group) }
-  let(:valid_attributes) { attributes_for(:group) }
+  before(:all) do
+    @group = create(:group)
+    @valid_attributes = attributes_for(:group)
+  end
+  
+  let!(:group){ @group }
+  let(:valid_attributes) { @valid_attributes }
 
   describe 'new or logged-out user' do
     

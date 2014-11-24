@@ -24,7 +24,7 @@ describe MeetingsController do
       sign_out current_user
     end
     
-    it ":index redirects to :index", :focus do
+    it ":index redirects to :index" do
       get :index, {:group_id => group.id}
       should redirect_to(new_user_session_url)
     end

@@ -19,7 +19,7 @@
 
 FactoryGirl.define do
   factory :group do  
-    state 'open'
+    state 'is_open'
     name        { Faker::Lorem.sentence(rand(3..8))  }
     description { Faker::Lorem.paragraph(rand(2..5)) }
     meets_every_days { rand(1..7) }

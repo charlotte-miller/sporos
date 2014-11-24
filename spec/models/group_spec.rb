@@ -35,25 +35,27 @@ describe Group do
     it ".publicly_searchable scope filters by public " do
       sql = Group.publicly_searchable.to_sql
       sql.should match(/`is_public` = 1/)
-      sql.should match(/`state` = 'open'/)
+      sql.should match(/`state` = 'is_open'/)
     end
   end
   
-  describe 'state_machine' do
-    describe '.is_currently(:state) scope' do
-      it "matches on state" do
-        Group.is_currently(:foo).to_sql.should match /`state` = 'foo'/
+  describe '[state machine]' do
+    describe 'scopes -' do
+      Group.aasm.states.map(&:to_s).each do |state|
+        it "matches on '#{state}'" do
+          expect(Group.send(state).to_sql).to match( /`state` = '#{state}'/ )
+        end
       end
     end
     
-    describe 'open' do
-      it "is .accepting_members?" do
-        create(:group, state:'open').accepting_members?.should be_true
+    describe 'inflectors -' do
+      Group.aasm.states.map(&:to_s).each do |state|
+        it "matches on '#{state}?'" do
+          group = build(:group, state: state)
+          expect(group.send("#{state}?")).to be true
+        end
       end
-      
-
     end
-    
   end
   
   

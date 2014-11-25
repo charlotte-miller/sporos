@@ -64,7 +64,7 @@ class Study < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   belongs_to :podcast, :inverse_of => :studies
   has_one :church,     :through => :podcast, :inverse_of => :studies
-  has_many :lessons, -> {order 'position ASC'}, {:dependent => :destroy, :inverse_of => :study} do
+  has_many :lessons, -> {order 'position ASC'}, {:dependent => :destroy} do
     def number(n, strict=false)
       raise ActiveRecord::RecordNotFound if strict && (n > self.length) #lessons_count
       where(position:n).first
@@ -111,7 +111,7 @@ class Study < ActiveRecord::Base
   # => false if lessons.empty?
   def should_include?(lesson)
     raise ArgumentError.new('Study#include? requires a @lesson') unless lesson.is_a? Lesson
-    lessons.last.try :belongs_with?, lesson
+    !!(lessons.last.try :belongs_with?, lesson)
   end
   
   # Single lesson study
@@ -120,7 +120,7 @@ class Study < ActiveRecord::Base
   end
   
   # Replace original http://apidock.com/rails/ActiveRecord/Persistence/touch
-  def touch(name=nil)
+  def touch(*names)
     self.lessons_count     = lessons.length
     self.last_published_at = lessons.map(&:published_at).max
     self.updated_at        = Time.now

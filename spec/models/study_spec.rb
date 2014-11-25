@@ -99,8 +99,8 @@ describe Study do
     
   describe '#stand_alone?' do
     it "returns true if the study has one lesson" do
-      create(:study_w_lesson).stand_alone?.should  be_true
-      create(:study_w_lessons).stand_alone?.should be_false
+      expect(create(:study_w_lesson).stand_alone?).to  be true
+      expect(create(:study_w_lessons).stand_alone?).to be false
     end
   end
   
@@ -115,8 +115,8 @@ describe Study do
       inside_lesson  = study.lessons.first
       outside_lesson = create(:lesson)
       
-      study.include?( inside_lesson  ).should be_true
-      study.include?( outside_lesson ).should be_false
+      expect(study.include?( inside_lesson  )).to be true
+      expect(study.include?( outside_lesson )).to be false
     end
   end
   
@@ -128,7 +128,7 @@ describe Study do
     
     # this doesn't mean it's bad to add this lesson... just that this isn't yet the lesson's 'home'
     it "returns false if lessons are empty" do
-      Study.new.should_include?( Lesson.new ).should be_false
+      expect(Study.new.should_include?( Lesson.new )).to be false
     end
     
     # essentally delegates logic to Lesson#belongs_with?

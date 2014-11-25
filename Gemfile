@@ -106,7 +106,7 @@ group :development, :test do
   gem 'timecop'
   gem "faker"
   gem 'minitest'
-  gem 'shoulda-matchers', '~> 2.7.0'
+  gem 'shoulda-matchers', '~> 2.7.0', require:false
   gem 'rspec-activemodel-mocks'
   gem 'rspec_candy'
   gem 'syntax'

@@ -73,7 +73,7 @@ class Lesson < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------
-  belongs_to :study, touch:true, :inverse_of => :lessons     # counter_cache rolled into Study#touch
+  belongs_to :study, touch:true  # counter_cache rolled into Study#touch
   # has_one :poster_maker, :class_name => "Lesson::PosterMaker", :dependent => :destroy
   
   # ---------------------------------------------------------------------------------

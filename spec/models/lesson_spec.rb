@@ -44,12 +44,12 @@ require 'cocaine'
 require 'spec/models/lesson/adapters/web_sites/dummy_klass'
 
 describe Lesson do
-  it { should belong_to( :study )}
-  it { should have_many( :questions )}
-  it { should delegate_method(:title).to(:study).with_prefix }
-  it { should validate_presence_of :study }
-  it { should validate_presence_of :title }
-  it { should validate_presence_of :author }
+  it { is_expected.to belong_to( :study )}
+  it { is_expected.to have_many( :questions )}
+  # it { is_expected.to delegate_method(:title).to(:study).with_prefix }
+  it { is_expected.to validate_presence_of :study }
+  it { is_expected.to validate_presence_of :title }
+  it { is_expected.to validate_presence_of :author }
   
   it "builds from factory", :internal do
     lambda { create(:lesson) }.should_not raise_error
@@ -57,8 +57,8 @@ describe Lesson do
   
   it "touches the associated Study on update", :internal do
     study = create(:study_w_lesson)
-    study.should_receive(:touch).once
-    study.lessons.first.save!
+    expect_any_instance_of(Study).to receive(:touch).once
+    study.lessons.first.touch
   end
     
   describe '[scopes]'do
@@ -117,11 +117,11 @@ describe Lesson do
     
     it "returns TRUE if any of the Lesson::SimilarityHeuristic#matches?" do
       Lesson::SimilarityHeuristic::Base::STRATEGIES.last.any_instance.stub(matches?:true)
-      subject.belongs_with?( other_lesson ).should be_true
+      expect( subject.belongs_with?( other_lesson ) ).to be true
     end
     
     it "returns FALSE if NONE of the Lesson::SimilarityHeuristic#matches?" do
-      subject.belongs_with?( other_lesson ).should be_false
+      expect( subject.belongs_with?( other_lesson ) ).to be false
     end
   end
   

@@ -89,6 +89,7 @@ gem 'therubyracer', :platforms => :ruby, :require => false
 gem 'bootstrap-sass', '~> 3.2.0'
 gem "haml-rails"
 gem 'handlebars_assets'#, '0.17.1'
+gem 'lorem_ipsum_amet' #, :group => :development 
 
 group :development, :test do
   # gem "bullet"
@@ -135,8 +136,6 @@ group :development, :test do
   gem 'quiet_assets'
   gem 'rails-backbone-generator', :require => false #, path:'~/development/Gems/rails-backbone-generator'
   # gem 'activerecord-import', '~> 0.3.0' #for seed file
-  
-  gem 'lorem_ipsum_amet'
 end
 
 group :test do

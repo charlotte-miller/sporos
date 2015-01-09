@@ -1,13 +1,14 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.0.beta4'
+gem 'rails', '~> 4.2.0'
 gem 'sass-rails', '~> 5.0.0.beta1'
 
 gem 'mysql2'
-# gem 'pg'
+gem 'pg'
 gem 'configy'
 gem 'oj'
-gem 'whenever',          :require => false
+gem 'rack-cache'
+gem 'kgio'
 gem 'sitemap_generator', :require => false
 # gem 'parallel'
 # gem 'ox'
@@ -37,12 +38,13 @@ gem 'patron'
 # Media Download/Processing/Storage
 # =================================
 # gem 'anemone'
-# gem 'typhoeus'
+gem 'typhoeus'
 gem 'cocaine'
 gem 'posix-spawn'
 gem 'aws-sdk'
-gem 'paperclip'
-# gem 'paperclip-ffmpeg', git: 'git@github.com:chip-miller/paperclip-ffmpeg.git'
+gem 'paperclip',          git:'git@github.com:thoughtbot/paperclip.git'
+gem 'paperclip-ffmpeg'
+gem 'delayed_paperclip',  git:'git@github.com:jrgifford/delayed_paperclip.git'
 # gem 'streamio-ffmpeg'
 # gem 'paperclip-optimizer'
 
@@ -50,14 +52,18 @@ gem 'paperclip'
 # Resque Queue
 # =============
 gem 'resque', '~> 1.25.2'
-gem 'resque-web'
+gem 'resque-scheduler'
+gem 'resque_mailer'
 gem 'resque-retry'
 # gem 'resque-multi-job-forks'
-gem 'redis-sentinel'
-# gem 'redis-store'
-# gem "redis", "~> 3.0.1", :require => ["redis"]
-# gem "redis-namespace", "~> 1.2.0"
+
+gem "redis", "~> 3.1.0", :require => ["redis"]
+gem 'hiredis'
+gem 'redis-rails'
+gem "redis-namespace"
+# gem 'redis-sentinel'
 # gem "newrelic-redis"
+
 # gem "thin", "~> 1.4.1"
 # gem 'slim', '<= 1.3.0'
 # gem 'sinatra', :require => nil
@@ -87,6 +93,7 @@ gem 'handlebars_assets'#, '0.17.1'
 
 group :development, :test do
   gem "bower-rails"
+  # gem "bullet"
   
   gem 'zeus'
   gem 'thin'
@@ -108,6 +115,7 @@ group :development, :test do
   gem 'minitest'
   gem 'shoulda-matchers', '~> 2.7.0', require:false
   gem 'rspec-activemodel-mocks'
+  gem 'rspec-collection_matchers'
   gem 'rspec_candy'
   gem 'syntax'
   gem 'vcr'

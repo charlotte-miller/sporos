@@ -32,10 +32,3 @@ development:
 test:
   <<: *default
   database: sporos_test
-
-production:
-  <<: *default
-  database: sporos_production
-  pool: 20
-  # username: sporos
-  # password: <%= ENV['SPOROS_DATABASE_PASSWORD'] %>

@@ -1,18 +1,18 @@
 GIT
-  remote: git@github.com:jrgifford/delayed_paperclip.git
+  remote: https://github.com/jrgifford/delayed_paperclip.git
   revision: 223a265e17f1efae14bfec9e3b649527ee77f90c
   specs:
     delayed_paperclip (2.9.0)
       paperclip (>= 3.3)
 
 GIT
-  remote: git@github.com:thoughtbot/paperclip.git
-  revision: 804b4edc1d8d7ca9865170e34f26da7d66f6d0d5
+  remote: https://github.com/thoughtbot/paperclip.git
+  revision: c46b40b973a66eb8ac454c1d22e5df15da66d7c3
   specs:
-    paperclip (4.2.0)
+    paperclip (4.2.1)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
-      cocaine (~> 0.5.3)
+      cocaine (~> 0.5.5)
       mime-types
 
 PATH
@@ -88,7 +88,7 @@ GEM
     chartkick (1.3.2)
     climate_control (0.0.3)
       activesupport (>= 3.0)
-    cocaine (0.5.4)
+    cocaine (0.5.5)
       climate_control (>= 0.0.3, < 1.0)
     coderay (1.1.0)
     coffee-rails (4.0.1)

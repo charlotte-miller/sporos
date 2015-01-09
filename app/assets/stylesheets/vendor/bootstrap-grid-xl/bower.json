@@ -1,8 +1,0 @@
-{
-  "name": "bootstrap-grid-xl",
-  "version": "0.0.1",
-  "main": "grid-xl.scss",
-  "dependencies": {
-    "bootstrap-sass": "~3.0.0"
-  }
-}

@@ -17,3 +17,5 @@ config/*.local.yml
 spec/coverage
 .vagrant/
 .jhw-cache/
+
+public/assets

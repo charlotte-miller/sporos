@@ -69,4 +69,9 @@ Rails.application.routes.draw do
   #   end
   #   resources :posts, concerns: :toggleable
   #   resources :photos, concerns: :toggleable
+
+  if Rails.env.development?
+    require 'resque/server'
+    mount Resque::Server.new, at: "/resque"
+  end
 end

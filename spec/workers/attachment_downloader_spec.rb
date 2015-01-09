@@ -1,9 +1,17 @@
 require 'rails_helper'
 
 describe AttachmentDownloader do
-  it { should be_processed_in 'attachments' }
-  it { should be_retryable true}
-  it { should be_unique }
+
+  describe 'Resque worker' do
+    it 'processes in the "attachments" queue' do
+      Resque.enqueue(AttachmentDownloader)
+      expect(AttachmentDownloader).to have_queued.in(:attachments)
+    end
+
+    it 'retries after failure' do
+      skip
+    end
+  end
   
   describe '#perform(obj_hash, attachment_names=[])' do
     let(:any_model) { create(:study, poster_img: nil, poster_img_original_url:'http://foo.com/poster.jpg') }

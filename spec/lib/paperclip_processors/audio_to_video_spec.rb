@@ -7,7 +7,7 @@ module Paperclip
     let(:run_make){ subject.make }
     let(:result)  { run_make }
 
-    it { should be_kind_of( ::Paperclip::Processor) }
+    it { is_expected.to be_kind_of( ::Paperclip::Processor) }
 
     context "when passed an audio file:" do
       subject { AudioToVideo.new(audio_file, (@options || { poster_img:img_file })) }
@@ -24,7 +24,7 @@ module Paperclip
         
         it "uses ffmpeg to combine the files" do
           run_make
-          command_line_runner.ran?("ffmpeg -i '#{input_img_file.path}' -i '#{input_audio_file.path}' -vcodec libx264 '#{output_file.path}'").should be_true
+          command_line_runner.ran?("ffmpeg -i '#{input_img_file.path}' -i '#{input_audio_file.path}' -vcodec libx264 '#{output_file.path}'").should be true
         end        
       end
       
@@ -72,6 +72,7 @@ module Paperclip
     attr_accessor :foo_file_name, :poster_img_file_name
     has_attached_file :poster_img, url: ':rails_root/spec/files/:filename', path: ':rails_root/spec/files/:filename'
     has_attached_file :foo, :styles => {bar:'true'}, :processors => [:audio_to_video]
+    do_not_validate_attachment_file_type :foo, :poster_img
 
     alias_method :poster_img_w_study_backfill, :poster_img
   end

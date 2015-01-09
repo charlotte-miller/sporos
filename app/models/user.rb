@@ -28,6 +28,7 @@
 #  profile_image_file_size    :integer
 #  profile_image_updated_at   :datetime
 #  profile_image_fingerprint  :string
+#  profile_image_processing   :boolean
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
 #
@@ -64,7 +65,6 @@ class User < ActiveRecord::Base
   
   has_attachable_file :profile_image, :path => ':rails_env/:class/:attachment/:id/:hash.:extension',
                       :hash_data => ":class/:attachment/:id/:fingerprint-:style",
-                      :s3_host_alias => AppConfig.domains.media_cdn,
                       :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
                       :styles => { 
                         :medium => { geometry: "300x300>", format: 'jpg', convert_options: "-strip" }, 

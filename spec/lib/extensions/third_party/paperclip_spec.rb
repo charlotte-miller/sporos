@@ -23,10 +23,10 @@ describe Paperclip::Attachment do
   
   describe '#trusted_third_party?' do
     it "returns true only when <attachment>_original_url is trusted" do
-      normal.video.trusted_third_party?.should be_false
-      empty.video.trusted_third_party?.should be_false
-      non_trusted_third_party.video.trusted_third_party?.should be_false
-      trusted_third_party.video.trusted_third_party?.should be_true
+      normal.video.trusted_third_party?.should be false
+      empty.video.trusted_third_party?.should be false
+      non_trusted_third_party.video.trusted_third_party?.should be false
+      trusted_third_party.video.trusted_third_party?.should be true
     end
   end
   

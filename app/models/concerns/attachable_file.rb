@@ -43,12 +43,20 @@ module AttachableFile
           :s3_credentials   => AppConfig.s3.credentials,
           :s3_host_name     => AppConfig.s3.url,
           :url              => ':s3_alias_url',
-          :s3_host_alias    => AppConfig.domains.media_cdn, # Override for large media assets
+          :s3_host_alias    => -> {AppConfig.domains.media_cdn_range.gsub('%d', rand(0..3).to_s)}, # Override for large media assets
           :hash_secret      => 'faffb797c3645584210908fea09473f330f9a07857e3ea84fa37c732f6b5af667d3d3f71ed292726bdba0d7d935f2f5813fe3454f0b44cf332a69153562cc6e9',
           # :path           => [ DEFINE IN OPTIONS ]
         }.deep_merge(options)
         
-        validates_attachment_content_type attachment_name, :content_type => options[:content_type]
+        unless options[:process_immediately]
+          # process_in_background attachment_name
+        end
+
+        if Rails.env.test?
+          do_not_validate_attachment_file_type attachment_name
+        else
+          validates_attachment_content_type attachment_name, :content_type => options[:content_type]
+        end
       end
       
       # https://github.com/thoughtbot/paperclip/wiki/Attachment-downloaded-from-a-URL

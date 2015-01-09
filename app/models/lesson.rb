@@ -15,18 +15,21 @@
 #  poster_img_updated_at   :datetime
 #  poster_img_original_url :string
 #  poster_img_fingerprint  :string
+#  poster_img_processing   :boolean
 #  video_file_name         :string
 #  video_content_type      :string
 #  video_file_size         :integer
 #  video_updated_at        :datetime
 #  video_original_url      :string
 #  video_fingerprint       :string
+#  video_processing        :boolean
 #  audio_file_name         :string
 #  audio_content_type      :string
 #  audio_file_size         :integer
 #  audio_updated_at        :datetime
 #  audio_original_url      :string
 #  audio_fingerprint       :string
+#  audio_processing        :boolean
 #  machine_sorted          :boolean          default("false")
 #  duration                :integer
 #  published_at            :datetime

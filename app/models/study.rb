@@ -15,6 +15,7 @@
 #  poster_img_updated_at   :datetime
 #  poster_img_original_url :string
 #  poster_img_fingerprint  :string
+#  poster_img_processing   :boolean
 #  lessons_count           :integer          default("0")
 #  last_published_at       :datetime
 #  created_at              :datetime         not null
@@ -44,7 +45,7 @@ class Study < ActiveRecord::Base
   
   has_attachable_file :poster_img, path: ':rails_env/:class/:attachment/:id/:hash.:extension',
                       :hash_data => ":class/:attachment/:id/:fingerprint-:style",
-                      :s3_host_alias => AppConfig.domains.media_cdn
+                      :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
                       # :styles => { thumb: { geometry: SD_SIZE, format: 'png', convert_options: "-strip" }}
                       # :processors => [:thumbnail, :pngquant]
 

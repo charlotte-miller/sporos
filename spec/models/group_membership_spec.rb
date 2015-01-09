@@ -38,7 +38,7 @@ describe GroupMembership do
   describe 'a public membership' do
     it "cannot be public if the group is private" do
       @group = create(:group,   is_public: false)
-      create(:group_membership, is_public:true, group:@group).reload.is_public.should be_false #validation error
+      create(:group_membership, is_public:true, group:@group).reload.is_public.should be false #validation error
     end
     
     it ".is_public scope filters by is_public " do

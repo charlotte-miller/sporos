@@ -40,6 +40,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       ## Profile Image
       t.attachment :profile_image
       t.string     :profile_image_fingerprint
+      t.boolean    :profile_image_processing
       
       t.timestamps  null: false
     end

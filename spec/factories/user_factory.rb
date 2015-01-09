@@ -28,6 +28,7 @@
 #  profile_image_file_size    :integer
 #  profile_image_updated_at   :datetime
 #  profile_image_fingerprint  :string
+#  profile_image_processing   :boolean
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
 #

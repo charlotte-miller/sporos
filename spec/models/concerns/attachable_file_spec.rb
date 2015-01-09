@@ -47,10 +47,11 @@ describe AttachableFile do
         expect(subject).to respond_to(:after_save) 
       end
       
-      context "on save - " do      
-        it "queues a Sidekiq job to download the <attachment> (once)" do
-          expect { subject.after_save }.to change(AttachmentDownloader.jobs, :size).by(1)
-          expect { subject.after_save }.to change(AttachmentDownloader.jobs, :size).by(0)
+      context "on save - " do
+        it "queues a Resque job to download the <attachment> (once)" do
+          expect { subject.after_save }.to change {Resque.size('attachments')}.by(1)
+          expect { subject.after_save }.to change {Resque.size('attachments')}.by(0)
+          expect(AttachmentDownloader).to have_queued(subject.to_findable_hash, [:wonderful_img]).in('attachments').once
         end
       end
     end
@@ -58,7 +59,7 @@ describe AttachableFile do
 
   context "with multiple attachments -" do
     let(:queue_workers) { subject.after_save }
-    let(:attachment_names_argument) { AttachmentDownloader.jobs.first["args"][1] }
+    let(:attachment_names_argument) { ResqueSpec.peek('attachments').first[:args][1] }
     
     before(:each) do 
       subject.wonderful_img_remote_url   = 'http://foo.com/bar.jpg'
@@ -67,12 +68,12 @@ describe AttachableFile do
     end
     
     it "creates ONE job per model-object" do
-      expect { queue_workers }.to change(AttachmentDownloader.jobs, :size).by(1)
+      expect { queue_workers }.to change {Resque.size('attachments')}.by(1)
     end
     
     it "passes each ASSIGNED :attachment_name to the worker" do
       queue_workers
-      attachment_names_argument.should eql ['wonderful_img', 'wonderful_video']
+      attachment_names_argument.should eql [:wonderful_img, :wonderful_video]
     end
   end
 end

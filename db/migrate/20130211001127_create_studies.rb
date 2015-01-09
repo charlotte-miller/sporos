@@ -10,6 +10,7 @@ class CreateStudies < ActiveRecord::Migration
       t.attachment  :poster_img
       t.string      :poster_img_original_url
       t.string      :poster_img_fingerprint
+      t.boolean     :poster_img_processing
       t.integer     :lessons_count, default: 0
                     
       t.datetime    :last_published_at

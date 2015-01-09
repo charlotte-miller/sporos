@@ -27,28 +27,38 @@ module Paperclip
     end
   end
 
+  # FIXME: Allow post_process once delayed_paperclip is working
   class Attachment
     def post_process
     end
   end
 
   class Ffmpeg
+    # def make
+    #   @file
+    # end
+
     def identify
       {}
     end
   end
 
   class MediaTypeSpoofDetector
-    # def type_from_file_command_with_unfake
-    #   Cocaine::CommandLine.unfake!
-    #   original_response = type_from_file_command_without_unfake
-    #   Cocaine::CommandLine.fake!
-    #   return original_response
-    # end
-    # alias_method_chain :type_from_file_command, :unfake
-    
     def type_from_file_command
       case @file.extname
+        when /jpe?g/  then 'image/jpeg'
+        when '.gif'   then 'image/gif'
+        when '.png'   then 'image/png'
+        when '.m4v'   then 'video/mp4'
+        when '.mp3'   then 'audio/mpeg'
+        when '.m4a'   then 'audio/mp4'
+      end
+    end
+  end
+
+  class FileCommandContentTypeDetector
+    def type_from_file_command
+      case @filename
         when /jpe?g/  then 'image/jpeg'
         when '.gif'   then 'image/gif'
         when '.m4v'   then 'video/mp4'

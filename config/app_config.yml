@@ -14,9 +14,10 @@ common:
   dev_user: developer
   dev_pass: developer
   domains:
+    cdn: cornerstonesf.chruch
+    cdn_range: cdn%d.cornerstonesf.chruch
     media: media.cornerstonesf.chruch
-    media_cdn: cdn.media.cornerstonesf.chruch
-    cdn: www.cornerstonesf.chruch
+    media_cdn_range: media%d.cornerstonesf.chruch
   s3:
     url: s3-us-west-2.amazonaws.com #s3.amazonaws.com
     bucket: media.cornerstonesf.chruch
@@ -37,7 +38,7 @@ development:
   domains:
     cdn: www.cornerstonesf.chruch
     media: media.cornerstonesf.chruch
-    media_cdn: media.cornerstonesf.chruch 
+    media_cdn_range: media.cornerstonesf.chruch
     
 
 test:

@@ -1,39 +1,40 @@
 require 'rails_helper'
+Dir[Rails.root.join("lib/paperclip_processors/**/*.rb")].each {|f| require f}
 
-describe Lesson::AttachedMedia do
+describe Lesson::AttachedMedia do #, :focus
   subject { build(:lesson) }
   
-  it { should respond_to :audio }
-  it { should respond_to :video }
-  it { should respond_to :poster_img }
+  it { is_expected.to respond_to :audio }
+  it { is_expected.to respond_to :video }
+  it { is_expected.to respond_to :poster_img }
       
   describe 'attached audio -' do
     it "runs the :video_to_audio processor" do
-      Paperclip::VideoToAudio.should_receive_chain(:new, :make).at_least(:once).and_return(audio_file)
+      expect_any_instance_of(Paperclip::VideoToAudio).to receive(:make).at_least(:once).and_return(audio_file)
       subject.audio = audio_file
     end
   end
   
   describe 'attached video -' do
     it "runs the :audio_to_video processor" do
-      Paperclip::AudioToVideo.should_receive_chain(:new, :make).at_least(:once).and_return(video_file)
+      expect_any_instance_of(Paperclip::AudioToVideo).to receive(:make).at_least(:once).and_return(video_file)
       subject.video = video_file
     end
     
     it "runs the :ffmpeg processor" do
-      Paperclip::Ffmpeg.should_receive_chain(:new, :make).at_least(:once).and_return(video_file)
+      expect_any_instance_of(Paperclip::Ffmpeg).to receive(:make).at_least(:once).and_return(video_file)
       subject.video = video_file
     end
     
     it "runs the :qtfaststart processor" do
-      Paperclip::Qtfaststart.should_receive_chain(:new, :make).at_least(:once).and_return(video_file)
+      expect_any_instance_of(Paperclip::Qtfaststart).to receive(:make).at_least(:once).and_return(video_file)
       subject.video = video_file
     end
   end
   
   describe 'attached poster_img -' do
     it "runs the :thumbnail processor" do
-      Paperclip::Thumbnail.should_receive_chain(:new, :make).at_least(:once).and_return(img_file)
+      expect_any_instance_of(Paperclip::Thumbnail).to receive(:make).at_least(:once).and_return(img_file)
       subject.poster_img = img_file
     end
     

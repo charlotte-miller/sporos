@@ -15,6 +15,7 @@ module Lesson::AttachedMedia
     has_attachable_file :audio, :path => ':rails_env/:class/:id/:attachment/:style/:filename', # :hash.:extension
                         :hash_data  => ":class/:attachment/:id/:style",
                         :s3_host_alias => AppConfig.domains.media,
+                        :content_type => ['audio/mp4', 'audio/mpeg'],
                         :processors => [:video_to_audio],
                         :styles => {mp3:{audio_bitrate:'64k'}}, #ogg:true
                         :default_style => :mp3
@@ -26,6 +27,7 @@ module Lesson::AttachedMedia
                         :s3_host_alias => AppConfig.domains.media,
                         :processors => [:audio_to_video, :ffmpeg, :qtfaststart],
                         :skip_processing_urls => ['youtube.com', 'vimeo.com'],
+                        :content_type => ['video/mp4'],
                         :default_style => :mp4,
                         :styles => {
                           webm:          { geometry: SD_SIZE,  :format => 'webm' },
@@ -42,6 +44,7 @@ module Lesson::AttachedMedia
                         :hash_data => ":class/:attachment/:id/:fingerprint-:style",
                         # :processors      => [:thumbnail, :pngquant],
                         :default_style => :sd,
+                        :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
                         :styles => {
                           sd:     { geometry: SD_SIZE,     format: 'png', convert_options: "-strip" },
                           hd:     { geometry: HD_SIZE,     format: 'png', convert_options: "-strip" },

@@ -15,6 +15,7 @@
 #  poster_img_updated_at   :datetime
 #  poster_img_original_url :string
 #  poster_img_fingerprint  :string
+#  poster_img_processing   :boolean
 #  lessons_count           :integer          default("0")
 #  last_published_at       :datetime
 #  created_at              :datetime         not null

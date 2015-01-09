@@ -23,7 +23,7 @@ module Paperclip
         
         it "uses ffmpeg to convert the file" do
           run_make
-          command_line_runner.ran?("ffmpeg -i '#{input_file.path}' -vn -ar 44100 -ac '2' -ab '128k' -f 'mp3' '#{output_file.path}'").should be_true
+          command_line_runner.ran?("ffmpeg -i '#{input_file.path}' -vn -ar 44100 -ac '2' -ab '128k' -f 'mp3' '#{output_file.path}'").should be true
         end
 
         it "passes the processor's options to ffmpeg" do
@@ -31,7 +31,7 @@ module Paperclip
                               format: 'BAR',
                            is_stereo: false }         
           run_make
-          command_line_runner.ran?("ffmpeg -i '#{input_file.path}' -vn -ar 44100 -ac '1' -ab 'FOO' -f 'BAR' '#{output_file.path}'").should be_true
+          command_line_runner.ran?("ffmpeg -i '#{input_file.path}' -vn -ar 44100 -ac '1' -ab 'FOO' -f 'BAR' '#{output_file.path}'").should be true
         end
       end
     end

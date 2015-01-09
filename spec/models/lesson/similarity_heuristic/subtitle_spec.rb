@@ -12,14 +12,14 @@ module Lesson::SimilarityHeuristic
           ['Sins - Lust', 'Sins - Gluttony'],
         ].each do |title_pair|
           part_1, part_2 = title_pair.map {|title| build_stubbed(:lesson, title:title)}
-          (Subtitle.new(part_1, part_2).matches?).should be_true
+          (Subtitle.new(part_1, part_2).matches?).should be true
         end
 
         non_matching_title_pairs = [
           ['St. Mark', 'St. Matthew']
         ].each do |title_pair|
           part_1, part_2 = title_pair.map {|title| build_stubbed(:lesson, title:title)}
-          (Subtitle.new(part_1, part_2).matches?).should be_false
+          (Subtitle.new(part_1, part_2).matches?).should be false
         end
       end
     end

@@ -53,8 +53,13 @@ Rails.application.configure do
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
+  config.action_dispatch.rack_cache = {
+    metastore:   "redis://#{AppConfig.redis.host}:#{AppConfig.redis.port}/1/metastore",
+    entitystore: "redis://#{AppConfig.redis.host}:#{AppConfig.redis.port}/1/entitystore"
+  }
+
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  # config.action_controller.asset_host = "http://assets.example.com"
+  config.action_controller.asset_host = "http://#{AppConfig.domains.cdn_range}" #[0..3]
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.

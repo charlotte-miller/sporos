@@ -12,14 +12,14 @@ module Lesson::SimilarityHeuristic
           ['Mark Part I', 'Mark Part II'],
         ].each do |title_pair|
           part_1, part_2 = title_pair.map {|title| build_stubbed(:lesson, title:title)}
-          (NumericTitle.new(part_1, part_2).matches?).should be_true
+          (NumericTitle.new(part_1, part_2).matches?).should be true
         end
 
         non_matching_title_pairs = [
           ['Mark Part 1', 'Moses Part 1']
         ].each do |title_pair|
           part_1, part_2 = title_pair.map {|title| build_stubbed(:lesson, title:title)}
-          (NumericTitle.new(part_1, part_2).matches?).should be_false
+          (NumericTitle.new(part_1, part_2).matches?).should be false
         end
       end
     end

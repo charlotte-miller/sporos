@@ -2,8 +2,19 @@ require 'tempfile'
 require 'uri'
 
 class AttachmentDownloader
+  extend Resque::Plugins::Retry #https://github.com/lantins/resque-retry
   @queue = :attachments
   
+  class << self
+    def perform_async(*args)
+      Resque.enqueue(AttachmentDownloader, *args)
+    end
+
+    def perform(*args)
+      new.perform(*args)
+    end
+  end
+
   def perform(obj_hash, attachment_names=[])
     @obj_instance = obj_hash.to_obj
     Array.wrap(attachment_names).each {|attachment| download_and_assign attachment }

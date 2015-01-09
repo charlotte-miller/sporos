@@ -1,4 +1,4 @@
-require 'sidekiq/web'
+require 'resque/server'
 
 ## Usage:
 ## require 'mixins/http_authentication'
@@ -13,11 +13,11 @@ module HttpAuthentication
     end
   end
 
-  # interface for sidekiq
-  class Sidekiq < Sidekiq::Web
-    use Rack::Auth::Basic, "Restricted Area" do |username, password|
-      [username, password] == CREDENTIALS
-    end
+  ## Usage:
+  ## require 'mixins/http_authentication'
+  ## mount RESQUE_DASHBOARD
+  RESQUE_DASHBOARD = Rack::Auth::Basic.new(Resque::Server) do |username, password|
+    [username, password] == CREDENTIALS
   end
 end
 

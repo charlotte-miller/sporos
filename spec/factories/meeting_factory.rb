@@ -8,8 +8,8 @@
 #  position   :integer          default("0"), not null
 #  state      :string(50)       not null
 #  date_of    :datetime
-#  created_at :datetime
-#  updated_at :datetime
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 # Indexes
 #

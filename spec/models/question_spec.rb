@@ -6,13 +6,13 @@
 #  user_id       :integer          not null
 #  admin_user_id :integer
 #  source_id     :integer          not null
-#  source_type   :string(255)      not null
-#  text          :text(65535)
+#  source_type   :string           not null
+#  text          :text
 #  answers_count :integer          default("0")
 #  blocked_count :integer          default("0")
 #  stared_count  :integer          default("0")
-#  created_at    :datetime
-#  updated_at    :datetime
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
 #
 # Indexes
 #

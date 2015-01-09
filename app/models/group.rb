@@ -4,13 +4,13 @@
 #
 #  id               :integer          not null, primary key
 #  state            :string(50)       not null
-#  name             :string(255)      not null
-#  description      :text(65535)      not null
-#  is_public        :boolean          default("1")
+#  name             :string           not null
+#  description      :text             not null
+#  is_public        :boolean          default("true")
 #  meets_every_days :integer          default("7")
 #  meetings_count   :integer          default("0")
-#  created_at       :datetime
-#  updated_at       :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 # Indexes
 #

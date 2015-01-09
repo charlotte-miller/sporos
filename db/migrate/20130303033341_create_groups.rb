@@ -8,7 +8,7 @@ class CreateGroups < ActiveRecord::Migration
       t.integer :meets_every_days, default: 7
       t.integer :meetings_count,   default: 0
 
-      t.timestamps
+      t.timestamps  null: false
     end
     
     add_index :groups, [:state, :is_public]

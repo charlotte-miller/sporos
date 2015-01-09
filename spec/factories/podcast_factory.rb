@@ -5,11 +5,11 @@
 #  id           :integer          not null, primary key
 #  church_id    :integer          not null
 #  title        :string(100)
-#  url          :string(255)      not null
+#  url          :string           not null
 #  last_checked :datetime
 #  last_updated :datetime
-#  created_at   :datetime
-#  updated_at   :datetime
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 # Indexes
 #

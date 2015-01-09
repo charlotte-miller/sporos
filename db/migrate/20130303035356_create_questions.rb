@@ -10,7 +10,7 @@ class CreateQuestions < ActiveRecord::Migration
       t.integer :blocked_count,  default: 0
       t.integer :stared_count,   default: 0
       
-      t.timestamps
+      t.timestamps  null: false
     end
     
     add_index :questions, :user_id

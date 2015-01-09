@@ -7,7 +7,7 @@ class CreateMeetings < ActiveRecord::Migration
       t.string   :state,      null:false,  limit: 50
       t.datetime :date_of
 
-      t.timestamps
+      t.timestamps  null: false
     end
     
     add_index :meetings, [:group_id, :position]

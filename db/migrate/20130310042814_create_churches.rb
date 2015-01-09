@@ -4,7 +4,7 @@ class CreateChurches < ActiveRecord::Migration
       t.string :name,     null:false,  limit:100
       t.string :homepage, null:false,  limit:100
 
-      t.timestamps
+      t.timestamps  null: false
     end
   end
 end

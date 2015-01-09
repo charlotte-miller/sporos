@@ -7,7 +7,7 @@ class CreateAnswers < ActiveRecord::Migration
       t.integer :blocked_count, default:0
       t.integer :stared_count,  default:0
 
-      t.timestamps
+      t.timestamps  null: false
     end
     add_index :answers, :question_id
     add_index :answers, :author_id

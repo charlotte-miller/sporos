@@ -19,7 +19,7 @@ class CreateLessons < ActiveRecord::Migration
       t.boolean       :machine_sorted,  default: false
       t.integer       :duration #in seconds
       t.datetime      :published_at
-      t.timestamps
+      t.timestamps  null: false
     end
     
     add_index :lessons, [:study_id, :position]

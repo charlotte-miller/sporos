@@ -13,7 +13,7 @@ class CreateStudies < ActiveRecord::Migration
       t.integer     :lessons_count, default: 0
                     
       t.datetime    :last_published_at
-      t.timestamps
+      t.timestamps  null: false
     end
     
     add_index :studies, :slug, unique: true

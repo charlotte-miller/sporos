@@ -3,22 +3,22 @@
 # Table name: studies
 #
 #  id                      :integer          not null, primary key
-#  slug                    :string(255)      not null
+#  slug                    :string           not null
 #  podcast_id              :integer          not null
-#  title                   :string(255)      not null
-#  description             :text(65535)
-#  keywords                :text(65535)
-#  ref_link                :string(255)
-#  poster_img_file_name    :string(255)
-#  poster_img_content_type :string(255)
+#  title                   :string           not null
+#  description             :text
+#  keywords                :text
+#  ref_link                :string
+#  poster_img_file_name    :string
+#  poster_img_content_type :string
 #  poster_img_file_size    :integer
 #  poster_img_updated_at   :datetime
-#  poster_img_original_url :string(255)
-#  poster_img_fingerprint  :string(255)
+#  poster_img_original_url :string
+#  poster_img_fingerprint  :string
 #  lessons_count           :integer          default("0")
 #  last_published_at       :datetime
-#  created_at              :datetime
-#  updated_at              :datetime
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
 #
 # Indexes
 #

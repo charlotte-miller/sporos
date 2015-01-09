@@ -5,7 +5,7 @@ class CreateStars < ActiveRecord::Migration
       t.integer :source_id,     null:false
       t.string  :source_type,   null:false,   limit:50
 
-      t.timestamps
+      t.timestamps  null: false
     end
     
     add_index :stars, :user_id

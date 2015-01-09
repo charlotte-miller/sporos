@@ -7,7 +7,7 @@ class CreatePodcasts < ActiveRecord::Migration
       t.datetime :last_checked
       t.datetime :last_updated
 
-      t.timestamps
+      t.timestamps  null: false
     end
     
     add_index :podcasts, :church_id

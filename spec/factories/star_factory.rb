@@ -6,8 +6,8 @@
 #  user_id     :integer          not null
 #  source_id   :integer          not null
 #  source_type :string(50)       not null
-#  created_at  :datetime
-#  updated_at  :datetime
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 # Indexes
 #

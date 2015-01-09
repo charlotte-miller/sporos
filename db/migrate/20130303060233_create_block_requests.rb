@@ -6,7 +6,7 @@ class CreateBlockRequests < ActiveRecord::Migration
       t.integer :source_id,     null:false
       t.string  :source_type,   null:false
 
-      t.timestamps
+      t.timestamps  null: false
     end
     
     add_index :block_requests, :user_id

@@ -5,12 +5,12 @@
 #  id              :integer          not null, primary key
 #  group_id        :integer          not null
 #  user_id         :integer          not null
-#  is_public       :boolean          default("1")
+#  is_public       :boolean          default("true")
 #  role_level      :integer          default("0")
-#  state           :string(255)      default("pending"), not null
+#  state           :string           default("pending"), not null
 #  request_sent_at :datetime
-#  created_at      :datetime
-#  updated_at      :datetime
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 # Indexes
 #

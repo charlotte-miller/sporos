@@ -41,7 +41,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.attachment :profile_image
       t.string     :profile_image_fingerprint
       
-      t.timestamps
+      t.timestamps  null: false
     end
 
     add_index :users, :email,                  unique: true

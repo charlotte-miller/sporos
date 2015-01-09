@@ -8,7 +8,7 @@ class CreateGroupMemberships < ActiveRecord::Migration
       t.string  :state,       null:false,   default:'pending'
       t.datetime :request_sent_at
 
-      t.timestamps
+      t.timestamps  null: false
     end
     
      add_index :group_memberships, [  :user_id, :is_public ]

@@ -5,11 +5,11 @@
 #  id            :integer          not null, primary key
 #  question_id   :integer
 #  author_id     :integer
-#  text          :text(65535)
+#  text          :text
 #  blocked_count :integer          default("0")
 #  stared_count  :integer          default("0")
-#  created_at    :datetime
-#  updated_at    :datetime
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
 #
 # Indexes
 #

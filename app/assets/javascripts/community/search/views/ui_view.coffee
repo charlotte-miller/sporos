@@ -122,10 +122,17 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
 
   thenScrollToMainUI: =>
     return unless @ui_name=='main' && @session.get('dropdown_visible')
-    $('#main-header').velocity 'scroll',
-      container: $('#main-page')
-      easing:   CStone.Animation.layoutTransition.easing
-      duration: CStone.Animation.layoutTransition.duration
+    
+    col_sm_min = 768
+    container  = $('#main-page')
+    scroll_to  = if container.width() <= col_sm_min then '#global-search' else '#main-header'
+    offset     = if navigator.platform.match(/iPhone/) then -70 else 0 #avoid iOS address bar
+    
+    $(scroll_to).velocity 'scroll',
+      container: container
+      easing:    CStone.Animation.layoutTransition.easing
+      duration:  CStone.Animation.layoutTransition.duration
+      offset:    offset
   
   # Internal
   # ----------------------------------------------------------------------

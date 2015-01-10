@@ -4,8 +4,12 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  height:500px;
   @extend %transitionHeight;
+  
+  height:500px;
+  @media (max-width: $screen-sm-min) {
+    height:300px;
+  }
 
   .container{ height:inherit; }
   

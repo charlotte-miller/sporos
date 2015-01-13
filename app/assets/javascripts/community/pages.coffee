@@ -136,13 +136,10 @@ class CStone.Community.Pages
       transitions=
         loading: =>
           @$page.trigger 'CStone.Community.Pages.Layout.loadPage.loading'
-          $body.css "cursor", "wait"
-          $body.find("a").css "cursor", "wait"
+          @$main.addClass('background')
   
         revealing: =>
           @$page.trigger "CStone.Community.Pages.Layout.loadPage.revealing"
-          $body.css "cursor", "auto"
-          $body.find("a").css "cursor", "auto"
           animatePageTransition(transitions.cleanup)
   
         cleanup: =>
@@ -152,33 +149,23 @@ class CStone.Community.Pages
     
       lastURL = @href
       animatePageTransition= (callback)=>
-        easing   = CStone.Animation.layoutTransition.easing
-        duration = CStone.Animation.layoutTransition.duration
         fromMain = @isMainPage(lastURL)
         toMain   = @isMainPage(url)
-      
+
         if fromMain
           if !toMain
-            @$page.velocity "scroll",
-              axis: "x"
-              easing: easing
-              duration: duration
-              complete: =>
-                @$main.removeClass('current')
-                @$page.addClass('current')
-                callback()
+            @$main.addClass('background')
+            @$main.removeClass('current')
+            @$page.addClass('current')
+            callback()
       
         else #fromPage
           if toMain
-            @$main.velocity "scroll",
-              axis: "x"
-              easing: easing
-              duration: duration
-              complete: =>
-                @$page.removeClass('current')
-                @$main.addClass('current')
-                @$page.html('')
-                callback()
+            @$page.removeClass('current')
+            @$main.addClass('current')
+            setTimeout (=> @$main.removeClass('background')), 500
+            setTimeout (=> @$page.html('')), 1000
+            callback()
               
           else #toPage
             # Change #page to #page-outgoing
@@ -207,9 +194,6 @@ class CStone.Community.Pages
         url = window.location.href
         @$page = $("#" + e.state.id)
         @loadPage url, {isPopped:true}  if @href isnt url and not Layout.utility.isHash(url)
-  
-  
-
 
   
     # Static Utility Methods

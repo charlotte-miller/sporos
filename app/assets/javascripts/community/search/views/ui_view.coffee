@@ -131,7 +131,7 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
       container: container
       easing:    CStone.Animation.layoutTransition.easing
       duration:  CStone.Animation.layoutTransition.duration
-      offset:    -100
+      offset:    -100 #offset mobile address-bars
   
   # Internal
   # ----------------------------------------------------------------------

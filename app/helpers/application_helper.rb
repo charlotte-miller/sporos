@@ -6,11 +6,11 @@ module ApplicationHelper
   
   def homepage_toggle
     capture_haml do
-      haml_tag :div, id:'main-page', class:"#{'current' if is_homepage?}" do
+      haml_tag :div, id:'main-page', class:"view-port-page #{'current' if is_homepage?}" do
         yield if is_homepage?
       end
     
-      haml_tag :div, id:'page', class:"#{'current' unless is_homepage?}" do
+      haml_tag :div, id:'page', class:"view-port-page #{'current' unless is_homepage?}" do
         yield unless is_homepage?
       end
     end

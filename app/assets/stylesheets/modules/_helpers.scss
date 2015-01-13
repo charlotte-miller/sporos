@@ -18,6 +18,13 @@
   transition-property: $val;
 }
 
+@mixin animationDuration($val){
+  -webkit-animation-duration: $val;
+  -moz-animation-duration: $val;
+  -o-animation-duration: $val;
+  animation-duration: $val;
+}
+
 %verticalCenter{
   @include verticalAlign(50%);
 }
@@ -26,11 +33,11 @@
   @include text-overflow();
 }
 
-%transitionHeight   { @include transitionValue(height)        }
-%transitionWidth    { @include transitionValue(width)         }
-%transitionMargin   { @include transitionValue(margin)        }
-%transitionTop      { @include transitionValue(top)           }
-%transitionTransform{ @include transitionValue(transform)     }
+%transitionHeight   { @include transitionValue(height);        }
+%transitionWidth    { @include transitionValue(width);         }
+%transitionMargin   { @include transitionValue(margin);        }
+%transitionTop      { @include transitionValue(top);           }
+%transitionTransform{ @include transitionValue(transform);     }
 
 .fadeIn{
     -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */

@@ -20,7 +20,7 @@ describe "lessons/show" do
       @study.description,
       @study.ref_link,
       @church.name,
-    ].each {|info| rendered.should have_content(info) }    
+    ].each {|info| rendered.should match(info) }
   end
   
   it "renders the Study's media" do

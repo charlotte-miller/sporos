@@ -8,10 +8,6 @@
         - @group.errors.full_messages.each do |msg|
           %li= msg
   .field
-    = f.label :study_id, name: 'Study'
-    %br/
-    = f.number_field :study_id
-  .field
     = f.label :name
     %br/
     = f.text_field :name

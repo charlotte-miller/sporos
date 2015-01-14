@@ -5,7 +5,6 @@ describe "groups/show" do
     @group = assign(:group, stub_model(Group,
       :name => "Name",
       :description => "MyText",
-      :study_id => 1,
       :created_at => Time.now
     ))
   end

@@ -46,7 +46,7 @@ RSpec.configure do |config|
   
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.clean_with(:deletion, except: %w[public.schema_migrations])
   end
   
   # Makes before(:all) useful again!

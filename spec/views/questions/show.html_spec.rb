@@ -3,8 +3,8 @@ require 'rails_helper'
 describe "questions/show" do
   before(:each) do
     @question = assign(:question, stub_model(Question,
-      :lesson_id => 1,
-      :group_id => 2,
+      :source_id => 1,
+      :source_type => 'Lesson',
       :text => "MyText",
       :answers_count => 3
     ))

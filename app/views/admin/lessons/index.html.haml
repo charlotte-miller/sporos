@@ -22,8 +22,8 @@
         %td= lesson.title
         %td= lesson.description
         %td= lesson.backlink
-        %td= link_to lesson.video.original_filename, lesson.video.url
-        %td= link_to lesson.audio.original_filename, lesson.audio.url
+        %td= link_to lesson.video.original_filename, lesson.video.url(:original)
+        %td= link_to lesson.audio.original_filename, lesson.audio.url(:original)
         %td= l lesson.created_at
         %td
           = link_to t('.edit', :default => t("helpers.links.edit")), |

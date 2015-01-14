@@ -22,9 +22,9 @@ describe "admin/studies/index" do
     render
     assert_select ".study", :count => 2
     
-    rendered.should have_content "road-to-damascus"
-    rendered.should have_content "Road to Damascus"
-    rendered.should have_content "God famously meets us in the low places.  This is a study on God intersecting our high-points"
-    rendered.should have_content "http://www.church.org/podcast/1234"
+    expect(rendered).to match "road-to-damascus"
+    expect(rendered).to match "Road to Damascus"
+    expect(rendered).to match "God famously meets us in the low places.  This is a study on God intersecting our high-points"
+    expect(rendered).to match "http://www.church.org/podcast/1234"
   end
 end

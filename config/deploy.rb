@@ -1,8 +1,7 @@
-require "rvm/capistrano"
 require "bundler/capistrano"
 # require "whenever/capistrano"
 
-server "origin.socialdevotional.com", :web, :app, :db, primary: true
+server "origin.cornerstonesf.org", :web, :app, :db, primary: true
 
 set :application, "social_devotional"
 set :repository,  "git@bitbucket.org:chip_miller/social-devotional.git"
@@ -22,10 +21,10 @@ ssh_options[:forward_agent] = true
 after "deploy", "deploy:cleanup" # keep only the last 5 releases
 
 
-role :web, "origin.socialdevotional.com" # NGINX
-role :app, "origin.socialdevotional.com" # This may be the same as your `Web` server
-role :db,  "origin.socialdevotional.com", :primary => true # This is where Rails migrations will run
-role :db,  "origin.socialdevotional.com"
+role :web, "origin.cornerstonesf.org" # NGINX
+role :app, "origin.cornerstonesf.org" # This may be the same as your `Web` server
+role :db,  "origin.cornerstonesf.org", :primary => true # This is where Rails migrations will run
+role :db,  "origin.cornerstonesf.org"
 
 # if you want to clean up old releases on each deploy uncomment this:
 after "deploy:restart", "deploy:cleanup"

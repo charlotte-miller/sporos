@@ -10,7 +10,7 @@ describe "questions/index" do
     end
 
     it "renders a list of questions" do
-      render :template => 'questions/index.html.erb'
+      render :template => 'questions/index'
       assert_select '#new_question_button', :href => '/library/matthew-study/lessons/1/questions'
     end
     
@@ -24,7 +24,7 @@ describe "questions/index" do
     end
 
     it "renders a list of questions" do
-      render :template => 'questions/index.html.erb'
+      render :template => 'questions/index'
       
       assert_select '#new_question_button', :href => '/groups/1/meetings/1/questions'
     end

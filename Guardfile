@@ -8,8 +8,8 @@
 # end
 
 rspec_options ={
-  all_on_start: false,
-  # all_after_pass:false,
+  all_on_start: true,
+  # all_after_pass:true,
   cmd: 'zeus test',
   run_all: { cli:"--deprecation-out" } #--profile
 }

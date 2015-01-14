@@ -31,12 +31,12 @@
     %strong
       = model_class.human_attribute_name(:video)
       \:
-  %dd= @lesson.video.url
+  %dd= link_to @lesson.video.basename, @lesson.video.url
   %dt
     %strong
       = model_class.human_attribute_name(:audio)
       \:
-  %dd= @lesson.audio.url
+  %dd= link_to @lesson.audio.basename, @lesson.audio.url
 .form-actions
   = link_to t('.back', :default => t("helpers.links.back")), |
     admin_lessons_path, :class => 'btn'                      |

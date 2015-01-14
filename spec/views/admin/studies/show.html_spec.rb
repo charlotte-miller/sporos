@@ -14,10 +14,10 @@ describe "admin/studies/show" do
     render
     assert_select "#study"
         
-    rendered.should have_content "road-to-damascus"
-    rendered.should have_content "Road to Damascus"
-    rendered.should have_content "God famously meets us in the low places.  This is a study on God intersecting our high-points"
-    rendered.should have_content "http://www.church.org/podcast/1234"
+    rendered.should match "road-to-damascus"
+    rendered.should match "Road to Damascus"
+    rendered.should match "God famously meets us in the low places.  This is a study on God intersecting our high-points"
+    rendered.should match "http://www.church.org/podcast/1234"
     # rendered.should match(/Lessons/)
   end
 end

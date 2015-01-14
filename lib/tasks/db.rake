@@ -9,7 +9,6 @@ namespace :db do
       # 'parallel:prepare'
       # 'db:seed'
     ].each { |task| Rake::Task[ task ].execute  } #rescue next
-    # `annotate -f before`
   end
   
 end

@@ -20,7 +20,7 @@ describe "studies/index" do
     render
     assert_select ".study", :count => 2
     
-    rendered.should have_content "Road to Damascus"
-    rendered.should have_content "God famously meets us in the low places.  This is a study on God intersecting our high-points"
+    rendered.should match "Road to Damascus"
+    rendered.should match "God famously meets us in the low places.  This is a study on God intersecting our high-points"
   end
 end

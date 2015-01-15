@@ -67,7 +67,7 @@ describe Lesson do
   describe '[scopes]'do
     describe 'for_study(:study_id)' do
       it "adds WHERE(study_id=n)" do
-        Lesson.for_study(1).to_sql.should match /WHERE `lessons`.`study_id` = 1/
+        Lesson.for_study(1).to_sql.should match /WHERE .?lessons.?\..?study_id.? = 1/
       end
     end
   end

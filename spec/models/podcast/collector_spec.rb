@@ -10,17 +10,17 @@ describe Podcast::Collector do
     
     it "queues requests for the collection of Podcasts" do
       q = Podcast::Collector.new([@podcast]).queue
-      q.length.should be(1)
+      expect(q.length).to be(1)
       q.each do |item| 
-        item.should be_an_instance_of Typhoeus::Request
-        item.base_url.should == @podcast.url
+        expect(item).to be_an_instance_of Typhoeus::Request
+        expect(item.base_url).to eql @podcast.url
       end
     end
     
     it "requires an array of @podcasts" do
-      lambda { Podcast::Collector.new(@podcast)         }.should raise_error(ArgumentError)
-      lambda { Podcast::Collector.new(['not podcast'])  }.should raise_error(ArgumentError)
-      lambda { Podcast::Collector.new([@podcast])       }.should_not raise_error
+      expect(lambda { Podcast::Collector.new(@podcast)         }).to raise_error(ArgumentError)
+      expect(lambda { Podcast::Collector.new(['not podcast'])  }).to raise_error(ArgumentError)
+      expect(lambda { Podcast::Collector.new([@podcast])       }).to_not raise_error
     end
   end
   
@@ -32,7 +32,7 @@ describe Podcast::Collector do
     end
       
     it "calls &on_complete for each @podcast" do
-      @podcasts.each {|p| p.stub(:foo)}
+      @podcasts.each {|p| def p.foo xml; end} #stub w/out verify_partial_doubles
       @podcasts.each {|podcast| podcast.should_receive(:foo).once.with(@podcast_xml) }
       collector = Podcast::Collector.new(@podcasts) {|podcast_obj, podcast_xml| podcast_obj.foo(podcast_xml) }
       collector.run!

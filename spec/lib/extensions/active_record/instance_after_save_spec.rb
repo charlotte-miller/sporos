@@ -4,7 +4,10 @@ describe 'InstanceAfterSave' do
   let(:any_model) { build(:church) }
   
   describe User, '#after_save' do
-    it_should_run_callbacks :run_instance_after_save
+    it 'runs the callback :run_instance_after_save' do
+      rails_internal_list_of_callbacks = subject._save_callbacks.bypass.chain.map(&:filter)
+      expect(rails_internal_list_of_callbacks).to include :run_instance_after_save
+    end
   end
   
   context "with an #after_save instance method" do
@@ -15,7 +18,7 @@ describe 'InstanceAfterSave' do
     end
     
     it "runs #after_save on save" do
-      subject.should_receive( :after_save ).once
+      expect(subject).to receive( :after_save ).once
       subject.save!
     end
   end
@@ -25,8 +28,8 @@ describe 'InstanceAfterSave' do
     
     it "skips #after_save on save" do
       # should_receive gives a false positive
-      lambda { subject.save! }.should_not raise_error
-      lambda { subject.after_save }.should raise_error NoMethodError
+      expect(lambda { subject.save! }).to_not raise_error
+      expect(lambda { subject.after_save }).to raise_error NoMethodError
     end
   end
 end

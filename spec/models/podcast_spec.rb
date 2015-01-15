@@ -121,9 +121,9 @@ describe Podcast do
     end
     
     it "skips existing podcast items" do
-      inital_lessons_count = subject.studies.sum(&:lessons_count)
+      inital_lessons_count = subject.studies.sum(:lessons_count)
       subject.update_channel(channel_obj) # same file
-      subject.studies.sum(&:lessons_count).should be inital_lessons_count
+      subject.studies.sum(:lessons_count).should be inital_lessons_count
     end
     
     it "groups similar lessons in the same study" do

@@ -16,14 +16,14 @@ describe Sanitizable do
     end
     
     it "strips tags, scripts, and lead/trailing whitespace" do
-      subject.send(:plain_text, @html_str).should == 'Friendly Link'
+      expect(subject.send(:plain_text, @html_str)).to eql 'Friendly Link'
     end
     
     it "whitespace pads the content of the removed tags" do
       [ "<h1>Friendly</h1><p>Link</p>",
         "<h1>Friendly</h1>    <p>Link</p>",
         "<h1>Friendly</h1>\n<p>Link</p>"
-      ].each {|str| subject.send(:plain_text, str).should == 'Friendly Link' }
+      ].each {|str| expect(subject.send(:plain_text, str)).to eql 'Friendly Link' }
     end
   end
   
@@ -34,8 +34,8 @@ describe Sanitizable do
         <img src="javascript://alert('spam')" />
       TEXT
       clean = subject.send(:sanitize, str)
-      clean.should match '<a>Click Me</a>'
-      clean.should match '<img />'
+      expect(clean).to match '<a>Click Me</a>'
+      expect(clean).to match '<img>'
     end
     
     it "removes style attributes" do
@@ -43,22 +43,22 @@ describe Sanitizable do
         <p style="text-size:large;">Click Me</p>
       TEXT
       clean = subject.send(:sanitize, str)
-      clean.should == '<p>Click Me</p>'
+      expect(clean).to eql '<p>Click Me</p>'
     end
   end
   
   describe '#sanitize_url(str)' do
     it "returns the url as a string" do
       good_url = 'http://www.marshill.org'
-      subject.send(:sanitize_url, good_url).should == good_url
+      expect(subject.send(:sanitize_url, good_url)).to eql good_url
     end
     
     it "returns nil when the link is non http(s)" do
       bad_url = "javascript://alert('spam')"
-      subject.send(:sanitize_url, bad_url).should be_nil
+      expect(subject.send(:sanitize_url, bad_url)).to be_nil
       
       bad_url = "ftp://ftp.example.com"
-      subject.send(:sanitize_url, bad_url).should be_nil
+      expect(subject.send(:sanitize_url, bad_url)).to be_nil
     end
   end
   

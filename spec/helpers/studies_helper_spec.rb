@@ -34,9 +34,11 @@ describe StudiesHelper do
     end
     
     describe "[private]" do
+      let(:layout_column_counts) { subject.instance_variable_get("@layout_column_counts") }
+      
       describe "#random_grid_row" do
-        it "grabs a random sample of LAYOUT_COLUMN_COUNTS" do
-          StudiesHelper::GridLayout::LAYOUT_COLUMN_COUNTS.should include subject.bypass.random_grid_row
+        it "grabs a random sample of @layout_column_counts" do
+          expect(layout_column_counts).to include subject.bypass.random_grid_row
         end
       end
     
@@ -45,17 +47,17 @@ describe StudiesHelper do
         after(:all){ $VERBOSE = @orig_verbose}
         before(:each) { @options={tidy_ending:false}}
     
-        it "returns N samples of LAYOUT_COLUMN_COUNTS" do
-          subject.bypass.collection_to_rows.should have(2).items # 5 items always spread to 2 rows 
+        it "returns N samples of @layout_column_counts" do
+          expect(subject.bypass.collection_to_rows).to have(2).items # 5 items always spread to 2 rows
           subject.bypass.collection_to_rows.each do |layout|
-            StudiesHelper::GridLayout::LAYOUT_COLUMN_COUNTS.should include layout
+            expect(layout_column_counts).to include layout
           end
         end
     
         it "does not repeat for 'rows_since_possible_repeat'" do
-          StudiesHelper::GridLayout::LAYOUT_COLUMN_COUNTS = [[1], [2], [3]] # length must be > rows_since_possible_repeat
           @options = { rows_since_possible_repeat: 2, tidy_ending:false}
           @collection = (1..6).to_a
+          subject.instance_variable_set( "@layout_column_counts", [[1], [2], [3]] ) # length must be > rows_since_possible_repeat
           subject.bypass.collection_to_rows.flatten.sort.should eq [1,1,2,2,3,3]
         end
     

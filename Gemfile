@@ -99,7 +99,7 @@ group :development, :test do
   # gem 'capistrano-rails', :require => nil
   
   # TDD
-  gem 'ruby_gntp'
+  gem 'growl'
   gem 'rb-fsevent'
   gem 'guard-rspec'#, '~> 3.0.2'
   gem 'guard-bundler'

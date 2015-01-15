@@ -9,18 +9,17 @@ module StudiesHelper
     GridLayout.new(collection, options).as_json
   end
   
-  class GridLayout
-    LAYOUT_COLUMN_COUNTS = [ 
-        [3,3,3,3],
-        [4,4,4],
-        [3,4,5],
-        [3,3,6]
-      ].inject([]) {|array,grid_width| (array | grid_width.permutation.to_a.uniq)}
-    
+  class GridLayout  
     def initialize(collection, options={})
       @rows = []
       @collection = @pristine_collection = collection
       @options = { rows_since_possible_repeat: 3, tidy_ending:true }.merge(options)
+      @layout_column_counts = [ 
+        [3,3,3,3],
+        [4,4,4],
+        [3,4,5],
+        [3,3,6]
+      ].inject([]) {|array,grid_width| (array | grid_width.permutation.to_a.uniq)}.freeze
     end
     
     def as_json
@@ -65,7 +64,7 @@ module StudiesHelper
     end
     
     def random_grid_row
-      LAYOUT_COLUMN_COUNTS.sample
+      @layout_column_counts.sample
     end
     
     def remaining_collection_items

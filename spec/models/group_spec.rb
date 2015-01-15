@@ -34,8 +34,8 @@ describe Group do
   describe 'a public group' do    
     it ".publicly_searchable scope filters by public " do
       sql = Group.publicly_searchable.to_sql
-      sql.should match(/`is_public` = 1/)
-      sql.should match(/`state` = 'is_open'/)
+      sql.should match(/.?is_public.? = 't'/)
+      sql.should match(/.?state.? = 'is_open'/)
     end
   end
   
@@ -43,7 +43,7 @@ describe Group do
     describe 'scopes -' do
       Group.aasm.states.map(&:to_s).each do |state|
         it "matches on '#{state}'" do
-          expect(Group.send(state).to_sql).to match( /`state` = '#{state}'/ )
+          expect(Group.send(state).to_sql).to match( /.?state.? = '#{state}'/ )
         end
       end
     end

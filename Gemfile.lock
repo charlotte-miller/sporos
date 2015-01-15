@@ -140,6 +140,7 @@ GEM
       activesupport (>= 4.1.0)
     groupdate (2.4.0)
       activesupport (>= 3)
+    growl (1.0.3)
     guard (2.11.1)
       formatador (>= 0.2.4)
       listen (~> 2.7)
@@ -351,7 +352,6 @@ GEM
     rspec_candy (0.3.1)
       rspec
       sneaky-save
-    ruby_gntp (0.3.4)
     ruby_parser (3.1.3)
       sexp_processor (~> 4.1)
     rufus-scheduler (3.0.9)
@@ -462,6 +462,7 @@ DEPENDENCIES
   faker
   fakeredis
   friendly_id (~> 5.0.4)
+  growl
   guard-bundler
   guard-rspec
   guard-teaspoon
@@ -500,7 +501,6 @@ DEPENDENCIES
   rspec-instafail
   rspec-rails
   rspec_candy
-  ruby_gntp
   sass-rails (~> 5.0.0.beta1)
   sdoc (~> 0.4.0)
   searchjoy

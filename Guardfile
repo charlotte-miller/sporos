@@ -9,9 +9,11 @@
 
 rspec_options ={
   all_on_start: true,
-  # all_after_pass:true,
-  cmd: 'zeus test',
-  run_all: { cli:"--deprecation-out" } #--profile
+  all_after_pass:true,
+  notification:false,
+  cmd: 'zeus rspec',
+  cmd_additional_args: '--deprecation-out log/deprecation.log',
+  run_all: { cmd_additional_args:"--profile --deprecation-out log/deprecation.log" }
 }
 
 guard 'rspec', rspec_options do

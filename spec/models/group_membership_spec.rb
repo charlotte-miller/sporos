@@ -42,11 +42,13 @@ describe GroupMembership do
     end
     
     it ".is_public scope filters by is_public " do
-      GroupMembership.is_public.to_sql.should match(/`is_public` = 1/)
+      GroupMembership.is_public.to_sql.should match(/.?is_public.? = 't'/)
     end
   end
   
   describe '#last_attended_at' do
+    subject { create :group_membership }
+    
     it "should alias updated_at" do
       Timecop.freeze('12/12/2012') {  subject.touch }
       subject.last_attended_at.should eql Time.parse('12/12/2012')

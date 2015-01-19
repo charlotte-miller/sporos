@@ -46,6 +46,8 @@ development:
 test:
 
 production:
+  dev_user: developer
+  dev_pass: 6a582863aa0cb850ff62924825e54555b5ee705b42d21c4280d5bced9adaaed3757eb2afcdf2c5d497226f811020f782905e909032fc9532e91f9110143b9fc8
   
   redis:
     host: 'redis-master.cornerstonesf.chruch'

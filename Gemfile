@@ -54,7 +54,7 @@ gem 'resque', '~> 1.25.2'
 gem 'resque-scheduler'
 gem 'resque_mailer'
 gem 'resque-retry'
-# gem 'resque-multi-job-forks'
+# gem 'resque-multi-job-forks', git:'https://github.com/stulentsev/resque-multi-job-forks
 
 gem "redis", "~> 3.1.0", :require => ["redis"]
 gem 'hiredis'

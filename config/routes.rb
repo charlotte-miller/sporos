@@ -70,8 +70,7 @@ Rails.application.routes.draw do
   #   resources :posts, concerns: :toggleable
   #   resources :photos, concerns: :toggleable
 
-  if Rails.env.development?
-    require 'resque/server'
-    mount Resque::Server.new, at: "/resque"
-  end
+
+  require 'mixins/http_authentication'
+  mount RESQUE_DASHBOARD, at: "/queue"
 end

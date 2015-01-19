@@ -85,4 +85,8 @@ class AttachableFileDummyClass < ActiveRecord::Base
   has_attachable_file :wonderful_img,     path: '/path/of/wonder'
   has_attachable_file :wonderful_video,   path: '/path/of/wonder-video'
   has_attachable_file :not_so_wonderful,  path: '/path/of/less-wonder'
+  
+  process_in_background :wonderful_img
+  process_in_background :wonderful_video
+  process_in_background :not_so_wonderful
 end

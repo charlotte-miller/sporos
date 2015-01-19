@@ -70,6 +70,7 @@ class User < ActiveRecord::Base
                         :medium => { geometry: "300x300>", format: 'jpg', convert_options: "-strip" }, 
                         :thumb  => { geometry: "100x100>", format: 'jpg', convert_options: "-strip" }}
 
+  process_in_background :profile_image
   
   
   # ---------------------------------------------------------------------------------

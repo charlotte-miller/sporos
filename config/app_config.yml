@@ -24,6 +24,8 @@ common:
     credentials:
       access_key_id: AKIAJAW4PTOXOO6POA7Q
       secret_access_key: 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
+  paperclip:
+    hash_secret: 'faffb797c3645584210908fea09473f330f9a07857e3ea84fa37c732f6b5af667d3d3f71ed292726bdba0d7d935f2f5813fe3454f0b44cf332a69153562cc6e9'
   redis:
     host: 'localhost'
     port: 6379

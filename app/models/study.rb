@@ -49,6 +49,8 @@ class Study < ActiveRecord::Base
                       # :styles => { thumb: { geometry: SD_SIZE, format: 'png', convert_options: "-strip" }}
                       # :processors => [:thumbnail, :pngquant]
 
+  process_in_background :poster_img
+  
   # http://sunspot.github.com/
   # searchable do
   #   string(  :title)                { searchable_title title } #, boost: 2.0

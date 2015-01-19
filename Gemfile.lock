@@ -6,13 +6,6 @@ GIT
       activerecord (>= 2.3.0)
 
 GIT
-  remote: https://github.com/jrgifford/delayed_paperclip.git
-  revision: 223a265e17f1efae14bfec9e3b649527ee77f90c
-  specs:
-    delayed_paperclip (2.9.0)
-      paperclip (>= 3.3)
-
-GIT
   remote: https://github.com/thoughtbot/paperclip.git
   revision: c46b40b973a66eb8ac454c1d22e5df15da66d7c3
   specs:
@@ -104,6 +97,8 @@ GEM
       safe_yaml (~> 1.0.0)
     daemons (1.1.9)
     database_cleaner (1.4.0)
+    delayed_paperclip (2.9.0)
+      paperclip (>= 3.3)
     devise (3.4.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -133,8 +128,6 @@ GEM
       railties (>= 3.0.0)
     faker (1.4.3)
       i18n (~> 0.5)
-    fakeredis (0.5.0)
-      redis (~> 3.0)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.6)
@@ -461,11 +454,10 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   configy
   database_cleaner
-  delayed_paperclip!
+  delayed_paperclip (>= 2.9.0)
   devise
   factory_girl_rails
   faker
-  fakeredis
   friendly_id (~> 5.0.4)
   growl
   guard-bundler

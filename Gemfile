@@ -43,7 +43,7 @@ gem 'posix-spawn'
 gem 'aws-sdk'
 gem 'paperclip',          git:'https://github.com/thoughtbot/paperclip.git'
 gem 'paperclip-ffmpeg'
-gem 'delayed_paperclip',  git:'https://github.com/jrgifford/delayed_paperclip.git'
+gem 'delayed_paperclip',  '>= 2.9.0'#,  git:'https://github.com/jrgifford/delayed_paperclip.git'
 # gem 'streamio-ffmpeg'
 # gem 'paperclip-optimizer'
 
@@ -143,6 +143,7 @@ group :test do
   gem 'simplecov', :require => false
   gem "activerecord-tableless", ">= 1.3.4",  git:'https://github.com/david135/activerecord-tableless.git' #https://github.com/softace/activerecord-tableless.git' #used by DummyClass when testing concerns
   gem "resque_spec"
-  gem "fakeredis", :require => "fakeredis/rspec"
+  # gem "fakeredis", :require => "fakeredis/rspec"
+  # gem 'mock_redis', ">= 0.14.0"
 end
 

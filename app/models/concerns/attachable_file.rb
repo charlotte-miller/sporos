@@ -18,6 +18,9 @@ module AttachableFile
     #    :s3_credentials   => AppConfig.s3.credentials,
     #    :path             => ':rails_env/:class/:attachment/:updated_at-:basename.:extension'
     #  
+    #  process_in_background :video
+    #  validates_attachment_content_type :video, :content_type => ['vidoe/mp4']
+    #  
     #  attr_accessor :video_original_url
     #  attr_reader :video_remote_url
     #  def video_remote_url=(url_str)
@@ -33,7 +36,7 @@ module AttachableFile
     #  end
     #  
     #
-    def has_attachable_file( attachment_name, options={} )      
+    def has_attachable_file( attachment_name, options={} )
       class_eval do
         has_attached_file attachment_name, {
           :storage          => :s3,
@@ -42,13 +45,14 @@ module AttachableFile
           :bucket           => AppConfig.s3.bucket,
           :s3_credentials   => AppConfig.s3.credentials,
           :s3_host_name     => AppConfig.s3.url,
-          :url              => ':s3_alias_url',
+          :hash_secret      => AppConfig.paperclip.hash_secret,
           :s3_host_alias    => lambda {|attach| AppConfig.domains.media_cdn_range.gsub('%d', rand(0..3).to_s)}, # Override for large media assets
-          :hash_secret      => 'faffb797c3645584210908fea09473f330f9a07857e3ea84fa37c732f6b5af667d3d3f71ed292726bdba0d7d935f2f5813fe3454f0b44cf332a69153562cc6e9',
+          :url              => ':s3_alias_url',
           # :path           => [ DEFINE IN OPTIONS ]
         }.deep_merge(options)
         
         unless options[:process_immediately]
+          #https://github.com/jrgifford/delayed_paperclip/issues/83
           # process_in_background attachment_name
         end
 

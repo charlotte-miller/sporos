@@ -50,6 +50,11 @@ module Lesson::AttachedMedia
                           hd:     { geometry: HD_SIZE,     format: 'png', convert_options: "-strip" },
                           mobile: { geometry: MOBILE_SIZE, format: 'png', convert_options: "-strip" }}
 
+  
+    process_in_background :audio
+    process_in_background :video
+    process_in_background :poster_img
+  
   end #included
 
 

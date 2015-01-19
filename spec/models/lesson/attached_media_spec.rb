@@ -1,17 +1,24 @@
 require 'rails_helper'
 Dir[Rails.root.join("lib/paperclip_processors/**/*.rb")].each {|f| require f}
 
-describe Lesson::AttachedMedia do #, :focus
-  subject { build(:lesson) }
+describe Lesson::AttachedMedia, resque:'inline' do
+  subject { build(:lesson, audio:nil, video:nil, poster_img:nil) }
+  let(:paperclip_worker) { DelayedPaperclip::Jobs::Resque }
   
   it { is_expected.to respond_to :audio }
   it { is_expected.to respond_to :video }
   it { is_expected.to respond_to :poster_img }
       
   describe 'attached audio -' do
-    it "runs the :video_to_audio processor" do
+    it "runs the :video_to_audio processor", :focus do
       expect_any_instance_of(Paperclip::VideoToAudio).to receive(:make).at_least(:once).and_return(audio_file)
+      # expect(DelayedPaperclip::Jobs::ActiveJob).to receive(:enqueue_delayed_paperclip).once
       subject.audio = audio_file
+      subject.save
+      # expect(subject.audio_processing).to be_true
+      binding.pry
+      # subject.save
+      # expect(paperclip_worker).to have_queue_size_of(1)
     end
   end
   

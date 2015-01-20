@@ -3,7 +3,7 @@ Resque.logger.formatter = Resque::QuietFormatter.new
 # Resque.logger.formatter = Resque::VerboseFormatter.new
 # Resque.logger.formatter = Resque::VeryVerboseFormatter.new
 
-Resque.redis.namespace = "resque:cornerstone"
+Resque.redis.namespace = "cornerstone:sporos"
 
 require 'yaml'
 require 'resque-scheduler'

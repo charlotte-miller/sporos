@@ -24,8 +24,8 @@ after_fork do |server, worker|
   Rails.cache.reset if Rails.cache.respond_to?(:reset)                                                 
   Rails.application.config.session_options[:cache] if Rails.application.config.session_options[:cache]
 
-  # redis_url = "redis://#{AppConfig.redis.host}:#{AppConfig.redis.port}"
-  # redis_namespace = "social_devotional.#{Rails.env}"
+  # redis_url = AppConfig.redis.host
+  # redis_namespace = "sporos:resque"
   # redis_config = {:url => redis_url, :namespace => redis_namespace}
   #
   # Sidekiq.configure_client do |config|

@@ -54,10 +54,11 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
 
   config.action_dispatch.rack_cache = {
-    metastore:   "redis://#{AppConfig.redis.host}:#{AppConfig.redis.port}/1/metastore",
-    entitystore: "redis://#{AppConfig.redis.host}:#{AppConfig.redis.port}/1/entitystore"
+    metastore:   "#{AppConfig.redis.host}/1/metastore",
+    entitystore: "#{AppConfig.redis.host}/1/entitystore"
   }
 
+  # TODO
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = "http://#{AppConfig.domains.cdn_range}" #[0..3]
 

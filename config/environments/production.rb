@@ -59,7 +59,7 @@ Rails.application.configure do
   }
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.action_controller.asset_host = "http://#{AppConfig.domains.cdn_range}" #[0..3]
+  # config.action_controller.asset_host = "http://#{AppConfig.domains.cdn_range}" #[0..3]
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.

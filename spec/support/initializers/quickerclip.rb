@@ -27,16 +27,11 @@ module Paperclip
     end
   end
 
-  # FIXME: Allow post_process once delayed_paperclip is working
-  class Attachment
-    # def post_process
-    # end
-  end
 
   class Ffmpeg
-    # def make
-    #   @file
-    # end
+    def make
+      @file
+    end
 
     def identify
       {}

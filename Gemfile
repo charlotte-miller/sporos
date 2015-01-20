@@ -143,7 +143,7 @@ group :test do
   gem 'simplecov', :require => false
   gem "activerecord-tableless", ">= 1.3.4",  git:'https://github.com/david135/activerecord-tableless.git' #https://github.com/softace/activerecord-tableless.git' #used by DummyClass when testing concerns
   gem "resque_spec"
-  # gem "fakeredis", :require => "fakeredis/rspec"
+  gem "fakeredis", :require => "fakeredis/rspec"
   # gem 'mock_redis', ">= 0.14.0"
 end
 

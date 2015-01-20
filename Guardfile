@@ -13,7 +13,7 @@ rspec_options ={
   notification:false,
   cmd: 'zeus rspec',
   cmd_additional_args: '--deprecation-out log/deprecation.log',
-  run_all: { cmd_additional_args:"--profile --deprecation-out log/deprecation.log" }
+  run_all: { cmd_additional_args:"--deprecation-out log/deprecation.log" } #--profile 
 }
 
 guard 'rspec', rspec_options do

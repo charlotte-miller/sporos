@@ -1,8 +1,8 @@
 require 'rails_helper'
 Dir[Rails.root.join("lib/paperclip_processors/**/*.rb")].each {|f| require f}
 
-describe Lesson::AttachedMedia, resque:'inline' do
-  subject { build(:lesson, audio:nil, video:nil, poster_img:nil) }
+describe Lesson::AttachedMedia do
+  subject { build(:lesson) }
   let(:paperclip_worker) { DelayedPaperclip::Jobs::Resque }
   
   it { is_expected.to respond_to :audio }
@@ -10,39 +10,38 @@ describe Lesson::AttachedMedia, resque:'inline' do
   it { is_expected.to respond_to :poster_img }
       
   describe 'attached audio -' do
-    it "runs the :video_to_audio processor", :focus do
+    it "runs the :video_to_audio processor" do
       expect_any_instance_of(Paperclip::VideoToAudio).to receive(:make).at_least(:once).and_return(audio_file)
-      # expect(DelayedPaperclip::Jobs::ActiveJob).to receive(:enqueue_delayed_paperclip).once
       subject.audio = audio_file
-      subject.save
-      # expect(subject.audio_processing).to be_true
-      binding.pry
-      # subject.save
-      # expect(paperclip_worker).to have_queue_size_of(1)
+      subject.audio.process_delayed!
     end
   end
   
-  describe 'attached video -' do
+  describe 'attached video -', pending:'Future video processing' do
     it "runs the :audio_to_video processor" do
       expect_any_instance_of(Paperclip::AudioToVideo).to receive(:make).at_least(:once).and_return(video_file)
       subject.video = video_file
+      subject.video.process_delayed!
     end
     
     it "runs the :ffmpeg processor" do
       expect_any_instance_of(Paperclip::Ffmpeg).to receive(:make).at_least(:once).and_return(video_file)
       subject.video = video_file
+      subject.video.process_delayed!
     end
     
     it "runs the :qtfaststart processor" do
       expect_any_instance_of(Paperclip::Qtfaststart).to receive(:make).at_least(:once).and_return(video_file)
       subject.video = video_file
+      subject.video.process_delayed!
     end
   end
   
   describe 'attached poster_img -' do
-    it "runs the :thumbnail processor" do
+    it "runs the :thumbnail processor", pending:'Future video processing' do
       expect_any_instance_of(Paperclip::Thumbnail).to receive(:make).at_least(:once).and_return(img_file)
       subject.poster_img = img_file
+      subject.poster_img.process_delayed!
     end
     
     it "runs the :pngquant processor" do

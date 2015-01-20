@@ -8,7 +8,9 @@ describe Paperclip::Attachment do
   
   describe '#url' do
     it "returns the S3 url when present?" do
-      expect(normal.video.url('foo')).to match %r{http://media.cornerstonesf.chruch/test/lessons/\d{0,4}/videos/foo/video.m4v}
+      with_resque do
+        expect(normal.reload.video.url('foo')).to match %r{http://media.cornerstonesf.chruch/test/lessons/\d{0,4}/videos/foo/video.m4v}
+      end
     end
     
     it "returns the instance.original_url if trusted_third_party?" do

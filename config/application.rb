@@ -40,4 +40,4 @@ module Sporos
 end
 
 # Use AppConfig in ./environments
-require File.expand_path('../initializers/configy', __FILE__)
+require File.expand_path('../initializers/_configy', __FILE__)

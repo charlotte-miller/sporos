@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130731050223) do
+ActiveRecord::Schema.define(version: 20150120225456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,11 +61,11 @@ ActiveRecord::Schema.define(version: 20130731050223) do
 
   create_table "block_requests", force: :cascade do |t|
     t.integer  "admin_user_id"
-    t.integer  "user_id",       null: false
-    t.integer  "source_id",     null: false
-    t.string   "source_type",   null: false
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.integer  "user_id",                  null: false
+    t.integer  "source_id",                null: false
+    t.string   "source_type",   limit: 50, null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   add_index "block_requests", ["source_id", "source_type"], name: "index_block_requests_on_source_id_and_source_type", using: :btree
@@ -78,10 +78,21 @@ ActiveRecord::Schema.define(version: 20130731050223) do
     t.datetime "updated_at",             null: false
   end
 
+  create_table "content_pages", force: :cascade do |t|
+    t.string   "slug",                      null: false
+    t.string   "title",                     null: false
+    t.text     "body",                      null: false
+    t.text     "seo_keywords", default: [], null: false, array: true
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "content_pages", ["slug"], name: "index_content_pages_on_slug", unique: true, using: :btree
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
     t.integer  "sluggable_id",              null: false
-    t.string   "sluggable_type", limit: 40
+    t.string   "sluggable_type", limit: 50
     t.datetime "created_at"
   end
 
@@ -171,7 +182,7 @@ ActiveRecord::Schema.define(version: 20130731050223) do
 
   create_table "podcasts", force: :cascade do |t|
     t.integer  "church_id",                null: false
-    t.string   "title",        limit: 100
+    t.string   "title",        limit: 100, null: false
     t.string   "url",                      null: false
     t.datetime "last_checked"
     t.datetime "last_updated"

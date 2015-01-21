@@ -47,6 +47,11 @@ Rails.application.routes.draw do
   devise_for :admin_user # to remove
   namespace :admin do
     resources :studies, :lessons
+    
+    namespace :content do
+      resources :pages
+    end
+    
   end
   
   # Example resource route with sub-resources:

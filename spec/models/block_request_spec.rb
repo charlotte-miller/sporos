@@ -6,7 +6,7 @@
 #  admin_user_id :integer
 #  user_id       :integer          not null
 #  source_id     :integer          not null
-#  source_type   :string           not null
+#  source_type   :string(50)       not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #

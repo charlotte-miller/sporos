@@ -4,7 +4,7 @@ class CreateBlockRequests < ActiveRecord::Migration
       t.integer :admin_user_id
       t.integer :user_id,       null:false
       t.integer :source_id,     null:false
-      t.string  :source_type,   null:false
+      t.string  :source_type,   null:false,   limit:50
 
       t.timestamps  null: false
     end

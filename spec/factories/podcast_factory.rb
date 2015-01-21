@@ -4,7 +4,7 @@
 #
 #  id           :integer          not null, primary key
 #  church_id    :integer          not null
-#  title        :string(100)
+#  title        :string(100)      not null
 #  url          :string           not null
 #  last_checked :datetime
 #  last_updated :datetime

@@ -1,0 +1,27 @@
+%h1 Listing content_pages
+
+%table
+  %thead
+    %tr
+      %th Slug
+      %th Title
+      %th Body
+      %th Seo keywords
+      %th
+      %th
+      %th
+
+  %tbody
+    - @content_pages.each do |content_page|
+      %tr
+        %td= content_page.slug
+        %td= content_page.title
+        %td= content_page.body
+        %td= content_page.seo_keywords.join(', ')
+        %td= link_to 'Show', [:admin, content_page]
+        %td= link_to 'Edit', edit_admin_content_page_path(content_page)
+        %td= link_to 'Destroy', [:admin, content_page], :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Page', new_admin_content_page_path

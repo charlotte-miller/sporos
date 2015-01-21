@@ -1,0 +1,22 @@
+= form_for [:admin, @content_page] do |f|
+  - if @content_page.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@content_page.errors.count, "error")} prohibited this content_page from being saved:"
+      %ul
+        - @content_page.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :slug
+    = f.text_field :slug
+  .field
+    = f.label :title
+    = f.text_field :title
+  .field
+    = f.label :body
+    = f.text_area :body
+  .field
+    = f.label :seo_keywords
+    = f.text_field :seo_keywords
+  .actions
+    = f.submit 'Save'

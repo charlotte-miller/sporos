@@ -32,3 +32,13 @@ development:
 test:
   <<: *default
   database: sporos_test
+
+
+# ===============
+# = Legacy Site =
+# ===============
+cornerstone_sf_org:
+  <<: *default
+  database: cornerstone_sf_org
+  # username: sporos
+  # password: '86HKW?kXj6U+A%LPkP2QeDfJ7@&M=9'

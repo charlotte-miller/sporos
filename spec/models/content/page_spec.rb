@@ -3,10 +3,12 @@
 # Table name: content_pages
 #
 #  id           :integer          not null, primary key
+#  parent_id    :integer
 #  slug         :string           not null
 #  title        :string           not null
 #  body         :text             not null
 #  seo_keywords :text             default("{}"), not null, is an Array
+#  hidden_link  :boolean          default("false"), not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #

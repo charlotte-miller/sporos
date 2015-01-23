@@ -79,12 +79,14 @@ ActiveRecord::Schema.define(version: 20150120225456) do
   end
 
   create_table "content_pages", force: :cascade do |t|
-    t.string   "slug",                      null: false
-    t.string   "title",                     null: false
-    t.text     "body",                      null: false
-    t.text     "seo_keywords", default: [], null: false, array: true
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.integer  "parent_id"
+    t.string   "slug",                         null: false
+    t.string   "title",                        null: false
+    t.text     "body",                         null: false
+    t.text     "seo_keywords", default: [],    null: false, array: true
+    t.boolean  "hidden_link",  default: false, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
   add_index "content_pages", ["slug"], name: "index_content_pages_on_slug", unique: true, using: :btree

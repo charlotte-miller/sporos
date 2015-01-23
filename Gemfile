@@ -9,6 +9,7 @@ gem 'oj'
 gem 'rack-cache'
 gem 'kgio'
 gem 'sitemap_generator', :require => false
+gem 'redcarpet' #markdown for legacy_pages
 # gem 'parallel'
 # gem 'ox'
 # gem 'profanalyzer'

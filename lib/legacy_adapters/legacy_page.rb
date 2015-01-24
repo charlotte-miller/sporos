@@ -36,11 +36,12 @@
 #  simple_cms_navigation_slug_like                      (slug)
 #
 
-class Content::LegacyPage < ActiveRecord::Base
+require 'mixins/external_table'
+
+class LegacyPage < ActiveRecord::Base
   include ExternalTable
-  db_setup "cornerstone_sf_org", 'simple_cms_navigation'  
   
-  belongs_to :parent, :class_name => "Content::LegacyPage", :foreign_key => "parent_id"
+  belongs_to :parent, :class_name => "LegacyPage", :foreign_key => "parent_id"
   
   def self.update_or_create_recent_pages(only_updates=false)
     find_recent_updates(only_updates).map(&:update_or_create_page).length
@@ -74,7 +75,7 @@ private #-----------------------------------------------------------------------
   def self.find_recent_updates(only_updates)
     last_updated_page   = Content::Page.maximum(:updated_at) if only_updates
     last_updated_page ||= Time.at(0)
-    Content::LegacyPage
+    LegacyPage
       .order('parent_id DESC') #parents first
       .where(['updated_at > ?', last_updated_page])
       .where(active:true)

@@ -10,6 +10,7 @@ gem 'rack-cache'
 gem 'kgio'
 gem 'sitemap_generator', :require => false
 gem 'redcarpet' #markdown for legacy_pages
+gem 'net-ssh-gateway', require:false
 # gem 'parallel'
 # gem 'ox'
 # gem 'profanalyzer'

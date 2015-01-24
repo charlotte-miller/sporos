@@ -5,10 +5,12 @@
 #   ...
 # end
 
+# require 'net/ssh/gateway'
+
 module ExternalTable
   extend ActiveSupport::Concern
-  module ClassMethods
-    def db_setup(db_config_name, table_name=self.table_name)
+  module ClassMethods  
+    def db_setup(db_config_name, table_name=self.table_name)    
       establish_connection db_config_name
       self.table_name = table_name
     end

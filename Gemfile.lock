@@ -211,6 +211,9 @@ GEM
     multi_json (1.10.1)
     multipart-post (2.0.0)
     nenv (0.1.1)
+    net-ssh (2.9.1)
+    net-ssh-gateway (1.2.0)
+      net-ssh (>= 2.6.5)
     newrelic_rpm (3.9.9.275)
     nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
@@ -474,6 +477,7 @@ DEPENDENCIES
   kgio
   lorem_ipsum_amet
   minitest
+  net-ssh-gateway
   newrelic_rpm
   oj
   paperclip!

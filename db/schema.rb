@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150120225456) do
+ActiveRecord::Schema.define(version: 20150126225444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -167,6 +167,17 @@ ActiveRecord::Schema.define(version: 20150120225456) do
 
   add_index "lessons", ["backlink"], name: "index_lessons_on_backlink", using: :btree
   add_index "lessons", ["study_id", "position"], name: "index_lessons_on_study_id_and_position", using: :btree
+
+  create_table "media_channels", force: :cascade do |t|
+    t.integer  "position",   null: false
+    t.string   "title",      null: false
+    t.string   "slug",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "media_channels", ["position"], name: "index_media_channels_on_position", unique: true, using: :btree
+  add_index "media_channels", ["slug"], name: "index_media_channels_on_slug", unique: true, using: :btree
 
   create_table "meetings", force: :cascade do |t|
     t.integer  "group_id",                          null: false

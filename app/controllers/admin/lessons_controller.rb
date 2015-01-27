@@ -2,7 +2,7 @@ class Admin::LessonsController < Admin::BaseController
   # GET /lessons
   # GET /lessons.json
   def index
-    @lessons = Lesson.all
+    @lessons = Media::Lesson.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,7 +13,7 @@ class Admin::LessonsController < Admin::BaseController
   # GET /lessons/1
   # GET /lessons/1.json
   def show
-    @lesson = Lesson.find(params[:id])
+    @lesson = Media::Lesson.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,7 +24,7 @@ class Admin::LessonsController < Admin::BaseController
   # GET /lessons/new
   # GET /lessons/new.json
   def new
-    @lesson = Lesson.new
+    @lesson = Media::Lesson.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -34,16 +34,16 @@ class Admin::LessonsController < Admin::BaseController
 
   # GET /lessons/1/edit
   def edit
-    @lesson = Lesson.find(params[:id])
+    @lesson = Media::Lesson.find(params[:id])
   end
 
   # POST /lessons
   # POST /lessons.json
   def create
-    @lesson = Lesson.new(params[:lesson])
+    @lesson = Media::Lesson.new(params[:media_lesson])
     respond_to do |format|
       if @lesson.save
-        format.html { redirect_to [:admin, @lesson], notice: 'Lesson was successfully created.' }
+        format.html { redirect_to admin_lesson_url(@lesson), notice: 'Media::Lesson was successfully created.' }
         format.json { render json: @lesson, status: :created, location: @lesson }
       else
         format.html { render action: "new" }
@@ -55,11 +55,11 @@ class Admin::LessonsController < Admin::BaseController
   # PUT /lessons/1
   # PUT /lessons/1.json
   def update
-    @lesson = Lesson.find(params[:id])
+    @lesson = Media::Lesson.find(params[:id])
 
     respond_to do |format|
-      if @lesson.update_attributes(params[:lesson])
-        format.html { redirect_to [:admin, @lesson], notice: 'Lesson was successfully updated.' }
+      if @lesson.update_attributes(params[:media_lesson])
+        format.html { redirect_to admin_lesson_url(@lesson), notice: 'Media::Lesson was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -71,7 +71,7 @@ class Admin::LessonsController < Admin::BaseController
   # DELETE /lessons/1
   # DELETE /lessons/1.json
   def destroy
-    @lesson = Lesson.find(params[:id])
+    @lesson = Media::Lesson.find(params[:id])
     @lesson.destroy
 
     respond_to do |format|

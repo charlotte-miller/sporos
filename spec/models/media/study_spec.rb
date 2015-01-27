@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: studies
+# Table name: media_studies
 #
 #  id                      :integer          not null, primary key
 #  slug                    :string           not null
@@ -23,14 +23,14 @@
 #
 # Indexes
 #
-#  index_studies_on_last_published_at                 (last_published_at)
-#  index_studies_on_podcast_id_and_last_published_at  (podcast_id,last_published_at)
-#  index_studies_on_slug                              (slug) UNIQUE
+#  index_media_studies_on_last_published_at                 (last_published_at)
+#  index_media_studies_on_podcast_id_and_last_published_at  (podcast_id,last_published_at)
+#  index_media_studies_on_slug                              (slug) UNIQUE
 #
 
 require 'rails_helper'
 
-describe Study do
+describe Media::Study do
   it { should have_many(:lessons) }
   it { should belong_to(:podcast) }
   it { should have_one(:church).through(:podcast) }
@@ -108,7 +108,7 @@ describe Study do
   describe '#include?(lesson)' do
     it "requires an argument of @lesson" do
       lambda { subject.include?() }.should raise_error(ArgumentError, 'wrong number of arguments (0 for 1)')
-      lambda { subject.include?(nil) }.should raise_error(ArgumentError, 'Study#include? requires a @lesson')
+      lambda { subject.include?(nil) }.should raise_error(ArgumentError, 'Media::Study#include? requires a @lesson')
     end
     
     it "determins if a lesson is part of a study" do
@@ -124,15 +124,15 @@ describe Study do
   describe '#should_include?(lesson)' do
     it "requires an argument of @lesson" do
       lambda { subject.include?() }.should raise_error(ArgumentError, 'wrong number of arguments (0 for 1)')
-      lambda { subject.include?(nil) }.should raise_error(ArgumentError, 'Study#include? requires a @lesson')
+      lambda { subject.include?(nil) }.should raise_error(ArgumentError, 'Media::Study#include? requires a @lesson')
     end
     
     # this doesn't mean it's bad to add this lesson... just that this isn't yet the lesson's 'home'
     it "returns false if lessons are empty" do
-      expect(Study.new.should_include?( Lesson.new )).to be false
+      expect(Media::Study.new.should_include?( Media::Lesson.new )).to be false
     end
     
-    # essentally delegates logic to Lesson#belongs_with?
+    # essentally delegates logic to Media::Lesson#belongs_with?
     it "returns true if this lesson belongs_with? the studies last lesson" do
       study  = build_stubbed(:study_w_lesson)
       lesson = study.lessons.last
@@ -140,7 +140,7 @@ describe Study do
       # positive and negative case
       [true, false].each do |bool|
         lesson.stub(belongs_with?:bool)
-        study.should_include?( Lesson.new ).should eql bool
+        study.should_include?( Media::Lesson.new ).should eql bool
       end
     end
   end

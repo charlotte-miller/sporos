@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-module Lesson::SimilarityHeuristic
+module Media::Lesson::SimilarityHeuristic
   describe Subtitle do
     
     describe '#maches?' do

@@ -1,4 +1,4 @@
-module Lesson::SimilarityHeuristic
+module Media::Lesson::SimilarityHeuristic
   class Subtitle < Base
 
     def matches?

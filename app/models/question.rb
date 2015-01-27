@@ -35,7 +35,7 @@ class Question < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   belongs_to :author,   :class_name => "User",      :foreign_key => "user_id"
   belongs_to :permanent_approver, :class_name => "AdminUser", :foreign_key => "admin_user_id"
-  belongs_to :source,   polymorphic: true  # Meeting, Lesson, Group
+  belongs_to :source,   polymorphic: true  # Meeting, Media::Lesson, Group
 
   has_many   :answers, inverse_of: :question do
     def popular(n)
@@ -70,7 +70,7 @@ class Question < ActiveRecord::Base
     
   # Admin and Reporting
   # scope :meetings,  where(source_type:'Meeting')
-  # scope :lessons,   where(source_type:'Lesson')
+  # scope :lessons,   where(source_type:'Media::Lesson')
   # scope :groups,    where(source_type:'Group')  
   
   

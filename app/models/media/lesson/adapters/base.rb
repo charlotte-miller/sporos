@@ -1,7 +1,7 @@
-# === Lesson::Adapters::Base (Abstract Class)
+# === Media::Lesson::Adapters::Base (Abstract Class)
 # Provides a common interface for any lesson-source
 #
-module Lesson::Adapters
+module Media::Lesson::Adapters
   class Invalid  < StandardError; end
   class NotFound < StandardError; end
 

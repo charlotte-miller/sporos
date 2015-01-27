@@ -32,7 +32,7 @@ require 'rspec/mocks/standalone'
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
-  factory :study do
+  factory :study, class:'Media::Study' do
     ignore do
       lesson nil    # create an associated @lesson 
       slug   false  # override the generated slug

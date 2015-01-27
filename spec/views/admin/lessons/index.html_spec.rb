@@ -4,14 +4,14 @@ describe "admin/lessons/index" do
   before(:each) do
     @audio, @video = [audio_file, video_file]
     lessons = assign(:lessons, [
-      build_stubbed(Lesson,
+      build_stubbed(:lesson,
         :title => "Road to Damascus Part 1",
         :description => "God famously meets us in the low places.  This is a study on God intersecting our high-points",
         :backlink => "http://www.church.org/sermon/1234",
         :video => @video,
         :audio => @audio,
       ),
-      build_stubbed(Lesson,
+      build_stubbed(:lesson,
         :title => "Road to Damascus Part 2",
         :description => "God famously meets us in the low places.  This is a study on God intersecting our high-points",
         :backlink => "http://www.church.org/sermon/1235",
@@ -19,7 +19,7 @@ describe "admin/lessons/index" do
         :audio => @audio,
       )
     ])
-    base_url = 'http://media.cornerstonesf.chruch/test/lessons/\d+'
+    base_url = 'http://media.cornerstonesf.chruch/test/media/lessons/\d+'
     @audio_url_matcher = %r`#{base_url}/audios/original/#{@audio.basename}\?*{10}`
     @video_url_matcher = %r`#{base_url}/videos/original/#{@video.basename}\?*{10}`
   end

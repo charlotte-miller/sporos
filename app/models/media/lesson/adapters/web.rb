@@ -1,15 +1,15 @@
 require 'nokogiri'
 
-# === Lesson::Adapters::Web
+# === Media::Lesson::Adapters::Web
 # Selects and delegates parsing to a domain specific adapter
 #
 #   1) looks up an adapter based on the domain
 #   2) delegates ATTRIBUTES to the domain-adapter (which handles the messiness of parsing the web_site)
 #
-module Lesson::Adapters
+module Media::Lesson::Adapters
   class Web < Base
     attr_reader :url, :nokogiri_doc, :domain_adapter
-    delegate *Lesson::Adapters::Base::ATTRIBUTES, to: :domain_adapter
+    delegate *Media::Lesson::Adapters::Base::ATTRIBUTES, to: :domain_adapter
 
     # Builds from a url string
     def self.new_from_url(url)
@@ -27,10 +27,10 @@ module Lesson::Adapters
 
     # returns an instance of the adapter class
     def load_adapter
-      klass = "lesson/adapters/web_sites/#{normalized_underscored_domain}".classify.constantize
+      klass = "media/lesson/adapters/web_sites/#{normalized_underscored_domain}".classify.constantize
       @domain_adapter = klass.new( uri_obj.to_s, nokogiri_doc )
     rescue NameError => e
-      raise Lesson::Adapters::NotFound.new("No adapter for: #{e.missing_name}")
+      raise Media::Lesson::Adapters::NotFound.new("No adapter for: #{e.missing_name}")
     end
 
     def uri_obj

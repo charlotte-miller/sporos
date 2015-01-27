@@ -1,4 +1,4 @@
-module Lesson::Adapters
+module Media::Lesson::Adapters
   class Podcast < Base
 
     # Builds from a Podcast::Item

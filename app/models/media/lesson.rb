@@ -42,10 +42,10 @@
 #  index_lessons_on_study_id_and_position  (study_id,position)
 #
 
-class Lesson < ActiveRecord::Base
+class Media::Lesson < ActiveRecord::Base
   include Searchable
   include Questionable
-  include Lesson::AttachedMedia
+  include Media::Lesson::AttachedMedia
   # include Comparable
 
   # ---------------------------------------------------------------------------------
@@ -76,8 +76,8 @@ class Lesson < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------
-  belongs_to :study, touch:true  # counter_cache rolled into Study#touch
-  # has_one :poster_maker, :class_name => "Lesson::PosterMaker", :dependent => :destroy
+  belongs_to :study, touch:true, class_name:'Media::Study'  # counter_cache rolled into Media::Study#touch
+  # has_one :poster_maker, :class_name => "Media::Lesson::PosterMaker", :dependent => :destroy
   
   # ---------------------------------------------------------------------------------
   # Validations
@@ -93,7 +93,7 @@ class Lesson < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Callbacks
   # ---------------------------------------------------------------------------------
-  before_save :process_poster_img_first # Lesson::AttachedMedia
+  before_save :process_poster_img_first # Media::Lesson::AttachedMedia
   
   # ---------------------------------------------------------------------------------
   # Scopes
@@ -107,8 +107,8 @@ class Lesson < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   class << self
       
-    # Builds a lesson from an instance of Lesson::Adapters::'Klass'
-    # WARN Study must be added later
+    # Builds a lesson from an instance of Media::Lesson::Adapters::'Klass'
+    # WARN Media::Study must be added later
     def new_from_adapter(lesson_adapter)
       new(lesson_adapter.to_hash, as:'sudo')
     end
@@ -119,13 +119,13 @@ class Lesson < ActiveRecord::Base
   # => returns true|false
   #
   def belongs_with? other_lesson
-    require 'lesson/similarity_heuristic/base'
-    !!Lesson::SimilarityHeuristic::Base::STRATEGIES.find do |strategy|
+    require 'media/lesson/similarity_heuristic/base'
+    !!Media::Lesson::SimilarityHeuristic::Base::STRATEGIES.find do |strategy|
       strategy.new(self, other_lesson).matches?
     end
   end
   
   def duplicate?
-    Lesson.where(backlink: backlink).exists?
+    Media::Lesson.where(backlink: backlink).exists?
   end
 end

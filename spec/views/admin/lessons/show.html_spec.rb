@@ -3,7 +3,7 @@ require 'rails_helper'
 describe "admin/lessons/show" do
   before(:each) do
     @audio, @video = [audio_file, video_file]
-    @lesson = assign(:lesson, build_stubbed(Lesson,
+    @lesson = assign(:lesson, build_stubbed(:lesson,
       :title => "Road to Damascus Part 1",
       :description => "God famously meets us in the low places.  This is a study on God intersecting our high-points",
       :backlink => "http://www.church.org/sermon/1234",

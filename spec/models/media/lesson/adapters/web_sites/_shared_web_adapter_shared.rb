@@ -1,9 +1,9 @@
 require 'rails_helper'
 require 'set'
 
-shared_examples 'a Lesson::Adapter' do |attr_hash|
+shared_examples 'a Media::Lesson::Adapter' do |attr_hash|
     
-  Lesson::Adapters::Base::ATTRIBUTES.each do |attr|
+  Media::Lesson::Adapters::Base::ATTRIBUTES.each do |attr|
     it "assigns data to EVERY attribute in the interface [#{attr}]" do
       subject.should respond_to(attr)
       subject.send(attr).should_not be_nil

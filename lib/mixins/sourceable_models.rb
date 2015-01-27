@@ -11,7 +11,7 @@ module SourceableModels
       
       # Admin and Reporting
       scope :meetings,  -> {where(source_type:'Meeting' ) }
-      scope :lessons,   -> {where(source_type:'Lesson'  ) }
+      scope :lessons,   -> {where(source_type:'Media::Lesson'  ) }
       scope :groups,    -> {where(source_type:'Group'   ) }
       
     end    

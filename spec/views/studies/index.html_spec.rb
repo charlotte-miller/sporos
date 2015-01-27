@@ -3,12 +3,12 @@ require 'rails_helper'
 describe "studies/index" do
   before(:each) do
     assign(:studies, [
-      build_stubbed(Study,
+      build_stubbed(:study,
         :title => "Road to Damascus",
         :description => "God famously meets us in the low places.  This is a study on God intersecting our high-points",
         lessons: [build_stubbed(:lesson)]
       ),
-      build_stubbed(Study,
+      build_stubbed(:study,
         :title => "Road to Damascus",
         :description => "God famously meets us in the low places.  This is a study on God intersecting our high-points",
         lessons: [build_stubbed(:lesson)]

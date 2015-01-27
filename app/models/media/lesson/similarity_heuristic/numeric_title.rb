@@ -1,7 +1,7 @@
 # Matches Lessons based on title equality after controlling for numbers
 # Example: "Roman Road Part 1" matches "Roman Road Part 2"
 #
-module Lesson::SimilarityHeuristic
+module Media::Lesson::SimilarityHeuristic
   class NumericTitle < Base
 
     def matches?

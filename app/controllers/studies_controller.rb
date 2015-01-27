@@ -6,12 +6,12 @@ class StudiesController < ApplicationController
   def index
     @studies = (
       if params[:search]
-        Study.search do
+        Media::Study.search do
           fulltext params[:search]
         end
         
       else # Not searching
-        Study.all
+        Media::Study.all
       end
     )
     
@@ -31,7 +31,7 @@ class StudiesController < ApplicationController
     @lesson = @lessons.first
       
     respond_to do |format|      
-      format.html { redirect_to [@study, @lesson] }
+      format.html { redirect_to study_lesson_url(@study, @lesson) }
       format.json { render json: @study }
     end
   end
@@ -41,9 +41,9 @@ private
   # Return @study OR follow old friendly_id
   # Usage: @study = find_or_redirect_to_study || return #redirecting
   def find_or_redirect_to_study
-    study = Study.w_lessons.friendly.find(params[:id]) 
+    study = Media::Study.w_lessons.friendly.find(params[:id]) 
     unless request.path == study_path(study)
-      redirect_to( study, status: :moved_permanently ) && (return false)
+      redirect_to( study_url(study), status: :moved_permanently ) && (return false)
     end
     return study
   end

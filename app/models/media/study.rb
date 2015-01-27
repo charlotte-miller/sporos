@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: studies
+# Table name: media_studies
 #
 #  id                      :integer          not null, primary key
 #  slug                    :string           not null
@@ -23,12 +23,12 @@
 #
 # Indexes
 #
-#  index_studies_on_last_published_at                 (last_published_at)
-#  index_studies_on_podcast_id_and_last_published_at  (podcast_id,last_published_at)
-#  index_studies_on_slug                              (slug) UNIQUE
+#  index_media_studies_on_last_published_at                 (last_published_at)
+#  index_media_studies_on_podcast_id_and_last_published_at  (podcast_id,last_published_at)
+#  index_media_studies_on_slug                              (slug) UNIQUE
 #
 
-class Study < ActiveRecord::Base
+class Media::Study < ActiveRecord::Base
   include Sluggable
   include Searchable
   include AttachableFile
@@ -67,7 +67,7 @@ class Study < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   belongs_to :podcast, :inverse_of => :studies
   has_one :church,     :through => :podcast, :inverse_of => :studies
-  has_many :lessons, -> {order 'position ASC'}, {:dependent => :destroy} do
+  has_many :lessons, -> {order 'position ASC'}, {:dependent => :destroy, class_name:'Media::Lesson'} do
     def number(n, strict=false)
       raise ActiveRecord::RecordNotFound if strict && (n > self.length) #lessons_count
       where(position:n).first
@@ -106,14 +106,14 @@ class Study < ActiveRecord::Base
   
   # Answers "Is this lesson part of this study?"
   def include?(lesson)
-    raise ArgumentError.new('Study#include? requires a @lesson') unless lesson.is_a? Lesson
+    raise ArgumentError.new('Media::Study#include? requires a @lesson') unless lesson.is_a? Media::Lesson
     lessons.include? lesson
   end
   
   # Determins if a lesson SHOULD part of this study
   # => false if lessons.empty?
   def should_include?(lesson)
-    raise ArgumentError.new('Study#include? requires a @lesson') unless lesson.is_a? Lesson
+    raise ArgumentError.new('Media::Study#include? requires a @lesson') unless lesson.is_a? Media::Lesson
     !!(lessons.last.try :belongs_with?, lesson)
   end
   

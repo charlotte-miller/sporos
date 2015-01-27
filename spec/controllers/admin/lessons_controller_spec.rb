@@ -38,7 +38,7 @@ describe Admin::LessonsController do
     
     it { should respond_with(:success) }
     it "assigns a new lesson as @lesson" do
-      assigns(:lesson).should be_a_new(Lesson)
+      assigns(:lesson).should be_a_new(Media::Lesson)
     end
   end
 
@@ -53,36 +53,36 @@ describe Admin::LessonsController do
 
   describe "POST create" do
     describe "with valid params" do
-      it "creates a new Lesson" do
+      it "creates a new Media::Lesson" do
         expect {
-          post :create, {:lesson => valid_attributes}
-        }.to change(Lesson, :count).by(1)
+          post :create, {:media_lesson => valid_attributes}
+        }.to change(Media::Lesson, :count).by(1)
       end
 
       it "assigns a newly created lesson as @lesson" do
-        post :create, {:lesson => valid_attributes}
-        assigns(:lesson).should be_a(Lesson)
+        post :create, {:media_lesson => valid_attributes}
+        assigns(:lesson).should be_a(Media::Lesson)
         assigns(:lesson).should be_persisted
       end
 
       it "redirects to the created lesson" do
-        post :create, {:lesson => valid_attributes}
-        response.should redirect_to([:admin, Lesson.last])
+        post :create, {:media_lesson => valid_attributes}
+        response.should redirect_to( admin_lesson_url(Media::Lesson.last) )
       end
     end
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved lesson as @lesson" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Lesson.any_instance.stub(:save).and_return(false)
-        post :create, {:lesson => { "study_id" => "invalid value" }}
-        assigns(:lesson).should be_a_new(Lesson)
+        Media::Lesson.any_instance.stub(:save).and_return(false)
+        post :create, {:media_lesson => { "study_id" => "invalid value" }}
+        assigns(:lesson).should be_a_new(Media::Lesson)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Lesson.any_instance.stub(:save).and_return(false)
-        post :create, {:lesson => { "study_id" => "invalid value" }}
+        Media::Lesson.any_instance.stub(:save).and_return(false)
+        post :create, {:media_lesson => { "study_id" => "invalid value" }}
         response.should render_template("new")
       end
     end
@@ -92,36 +92,36 @@ describe Admin::LessonsController do
     describe "with valid params" do
       it "updates the requested lesson" do
         # Assuming there are no other lessons in the database, this
-        # specifies that the Lesson created on the previous line
+        # specifies that the Media::Lesson created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Lesson.any_instance.should_receive(:update_attributes).with({ "study_id" => "1" })
-        put :update, {:id => lesson.to_param, :lesson => { "study_id" => "1" }}
+        Media::Lesson.any_instance.should_receive(:update_attributes).with({ "study_id" => "1" })
+        put :update, {:id => lesson.to_param, :media_lesson => { "study_id" => "1" }}
       end
 
       it "assigns the requested lesson as @lesson" do
-        put :update, {:id => lesson.to_param, :lesson => valid_attributes}
+        put :update, {:id => lesson.to_param, :media_lesson => valid_attributes}
         assigns(:lesson).should eq(lesson)
       end
 
       it "redirects to the lesson" do
-        put :update, {:id => lesson.to_param, :lesson => valid_attributes}
-        response.should redirect_to([:admin, lesson])
+        put :update, {:id => lesson.to_param, :media_lesson => valid_attributes}
+        response.should redirect_to(admin_lesson_url(lesson))
       end
     end
 
     describe "with invalid params" do
       it "assigns the lesson as @lesson" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Lesson.any_instance.stub(:save).and_return(false)
-        put :update, {:id => lesson.to_param, :lesson => { "study_id" => "invalid value" }}
+        Media::Lesson.any_instance.stub(:save).and_return(false)
+        put :update, {:id => lesson.to_param, :media_lesson => { "study_id" => "invalid value" }}
         assigns(:lesson).should eq(lesson)
       end
 
       it "re-renders the 'edit' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Lesson.any_instance.stub(:save).and_return(false)
-        put :update, {:id => lesson.to_param, :lesson => { "study_id" => "invalid value" }}
+        Media::Lesson.any_instance.stub(:save).and_return(false)
+        put :update, {:id => lesson.to_param, :media_lesson => { "study_id" => "invalid value" }}
         response.should render_template("edit")
       end
     end
@@ -131,7 +131,7 @@ describe Admin::LessonsController do
     it "destroys the requested lesson" do
       expect {
         delete :destroy, {:id => lesson.to_param}
-      }.to change(Lesson, :count).by(-1)
+      }.to change(Media::Lesson, :count).by(-1)
     end
 
     it "redirects to the lessons list" do

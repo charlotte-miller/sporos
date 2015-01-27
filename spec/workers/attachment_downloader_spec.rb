@@ -18,7 +18,7 @@ describe AttachmentDownloader do
     let(:obj_hash)  { any_model.to_findable_hash }
   
     it "finds the model from obj_hash" do
-      Study.should_receive_and_execute( :find ).with(any_model.id)
+      Media::Study.should_receive_and_execute( :find ).with(any_model.id)
       subject.perform( obj_hash, [] )
     end
     
@@ -29,7 +29,7 @@ describe AttachmentDownloader do
     end
     
     it "skips attachments specified in :skip_processing_urls" do
-      # Assumes Lesson#video skips YouTube
+      # Assumes Media::Lesson#video skips YouTube
       picky_model = create(:lesson, video:nil, video_original_url:'https://www.youtube.com/watch?v=0JR6xt9S02o&t=3')
       subject.perform( picky_model.to_findable_hash, :video )
       expect(picky_model.reload.video).not_to be_present

@@ -45,7 +45,7 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
-  factory :lesson do
+  factory :lesson, class:'Media::Lesson' do
     before(:create, :stub) { AWS.stub! if Rails.env.test? }
     
     study

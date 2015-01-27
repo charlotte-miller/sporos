@@ -1,6 +1,6 @@
 class CreateLessons < ActiveRecord::Migration
   def change
-    create_table :lessons do |t|
+    create_table :media_lessons do |t|
       t.integer       :study_id,        null: false
       t.integer       :position,        default: 0
       t.string        :title,           null: false
@@ -25,7 +25,7 @@ class CreateLessons < ActiveRecord::Migration
       t.timestamps                      null: false
     end
     
-    add_index :lessons, [:study_id, :position]
-    add_index :lessons, :backlink
+    add_index :media_lessons, [:study_id, :position]
+    add_index :media_lessons, :backlink
   end
 end

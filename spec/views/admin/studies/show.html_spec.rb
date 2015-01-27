@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "admin/studies/show" do
   before(:each) do
-    @study = assign(:study, build_stubbed(Study,
+    @study = assign(:study, build_stubbed(:study,
       :slug => "road-to-damascus",
       :title => "Road to Damascus",
       :description => "God famously meets us in the low places.  This is a study on God intersecting our high-points",

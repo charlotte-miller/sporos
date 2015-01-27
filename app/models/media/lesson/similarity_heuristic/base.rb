@@ -1,7 +1,7 @@
-# Defines the interface for a Lesson::SimilarityHeuristic strategy.
-# A Lesson::SimilarityHeuristic answers the fuzzy-question "Does this lesson belong with this other_lesson?"
+# Defines the interface for a Media::Lesson::SimilarityHeuristic strategy.
+# A Media::Lesson::SimilarityHeuristic answers the fuzzy-question "Does this lesson belong with this other_lesson?"
 #
-module Lesson::SimilarityHeuristic
+module Media::Lesson::SimilarityHeuristic
   class Base
     include ::ActsAsInterface
     abstract_methods :matches?
@@ -15,8 +15,8 @@ module Lesson::SimilarityHeuristic
     # Load STRATEGIES into a single array
     Dir.glob("#{__FILE__}/**/*").each {|file| require file}
     STRATEGIES = [
-      Lesson::SimilarityHeuristic::NumericTitle,
-      Lesson::SimilarityHeuristic::Subtitle,
+      Media::Lesson::SimilarityHeuristic::NumericTitle,
+      Media::Lesson::SimilarityHeuristic::Subtitle,
     ]
   end
   

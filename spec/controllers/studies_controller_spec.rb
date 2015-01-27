@@ -38,6 +38,7 @@ describe StudiesController do
       it "follows an old friendly_id" do
         study = create(:study)
         old_title = study.to_param
+        study.slug = nil #generate new slug on save
         new_title = study.update_attributes(title:'New Title') && study.to_param
         get :show, {:id => old_title}, valid_session
         should redirect_to( study_url(study) )

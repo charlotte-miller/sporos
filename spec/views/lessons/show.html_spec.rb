@@ -15,7 +15,7 @@ describe "lessons/show" do
     render
   end
 
-  it "renders the Study's info" do
+  it "renders the Media::Study's info" do
     [ @study.title,
       @study.description,
       @study.ref_link,
@@ -23,7 +23,7 @@ describe "lessons/show" do
     ].each {|info| rendered.should match(info) }
   end
   
-  it "renders the Study's media" do
+  it "renders the Media::Study's media" do
     # assert_select '#study',   count:1
     rendered.should match( url_to_regex( @lesson.audio.url ))
     [:webm, :mp4, :webm_hd, :mp4_hd, :mp4_mobile].each do |format|
@@ -31,7 +31,7 @@ describe "lessons/show" do
     end
   end
     
-  it "renders links to the Study's lessons" do
+  it "renders links to the Media::Study's lessons" do
     # assert_select '.lessons', count:@lessons.length
     @lessons.each do |lesson| 
       # assert_select "#lesson_#{lesson.id}"

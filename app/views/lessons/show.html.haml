@@ -49,7 +49,7 @@
       %ol
         - @study.lessons.each do |lesson|
           %li.lessons{:id => "lesson_#{lesson.id}"}
-            = link_to( image_tag(lesson.poster_img.url(:thumbnail), height:200, width:300), [@study, lesson], class:'thumbnail')
+            = link_to( image_tag(lesson.poster_img.url(:thumbnail), height:200, width:300), study_lesson_path(@study, lesson), class:'thumbnail')
             %span.lesson-number= lesson.position
           
   #similar-studies-lg

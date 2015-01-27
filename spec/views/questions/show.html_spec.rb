@@ -4,7 +4,7 @@ describe "questions/show" do
   before(:each) do
     @question = assign(:question, stub_model(Question,
       :source_id => 1,
-      :source_type => 'Lesson',
+      :source_type => 'Media::Lesson',
       :text => "MyText",
       :answers_count => 3
     ))

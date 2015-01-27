@@ -28,7 +28,7 @@ class Podcast < ActiveRecord::Base
   # Associations
   # ---------------------------------------------------------------------------------
   belongs_to :church, :inverse_of => :podcasts
-  has_many :studies,  :inverse_of => :podcast do
+  has_many :studies,  :inverse_of => :podcast, class_name:'Media::Study' do
     def most_recent(n=nil)
       except(:order).order('last_published_at DESC').first(n)
     end
@@ -76,7 +76,7 @@ class Podcast < ActiveRecord::Base
     # Process in chronological order
     new_lessons = podcast_channel.items.reverse.map do |item|
       # 0) build lesson
-      lesson = Lesson.new_from_adapter( Lesson::Adapters::Podcast.new(item) )
+      lesson = Media::Lesson.new_from_adapter( Media::Lesson::Adapters::Podcast.new(item) )
 
       # 1) skip existing
       next if lesson.duplicate?
@@ -84,7 +84,7 @@ class Podcast < ActiveRecord::Base
       # 2) assign or create study
       recent_studies = studies.reload.w_lessons.most_recent(5)
       study   = recent_studies.find {|study| study.should_include? lesson }
-      study ||= Study.new_from_podcast_channel(podcast_channel, podcast:self).tap(&:save!)
+      study ||= Media::Study.new_from_podcast_channel(podcast_channel, podcast:self).tap(&:save!)
       lesson.study = study
 
       # 4) save lesson

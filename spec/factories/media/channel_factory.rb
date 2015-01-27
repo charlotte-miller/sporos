@@ -17,7 +17,7 @@
 
 FactoryGirl.define do
   factory :media_channel, :class => 'Media::Channel' do
-    title "Music Videos"
+    title { Faker::Lorem.sentence(rand(3..6))  }
   end
 
 end

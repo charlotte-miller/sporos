@@ -99,7 +99,7 @@ private
   
   def current_source
     def find_obj
-      return Lesson.find(  params.delete(:lesson_id)  ) if params[:lesson_id]
+      return Media::Lesson.find(  params.delete(:lesson_id)  ) if params[:lesson_id]
       return Meeting.find( params.delete(:meeting_id) ) if params[:meeting_id]
     end
     @current_source ||= find_obj

@@ -5,12 +5,12 @@ class Admin::StudiesController < Admin::BaseController
   def index
     @studies = (
       if params[:search]
-        Study.search do
+        Media::Study.search do
           fulltext params[:search]
         end
         
       else # Not searching
-        Study.all
+        Media::Study.all
       end
     )
     respond_to do |format|
@@ -22,7 +22,7 @@ class Admin::StudiesController < Admin::BaseController
   # GET /admin/studies/name-of-study
   # GET /admin/studies/name-of-study.json
   def show
-    @study = Study.friendly.find(params[:id])
+    @study = Media::Study.friendly.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -33,7 +33,7 @@ class Admin::StudiesController < Admin::BaseController
   # GET /admin/studies/new
   # GET /admin/studies/new.json
   def new
-    @study = Study.new
+    @study = Media::Study.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -43,17 +43,17 @@ class Admin::StudiesController < Admin::BaseController
 
   # GET /admin/studies/1/edit
   def edit
-    @study = Study.friendly.find(params[:id])
+    @study = Media::Study.friendly.find(params[:id])
   end
 
   # POST /admin/studies
   # POST /admin/studies.json
   def create
-    @study = Study.new(params[:study])
+    @study = Media::Study.new(params[:media_study])
 
     respond_to do |format|
       if @study.save
-        format.html { redirect_to [:admin, @study], notice: 'Study was successfully created.' }
+        format.html { redirect_to admin_study_url(@study), notice: 'Media::Study was successfully created.' }
         format.json { render json: @study, status: :created, location: @study }
       else
         format.html { render action: "new" }
@@ -65,11 +65,11 @@ class Admin::StudiesController < Admin::BaseController
   # PUT /admin/studies/name-of-study
   # PUT /admin/studies/name-of-study.json
   def update
-    @study = Study.friendly.find(params[:id])
+    @study = Media::Study.friendly.find(params[:id])
 
     respond_to do |format|
-      if @study.update_attributes(params[:study])
-        format.html { redirect_to [:admin, @study], notice: 'Study was successfully updated.' }
+      if @study.update_attributes(params[:media_study])
+        format.html { redirect_to admin_study_url(@study), notice: 'Media::Study was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -81,7 +81,7 @@ class Admin::StudiesController < Admin::BaseController
   # DELETE /admin/studies/name-of-study
   # DELETE /admin/studies/name-of-study.json
   def destroy
-    @study = Study.friendly.find(params[:id])
+    @study = Media::Study.friendly.find(params[:id])
     @study.destroy
 
     respond_to do |format|

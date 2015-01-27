@@ -10,7 +10,7 @@ describe StudiesHelper do
       grid = helper.grid_layout_for(collection)
       grid.should be_a Array
       grid.first.should be_a Hash
-      grid.first.keys.first.should be_a Study
+      grid.first.keys.first.should be_a Media::Study
       grid.first.values.first.should be_a Integer
     end
   end
@@ -19,16 +19,16 @@ describe StudiesHelper do
     subject { StudiesHelper::GridLayout.new((@collection || collection), (@options || {})) }
     
     describe "as_json" do      
-      #   [  # Study is the key
-      #     {<#Study>:4, <#Study>:4, <#Study>:4},
-      #     {<#Study>:3, <#Study>:3, <#Study>:3, <#Study>:3},
+      #   [  # Media::Study is the key
+      #     {<#Media::Study>:4, <#Media::Study>:4, <#Media::Study>:4},
+      #     {<#Media::Study>:3, <#Media::Study>:3, <#Media::Study>:3, <#Media::Study>:3},
       #   ]
       it "returns a JSON structure" do
         @collection = 3.times.map {build_stubbed :study}
         grid = subject.as_json
         grid.should be_a Array
         grid.first.should be_a Hash
-        grid.first.keys.first.should be_a Study
+        grid.first.keys.first.should be_a Media::Study
         grid.first.values.first.should be_a Integer
       end
     end

@@ -42,7 +42,7 @@ describe Admin::StudiesController do
     
     it { should respond_with(:success) }
     it "assigns a new study as @study" do
-      assigns(:study).should be_a_new(Study)
+      assigns(:study).should be_a_new(Media::Study)
     end
   end
 
@@ -57,36 +57,36 @@ describe Admin::StudiesController do
 
   describe "POST create" do
     describe "with valid params" do    
-      it "creates a new Study" do
+      it "creates a new Media::Study" do
         expect {
-          post :create, {:study => valid_attributes} 
-        }.to change(Study, :count).by(1)
+          post :create, {:media_study => valid_attributes} 
+        }.to change(Media::Study, :count).by(1)
       end
 
       it "assigns a newly created study as @study" do
-        post :create, {:study => valid_attributes}
-        assigns(:study).should be_a(Study)
+        post :create, {:media_study => valid_attributes}
+        assigns(:study).should be_a(Media::Study)
         assigns(:study).should be_persisted
       end
 
       it "redirects to the created study" do
-        post :create, {:study => valid_attributes}
-        response.should redirect_to( [:admin, Study.last] )
+        post :create, {:media_study => valid_attributes}
+        response.should redirect_to( admin_study_url(Media::Study.last) )
       end
     end
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved study as @study" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Study.any_instance.stub(:save).and_return(false)
-        post :create, {:study => { "title" => "" }}
-        assigns(:study).should be_a_new(Study)
+        Media::Study.any_instance.stub(:save).and_return(false)
+        post :create, {:media_study => { "title" => "" }}
+        assigns(:study).should be_a_new(Media::Study)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Study.any_instance.stub(:save).and_return(false)
-        post :create, {:study => { "title" => "" }}
+        Media::Study.any_instance.stub(:save).and_return(false)
+        post :create, {:media_study => { "title" => "" }}
         response.should render_template("new")
       end
     end
@@ -96,21 +96,21 @@ describe Admin::StudiesController do
     describe "with valid params" do    
       it "updates the requested study" do
         # Assuming there are no other study in the database, this
-        # specifies that the Study created on the previous line
+        # specifies that the Media::Study created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Study.any_instance.should_receive(:update_attributes).with({ "title" => "MyString" })
-        put :update, {:id => study.to_param, :study => { "title" => "MyString" }}
+        Media::Study.any_instance.should_receive(:update_attributes).with({ "title" => "MyString" })
+        put :update, {:id => study.to_param, :media_study => { "title" => "MyString" }}
       end
 
       it "assigns the requested study as @study" do
-        put :update, {:id => study.to_param, :study => valid_attributes}
+        put :update, {:id => study.to_param, :media_study => valid_attributes}
         assigns(:study).should eq(study)
       end
 
       it "redirects to the study" do
-        put :update, {:id => study.to_param, :study => valid_attributes}
-        response.should redirect_to( [:admin, study] )
+        put :update, {:id => study.to_param, :media_study => valid_attributes}
+        response.should redirect_to( admin_study_url(study) )
       end
     end
 
@@ -118,15 +118,15 @@ describe Admin::StudiesController do
             
       it "assigns the study as @study" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Study.any_instance.stub(:save).and_return(false)
-        put :update, {:id => study.to_param, :study => { "title" => "" }}
+        Media::Study.any_instance.stub(:save).and_return(false)
+        put :update, {:id => study.to_param, :media_study => { "title" => "" }}
         assigns(:study).should eq(study)
       end
 
       it "re-renders the 'edit' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Study.any_instance.stub(:save).and_return(false)
-        put :update, {:id => study.to_param, :study => { "title" => "" }}
+        Media::Study.any_instance.stub(:save).and_return(false)
+        put :update, {:id => study.to_param, :media_study => { "title" => "" }}
         response.should render_template("edit")
       end
     end
@@ -136,7 +136,7 @@ describe Admin::StudiesController do
     it "destroys the requested study" do
       expect {
         delete :destroy, {:id => study.to_param}
-      }.to change(Study, :count).by(-1)
+      }.to change(Media::Study, :count).by(-1)
     end
 
     it "redirects to the study list" do

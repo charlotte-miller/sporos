@@ -31,7 +31,7 @@ class Meeting < ActiveRecord::Base
   # Associations
   # ---------------------------------------------------------------------------------
   belongs_to :group, counter_cache: true
-  belongs_to :lesson   
+  belongs_to :lesson, class_name:'Media::Lesson'
   has_many :questions, as: 'source', inverse_of: :source  #:dependent => :nullify  # really repoint at question if public
   
   # ---------------------------------------------------------------------------------

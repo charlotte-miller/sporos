@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-module Lesson::Adapters
+module Media::Lesson::Adapters
   describe Base do
     let(:klass) { DummyKlass.new }
     let(:attrs) { Base::ATTRIBUTES }

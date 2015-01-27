@@ -1,7 +1,7 @@
 require 'rails_helper'
 Dir[Rails.root.join("lib/paperclip_processors/**/*.rb")].each {|f| require f}
 
-describe Lesson::AttachedMedia do
+describe Media::Lesson::AttachedMedia do
   subject { build(:lesson) }
   let(:paperclip_worker) { DelayedPaperclip::Jobs::Resque }
   
@@ -59,14 +59,14 @@ describe Lesson::AttachedMedia do
   describe '#poster_img_w_study_backfill' do
     subject { create(:lesson, poster_img:@img) }
     
-    it "returns Lesson#poster_img if avalible" do
+    it "returns Media::Lesson#poster_img if avalible" do
       @img = img_file
-      subject.poster_img_w_study_backfill.instance.should be_kind_of Lesson
+      subject.poster_img_w_study_backfill.instance.should be_kind_of Media::Lesson
     end
     
-    it "returns Study#poster_img if Lesson#poster_img is not set" do
+    it "returns Media::Study#poster_img if Media::Lesson#poster_img is not set" do
       @img = nil
-      subject.poster_img_w_study_backfill.instance.should be_kind_of Study
+      subject.poster_img_w_study_backfill.instance.should be_kind_of Media::Study
     end
   end
 end

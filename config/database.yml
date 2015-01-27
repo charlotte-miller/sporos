@@ -37,9 +37,13 @@ test:
 # ===============
 # = Legacy Site =
 # ===============
-cornerstone_sf_org:
+cornerstone_sf_org_development:
   <<: *default
-  # database: cornerstone_sf_org
+  database: cornerstone_sf_org
+
+
+cornerstone_sf_org_production:
+  <<: *default
   database: cornerstone-sf-org
   host: 127.0.0.1
   port: 9000

@@ -23,5 +23,5 @@ RSpec.describe Channel, :type => :model do
     lambda { create(:channel) }.should_not raise_error
   end
   
-  
+  it_behaves_like 'it is Sortable'
 end

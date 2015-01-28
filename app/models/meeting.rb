@@ -19,13 +19,13 @@
 #
 
 class Meeting < ActiveRecord::Base
-  
+  include Sortable
 
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
   attr_accessible :date_of, :group_id, :lesson_id, :state
-  acts_as_list scope: :group   
+  acts_as_listable scope: :group
   
   # ---------------------------------------------------------------------------------
   # Associations

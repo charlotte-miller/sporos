@@ -27,4 +27,6 @@ describe Meeting do
   it "builds from factory", :internal do
     lambda { create(:meeting) }.should_not raise_error
   end
+  
+  it_behaves_like 'it is Sortable', scoped_to:'group'
 end

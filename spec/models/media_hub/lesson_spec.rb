@@ -58,6 +58,8 @@ describe Lesson do
     lambda { create(:lesson) }.should_not raise_error
   end
   
+  it_behaves_like 'it is Sortable', scoped_to:'study'
+  
   it "touches the associated Study on update", :internal do
     study = create(:study_w_lesson)
     expect_any_instance_of(Study).to receive(:touch).once

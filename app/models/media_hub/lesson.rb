@@ -43,6 +43,7 @@
 #
 
 class Lesson < ActiveRecord::Base
+  include Sortable
   include Searchable
   include Questionable
   include Lesson::AttachedMedia
@@ -56,7 +57,7 @@ class Lesson < ActiveRecord::Base
   # friendly_id :position, :use => :scoped, :scope => :study
   
   delegate :title, :to => :study, prefix:true  # study_title
-  acts_as_list scope: :study
+  acts_as_listable scope: :study
 
   # Private 'sudo' access to everything
   attr_accessible *column_names, :study, :audio_remote_url, :video_remote_url, :poster_img, :poster_img_remote_url, as: 'sudo'

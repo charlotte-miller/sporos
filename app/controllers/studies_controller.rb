@@ -6,12 +6,12 @@ class StudiesController < ApplicationController
   def index
     @studies = (
       if params[:search]
-        Media::Study.search do
+        Study.search do
           fulltext params[:search]
         end
         
       else # Not searching
-        Media::Study.all
+        Study.all
       end
     )
     
@@ -41,7 +41,7 @@ private
   # Return @study OR follow old friendly_id
   # Usage: @study = find_or_redirect_to_study || return #redirecting
   def find_or_redirect_to_study
-    study = Media::Study.w_lessons.friendly.find(params[:id]) 
+    study = Study.w_lessons.friendly.find(params[:id]) 
     unless request.path == study_path(study)
       redirect_to( study_url(study), status: :moved_permanently ) && (return false)
     end

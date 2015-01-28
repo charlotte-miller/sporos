@@ -9,7 +9,7 @@ describe Paperclip::Attachment do
   describe '#url' do
     it "returns the S3 url when present?" do
       with_resque do
-        expect(normal.reload.video.url('foo')).to match %r{http://media.cornerstonesf.chruch/test/media/lessons/\d{0,4}/videos/foo/video.m4v}
+        expect(normal.reload.video.url('foo')).to match %r{http://media.cornerstonesf.chruch/test/lessons/\d{0,4}/videos/foo/video.m4v}
       end
     end
     

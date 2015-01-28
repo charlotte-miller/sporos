@@ -14,7 +14,7 @@ describe QuestionsController do
   let!(:question) { create(:question, author:@user, source:@lesson, permanent_approver:nil) }
   let(:valid_attributes) { @valid_attributes }
 
-  describe 'from Media::Lesson' do
+  describe 'from Lesson' do
     let!(:study)  { @study }
     let!(:lesson) { @lesson }
     
@@ -116,7 +116,7 @@ describe QuestionsController do
     end
 
     describe '#current_source' do
-      it "should be a Media::Lesson" do
+      it "should be a Lesson" do
         get :index, {study_id:study.id, lesson_id:lesson.id}
         controller.send(:current_source).should eql lesson
       end 

@@ -2,17 +2,17 @@
 
 %p
   %b Slug:
-  = @content_page.slug
+  = @page.slug
 %p
   %b Title:
-  = @content_page.title
+  = @page.title
 %p
   %b Body:
-  = @content_page.body
+  = @page.body
 %p
   %b Seo keywords:
-  = @content_page.seo_keywords
+  = @page.seo_keywords.join(', ')
 
-= link_to 'Edit', edit_admin_content_page_path(@content_page)
+= link_to 'Edit', edit_admin_content_page_path(@page)
 \|
 = link_to 'Back', admin_content_pages_path

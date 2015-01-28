@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: content_pages
+# Table name: pages
 #
 #  id           :integer          not null, primary key
 #  parent_id    :integer
@@ -14,10 +14,10 @@
 #
 # Indexes
 #
-#  index_content_pages_on_slug  (slug) UNIQUE
+#  index_pages_on_slug  (slug) UNIQUE
 #
 
-class Content::Page < ActiveRecord::Base
+class Page < ActiveRecord::Base
   include Sluggable
   slug_candidates :title, [:title, :year], [:title, :month, :year]
 
@@ -25,7 +25,7 @@ class Content::Page < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------
-  belongs_to :parent, :class_name => "Content::Page", :foreign_key => "parent_id"
+  belongs_to :parent, :class_name => "Page", :foreign_key => "parent_id"
   
 
   # ---------------------------------------------------------------------------------

@@ -19,7 +19,7 @@ describe "admin/lessons/index" do
         :audio => @audio,
       )
     ])
-    base_url = 'http://media.cornerstonesf.chruch/test/media/lessons/\d+'
+    base_url = 'http://media.cornerstonesf.chruch/test/lessons/\d+'
     @audio_url_matcher = %r`#{base_url}/audios/original/#{@audio.basename}\?*{10}`
     @video_url_matcher = %r`#{base_url}/videos/original/#{@video.basename}\?*{10}`
   end

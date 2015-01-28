@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "admin/lessons/new" do
   before(:each) do
-    assign(:lesson, stub_model(Media::Lesson,
+    assign(:lesson, stub_model(Lesson,
       :study_id => 1,
       :position => 1,
       :title => "MyString",
@@ -17,13 +17,13 @@ describe "admin/lessons/new" do
   it "renders new lesson form" do
     render
     assert_select "form", :action => admin_lessons_path, :method => "post" do
-      assert_select "input#media_lesson_study_id",        :name => "media_lesson[study_id]"
-      assert_select "input#media_lesson_position",        :name => "media_lesson[position]"
-      assert_select "input#media_lesson_title",           :name => "media_lesson[title]"
-      assert_select "textarea#media_lesson_description",  :name => "media_lesson[description]"
-      assert_select "input#media_lesson_backlink",        :name => "media_lesson[backlink]"
-      assert_select "input#media_lesson_video",           :name => "media_lesson[video]"
-      assert_select "input#media_lesson_audio",           :name => "media_lesson[audio]"
+      assert_select "input#lesson_study_id",        :name => "lesson[study_id]"
+      assert_select "input#lesson_position",        :name => "lesson[position]"
+      assert_select "input#lesson_title",           :name => "lesson[title]"
+      assert_select "textarea#lesson_description",  :name => "lesson[description]"
+      assert_select "input#lesson_backlink",        :name => "lesson[backlink]"
+      assert_select "input#lesson_video",           :name => "lesson[video]"
+      assert_select "input#lesson_audio",           :name => "lesson[audio]"
     end
   end
 end

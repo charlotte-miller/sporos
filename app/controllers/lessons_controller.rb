@@ -3,7 +3,7 @@ class LessonsController < ApplicationController
   # GET /library/:studies_idlibrary/:studies_id/lessons
   # GET /library/:studies_id/lessons.json
   def index
-    @study   = Media::Study.includes(:lessons, :church).friendly.find(params[:study_id])
+    @study   = Study.includes(:lessons, :church).friendly.find(params[:study_id])
     @lessons = @study.lessons
     raise ActiveRecord::RecordNotFound if @lessons.empty?
     
@@ -24,7 +24,7 @@ class LessonsController < ApplicationController
     @lessons = @study.lessons
     raise ActiveRecord::RecordNotFound if @lessons.empty?
     
-    @lesson = Media::Lesson.w_questions.find(params[:id])
+    @lesson = Lesson.w_questions.find(params[:id])
     
     @video      = @lesson.video
     @questions  = @lesson.questions.includes(:answers)
@@ -43,7 +43,7 @@ private
   # Return @study OR follow old friendly_id
   # Usage: @study = find_or_redirect_to_study || return #redirecting
   def find_or_redirect_to_study
-    study = Media::Study.w_lessons.friendly.find(params[:study_id]) 
+    study = Study.w_lessons.friendly.find(params[:study_id]) 
     unless !!(%r{#{study_path(study)}/} =~ request.path)
       redirect_to( study_lesson_url(study, params[:id]), status: :moved_permanently ) && (return false)
     end

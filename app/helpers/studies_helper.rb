@@ -1,9 +1,9 @@
 module StudiesHelper
   
   # Creates a visually 'random' grid (well hash of column widths)
-  # #=> [ # Media::Study is the key
-  #       {<#Media::Study>:4, <#Media::Study>:4, <#Media::Study>:4},
-  #       {<#Media::Study>:3, <#Media::Study>:3, <#Media::Study>:3, <#Media::Study>:3},
+  # #=> [ # Study is the key
+  #       {<#Study>:4, <#Study>:4, <#Study>:4},
+  #       {<#Study>:3, <#Study>:3, <#Study>:3, <#Study>:3},
   #     ]
   def grid_layout_for(collection, options={})
     GridLayout.new(collection, options).as_json

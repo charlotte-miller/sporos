@@ -2,13 +2,15 @@ require 'rails_helper'
 
 RSpec.describe "admin/content/pages/index", :type => :view do
   before(:each) do
-    @content_pages = assign(:content_pages, [
-      Content::Page.create!(
+    @pages = assign(:pages, [
+      build_stubbed(:page,
+        :slug => "foo",
         :title => "Title",
         :body => "MyText",
         :seo_keywords => %w{foo bar}
       ),
-      Content::Page.create!(
+      build_stubbed(:page,
+        :slug => "bar",
         :title => "Title",
         :body => "MyText",
         :seo_keywords => %w{foo bar}
@@ -18,7 +20,7 @@ RSpec.describe "admin/content/pages/index", :type => :view do
 
   it "renders a list of admin/content/pages" do
     render
-    @content_pages.map(&:slug).each do |slug| 
+    @pages.map(&:slug).each do |slug| 
       assert_select "tr>td", :text => slug,     :count => 1
     end
     assert_select "tr>td", :text => "Title",    :count => 2

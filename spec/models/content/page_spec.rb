@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: content_pages
+# Table name: pages
 #
 #  id           :integer          not null, primary key
 #  parent_id    :integer
@@ -14,12 +14,12 @@
 #
 # Indexes
 #
-#  index_content_pages_on_slug  (slug) UNIQUE
+#  index_pages_on_slug  (slug) UNIQUE
 #
 
 require 'rails_helper'
 
-RSpec.describe Content::Page, :type => :model do
+RSpec.describe Page, :type => :model do
   it "builds from factory", :internal do
     lambda { create(:page) }.should_not raise_error
   end

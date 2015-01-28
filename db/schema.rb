@@ -71,25 +71,23 @@ ActiveRecord::Schema.define(version: 20150126225444) do
   add_index "block_requests", ["source_id", "source_type"], name: "index_block_requests_on_source_id_and_source_type", using: :btree
   add_index "block_requests", ["user_id"], name: "index_block_requests_on_user_id", using: :btree
 
+  create_table "channels", force: :cascade do |t|
+    t.integer  "position",   null: false
+    t.string   "title",      null: false
+    t.string   "slug",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "channels", ["position"], name: "index_channels_on_position", unique: true, using: :btree
+  add_index "channels", ["slug"], name: "index_channels_on_slug", unique: true, using: :btree
+
   create_table "churches", force: :cascade do |t|
     t.string   "name",       limit: 100, null: false
     t.string   "homepage",   limit: 100, null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
-
-  create_table "content_pages", force: :cascade do |t|
-    t.integer  "parent_id"
-    t.string   "slug",                         null: false
-    t.string   "title",                        null: false
-    t.text     "body",                         null: false
-    t.text     "seo_keywords", default: [],    null: false, array: true
-    t.boolean  "hidden_link",  default: false, null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-  end
-
-  add_index "content_pages", ["slug"], name: "index_content_pages_on_slug", unique: true, using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
@@ -130,18 +128,7 @@ ActiveRecord::Schema.define(version: 20150126225444) do
 
   add_index "groups", ["state", "is_public"], name: "index_groups_on_state_and_is_public", using: :btree
 
-  create_table "media_channels", force: :cascade do |t|
-    t.integer  "position",   null: false
-    t.string   "title",      null: false
-    t.string   "slug",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "media_channels", ["position"], name: "index_media_channels_on_position", unique: true, using: :btree
-  add_index "media_channels", ["slug"], name: "index_media_channels_on_slug", unique: true, using: :btree
-
-  create_table "media_lessons", force: :cascade do |t|
+  create_table "lessons", force: :cascade do |t|
     t.integer  "study_id",                                null: false
     t.integer  "position",                default: 0
     t.string   "title",                                   null: false
@@ -176,32 +163,8 @@ ActiveRecord::Schema.define(version: 20150126225444) do
     t.datetime "updated_at",                              null: false
   end
 
-  add_index "media_lessons", ["backlink"], name: "index_media_lessons_on_backlink", using: :btree
-  add_index "media_lessons", ["study_id", "position"], name: "index_media_lessons_on_study_id_and_position", using: :btree
-
-  create_table "media_studies", force: :cascade do |t|
-    t.string   "slug",                                null: false
-    t.integer  "podcast_id",                          null: false
-    t.string   "title",                               null: false
-    t.text     "description"
-    t.text     "keywords"
-    t.string   "ref_link"
-    t.string   "poster_img_file_name"
-    t.string   "poster_img_content_type"
-    t.integer  "poster_img_file_size"
-    t.datetime "poster_img_updated_at"
-    t.string   "poster_img_original_url"
-    t.string   "poster_img_fingerprint"
-    t.boolean  "poster_img_processing"
-    t.integer  "lessons_count",           default: 0
-    t.datetime "last_published_at"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-  end
-
-  add_index "media_studies", ["last_published_at"], name: "index_media_studies_on_last_published_at", using: :btree
-  add_index "media_studies", ["podcast_id", "last_published_at"], name: "index_media_studies_on_podcast_id_and_last_published_at", using: :btree
-  add_index "media_studies", ["slug"], name: "index_media_studies_on_slug", unique: true, using: :btree
+  add_index "lessons", ["backlink"], name: "index_lessons_on_backlink", using: :btree
+  add_index "lessons", ["study_id", "position"], name: "index_lessons_on_study_id_and_position", using: :btree
 
   create_table "meetings", force: :cascade do |t|
     t.integer  "group_id",                          null: false
@@ -216,6 +179,19 @@ ActiveRecord::Schema.define(version: 20150126225444) do
   add_index "meetings", ["group_id", "position"], name: "index_meetings_on_group_id_and_position", using: :btree
   add_index "meetings", ["group_id", "state"], name: "index_meetings_on_group_id_and_state", using: :btree
   add_index "meetings", ["lesson_id"], name: "index_meetings_on_lesson_id", using: :btree
+
+  create_table "pages", force: :cascade do |t|
+    t.integer  "parent_id"
+    t.string   "slug",                         null: false
+    t.string   "title",                        null: false
+    t.text     "body",                         null: false
+    t.text     "seo_keywords", default: [],    null: false, array: true
+    t.boolean  "hidden_link",  default: false, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "pages", ["slug"], name: "index_pages_on_slug", unique: true, using: :btree
 
   create_table "podcasts", force: :cascade do |t|
     t.integer  "church_id",                null: false
@@ -256,6 +232,30 @@ ActiveRecord::Schema.define(version: 20150126225444) do
 
   add_index "stars", ["source_id", "source_type"], name: "index_stars_on_source_id_and_source_type", using: :btree
   add_index "stars", ["user_id"], name: "index_stars_on_user_id", using: :btree
+
+  create_table "studies", force: :cascade do |t|
+    t.string   "slug",                                null: false
+    t.integer  "podcast_id",                          null: false
+    t.string   "title",                               null: false
+    t.text     "description"
+    t.text     "keywords"
+    t.string   "ref_link"
+    t.string   "poster_img_file_name"
+    t.string   "poster_img_content_type"
+    t.integer  "poster_img_file_size"
+    t.datetime "poster_img_updated_at"
+    t.string   "poster_img_original_url"
+    t.string   "poster_img_fingerprint"
+    t.boolean  "poster_img_processing"
+    t.integer  "lessons_count",           default: 0
+    t.datetime "last_published_at"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
+  add_index "studies", ["last_published_at"], name: "index_studies_on_last_published_at", using: :btree
+  add_index "studies", ["podcast_id", "last_published_at"], name: "index_studies_on_podcast_id_and_last_published_at", using: :btree
+  add_index "studies", ["slug"], name: "index_studies_on_slug", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name",                 limit: 60

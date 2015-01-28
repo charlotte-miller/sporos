@@ -24,7 +24,7 @@ class LegacySeries < ActiveRecord::Base
   end
   
   def find_create_or_update_media_study
-    study = Media::Study.friendly.find(slug)
+    study = Study.friendly.find(slug)
     study.title                 = title
     study.description           = best_description
     study.poster_img_remote_url = image_url
@@ -33,7 +33,7 @@ class LegacySeries < ActiveRecord::Base
     study
     
   rescue ActiveRecord::RecordNotFound
-    study = Media::Channel.create!({
+    study = Channel.create!({
       title:                  title,
       description:            best_description,
       poster_img_remote_url:  image_url,
@@ -62,14 +62,14 @@ class LegacyChannel < ActiveRecord::Base
   end
   
   def find_create_or_update_media_channel
-    channel = Media::Channel.friendly.find(slug)
+    channel = Channel.friendly.find(slug)
     channel.title     = title
     channel.position  = order
     channel.save!     if channel.changed?
     channel
     
   rescue ActiveRecord::RecordNotFound
-    channel = Media::Channel.create!({
+    channel = Channel.create!({
       position: order,
       title:    title,
     })

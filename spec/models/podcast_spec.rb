@@ -50,7 +50,7 @@ describe Podcast do
       recent_1 = @podcast.studies.most_recent
       recent_n = @podcast.studies.most_recent(2)
       
-      recent_1.should be_a Media::Study
+      recent_1.should be_a Study
       recent_n.should be_a Array
       recent_n.should have(2).items
       recent_n[0].last_published_at < recent_n[1].last_published_at
@@ -110,14 +110,14 @@ describe Podcast do
   
   describe '#update_channel( normalized_channel )' do
     let(:podcast) { create(:podcast) }
-    let(:channel_obj) { Podcast::Channel.new(File.read(File.join(Rails.root, 'spec/files/podcast_xml', 'itunes.xml'))) }
-    let(:recycle_file) { Media::Lesson.any_instance.stub(:duplicate?)  }
+    let(:channel_obj) { Podcast::RssChannel.new(File.read(File.join(Rails.root, 'spec/files/podcast_xml', 'itunes.xml'))) }
+    let(:recycle_file) { Lesson.any_instance.stub(:duplicate?)  }
     subject { podcast.update_channel( channel_obj ) }
     
     it "creates a lesson from a podcast item" do
-      Media::Lesson.count.should be 0
+      Lesson.count.should be 0
       subject # execute
-      Media::Lesson.count.should be > 0
+      Lesson.count.should be > 0
     end
     
     it "skips existing podcast items" do

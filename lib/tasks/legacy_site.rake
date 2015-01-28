@@ -11,7 +11,7 @@ namespace "legacy_site" do
     fork do
       LegacyPage.db_setup "cornerstone_sf_org_#{Rails.env}", 'simple_cms_navigation'
       LegacyPage.update_or_create_recent_pages
-      Content::Page.audit_urls
+      Page.audit_urls
     end
     
     Process.wait

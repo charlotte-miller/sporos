@@ -1,4 +1,4 @@
-%h1 Listing content_pages
+%h1 Listing pages
 
 %table
   %thead
@@ -12,15 +12,15 @@
       %th
 
   %tbody
-    - @content_pages.each do |content_page|
+    - @pages.each do |page|
       %tr
-        %td= content_page.slug
-        %td= content_page.title
-        %td= content_page.body
-        %td= content_page.seo_keywords.join(', ')
-        %td= link_to 'Show', [:admin, content_page]
-        %td= link_to 'Edit', edit_admin_content_page_path(content_page)
-        %td= link_to 'Destroy', [:admin, content_page], :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= page.slug
+        %td= page.title
+        %td= page.body
+        %td= page.seo_keywords.join(', ')
+        %td= link_to 'Show', [:admin, :content, page]
+        %td= link_to 'Edit', edit_admin_content_page_path(page)
+        %td= link_to 'Destroy', [:admin, :content, page], :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 

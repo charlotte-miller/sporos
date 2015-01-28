@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe "admin/content/pages/show", :type => :view do
   before(:each) do
-    @content_page = assign(:content_page, Content::Page.create!(
+    @page = assign(:page, build_stubbed(:page,
       :slug => "Slug",
       :title => "Title",
       :body => "MyText",
-      :seo_keywords => ""
+      :seo_keywords => ["foo", "bar"]
     ))
   end
 
@@ -15,6 +15,6 @@ RSpec.describe "admin/content/pages/show", :type => :view do
     expect(rendered).to match(/Slug/)
     expect(rendered).to match(/Title/)
     expect(rendered).to match(/MyText/)
-    expect(rendered).to match(//)
+    expect(rendered).to match(/foo, bar/)
   end
 end

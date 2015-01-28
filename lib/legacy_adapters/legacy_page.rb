@@ -49,7 +49,7 @@ class LegacyPage < ActiveRecord::Base
   end
     
   def update_or_create_page
-    page = Content::Page.friendly.find(slug)
+    page = Page.friendly.find(slug)
     parent_id         = find_or_create_parent.try(:id)
     page.title        = title
     page.body         = html_text
@@ -59,7 +59,7 @@ class LegacyPage < ActiveRecord::Base
     page
     
   rescue ActiveRecord::RecordNotFound
-    page = Content::Page.create!({
+    page = Page.create!({
       parent_id: find_or_create_parent.try(:id),
       title: title,
       body:  html_text,
@@ -73,7 +73,7 @@ class LegacyPage < ActiveRecord::Base
 private #----------------------------------------------------------------------------
   
   def self.find_recent_updates(only_updates)
-    last_updated_page   = Content::Page.maximum(:updated_at) if only_updates
+    last_updated_page   = Page.maximum(:updated_at) if only_updates
     last_updated_page ||= Time.at(0)
     LegacyPage
       .order('parent_id DESC') #parents first

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Content::Pages", :type => :request do
+RSpec.describe "Pages", :type => :request do
   login_admin_user
   
   describe "GET /admin/content_pages" do

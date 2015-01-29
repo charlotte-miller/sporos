@@ -4,6 +4,7 @@
 #
 #  id                      :integer          not null, primary key
 #  slug                    :string           not null
+#  channel_id              :integer          not null
 #  podcast_id              :integer          not null
 #  title                   :string           not null
 #  description             :text
@@ -40,6 +41,7 @@ FactoryGirl.define do
     end
           
     podcast
+    channel
     lessons     { [lesson].compact }
     title       { Faker::Lorem.sentence(rand(3..8))  }
     description { Faker::Lorem.paragraph(rand(2..5)) }

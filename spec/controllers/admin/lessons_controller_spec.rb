@@ -113,7 +113,7 @@ describe Admin::LessonsController do
     describe "with invalid params" do
       it "assigns the lesson as @lesson" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Lesson.any_instance.stub(:save).and_return(false)
+        Lesson.any_instance.stub(:update_attributes).and_return(false)
         put :update, {:id => lesson.to_param, :lesson => { "study_id" => "invalid value" }}
         assigns(:lesson).should eq(lesson)
       end

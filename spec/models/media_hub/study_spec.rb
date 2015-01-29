@@ -33,12 +33,14 @@ require 'rails_helper'
 describe Study do
   it { should have_many(:lessons) }
   it { should belong_to(:podcast) }
+  it { should belong_to(:channel) }
   it { should have_one(:church).through(:podcast) }
   it { should delegate_method(:church_name).to(:podcast)}
   
   it { should validate_presence_of(:slug) }
   it { should validate_presence_of(:title) }
   it { should validate_presence_of(:podcast) }
+  it { should validate_presence_of(:channel) }
   # it { should validate_uniqueness_of(:title)}#.scope_to(:podcast_id)}
   
   it "builds from factory", :internal do

@@ -235,6 +235,7 @@ ActiveRecord::Schema.define(version: 20150126225444) do
 
   create_table "studies", force: :cascade do |t|
     t.string   "slug",                                null: false
+    t.integer  "channel_id",                          null: false
     t.integer  "podcast_id",                          null: false
     t.string   "title",                               null: false
     t.text     "description"

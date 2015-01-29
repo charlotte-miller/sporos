@@ -4,6 +4,7 @@
 #
 #  id                      :integer          not null, primary key
 #  slug                    :string           not null
+#  channel_id              :integer          not null
 #  podcast_id              :integer          not null
 #  title                   :string           not null
 #  description             :text
@@ -65,6 +66,7 @@ class Study < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------
+  belongs_to :channel
   belongs_to :podcast, :inverse_of => :studies
   has_one :church,     :through => :podcast, :inverse_of => :studies
   has_many :lessons, -> {order 'position ASC'}, {:dependent => :destroy, class_name:'Lesson'} do
@@ -78,8 +80,14 @@ class Study < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Validations
   # ---------------------------------------------------------------------------------
-  validates_presence_of :slug, :title, :podcast
+  validates_presence_of :slug, :title, :podcast, :channel
   # validates_uniqueness_of :title, :scope => :podcast_id
+  
+  
+  # ---------------------------------------------------------------------------------
+  # Callbacks
+  # ---------------------------------------------------------------------------------
+  before_validation :add_default_values
   
   
   # ---------------------------------------------------------------------------------
@@ -136,5 +144,11 @@ class Study < ActiveRecord::Base
 
   def tags
     # future association
+  end
+  
+  private #--------------------------------------------------------------------------------
+
+  def add_default_values
+    self.channel ||= Channel.first
   end
 end

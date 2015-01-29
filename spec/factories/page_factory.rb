@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: content_pages
+# Table name: pages
 #
 #  id           :integer          not null, primary key
 #  parent_id    :integer
@@ -14,7 +14,7 @@
 #
 # Indexes
 #
-#  index_content_pages_on_slug  (slug) UNIQUE
+#  index_pages_on_slug  (slug) UNIQUE
 #
 
 FactoryGirl.define do

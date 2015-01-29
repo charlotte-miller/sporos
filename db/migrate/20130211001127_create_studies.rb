@@ -2,6 +2,7 @@ class CreateStudies < ActiveRecord::Migration
   def change
     create_table    :studies do |t|
       t.string      :slug,          null:false
+      t.integer     :channel_id,    null:false
       t.integer     :podcast_id,    null:false
       t.string      :title,         null:false
       t.text        :description

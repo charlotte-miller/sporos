@@ -5,10 +5,11 @@
 #  id                      :integer          not null, primary key
 #  slug                    :string           not null
 #  channel_id              :integer          not null
-#  podcast_id              :integer          not null
+#  podcast_id              :integer
+#  position                :integer          not null
 #  title                   :string           not null
 #  description             :text
-#  keywords                :text
+#  keywords                :text             default("{}"), is an Array
 #  ref_link                :string
 #  poster_img_file_name    :string
 #  poster_img_content_type :string

@@ -8,6 +8,6 @@ namespace :db do
       'db:test:load_schema',
       # 'parallel:prepare'
       # 'db:seed'
-    ].each { |task| Rake::Task[ task ].execute  } #rescue next
+    ].each { |task| Rake::Task[ task ].invoke  } #rescue next
   end
 end

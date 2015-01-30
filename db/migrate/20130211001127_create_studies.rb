@@ -3,10 +3,11 @@ class CreateStudies < ActiveRecord::Migration
     create_table    :studies do |t|
       t.string      :slug,          null:false
       t.integer     :channel_id,    null:false
-      t.integer     :podcast_id,    null:false
+      t.integer     :podcast_id
+      t.integer     :position,      null:false
       t.string      :title,         null:false
       t.text        :description
-      t.text        :keywords     #array: true, default: []
+      t.text        :keywords,      array: true, default: []
       t.string      :ref_link
       t.attachment  :poster_img
       t.string      :poster_img_original_url

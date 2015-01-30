@@ -136,6 +136,7 @@ GEM
     formatador (0.2.5)
     friendly_id (5.0.4)
       activerecord (>= 4.0.0)
+    git (1.2.9.1)
     globalid (0.3.0)
       activesupport (>= 4.1.0)
     groupdate (2.4.0)
@@ -466,6 +467,7 @@ DEPENDENCIES
   faker
   fakeredis
   friendly_id (~> 5.0.4)
+  git
   growl
   guard-bundler
   guard-rspec

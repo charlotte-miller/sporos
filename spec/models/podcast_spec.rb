@@ -80,6 +80,7 @@ describe Podcast do
     end
         
     describe '- after fetching the podcast XML', :internal do
+      before(:all) {create(:channel)}
       before(:each) do
         @podcast_xml = File.read(File.join(Rails.root, 'spec/files/podcast_xml', 'itunes.xml'))      
         stub_request(:get, %r{/podcasts/audio_podcast.xml$}).to_return( :body => @podcast_xml, :status => 200 )

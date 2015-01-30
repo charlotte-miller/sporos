@@ -137,8 +137,10 @@ group :development, :test do
   gem 'sdoc', '~> 0.4.0'
   
   gem 'quiet_assets'
-  gem 'rails-backbone-generator', :require => false #, path:'~/development/Gems/rails-backbone-generator'
+  gem 'rails-backbone-generator', require:false #, path:'~/development/Gems/rails-backbone-generator'
   # gem 'activerecord-import', '~> 0.3.0' #for seed file
+  
+  gem 'git', require:false
 end
 
 group :test do

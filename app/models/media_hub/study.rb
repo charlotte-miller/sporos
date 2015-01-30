@@ -5,10 +5,11 @@
 #  id                      :integer          not null, primary key
 #  slug                    :string           not null
 #  channel_id              :integer          not null
-#  podcast_id              :integer          not null
+#  podcast_id              :integer
+#  position                :integer          not null
 #  title                   :string           not null
 #  description             :text
-#  keywords                :text
+#  keywords                :text             default("{}"), is an Array
 #  ref_link                :string
 #  poster_img_file_name    :string
 #  poster_img_content_type :string
@@ -30,6 +31,7 @@
 #
 
 class Study < ActiveRecord::Base
+  include Sortable
   include Sluggable
   include Searchable
   include AttachableFile
@@ -40,7 +42,8 @@ class Study < ActiveRecord::Base
   attr_accessible :title, :description, :ref_link,  :poster_img, :poster_img_remote_url, :podcast, :podcast_id
   attr_accessible *column_names, *reflections.keys, :poster_img, :poster_img_remote_url, :podcast, :podcast_id, as: 'sudo'
   delegate :church_name, to: :podcast
-  serialize :keywords, Array
+  
+  acts_as_listable scope: :channel
   
   slug_candidates :title, [:title, :year], [:title, :month, :year], [:title, :month, :date, :year]
   
@@ -80,7 +83,7 @@ class Study < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Validations
   # ---------------------------------------------------------------------------------
-  validates_presence_of :slug, :title, :podcast, :channel
+  validates_presence_of :slug, :title, :channel
   # validates_uniqueness_of :title, :scope => :podcast_id
   
   
@@ -149,6 +152,6 @@ class Study < ActiveRecord::Base
   private #--------------------------------------------------------------------------------
 
   def add_default_values
-    self.channel ||= Channel.first
+    self.channel_id || self.channel ||= Channel.first
   end
 end

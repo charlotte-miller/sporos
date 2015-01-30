@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20150126225444) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "channels", ["position"], name: "index_channels_on_position", unique: true, using: :btree
+  add_index "channels", ["position"], name: "index_channels_on_position", using: :btree
   add_index "channels", ["slug"], name: "index_channels_on_slug", unique: true, using: :btree
 
   create_table "churches", force: :cascade do |t|
@@ -234,12 +234,13 @@ ActiveRecord::Schema.define(version: 20150126225444) do
   add_index "stars", ["user_id"], name: "index_stars_on_user_id", using: :btree
 
   create_table "studies", force: :cascade do |t|
-    t.string   "slug",                                null: false
-    t.integer  "channel_id",                          null: false
-    t.integer  "podcast_id",                          null: false
-    t.string   "title",                               null: false
+    t.string   "slug",                                 null: false
+    t.integer  "channel_id",                           null: false
+    t.integer  "podcast_id"
+    t.integer  "position",                             null: false
+    t.string   "title",                                null: false
     t.text     "description"
-    t.text     "keywords"
+    t.text     "keywords",                default: [],              array: true
     t.string   "ref_link"
     t.string   "poster_img_file_name"
     t.string   "poster_img_content_type"
@@ -250,8 +251,8 @@ ActiveRecord::Schema.define(version: 20150126225444) do
     t.boolean  "poster_img_processing"
     t.integer  "lessons_count",           default: 0
     t.datetime "last_published_at"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
   end
 
   add_index "studies", ["last_published_at"], name: "index_studies_on_last_published_at", using: :btree

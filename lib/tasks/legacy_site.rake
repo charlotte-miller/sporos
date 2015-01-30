@@ -25,7 +25,7 @@ namespace "legacy_site" do
     LegacySeries.db_setup "cornerstone_sf_org_#{Rails.env}", 'tv_series'
     LegacyMedia.db_setup "cornerstone_sf_org_#{Rails.env}", 'tv_mediaitem'
 
-    [LegacyChannel, LegacySeries, LegacyMedia].each(&:update_all)
+    [LegacyChannel, LegacySeries].each(&:update_all) #, LegacyMedia
   end
 end
 

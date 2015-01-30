@@ -11,7 +11,7 @@
 #
 # Indexes
 #
-#  index_channels_on_position  (position) UNIQUE
+#  index_channels_on_position  (position)
 #  index_channels_on_slug      (slug) UNIQUE
 #
 

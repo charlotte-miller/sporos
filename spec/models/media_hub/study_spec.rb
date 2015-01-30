@@ -39,13 +39,14 @@ describe Study do
   
   it { should validate_presence_of(:slug) }
   it { should validate_presence_of(:title) }
-  it { should validate_presence_of(:podcast) }
   it { should validate_presence_of(:channel) }
   # it { should validate_uniqueness_of(:title)}#.scope_to(:podcast_id)}
   
   it "builds from factory", :internal do
     lambda { create(:study) }.should_not raise_error
   end
+  
+  it_behaves_like 'it is Sortable', scoped_to:'channel'
   
   describe 'new_from_podcast_channel(normalized_channel, attribute_overrides={})' do
     it "builds from a Podcast::RssChannel" do
@@ -147,6 +148,29 @@ describe Study do
     end
   end
   
-  describe '[private]', :internal do
+  describe '[callbacks]', :internal do
+    
+    describe '#add_default_values' do
+      subject {build_stubbed(:study, channel:nil)}
+      
+      it 'adds the first @channel if not set' do
+        existing_channel = create(:channel)
+        subject.bypass.add_default_values
+        expect(subject.channel).to eq(existing_channel)
+      end
+      
+      it 'uses subject.channel' do
+        subject.channel = other_channel = build_stubbed(:channel)
+        subject.bypass.add_default_values
+        expect(subject.channel).to eq(other_channel)
+      end
+      
+      it 'uses subject.channel_id' do
+        subject.channel_id = 7
+        subject.bypass.add_default_values
+        expect(subject.channel_id).to eq(7)
+      end
+    end
+    
   end
 end

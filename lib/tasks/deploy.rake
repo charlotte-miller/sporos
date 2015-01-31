@@ -25,7 +25,7 @@ namespace :deploy do
     announce('Checkout Master')                   {`git co master`}
     announce('Merge Dev')                         {`git merge dev --ff-only`} 
     announce("Tagged Release #{release_version}") {`git tag #{release_version}`          }
-    announce("Pushing to Master")                 {`git push origin master --follow-tags`}
+    announce("Pushing to Master")                 {`git push origin #{release_version}`}
     `open https://github.com/cornerstone-sf/sporos/releases`
   end
   

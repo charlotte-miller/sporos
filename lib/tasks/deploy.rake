@@ -37,7 +37,7 @@ private
   end
   
   def current_version
-    git Git.open(Rails.root)
+    git = Git.open(Rails.root)
     git.tags.map(&:name).select {|tag| tag =~ /^v(\d*)\.(\d*)\.(\d*)$/}.last  # Example: v1.0.23
   end
   

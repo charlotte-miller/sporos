@@ -26,7 +26,10 @@ namespace :deploy do
     announce('Merge Dev')                         {`git merge dev --ff-only`} 
     announce("Tagged Release #{release_version}") {`git tag #{release_version}`          }
     announce("Pushing to Master")                 {`git push && git push origin #{release_version}`}
+    announce("Returning to dev")                  {`git co dev`}
     `open https://github.com/cornerstone-sf/sporos/releases`
+    `open https://portal.ninefold.com/`
+    `open http://sporosstaging3379.ninefold-apps.com/`
   end
   
 private

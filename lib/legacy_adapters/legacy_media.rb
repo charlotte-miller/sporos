@@ -4,12 +4,45 @@ require 'mixins/external_table'
 class LegacyMedia < ActiveRecord::Base
   include ExternalTable
   
+  belongs_to :series, :class_name => "LegacySeries"
+  
   def self.update_all
-    all.map(&:find_create_or_update_media_lesson).length
+    legacy_media = LegacyMedia.order('date ASC').all  #.where(active:true)
+    puts "### Updating Lessons from LegacyMedia"
+    puts legacy_media.all.map(&:find_create_or_update_media_lesson).length
   end
   
-  def find_create_or_update_media_lesson
-    #TODO
+  def find_create_or_update_media_lesson    
+    lesson = Lesson.find_by_title(title) || raise( ActiveRecord::RecordNotFound )
+    lesson.study_id     = series.find_create_or_update_media_study.id
+    lesson.description  = best_description
+    lesson.author       = best_author
+    lesson.save!        if lesson.changed?
+    lesson
+    
+  rescue ActiveRecord::RecordNotFound
+    lesson = Lesson.create!({
+      study_id:     series.find_create_or_update_media_study.id,
+      title:        title,
+      description:  best_description,
+      author:       best_author
+    })
+    lesson
+  end
+  
+private
+  def best_description
+    return nil if description.blank? && sub_title.blank?
+    description.blank? ? sub_title : description
+  end
+  
+  def best_author
+    presenter.blank? ? 'Cornerstone Church' : presenter
+  end
+  
+  def image_url
+    return nil if image.blank?
+    "http://media.cornerstone-sf.org/#{image}"
   end
 end
 
@@ -49,6 +82,7 @@ class LegacySeries < ActiveRecord::Base
     study
   end
   
+private
   def best_description
     return nil if description.blank? && sub_title.blank?
     description.blank? ? sub_title : description

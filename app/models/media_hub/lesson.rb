@@ -47,7 +47,6 @@ class Lesson < ActiveRecord::Base
   include Searchable
   include Questionable
   include Lesson::AttachedMedia
-  # include Comparable
 
   # ---------------------------------------------------------------------------------
   # Attributes

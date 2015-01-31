@@ -48,6 +48,7 @@ class Study < ActiveRecord::Base
   slug_candidates :title, [:title, :year], [:title, :month, :year], [:title, :month, :date, :year]
   
   has_attachable_file :poster_img, path: ':rails_env/:class/:attachment/:id/:hash.:extension',
+                      :production_path =>':class/:hash.:extension',
                       :hash_data => ":class/:attachment/:id/:fingerprint-:style",
                       :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
                       # :styles => { thumb: { geometry: SD_SIZE, format: 'png', convert_options: "-strip" }}

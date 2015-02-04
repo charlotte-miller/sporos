@@ -1,0 +1,98 @@
+//@import "library";
+
+#study{
+  @extend .row;
+  margin-top:20px;
+  
+  #study-header{
+    @extend .col-xs-12;
+    margin-top:45px;
+    margin-bottom:15px;
+  
+    @media screen and (max-width: $screen-md-min){
+      h1 {
+        font-size:28px !important;
+      }
+    }
+  }
+  
+  #current-study{
+    // Has to be in markup O_o
+    //@extend .col-xs-9;
+  }
+  
+  #lesson{ }
+  
+  #all-lessons{
+    @extend .col-xs-12;
+    margin-top: 15px;
+    height: 180px;
+    display: none;
+    overflow: auto !important;
+    
+    ol{
+      list-style-type: none;
+      display: inline-flex;
+      padding:0px;
+      
+      .lessons{
+        display: inline-block;
+        width: 120px;
+        position:relative;
+        
+        .lesson-number{
+          height: inherit;
+          width: inherit;
+          font-size: 100px;
+          bottom: 0;
+          top: 0;
+          right: 0;
+          left: 0;
+          position: absolute;
+          text-align: center;
+          @include opacity(0.5);
+        }
+      }
+    }
+  }
+  
+  .lesson-source a{
+    color:$gray-lighter;
+  }
+  
+  #carasel-toggle{
+    @extend .btn;
+    @extend .btn-default;
+    @extend .btn-xs;
+    @extend .pull-right;
+  }
+
+  .similar_studies{
+    @extend .col-md-3;
+    @extend .visible-lg;
+    
+    .thumbnail{
+      height:200px;
+      
+    }
+  }
+}
+
+#discussion{
+  margin-top:35px;
+  
+  #lesson_notes{
+    
+  }
+}
+
+#similar-studies-sm-screen{
+  .similar_studies{
+    @extend .hidden-lg;
+    
+    .thumbnail{
+      height:200px;
+      
+    }
+  }
+}

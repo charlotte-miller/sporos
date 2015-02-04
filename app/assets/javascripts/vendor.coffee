@@ -4,9 +4,9 @@
 #= require browser_compatibility/localstorage-polyfill
 #= require fastclick
 #= require jquery
+#= require jquery/jquery.easing-1.3
 #= require headroom.js/dist/headroom.js
 #= require headroom.js/dist/jQuery.headroom.js
-#= require vendor_modified/jquery.simple-text-rotator
 #  require vide
 #= require velocity
 #= require isotope/dist/isotope.pkgd

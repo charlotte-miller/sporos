@@ -12,7 +12,7 @@ module StudiesHelper
   class GridLayout  
     def initialize(collection, options={})
       @rows = []
-      @collection = @pristine_collection = collection
+      @collection = @pristine_collection = collection.to_a
       @options = { rows_since_possible_repeat: 3, tidy_ending:true }.merge(options)
       @layout_column_counts = [ 
         [3,3,3,3],

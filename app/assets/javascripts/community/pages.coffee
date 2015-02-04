@@ -46,7 +46,7 @@ class CStone.Community.Pages
       window.onpopstate = @onPopState  # Sets the popstate function
     
       # Sets a default state
-      if history.state is null
+      unless history.state #is null
         history.replaceState
           id: @$page.prop("id")
         , document.title, @href
@@ -190,7 +190,7 @@ class CStone.Community.Pages
 
     # Handles the popstate event, like when the user hits 'back'
     onPopState: (e)=>
-      if e.state isnt null
+      if e.state #isnt null
         url = window.location.href
         @$page = $("#" + e.state.id)
         @loadPage url, {isPopped:true}  if @href isnt url and not Layout.utility.isHash(url)

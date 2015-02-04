@@ -19,22 +19,43 @@
         #new-to-cornerstone{ }
         #times-and-locations{ }
         #invest-in-cornerstone{ }
-
-    #comming-up{
-      padding: 0px 18px;
-      @media (min-width: $screen-md-min) {
-        padding:0px 32px;
+    
+    #current-content-nav{
+      @extend .nav;
+      @extend .nav-tabs;
+      margin: 0 -15px;
+      padding: 0 15px;
+      
+      .active > a{
+        background-color:$gray-lighter !important;
       }
     }
     
-        #community-feed{
-          @extend .pull-right;
-          font-size: $font-size-large;
-        }
+    #comming-up{
+      @include gradient-vertical($gray-lighter, #FFF, 0%, 20%);
+      margin: 0px -15px;
+      padding: 0px 33px;
+      @media (min-width: $screen-md-min) {
+        padding:0px 47px;
+      }
+    }
         
+        #community-feed{
+          @extend .col-xs-12;
+          font-size: $font-size-large;
+          padding: 9px 3px;
+        }
+
             #community-feed-links{
               @extend .nav;
-              @extend .nav-tabs;
+              @extend .nav-pills;
+              @extend .pull-right;
+              h4{
+                @extend .pull-left;
+                @extend .text-muted;
+                line-height: 26px;
+                padding-right:16px;
+              }
             }
             
               #adults-link{
@@ -71,7 +92,3 @@
             }
           }
         }
-    
-    
-
-    #current-media{}

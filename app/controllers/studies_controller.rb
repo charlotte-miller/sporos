@@ -11,7 +11,7 @@ class StudiesController < ApplicationController
         end
         
       else # Not searching
-        Study.all
+        Study.where('lessons_count > 0').all
       end
     )
     

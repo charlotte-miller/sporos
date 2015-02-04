@@ -39,28 +39,36 @@
     
   %hr
   
-  #comming-up
+  %ul#current-content-nav
+    %li#comming-up-link.active
+      %a.current-content-nav{href:'/'}
+        %h3 Comming Up
+    %li#media-library-link
+      %a.current-content-nav{href:'/library'}
+        %h3 Media Library
+  
+  #comming-up.active
     .row
-      %h3 Coming Up
       %nav#community-feed
         %ul#community-feed-links
+          %h4 Filter By:
           %li#all-link.active
-            %a.ministry{href:'/community', data:{toggle:'tab'}} All
+            %a.ministry{href:'#community'} All
           %li#men-link
-            %a.ministry{href:'/men', data:{toggle:'tab'}} Men
+            %a.ministry{href:'#men'} Men
           %li#women-link
-            %a.ministry{href:'/women', data:{toggle:'tab'}} Women
+            %a.ministry{href:'#women'} Women
           %li#rendezvous-link
-            %a.ministry{href:'/rendezvous', data:{toggle:'tab'}} Rendezvous
+            %a.ministry{href:'#rendezvous'} 20s/30s
           %li#adults-link
-            %a.ministry{href:'/adults', data:{toggle:'tab'}} Adults
+            %a.ministry{href:'#adults'} Adults
           %li#teens-link
-            %a.ministry{href:'/teens', data:{toggle:'tab'}} Teens
+            %a.ministry{href:'#teens'} Teens
           %li#kids-link
-            %a.ministry{href:'/kids', data:{toggle:'tab'}} Kids
+            %a.ministry{href:'#kids'} Kids
           %li#outreach-link
-            %a.ministry{href:'/outreach', data:{toggle:'tab'}} Outreach
-  
+            %a.ministry{href:'#outreach'} Outreach
+
     #cards
       #card-sizer
       - placeholder_img = placeholder_image '640x360', text:'default'
@@ -77,8 +85,4 @@
             .captions
               %h3= LoremIpsum.w rand(2..4)
               %p= LoremIpsum.p 1
-      
-      
-#current-media
-  %h3 Current Media
   

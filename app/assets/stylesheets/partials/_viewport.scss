@@ -2,39 +2,34 @@ html, body{
   background-color:#E6E7E9;
 }
 
-#view-port{
-  width: 100%;
-  height: 100%;
+.view-port-page{ 
+  @extend %transitionTransform;
+  -webkit-overflow-scrolling: touch;
+  background-color:#FFFFFF;
+  overflow:hidden;
+
+  &.background{
+    transform: scale3d(0.95,0.95,-1);
+  }
 }
 
-    .view-port-page{ 
-      @extend %transitionTransform;
-      -webkit-overflow-scrolling: touch;
-      background-color:#FFFFFF;
-      overflow:hidden;
+#main-page{
+  position: absolute;
+  overflow-y:auto;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
 
-      &.background{
-        transform: scale3d(0.95,0.95,-1);
-      }
-    }
-
-    #main-page{
-      position: absolute;
-      overflow-y:auto;
-      width: 100%;
-      height: 100%;
-      top: 0;
-    }
-
-    #page{
-      @extend .animated;
-      @include animationDuration(0.7s);
-      position:relative;
-      
-      &.current{
-        @extend .bounceInUp;
-      }
-      &:not(.current){
-        @extend .bounceOutDown;
-      }
-    }
+#page{
+  @include animationDuration(0.7s);
+  @extend .animated;
+  position:relative;
+  
+  &.current{
+    @extend .bounceInUp;
+  }
+  &:not(.current){
+    @extend .bounceOutDown;
+  }
+}

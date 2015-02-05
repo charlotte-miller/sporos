@@ -21,11 +21,10 @@
     = yield :page_stylesheets
   
   %body
-    #view-port
-      = homepage_toggle do
-        / %p.notice= notice
-        / %p.alert= alert
-        = yield
+    = homepage_toggle do
+      / %p.notice= notice
+      / %p.alert= alert
+      = yield
     
     / = partial 'layouts/ie'
     = javascript_include_tag  "vendor", digest:'v1'

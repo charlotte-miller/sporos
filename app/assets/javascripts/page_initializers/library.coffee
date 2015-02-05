@@ -46,9 +46,9 @@ $ ->
             
             if drawer_height && drawer_offset && media_offset > drawer_offset
               # remove the height of the olde drawer from the $media_item
-              $media_item.smoothScroll(CStone.Animation.layoutTransition.duration, CStone.Animation.layoutTransition.easing, {offset: -drawer_height, container:$('.view-port-page.current')})
+              $media_item.smoothScroll(CStone.Animation.layoutTransition.duration, CStone.Animation.layoutTransition.easing, {offset: -drawer_height})
             else
-              $media_item.smoothScroll(CStone.Animation.layoutTransition.duration, CStone.Animation.layoutTransition.easing, {container:$('.view-port-page.current')})
+              $media_item.smoothScroll(CStone.Animation.layoutTransition.duration, CStone.Animation.layoutTransition.easing)
         
         base.cleanupOld()
         base.insertNew()

@@ -11,12 +11,8 @@
             Search All
             %span.caret
           %ul.dropdown-menu
-            %li 
-              %a{:href => "#"} Title
-            %li 
-              %a{:href => "#"} Church
-            %li 
-              %a{:href => "#"} Keywords
+            / - @channels.each do |channel|
+            /   %li= link_to channel.title, "##{channel.slug}"
         %input{type:'text', placeholder:'What do you want to learn?'}
       
 #study-library
@@ -27,13 +23,14 @@
           %a{:href => study_lesson_url(study, study.lessons.first)} 
             .click_to_play
               .call_to_action
-            .study-details
-              %img{src:study.poster_img.url}
-              .credits
-                %h2= study.title
-                .author= #study.author
-                .chruch= study.church
-                .description= study.description
-                %ol.lessons.hidden-xs
-                  - study.lessons.each do |lesson|
-                    %li= lesson.title
+          .study-details
+            %img{src:study.poster_img.url}
+            .credits
+              %h2= study.title
+              .author= #study.authors
+              .chruch= #study.church
+              .description= study.description
+              %ol.lessons.hidden-xs
+                - study.lessons.each do |lesson|
+                  %li= link_to lesson.title, study_lesson_path(study, lesson)
+            

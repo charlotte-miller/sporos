@@ -1,4 +1,4 @@
-# $ ->
+$ ->
   jQuery.fn.slideFadeToggle = (speed, easing, callback) ->
     @animate
       opacity: "toggle"
@@ -23,13 +23,8 @@
   jQuery.fn.smoothScroll = (speed, easing, options={}, callback) ->
     target = $(@)
     if target.length
-      $("html,body").animate
-        scrollTop: target.offset().top + (options.offset || 0),
-        speed,
-        easing,
-        callback
-
-
-# TODO: 
-#- fix scroll to work w/ .view-port-page.current
-#- Upgrade to velocity (remove jquery.easing and replace $.animate with $.velocity)
+      container = options.container || $("html,body")
+      relative_scroll_top = target.offset().top - container.offset().top + container.scrollTop()
+      container.animate
+        scrollTop: relative_scroll_top + (options.offset || 0)
+      , speed, easing, callback

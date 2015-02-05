@@ -5,10 +5,10 @@
 #= require fastclick
 #= require jquery
 #= require jquery/jquery.easing-1.3
+#= require jquery.animate-enhanced
 #= require headroom.js/dist/headroom.js
 #= require headroom.js/dist/jQuery.headroom.js
 #  require vide
-#= require velocity
 #= require isotope/dist/isotope.pkgd
 #= require typeahead.js/dist/bloodhound.js
 #= require handlebars/handlebars.runtime.js

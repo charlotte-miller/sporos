@@ -27,7 +27,10 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = true
 
-  config.quiet_assets = false
+  # Surpress asset call logs like:
+  # Started GET "/assets/application.js" for 127.0.0.1 at 2015-01-28 13:35:34 +0300
+  # Served asset /application.js - 304 Not Modified (8ms)
+  config.quiet_assets = true
   
   # Adds additional error checking when serving assets at runtime.
   # Checks for improperly declared sprockets dependencies.

@@ -4,6 +4,7 @@
     "fastclick": "~1.0.3",
     "jquery": "~2.1.1",
     "velocity": "~1.0.0",
+    "jquery.animate-enhanced": "latest",
     "isotope": "~2.0.1",
     "typeahead.js": "~0.10.5",
     "handlebars": "~2.0.0",

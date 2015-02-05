@@ -1,13 +1,13 @@
-$ ->  
+$ ->
   jQuery.fn.rigMediaItems = ->
     $('.study',@).each ->
       $media_item = $(@)
       
-      # Rig click events    
+      # Rig click events
       $('> a', @).click (event)->
         if $media_item.hasClass('active')
-          # $('body').smoothScroll(350, 'easeInOutQuint')
-          return true 
+          # $('body').smoothScroll(CStone.Animation.layoutTransition.duration, CStone.Animation.layoutTransition.easing)
+          return true
         event.preventDefault()
         
         base =
@@ -18,10 +18,10 @@ $ ->
           
           cleanupOld: ->
             $('.study.active').removeClass('active')
-            ($('.study-detail-display').slideFadeHide 350, 'easeInOutQuint', -> $(@).remove()) if base.drawerOut()
+            ($('.study-detail-display').slideFadeHide CStone.Animation.layoutTransition.duration, CStone.Animation.layoutTransition.easing, -> $(@).remove()) if base.drawerOut()
     
           insertNew: =>
-            $study_details   = $('.study-details', @)
+            $study_details = $('.study-details', $(@).parent())
             $display= $('''
               <cite class="study-detail-display">
                 <span class="close" >&times;</span>
@@ -34,7 +34,7 @@ $ ->
             else
               $(@).parents('.study-row').after($display)
               
-            $display.slideFadeShow 350, 'easeInOutQuint'
+            $display.slideFadeShow CStone.Animation.layoutTransition.duration, CStone.Animation.layoutTransition.easing
           
           activateMediaItem: ->
             $media_item.addClass('active')
@@ -46,9 +46,9 @@ $ ->
             
             if drawer_height && drawer_offset && media_offset > drawer_offset
               # remove the height of the olde drawer from the $media_item
-              $media_item.smoothScroll(350, 'easeInOutQuint', {offset: -drawer_height})
+              $media_item.smoothScroll(CStone.Animation.layoutTransition.duration, CStone.Animation.layoutTransition.easing, {offset: -drawer_height, container:$('.view-port-page.current')})
             else
-              $media_item.smoothScroll(350, 'easeInOutQuint')
+              $media_item.smoothScroll(CStone.Animation.layoutTransition.duration, CStone.Animation.layoutTransition.easing, {container:$('.view-port-page.current')})
         
         base.cleanupOld()
         base.insertNew()

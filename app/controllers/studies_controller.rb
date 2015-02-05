@@ -4,6 +4,7 @@ class StudiesController < ApplicationController
   # GET /library?search=keyword
   # GET /library.json
   def index
+    # @channels = Channel.all
     @studies = (
       if params[:search]
         Study.search do
@@ -11,7 +12,11 @@ class StudiesController < ApplicationController
         end
         
       else # Not searching
-        Study.where('lessons_count > 0').all
+        Study.where('lessons_count > 0')
+        .where('poster_img_file_name is NOT NULL')
+        .includes(:lessons)
+        .limit(50)
+        .all
       end
     )
     

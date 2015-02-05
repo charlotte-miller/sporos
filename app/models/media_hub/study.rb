@@ -150,6 +150,14 @@ class Study < ActiveRecord::Base
     # future association
   end
   
+  def authors
+    if lessons.loaded?
+      lessons.map(&:author)
+    else
+      lessons.pluck(:author)
+    end.uniq.join(', ')
+  end
+  
   private #--------------------------------------------------------------------------------
 
   def add_default_values

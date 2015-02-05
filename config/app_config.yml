@@ -36,11 +36,13 @@ common:
     secret_key: '0082e339f557aa3bd6bf6574779ad8c01ae5e70493b94895a5340b815926a09ebc7d319f7b0518ffdddd1e9dd8361af6e2bceb442446918bbeb95802564c92dd'
     pepper:     '7bfc982773957f715e0d65a138b355b26b4727e85d8323136b11c65451a315a56b630e99a9c7c4580701d7048df9d6bb0516e71ff0552e778e9533fc9b442c93'
 
+
+
 development:
   domains:
     cdn: www.cornerstonesf.chruch
-    media: media.cornerstonesf.chruch
-    media_cdn_range: media.cornerstonesf.chruch
+    media: media.cornerstonesf.chruch.s3-website-us-west-2.amazonaws.com            #media.cornerstonesf.chruch
+    media_cdn_range: media.cornerstonesf.chruch.s3-website-us-west-2.amazonaws.com  #media%d.cornerstonesf.chruch
     
 
 test:

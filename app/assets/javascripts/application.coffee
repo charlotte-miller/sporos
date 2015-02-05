@@ -12,4 +12,4 @@ window.CStone =
   Animation:
     layoutTransition:
       easing :  'easeInOutQuint'
-      duration: 400
+      duration: 350

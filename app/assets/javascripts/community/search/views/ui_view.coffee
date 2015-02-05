@@ -127,10 +127,8 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
     container  = $('#main-page')
     scroll_to  = if container.width() <= col_sm_min then '#global-search' else '#main-header'
     
-    $(scroll_to).velocity 'scroll',
+    $(scroll_to).smoothScroll CStone.Animation.layoutTransition.duration, CStone.Animation.layoutTransition.easing,
       container: container
-      easing:    CStone.Animation.layoutTransition.easing
-      duration:  CStone.Animation.layoutTransition.duration
       offset:    -100 #offset mobile address-bars
   
   # Internal

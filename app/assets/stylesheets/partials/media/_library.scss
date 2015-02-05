@@ -58,11 +58,6 @@
       height:100%;
       width:100%;
       
-      .study-details{
-        position:absolute;
-        top:0px;
-        @include opacity(0);
-      }
       .click_to_play{ 
         background-color:rgba(0,0,0,0.8);
         width:100%;
@@ -84,6 +79,14 @@
         }
       }
     }
+    
+    .study-details{
+      position:absolute;
+      top:0px;
+      @include opacity(0);
+      height:0px;
+      overflow:hidden;
+    }
       
     &.active{
       .click_to_play{ 
@@ -97,9 +100,10 @@
     display:none;
     opacity:0;
     height:300px;
+    overflow:hidden;
 
     .close{
-      color:white;
+      color:$gray-dark;
       padding:10px;
       font-size:25px;
     }
@@ -134,10 +138,12 @@
         }
       }
       
-      &.active{
+      &.active{        
         .study-details{
-          opacity:1 !important;
           @include transition(opacity 0.35s ease-in-out);
+          opacity:1 !important;
+          color:$gray-lighter;
+          height:auto;
         }
       }
     }

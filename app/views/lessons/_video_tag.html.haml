@@ -1,0 +1,21 @@
+/ %video#a240e92d.sublime{"data-autoresize" => "fit", "data-uid" => "a240e92d", height: "360", poster: "https://cdn.sublimevideo.net/vpa/ms_800.jpg", preload: "none", title: "Midnight Sun", width: "640"}
+%video{                                     |
+  id:    "video-for-#{@study.id}",          |
+  class: "col-xs-12 sublime",               |
+  height: "360",                            |
+  width: "640",                             |
+  poster: @lesson.poster_img.url,           |
+  title: @lesson.title,                     |
+  preload:"auto",                           |
+  data:{ autoresize:'fit',uid: "a240e92d"}} |
+  %source{src:@lesson.video.url(:webm)}
+  %source{src:@lesson.video.url(:mp4)}
+  %source{src:@lesson.video.url(:webm_hd, data:{quality:'hd'})}
+  %source{src:@lesson.video.url(:mp4_hd)}
+  %source{src:@lesson.video.url(:mp4_mobile)}
+  
+  / %source{"data-quality" => "hd", src: "https://cdn.sublimevideo.net/vpa/ms_720p.mp4"}
+  / %source{src: "https://cdn.sublimevideo.net/vpa/ms_360p.mp4"}
+  / %source{"data-quality" => "hd", src: "https://cdn.sublimevideo.net/vpa/ms_720p.webm"}
+  / %source{src: "https://cdn.sublimevideo.net/vpa/ms_360p.webm"}
+ 

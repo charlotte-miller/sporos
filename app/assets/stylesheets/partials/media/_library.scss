@@ -45,7 +45,7 @@
   .study{
     padding:0px;
     height:inherit;
-    border:1px solid #eee;
+    border:5px solid $gray-lighter;
     background: transparent no-repeat center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -101,6 +101,7 @@
     opacity:0;
     height:300px;
     overflow:hidden;
+//    margin:15px;
 
     .close{
       color:$gray-dark;
@@ -131,6 +132,8 @@
       &:nth-of-type(4n+3){ height:unquote(nth($library-row-heights, 3)); }
       &:nth-of-type(4n+4){ height:unquote(nth($library-row-heights, 4)); }
       &:nth-of-type(5n+1){ height:unquote(nth($library-row-heights, 5)); }
+      
+      border-width:3px;
       
       .click_to_play{
         .call_to_action{

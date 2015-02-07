@@ -2,6 +2,7 @@
 #
 #= require browser_compatibility/uri
 #= require browser_compatibility/localstorage-polyfill
+#= require es6-promise
 #= require fastclick
 #= require jquery
 #= require jquery/jquery.easing-1.3

@@ -1,5 +1,6 @@
 $ ->
-  jQuery.fn.rigMediaItems = ->
+  # Example: $('#study-library').setupMediaItems()
+  jQuery.fn.setupMediaItems = ->
     $('.study',@).each ->
       $media_item = $(@)
       
@@ -54,5 +55,3 @@ $ ->
         base.insertNew()
         base.activateMediaItem()
         base.handleScroll()
-  
-  $('#study-library').rigMediaItems()

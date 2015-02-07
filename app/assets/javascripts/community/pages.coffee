@@ -102,13 +102,13 @@ class CStone.Community.Pages
       # Updates the contents from @cache[url]
       updateContent = (url) =>
         container = if @isMainPage(url) then @$main else @$page
-        containerId = "#" + container.prop("id")
-        $content = Layout.utility.getContentById(containerId, @cache[url].html)
+        $content = Layout.utility.getContentById("##{container.prop("id")}", @cache[url].html)
+        $page_specific_javascripts = $('#page_specific_javascripts', @cache[url].html)
         if $content
           document.title = @cache[url].title
           @href = url
           container.html $content  unless @isMainPage(url) && @$main.html()
-        
+          @loadAndInitalizePageSpecificJavascript($page_specific_javascripts)
         else
           window.location = url # No content availble to update with, aborting...
 
@@ -181,6 +181,28 @@ class CStone.Community.Pages
       ## Execute
       fetch(url)
       return @
+
+    loadAndInitalizePageSpecificJavascript: ($page_specific_javascripts)=>
+      loadIncludesAndRunInitializer = =>
+        runInitializer = =>
+          if page_initializer
+            unless false#it_has_already_run = _(@initalizer_registry.initializers).indexOf(page_initializer) != -1
+              @initalizer_registry.initializers.push page_initializer
+              eval(page_initializer)
+
+        if page_js_include_urls.length
+          script_promises = _(page_js_include_urls).map (script_url)=>
+            @initalizer_registry.includes.push script_url
+            Promise.resolve( jQuery.getScript(script_url) )
+          Promise.all(script_promises).then runInitializer, (err)-> console.log(err)
+        else
+          runInitializer()
+
+      @initalizer_registry ||= { includes:[], initializers:[] }
+      page_initializer = (i = $('script[type="page/initializers"]', $page_specific_javascripts).html()) && i.trim()
+      page_js_include_urls = _($('script[type!="page/initializers"]', $page_specific_javascripts).map -> @src).without(@initalizer_registry.includes...)
+      loadIncludesAndRunInitializer()
+
 
         
     isMainPage: (href=window.location.href)=>
@@ -293,6 +315,4 @@ class CStone.Community.Pages
 TODO:
 Multi-page
 - load new pages into new divs & animate
-- initalize new page's javascript after insertion (maybe some init interface)
-
 ###

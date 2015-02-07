@@ -1,6 +1,7 @@
 {
   "name": "dsl-generated dependencies",
   "dependencies": {
+    "es6-promise": "2.0.1",
     "fastclick": "~1.0.3",
     "jquery": "~2.1.1",
     "velocity": "~1.0.0",

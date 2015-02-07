@@ -29,4 +29,7 @@
     / = partial 'layouts/ie'
     = javascript_include_tag  "vendor", digest:'v1'
     = javascript_include_tag  "application"
-    = yield :page_javascripts
+    #page_specific_javascripts
+      = yield :page_specific_js_includes #loads once
+      %script{type:'page/initializers'}
+        = yield :page_specific_js_initializers #runs everytime this page loads

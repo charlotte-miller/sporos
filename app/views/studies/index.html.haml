@@ -1,8 +1,8 @@
-- content_for :page_specific_js_includes do
-  = javascript_include_tag "page_initializers/library"
+- content_for :page_specific_js do
+  = javascript_include_tag "library/grid"
 
 - content_for :page_specific_js_initializers do
-  $('#study-library').setupMediaItems();
+  = javascript_include_tag "page_initializers/library"
 
 #search-box.row
   #library-search

@@ -30,6 +30,7 @@
     = javascript_include_tag  "vendor", digest:'v1'
     = javascript_include_tag  "application"
     #page_specific_javascripts
-      = yield :page_specific_js_includes #loads once
-      %script{type:'page/initializers'}
-        = yield :page_specific_js_initializers #runs everytime this page loads
+      #load_once
+        = yield :page_specific_js
+      #load_every_time
+        = yield :page_specific_js_initializers

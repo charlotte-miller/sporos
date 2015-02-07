@@ -2,22 +2,15 @@ class CStone.Community.Pages
   # CStone.Community.Pages.layout
   @layout: 'CStone.Community.Pages not initialized'
   @init: =>
+    return if @initalized
     @initalized = true
     @layout = new Layout('#main-page', '#page')
     
     # Initialize Jquery
     $ =>
+      # Setup click events for CStone.Community.Pages
       layout = @layout
       $body = $('html, body')
-      
-      # Rescroll on Resize && Set Inital Scroll
-      reScrollLayout = ->
-        if layout.$main.hasClass('current')
-          $body.scrollLeft(0) #far left
-        else
-          $body.scrollLeft(1000000000) #far right
-      $(window).resize _.throttle(reScrollLayout, 500)
-      reScrollLayout()
         
       $('.home-link').click (e)->
         e.preventDefault()
@@ -184,23 +177,21 @@ class CStone.Community.Pages
 
     loadAndInitalizePageSpecificJavascript: ($page_specific_javascripts)=>
       loadIncludesAndRunInitializer = =>
-        runInitializer = =>
-          if page_initializer
-            unless false#it_has_already_run = _(@initalizer_registry.initializers).indexOf(page_initializer) != -1
-              @initalizer_registry.initializers.push page_initializer
-              eval(page_initializer)
+        runInitializer = ->
+          if always_run_urls.length
+            script_promises = _(always_run_urls).map (script_url)-> jQuery.getScript(script_url)
 
         if page_js_include_urls.length
           script_promises = _(page_js_include_urls).map (script_url)=>
-            @initalizer_registry.includes.push script_url
+            @page_js_registry.push script_url
             Promise.resolve( jQuery.getScript(script_url) )
           Promise.all(script_promises).then runInitializer, (err)-> console.log(err)
         else
           runInitializer()
 
-      @initalizer_registry ||= { includes:[], initializers:[] }
-      page_initializer = (i = $('script[type="page/initializers"]', $page_specific_javascripts).html()) && i.trim()
-      page_js_include_urls = _($('script[type!="page/initializers"]', $page_specific_javascripts).map -> @src).without(@initalizer_registry.includes...)
+      @page_js_registry ||= []
+      page_js_include_urls = _($('#load_once script', $page_specific_javascripts).map -> @src).without(@page_js_registry...)
+      always_run_urls = $('#load_every_time script', $page_specific_javascripts).map -> @src
       loadIncludesAndRunInitializer()
 
 

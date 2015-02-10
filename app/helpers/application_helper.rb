@@ -1,10 +1,10 @@
 module ApplicationHelper
   
-  def is_homepage?;      current_page?(controller:'special_pages', action:'homepage') ;end
+  def is_homepage?; current_page?(controller:'special_pages', action:'homepage') ;end
   
   def homepage_toggle
     capture_haml do
-      haml_tag :div, id:'main-page', class:"view-port-page #{'current' if is_homepage?}" do
+      haml_tag :div, id:'main-page', class:"view-port-page #{is_homepage? ? 'current' : 'background'}" do
         yield if is_homepage?
       end
     

@@ -24,6 +24,10 @@
     = homepage_toggle do
       / %p.notice= notice
       / %p.alert= alert
+      - unless is_homepage?
+        %a#go_home.full{href:'/'} 
+          %span Back to
+          Homepage
       = yield
     
     / = partial 'layouts/ie'

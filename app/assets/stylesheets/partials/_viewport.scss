@@ -1,8 +1,10 @@
 html, body{
   background-color:#E6E7E9;
+  -webkit-overflow-scrolling: touch;
 }
 
 .view-port-page{ 
+  @extend .animated;
   @extend %transitionTransform;
   -webkit-overflow-scrolling: touch;
   background-color:#FFFFFF;
@@ -23,13 +25,47 @@ html, body{
 
 #page{
   @include animationDuration(0.7s);
-  @extend .animated;
   position:relative;
   
   &.current{
     @extend .bounceInUp;
+    animation-fill-mode:backwards;
+    -webkit-animation-fill-mode:backwards;
   }
   &:not(.current){
     @extend .bounceOutDown;
+  }
+}
+
+#go_home{
+  @include transitionValue(padding);
+  position: fixed;
+  top: 0;
+  left: 15px;
+  z-index: 1000;
+  padding: 10px 14px 10px 48px;
+  border-radius: 0 0 16px 16px;
+  background:$gray-darker url(image_path('small_logo.png')) 12px center no-repeat;
+  color: $gray-lighter;
+  text-decoration:none !important;
+	-webkit-box-shadow: 0 7px 10px -7px #777;
+	   -moz-box-shadow: 0 7px 10px -7px #777;
+	        box-shadow: 0 7px 10px -7px #777;
+  
+  span{
+    @include transitionValue(opacity);
+    position:absolute;
+    top:16px;
+    font-size:12px;
+    opacity:0;
+  }
+  
+  &:hover, &.full{
+    padding-top:28px;
+    padding-bottom:15px;
+    
+    span{
+      opacity:1;
+    }
   }
 }

@@ -5,7 +5,7 @@
 #= require community/search
 #= require_self
 
-Cstone.Animation =
+CStone.Animation =
   layoutTransition:
     easing :  'easeInOutQuint'
     duration: 350

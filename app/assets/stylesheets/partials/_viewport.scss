@@ -1,6 +1,8 @@
 html, body{
   background-color:#E6E7E9;
   -webkit-overflow-scrolling: touch;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .view-port-page{ 
@@ -11,7 +13,8 @@ html, body{
   overflow:hidden;
 
   &.background{
-    transform: scale3d(0.95,0.95,-1);
+    transform: scale(0.95);
+    -webkit-transform: scale(0.95);
   }
 }
 

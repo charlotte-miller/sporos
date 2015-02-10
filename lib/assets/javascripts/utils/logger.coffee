@@ -4,6 +4,7 @@ unless console? && console.log? # Bugfix for browsers without console.log
 class CStone.Shared.Utils.Logger
 
   constructor: (@environment) ->
+    @environment = localStorage['logger_env'] || @environment
     @noisy = localStorage['logger_noisy']?
     @silentModes = _(['production', 'test'])
     @alwaysPrint = _(['error', 'debug'])

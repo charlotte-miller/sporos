@@ -1,15 +1,11 @@
-#= require_self
+#= require application_namespace
 #= require shared
 #= require community/news
 #= require community/pages
 #= require community/search
+#= require_self
 
-# Initialize Namespace
-window.CStone =
-  Community: {}  # News, Pages, Search
-  Media:     {}
-  Shared:    {}  # Backbone, Helpers, Utils
-  Animation:
-    layoutTransition:
-      easing :  'easeInOutQuint'
-      duration: 350
+Cstone.Animation =
+  layoutTransition:
+    easing :  'easeInOutQuint'
+    duration: 350

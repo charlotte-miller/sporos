@@ -5,28 +5,7 @@ class CStone.Community.Pages
     return if @initalized
     @initalized = true
     @layout = new Layout('#main-page', '#page')
-    
-    # Initialize Jquery
-    $ =>
-      # Setup click events for CStone.Community.Pages
-      layout = @layout
-      $body = $('html, body')
-        
-      $('.home-link').click (e)->
-        e.preventDefault()
-        layout.loadPage $(@).prop('href')
-            
-      $('#main-page a').not('.ministry').click (e)->
-        e.preventDefault()
-
-        $('#headroom').removeClass('headroom--pinned')
-        $('#headroom').addClass('headroom--unpinned')
-
-        layout.loadPage $(@).prop('href'), ->
-          $('.home-link').click (e)->
-            e.preventDefault()
-            layout.loadPage $(@).prop('href')
-  
+    # Initialize jQuery in page_initializers using CStone.Community.Pages.layout
   
   
   class Layout

@@ -7,5 +7,13 @@ $ ->
     e.preventDefault()
     CStone.Community.Pages.layout.loadPage $(@).prop('href')
   
-  if $('#go_home.full').length
-    setTimeout (-> $('#go_home.full').removeClass('full')), 2000
+  $home_tab = $('#go_home')
+  if $home_tab.length
+    
+    # Eager-load on hover
+    $home_tab.mouseenter (e)->
+      url = $(@).prop('href')
+      CStone.Community.Pages.layout.loadPage(url,{onlyPrefetch:true})
+    
+    # Shrink after 2 seconds
+    setTimeout (-> $home_tab.removeClass('full')), 2000

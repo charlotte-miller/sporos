@@ -13,6 +13,9 @@ $ ->
 
     CStone.Community.Pages.layout.loadPage $(@).prop('href')
   
+  $('#media-library-link').mouseenter ->
+    url = $('a', @).prop('href')
+    CStone.Community.Pages.layout.loadPage(url,{onlyPrefetch:true})
   
   $('#headroom').headroom
     offset : 800

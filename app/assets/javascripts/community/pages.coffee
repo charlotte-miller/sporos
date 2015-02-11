@@ -29,6 +29,7 @@ class CStone.Community.Pages
     -param   {string}     url
     -param   {object}     options
       -options  {bool}    isPopped - used to determine if whe should add a new item into the history object
+      -options  {bool}    onlyPrefetch - used to load a page into the cache w/out updating the DOM
     -param   {function}   (url, $container, $content) ->
     ###
     loadPage: (url, options={}, callback)=>
@@ -44,8 +45,7 @@ class CStone.Community.Pages
         
       # Fetches the contents of a url and stores it in the '@cache' varible
       fetch = (url) =>
-      
-        if !!@$main.html()
+        if @$main.trim_html()
           @cache[Layout.utility.pathToUrl(@mainPath)] ||=
             status: "loaded"
             title: document.title
@@ -79,7 +79,7 @@ class CStone.Community.Pages
         if $content
           document.title = @cache[url].title
           @href = url
-          container.html $content  unless @isMainPage(url) && @$main.html()
+          container.html $content  unless @isMainPage(url) && @$main.trim_html()
           @loadAndInitalizePageSpecificJavascript($page_specific_javascripts)
         else
           window.location = url # No content availble to update with, aborting...
@@ -88,6 +88,7 @@ class CStone.Community.Pages
       responses=
         # Page is ready, update the content
         loaded: =>
+          return false if options.onlyPrefetch
           updateContent( url )
           transitions.revealing()
           unless options.isPopped
@@ -107,6 +108,7 @@ class CStone.Community.Pages
       $body = $("html, body")
       transitions=
         loading: =>
+          return false if options.onlyPrefetch
           @$page.trigger 'CStone.Community.Pages.Layout.loadPage.loading'
           @$main.addClass('background')
   

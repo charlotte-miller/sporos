@@ -257,7 +257,7 @@ class CStone.Community.Pages
       getContentById: (id, $html) ->
         # Grabs the new container's contents from the cache
         updatedContainer = $(id, $html).html()
-        newContent = (if (updatedContainer.length) then $(updatedContainer) else null)
+        newContent = (if (updatedContainer && updatedContainer.length) then $(updatedContainer) else null)
         newContent
     
       clearIfOverCapacity: (obj, cap) ->

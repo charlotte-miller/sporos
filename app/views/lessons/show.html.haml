@@ -1,6 +1,9 @@
 - content_for :page_specific_js do
   = javascript_include_tag "//cdn.sublimevideo.net/js/lqhbkm50.js", "lessons"
-  
+
+- content_for :page_specific_js_initializers do
+  = javascript_include_tag "page_initializers/library_show"  
+
 #study
   #study-header
     %h1

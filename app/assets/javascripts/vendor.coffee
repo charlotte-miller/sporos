@@ -1,11 +1,9 @@
 # NOTE: Bump the version after ANY changes
 #
-#= require browser_compatibility/uri
 #= require browser_compatibility/localstorage-polyfill
 #= require es6-promise
 #= require fastclick
 #= require jquery
-#= require jquery/jquery.easing-1.3
 #= require jquery.animate-enhanced
 #= require headroom.js/dist/headroom.js
 #= require headroom.js/dist/jQuery.headroom.js

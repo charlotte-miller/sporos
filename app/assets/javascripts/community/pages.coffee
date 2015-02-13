@@ -9,13 +9,13 @@ class CStone.Community.Pages
   
   
   class Layout
-    constructor: (main, page, mainPath='/') ->
-      @mainPath = mainPath             # The url/path to the main page
-      @$main = $(main)                 # Container element for the main page
-      @$page = $(page)                 # Container element content pages load into
-      @cache = {}                      # Variable that stores pages after they are requested
-      @href = window.location.href     # Url of the content that is currently displayed
-      window.onpopstate = @onPopState  # Sets the popstate function
+    constructor: (main, page) ->
+      @mainPath = '/'                   # The url/path to the main page
+      @$main = $(main)                  # Container element for the main page
+      @$page = $(page)                  # Container element content pages load into
+      @cache = {}                       # Variable that stores pages after they are requested
+      @href = window.location.href      # Url of the content that is currently displayed
+      window.onpopstate = @onPopState   # Sets the popstate function
     
       # Sets a default state
       unless history.state #is null
@@ -38,15 +38,18 @@ class CStone.Community.Pages
         callback = options
         options = {}
     
-      # Load normally if external or #hash
-      unless Layout.utility.shouldLoad(url)
+      @lastURL = @href
+
+      # Load normally if external, #hash, or page-to-page
+      return if url == @lastURL
+      if @loadNormally(url)
         window.location = url
         return
         
       # Fetches the contents of a url and stores it in the '@cache' varible
       fetch = (url) =>
         if @$main.trim_html()
-          @cache[Layout.utility.pathToUrl(@mainPath)] ||=
+          @cache[Layout.utility.normalizeUrl(@mainPath)] ||=
             status: "loaded"
             title: document.title
             html: $("<div><p id='#{@$main.attr('id')}'>Stored in DOM</p></div>")
@@ -60,7 +63,7 @@ class CStone.Community.Pages
           # Store contents in @cache variable if successful
           request.success (html) =>
             # Clear @cache varible if it's getting too big
-            Layout.utility.clearIfOverCapacity(@cache, 30)
+            Layout.utility.clearIfOverCapacity(@cache, 3)
             Layout.utility.storePage @cache, url, html
 
           # Mark as error
@@ -109,21 +112,18 @@ class CStone.Community.Pages
       transitions=
         loading: =>
           return false if options.onlyPrefetch
-          @$page.trigger 'CStone.Community.Pages.Layout.loadPage.loading'
           @$main.addClass('background')
   
-        revealing: =>
-          @$page.trigger "CStone.Community.Pages.Layout.loadPage.revealing"
+        revealing: ->
           animatePageTransition(transitions.cleanup)
   
-        cleanup: =>
-          @$page.trigger "CStone.Community.Pages.Layout.loadPage.cleanup"
+        cleanup: ->
           # remove old content etc.
           callback?()
     
-      lastURL = @href
+
       animatePageTransition= (callback)=>
-        fromMain = @isMainPage(lastURL)
+        fromMain = @isMainPage(@lastURL)
         toMain   = @isMainPage(url)
 
         if fromMain
@@ -145,12 +145,12 @@ class CStone.Community.Pages
             # Change #page to #page-outgoing
             # Load #page below (or above)
             # Insert and animate
-          
+
             if options.isPopped
               # # {reverse:true, replace:true}
             else
               # {reverse:false, replace:true}
-      
+
 
       ## Execute
       fetch(url)
@@ -176,11 +176,13 @@ class CStone.Community.Pages
       loadIncludesAndRunInitializer()
 
 
-        
-    isMainPage: (href=window.location.href)=>
-      $("<a href=#{href}><a>").prop('href')
-      uri = new URI(href)
-      uri.path == @mainPath
+
+    isMainPage: (url)=>
+      Layout.utility.urlMatchesPath(url, @mainPath)
+
+    loadNormally: (url)=>
+      Layout.utility.isExternal(url) or Layout.utility.isHash(url) or !(@isMainPage(@lastURL) || @isMainPage(url))
+
 
     # Handles the popstate event, like when the user hits 'back'
     onPopState: (e)=>
@@ -192,8 +194,28 @@ class CStone.Community.Pages
   
     # Static Utility Methods
     @utility:
-      # Prevents jQuery from stripping elements from $(html)
+      # URL ---
+      isExternal: (url) ->
+        match = url.match(/^([^:\/?#]+:)?(?:\/\/([^\/?#]*))?([^?#]+)?(\?[^#]*)?(#.*)?/)
+        return true  if typeof match[1] is "string" and match[1].length > 0 and match[1].toLowerCase() isnt location.protocol
+        return true  if typeof match[2] is "string" and match[2].length > 0 and match[2].replace(
+          new RegExp(":(#{ {http: 80, https: 443}[location.protocol]})?$"), "") isnt location.host
+        false
+
+      isHash: (url) ->
+        hasPathname = (if (url.indexOf(window.location.pathname) > 0) then true else false)
+        hasHash = (if (url.indexOf("#") > 0) then true else false)
+        (if (hasPathname and hasHash) then true else false)
+
+      normalizeUrl: (path_or_url)->
+        $("<a href='#{path_or_url}'>").prop('href')
+
+      urlMatchesPath: (url,path)->
+        @normalizeUrl(path) == @normalizeUrl(url)
+
+      # Document ---
       htmlDoc: (html) ->
+        # Prevents jQuery from stripping elements from $(html)
         parent = undefined
         elems = $()
         matchTag = /<(\/?)(html|head|body|title|base|meta)(\s+[^>]*)?>/g
@@ -229,23 +251,13 @@ class CStone.Community.Pages
           return
         parent.children().unwrap()
     
-      isExternal: (url) ->
-        match = url.match(/^([^:\/?#]+:)?(?:\/\/([^\/?#]*))?([^?#]+)?(\?[^#]*)?(#.*)?/)
-        return true  if typeof match[1] is "string" and match[1].length > 0 and match[1].toLowerCase() isnt location.protocol
-        return true  if typeof match[2] is "string" and match[2].length > 0 and match[2].replace(
-          new RegExp(":(#{ {http: 80, https: 443}[location.protocol]})?$"), "") isnt location.host
-        false
-    
-      isHash: (url) ->
-        hasPathname = (if (url.indexOf(window.location.pathname) > 0) then true else false)
-        hasHash = (if (url.indexOf("#") > 0) then true else false)
-        (if (hasPathname and hasHash) then true else false)
-    
-    
-      shouldLoad: (url, blacklist) ->
-        # URL will only be loaded if it's not an external link, or hash
-        not @isExternal(url) and not @isHash(url)
-    
+      getContentById: (id, $html) ->
+        # Grabs the new container's contents from the cache
+        updatedContainer = $(id, $html).html()
+        newContent = (if (updatedContainer && updatedContainer.length) then $(updatedContainer) else null)
+        newContent
+
+      # Cache ---
       storePage: (object, url, html) ->
         $htmlDoc = @htmlDoc(html)
         object[url] = # Content is indexed by the url
@@ -254,12 +266,6 @@ class CStone.Community.Pages
           html: $htmlDoc # Stores the contents of the page
         object
 
-      getContentById: (id, $html) ->
-        # Grabs the new container's contents from the cache
-        updatedContainer = $(id, $html).html()
-        newContent = (if (updatedContainer && updatedContainer.length) then $(updatedContainer) else null)
-        newContent
-    
       clearIfOverCapacity: (obj, cap) ->
         # Polyfill Object.keys if it doesn't exist
         unless Object.keys
@@ -277,14 +283,6 @@ class CStone.Community.Pages
         obj[mainPath] = main
         ###
 
-      pathToUrl: (path)->
-        $("<a href=#{path}>").prop('href')
-    
       
 
 
-###
-TODO:
-Multi-page
-- load new pages into new divs & animate
-###

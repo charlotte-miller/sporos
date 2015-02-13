@@ -1,6 +1,7 @@
 module ApplicationHelper
   
   def is_homepage?; current_page?(controller:'special_pages', action:'homepage') ;end
+  def is_library?;  current_page?(controller:'studies', action:'index') ;end
   
   def homepage_toggle
     capture_haml do

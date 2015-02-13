@@ -22,7 +22,7 @@
     .study-row
       - col_hash.each do |study, col_count|
         .study{:class=>"col-sm-#{col_count}", style:"background-image:url('#{study.poster_img.url}');" }
-          %a{:href => study_lesson_url(study, study.lessons.first)} 
+          %a{:href => study_lesson_url(study, study.lessons.first), class:'no-nav'}
             .click_to_play
               .call_to_action
           .study-details

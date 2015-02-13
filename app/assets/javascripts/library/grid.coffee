@@ -1,6 +1,6 @@
 $ ->
   # Example: $('#study-library').setupMediaItems()
-  jQuery.fn.setupMediaItems = ->
+  jQuery.fn.setupMediaItems = (newDetailsCallback)->
     $('.study',@).each ->
       $media_item = $(@)
       
@@ -29,6 +29,8 @@ $ ->
               </cite>''')
             $('.close',$display).click -> base.cleanupOld()
             $display.append($study_details.html())
+            
+            newDetailsCallback?($display)
       
             if base.isMobileLayout()
               base.cleanupOld()

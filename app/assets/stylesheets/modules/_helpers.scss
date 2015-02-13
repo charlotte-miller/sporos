@@ -16,13 +16,23 @@
   -moz-transition-property: $val;
   -o-transition-property: $val;
   transition-property: $val;
+  
+  -webkit-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000); 
+  -moz-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000); 
+  -o-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000); 
+  transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000); /* easeInOutQuint */
 }
 
-@mixin animationDuration($val){
+@mixin duration($val){
   -webkit-animation-duration: $val;
   -moz-animation-duration: $val;
   -o-animation-duration: $val;
   animation-duration: $val;
+  
+  -webkit-transition-duration: $val;
+  -moz-transition-duration: $val;
+  -o-transition-duration: $val;
+  transition-duration: $val;
 }
 
 %verticalCenter{
@@ -33,7 +43,29 @@
   @include text-overflow();
 }
 
+.notransition {
+  /*CSS transitions*/
+  -o-transition-property: none !important;
+  -moz-transition-property: none !important;
+  -ms-transition-property: none !important;
+  -webkit-transition-property: none !important;
+  transition-property: none !important;
+  /*CSS transforms*/
+  -o-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  -webkit-transform: none !important;
+  transform: none !important;
+  /*CSS animations*/
+  -webkit-animation: none !important;
+  -moz-animation: none !important;
+  -o-animation: none !important;
+  -ms-animation: none !important;
+  animation: none !important;
+}
+
 %transitionHeight   { @include transitionValue(height);        }
+%transitionOpacity  { @include transitionValue(opacity);       }
 %transitionWidth    { @include transitionValue(width);         }
 %transitionMargin   { @include transitionValue(margin);        }
 %transitionTop      { @include transitionValue(top);           }

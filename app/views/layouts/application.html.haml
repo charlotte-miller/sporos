@@ -22,19 +22,15 @@
   
   %body
     = homepage_toggle do
-      / %p.notice= notice
-      / %p.alert= alert
-      - unless is_homepage?
-        %a#go_home.full{href:'/'} 
-          %span Back to
-          Homepage
+      = render :partial => 'layouts/backlink_tab'
       = yield
     
-    / = partial 'layouts/ie'
-    = javascript_include_tag  "vendor", digest:'v1'
-    = javascript_include_tag  "application"
-    #page_specific_javascripts
-      #load_once
-        = yield :page_specific_js
-      #load_every_time
-        = yield :page_specific_js_initializers
+    #javascripts
+      / = partial 'layouts/ie'
+      = javascript_include_tag  "vendor", digest:'v1'
+      = javascript_include_tag  "application"
+      #page_specific_javascripts
+        #load_once
+          = yield :page_specific_js
+        #load_every_time
+          = yield :page_specific_js_initializers

@@ -1,0 +1,9 @@
+- unless is_homepage?
+  #backlinks.full
+    %a#go_home{href:'/'} 
+      %span.cta Back to
+      Homepage
+    - unless is_library?
+      %a#go_lib{href:'/library'} 
+        %span.cta Explore the
+        Media Library

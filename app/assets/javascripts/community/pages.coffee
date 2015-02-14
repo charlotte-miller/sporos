@@ -51,7 +51,8 @@ class CStone.Community.Pages
           @cache[Layout.utility.normalizeUrl(@mainPath)] ||=
             status: "loaded"
             title: document.title
-            html: $("<div><p id='#{@$main.attr('id')}'>Stored in DOM</p></div>")
+            html: "<div><p id='#{@$main.attr('id')}'>Stored in DOM</p></div>"
+            stored_at: undefined #timeless - stays cached
         
         # Don't fetch we have the content already
         unless @cache.hasOwnProperty(url)
@@ -61,8 +62,6 @@ class CStone.Community.Pages
     
           # Store contents in @cache variable if successful
           request.success (html) =>
-            # Clear @cache varible if it's getting too big
-            Layout.utility.clearIfOverCapacity(@cache, 3)
             Layout.utility.storePage @cache, url, html
 
           # Mark as error
@@ -75,9 +74,10 @@ class CStone.Community.Pages
       # If the content has been requested and is done:
       # Updates the contents from @cache[url]
       updateContent = (url) =>
-        container = if @isMainPage(url) then @$main else @$page
-        $content = Layout.utility.getContentById("##{container.prop("id")}", @cache[url].html)
-        $page_specific_javascripts = $('#page_specific_javascripts', @cache[url].html)
+        container    = if @isMainPage(url) then @$main else @$page
+        $cached_html = Layout.utility.getStoredPage(@cache, url)
+        $content     = Layout.utility.getContentById("##{container.prop("id")}", $cached_html)
+        $page_specific_javascripts = $('#page_specific_javascripts', $cached_html)
         if $content
           document.title = @cache[url].title
           @href = url
@@ -116,12 +116,13 @@ class CStone.Community.Pages
         revealing: ->
           animatePageTransition(transitions.cleanup)
   
-        cleanup: ->
-          # remove old content etc.
+        cleanup: =>
+          # Clear @cache varible if it's getting too big
+          @clearCacheIfOverCapacity(2)
           callback?()
     
 
-      animatePageTransition= (callback)=>
+      animatePageTransition= (trans_callback)=>
         @$page.addClass('transition')
         fromMain = @isMainPage(lastUrl)
         toMain   = @isMainPage(url)
@@ -130,7 +131,7 @@ class CStone.Community.Pages
             @$main.addClass('background')
             @$main.removeClass('current')
             @$page.addClass('current')
-            callback()
+            trans_callback()
       
         else #fromPage
           if toMain
@@ -138,7 +139,7 @@ class CStone.Community.Pages
             @$main.addClass('current')
             setTimeout (=> @$main.removeClass('background')), 500
             setTimeout (=> @$page.html('')), 1000
-            callback()
+            trans_callback()
           # else #toPage
 
       ## Execute
@@ -164,14 +165,11 @@ class CStone.Community.Pages
       always_run_urls = $('#load_every_time script', $page_specific_javascripts).map -> @src
       loadIncludesAndRunInitializer()
 
-
-
     isMainPage: (url)=>
       Layout.utility.urlMatchesPath(url, @mainPath)
 
     loadNormally: (lastUrl, url)=>
       Layout.utility.isExternal(url) or Layout.utility.isHash(url) or !(@isMainPage(lastUrl) || @isMainPage(url))
-
 
     # Handles the popstate event, like when the user hits 'back'
     onPopState: (e)=>
@@ -180,6 +178,11 @@ class CStone.Community.Pages
         @$page = $("#" + e.state.id)
         @loadPage url, {isPopped:true}  if @href isnt url and not Layout.utility.isHash(url)
 
+    clearCacheIfOverCapacity: (cap) ->
+      # remove the oldest members of the cache leaving the capped number of entries
+      if (cache_count = _(@cache).keys().length) > cap
+        _sorted_entry_pairs = _(@cache).chain().pairs().sortBy((entry_pair)-> entry_pair[1].stored_at)
+        _sorted_entry_pairs.first(cache_count - cap).each (stale_entry)=> delete @cache[stale_entry[0]]
   
     # Static Utility Methods
     @utility:
@@ -247,30 +250,19 @@ class CStone.Community.Pages
         newContent
 
       # Cache ---
-      storePage: (object, url, html) ->
+      storePage: (cache, url, html) ->
         $htmlDoc = @htmlDoc(html)
-        object[url] = # Content is indexed by the url
+        cache[url] = # Content is indexed by the url
           status: "loaded"
           title: $htmlDoc.find("title").text() # Stores the title of the page
-          html: $htmlDoc # Stores the contents of the page
-        object
+          html: html # Stores the raw html
+          stored_at: Date.now()
+        cache
 
-      clearIfOverCapacity: (obj, cap) ->
-        # Polyfill Object.keys if it doesn't exist
-        unless Object.keys
-          Object.keys = (obj) ->
-            keys = []
-            k = undefined
-            for k of obj
-              keys.push k  if Object::hasOwnProperty.call(obj, k)
-            keys
-        obj = {}  if Object.keys(obj).length > cap
-        obj
-        ### Keep home
-        main = obj[mainPath]
-        obj = {}
-        obj[mainPath] = main
-        ###
+      getStoredPage: (cache, url)->
+        @htmlDoc(cache[url].html)
+
+
 
       
 

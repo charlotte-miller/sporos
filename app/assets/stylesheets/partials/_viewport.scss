@@ -30,13 +30,15 @@ html, body{
   @include duration(0.7s);
   position:relative;
   
-  &.current{
-    @extend .bounceInUp;
-    animation-fill-mode:backwards;
-    -webkit-animation-fill-mode:backwards;
-  }
-  &:not(.current){
-    @extend .bounceOutDown;
+  &.transition{
+    &.current{
+      @extend .bounceInUp;
+      animation-fill-mode:backwards;
+      -webkit-animation-fill-mode:backwards;
+    }
+    &:not(.current){
+      @extend .bounceOutDown;
+    }
   }
 }
 

@@ -38,11 +38,10 @@ class CStone.Community.Pages
         callback = options
         options = {}
     
-      @lastURL = @href
-
       # Load normally if external, #hash, or page-to-page
-      return if url == @lastURL
-      if @loadNormally(url)
+      lastUrl = @href
+      return if url == lastUrl
+      if @loadNormally(lastUrl, url)
         window.location = url
         return
         
@@ -123,9 +122,9 @@ class CStone.Community.Pages
     
 
       animatePageTransition= (callback)=>
-        fromMain = @isMainPage(@lastURL)
+        @$page.addClass('transition')
+        fromMain = @isMainPage(lastUrl)
         toMain   = @isMainPage(url)
-
         if fromMain
           if !toMain
             @$main.addClass('background')
@@ -140,17 +139,7 @@ class CStone.Community.Pages
             setTimeout (=> @$main.removeClass('background')), 500
             setTimeout (=> @$page.html('')), 1000
             callback()
-              
-          else #toPage
-            # Change #page to #page-outgoing
-            # Load #page below (or above)
-            # Insert and animate
-
-            if options.isPopped
-              # # {reverse:true, replace:true}
-            else
-              # {reverse:false, replace:true}
-
+          # else #toPage
 
       ## Execute
       fetch(url)
@@ -180,8 +169,8 @@ class CStone.Community.Pages
     isMainPage: (url)=>
       Layout.utility.urlMatchesPath(url, @mainPath)
 
-    loadNormally: (url)=>
-      Layout.utility.isExternal(url) or Layout.utility.isHash(url) or !(@isMainPage(@lastURL) || @isMainPage(url))
+    loadNormally: (lastUrl, url)=>
+      Layout.utility.isExternal(url) or Layout.utility.isHash(url) or !(@isMainPage(lastUrl) || @isMainPage(url))
 
 
     # Handles the popstate event, like when the user hits 'back'

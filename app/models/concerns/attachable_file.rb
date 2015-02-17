@@ -37,6 +37,8 @@ module AttachableFile
     #  
     #
     def has_attachable_file( attachment_name, options={} )
+      options[:path] = environment_specific_path(options)
+
       class_eval do
         has_attached_file attachment_name, {
           :storage          => :s3,
@@ -46,9 +48,9 @@ module AttachableFile
           :s3_credentials   => AppConfig.s3.credentials,
           :s3_host_name     => AppConfig.s3.url,
           :hash_secret      => AppConfig.paperclip.hash_secret,
+          :hash_data        => ":class/:id/:attachment/:fingerprint-:style",
           :s3_host_alias    => lambda {|attach| AppConfig.domains.media_cdn_range.gsub('%d', rand(0..3).to_s)}, # Override for large media assets
           :url              => ':s3_alias_url',
-          # :path           => [ DEFINE IN OPTIONS ]
         }.deep_merge(options)
         
         unless options[:process_immediately]
@@ -86,5 +88,15 @@ module AttachableFile
     rescue StandardError => error
       raise error if self.table_exists?
     end
+
+  private
+
+    def environment_specific_path(has_attached_file_options)
+      production_path = has_attached_file_options[:production_path] || ':class/:attachment/:hash.:extension'
+                 path = has_attached_file_options[:path]            || ':rails_env/:class/:id/:attachment/:style.:extension'
+
+      (Rails.env.production? && production_path) || path
+    end
+
   end
 end

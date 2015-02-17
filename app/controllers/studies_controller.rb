@@ -15,7 +15,7 @@ class StudiesController < ApplicationController
         Study.where('lessons_count > 0')
         .where('poster_img_file_name is NOT NULL')
         .includes(:lessons)
-        .limit(50)
+        .limit(20)
         .all
       end
     )

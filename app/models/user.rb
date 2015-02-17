@@ -63,8 +63,7 @@ class User < ActiveRecord::Base
   
   has_public_id :public_id, prefix:'MEM', length:20
   
-  has_attachable_file :profile_image, :path => ':rails_env/:class/:attachment/:id/:hash.:extension',
-                      :hash_data => ":class/:attachment/:id/:fingerprint-:style",
+  has_attachable_file :profile_image,
                       :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
                       :styles => { 
                         :medium => { geometry: "300x300>", format: 'jpg', convert_options: "-strip" }, 

@@ -18,8 +18,8 @@ describe "lessons/show" do
   it "renders the Study's info" do
     [ @study.title,
       @study.description,
-      @study.ref_link,
-      @church.name,
+      # @study.ref_link,
+      # @church.name,
     ].each {|info| rendered.should match(info) }
   end
   

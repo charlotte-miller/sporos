@@ -12,8 +12,7 @@ module Lesson::AttachedMedia
     HD_SIZE     = '1280x720#'
     MOBILE_SIZE = '480x270#'
     
-    has_attachable_file :audio, :path => ':rails_env/:class/:id/:attachment/:style/:filename', # :hash.:extension
-                        :hash_data  => ":class/:attachment/:id/:style",
+    has_attachable_file :audio,
                         :s3_host_alias => AppConfig.domains.media,
                         :content_type => ['audio/mp4', 'audio/mpeg'],
                         :processors => [:video_to_audio],
@@ -22,8 +21,7 @@ module Lesson::AttachedMedia
 
     
     # http://s3.amazonaws.com/awsdocs/elastictranscoder/latest/elastictranscoder-dg.pdf
-    has_attachable_file :video, :path => ':rails_env/:class/:id/:attachment/:style/:filename', # :hash.:extension
-                        :hash_data  => ":class/:attachment/:id/:style",
+    has_attachable_file :video,
                         :s3_host_alias => AppConfig.domains.media,
                         :processors => [:audio_to_video, :ffmpeg, :qtfaststart],
                         :skip_processing_urls => ['youtube.com', 'vimeo.com'],
@@ -40,8 +38,7 @@ module Lesson::AttachedMedia
     
 
     
-    has_attachable_file :poster_img, :path => ':rails_env/:class/:id/:attachment/:hash.:extension',
-                        :hash_data => ":class/:attachment/:id/:fingerprint-:style",
+    has_attachable_file :poster_img,
                         # :processors      => [:thumbnail, :pngquant],
                         :default_style => :sd,
                         :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"],

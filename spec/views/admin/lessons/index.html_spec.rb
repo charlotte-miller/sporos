@@ -20,8 +20,8 @@ describe "admin/lessons/index" do
       )
     ])
     base_url = 'http://media.cornerstonesf.chruch/test/lessons/\d+'
-    @audio_url_matcher = %r`#{base_url}/audios/original/#{@audio.basename}\?*{10}`
-    @video_url_matcher = %r`#{base_url}/videos/original/#{@video.basename}\?*{10}`
+    @audio_url_matcher = %r`#{base_url}/audios/original\?*{10}`
+    @video_url_matcher = %r`#{base_url}/videos/original\?*{10}`
   end
 
   it "renders a list of lessons" do

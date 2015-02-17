@@ -8,34 +8,6 @@ describe Lesson::AttachedMedia do
   it { is_expected.to respond_to :audio }
   it { is_expected.to respond_to :video }
   it { is_expected.to respond_to :poster_img }
-      
-  describe 'attached audio -' do
-    it "runs the :video_to_audio processor" do
-      expect_any_instance_of(Paperclip::VideoToAudio).to receive(:make).at_least(:once).and_return(audio_file)
-      subject.audio = audio_file
-      subject.audio.process_delayed!
-    end
-  end
-  
-  describe 'attached video -', pending:'Future video processing' do
-    it "runs the :audio_to_video processor" do
-      expect_any_instance_of(Paperclip::AudioToVideo).to receive(:make).at_least(:once).and_return(video_file)
-      subject.video = video_file
-      subject.video.process_delayed!
-    end
-    
-    it "runs the :ffmpeg processor" do
-      expect_any_instance_of(Paperclip::Ffmpeg).to receive(:make).at_least(:once).and_return(video_file)
-      subject.video = video_file
-      subject.video.process_delayed!
-    end
-    
-    it "runs the :qtfaststart processor" do
-      expect_any_instance_of(Paperclip::Qtfaststart).to receive(:make).at_least(:once).and_return(video_file)
-      subject.video = video_file
-      subject.video.process_delayed!
-    end
-  end
   
   describe 'attached poster_img -' do
     it "runs the :thumbnail processor", pending:'Future video processing' do

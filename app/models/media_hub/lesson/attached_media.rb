@@ -14,28 +14,14 @@ module Lesson::AttachedMedia
     
     has_attachable_file :audio,
                         :s3_host_alias => AppConfig.domains.media,
-                        :content_type => ['audio/mp4', 'audio/mpeg'],
-                        :processors => [:video_to_audio],
-                        :styles => {mp3:{audio_bitrate:'64k'}}, #ogg:true
-                        :default_style => :mp3
+                        :content_type => ['audio/mp4', 'audio/mpeg']
 
     
     # http://s3.amazonaws.com/awsdocs/elastictranscoder/latest/elastictranscoder-dg.pdf
     has_attachable_file :video,
                         :s3_host_alias => AppConfig.domains.media,
-                        :processors => [:audio_to_video, :ffmpeg, :qtfaststart],
                         :skip_processing_urls => ['youtube.com', 'vimeo.com'],
-                        :content_type => ['video/mp4'],
-                        :default_style => :mp4,
-                        :styles => {
-                          webm:          { geometry: SD_SIZE,  :format => 'webm' },
-                          mp4:           { geometry: SD_SIZE,  :format => 'mp4' , :streaming => true},
-
-                          webm_hd:       { geometry: HD_SIZE,  :format => 'webm' },
-                          mp4_hd:        { geometry: HD_SIZE,  :format => 'mp4' , :streaming => true},
-
-                          mp4_mobile:    { geometry: MOBILE_SIZE,  :format => 'mp4' , :streaming => true}}
-    
+                        :content_type => ['video/mp4']
 
     
     has_attachable_file :poster_img,

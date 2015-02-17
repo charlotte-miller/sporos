@@ -45,9 +45,7 @@ gem 'cocaine'
 gem 'posix-spawn'
 gem 'aws-sdk'
 gem 'paperclip',          git:'https://github.com/thoughtbot/paperclip.git'
-gem 'paperclip-ffmpeg'
 gem 'delayed_paperclip',  '>= 2.9.0'#,  git:'https://github.com/jrgifford/delayed_paperclip.git'
-# gem 'streamio-ffmpeg'
 # gem 'paperclip-optimizer'
 
 

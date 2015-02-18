@@ -14,11 +14,10 @@ module FindableHash
   end
 end
 
-require 'hashie/mash'
 class Hash
   def to_obj
-    hash = Hashie::Mash.new(self)
-    raise NoMethodError unless hash.klass? && hash.id?
+    hash = DeepStruct.new(self)
+    raise NoMethodError unless hash.klass && hash.id
     hash.klass.classify.constantize.find( hash.id )
   end
 end

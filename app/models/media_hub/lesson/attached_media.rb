@@ -20,6 +20,7 @@ module Lesson::AttachedMedia
     # http://s3.amazonaws.com/awsdocs/elastictranscoder/latest/elastictranscoder-dg.pdf
     has_attachable_file :video,
                         :s3_host_alias => AppConfig.domains.media,
+                        :processors => [:upload_to_vimeo],
                         :skip_processing_urls => ['youtube.com', 'vimeo.com'],
                         :content_type => ['video/mp4']
 

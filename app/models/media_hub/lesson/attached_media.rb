@@ -12,33 +12,37 @@ module Lesson::AttachedMedia
     HD_SIZE     = '1280x720#'
     MOBILE_SIZE = '480x270#'
     
-    has_attachable_file :audio,
+    Paperclip.interpolates(:study_id) { |attachment, style| attachment.instance.study_id }
+    common_config = {
+      path: ':rails_env/studies/lesson_media/:study_id/:id-:attachment:quiet_style.:extension',
+      production_path: 'studies/lesson_media/:study_id/:hash:quiet_style.:extension' }
+
+    has_attachable_file :audio, {
                         :s3_host_alias => AppConfig.domains.media,
-                        :content_type => ['audio/mp4', 'audio/mpeg']
+                        :content_type => ['audio/mp4', 'audio/mpeg'] }.merge(common_config)
 
     
-    # http://s3.amazonaws.com/awsdocs/elastictranscoder/latest/elastictranscoder-dg.pdf
-    has_attachable_file :video,
-                        :s3_host_alias => AppConfig.domains.media,
+    has_attachable_file :video, {
+                        :s3_host_alias => AppConfig.domains.media,  #archive only - hosting through Vimeo
                         :processors => [:upload_to_vimeo],
                         :skip_processing_urls => ['youtube.com', 'vimeo.com'],
-                        :content_type => ['video/mp4']
+                        :content_type => ['video/mp4'] }.merge(common_config)
 
     
-    has_attachable_file :poster_img,
+    has_attachable_file :poster_img, {
                         # :processors      => [:thumbnail, :pngquant],
                         :default_style => :sd,
                         :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
                         :styles => {
                           sd:     { geometry: SD_SIZE,     format: 'png', convert_options: "-strip" },
                           hd:     { geometry: HD_SIZE,     format: 'png', convert_options: "-strip" },
-                          mobile: { geometry: MOBILE_SIZE, format: 'png', convert_options: "-strip" }}
+                          mobile: { geometry: MOBILE_SIZE, format: 'png', convert_options: "-strip" }}}.merge(common_config)
 
   
     process_in_background :audio
     process_in_background :video
     process_in_background :poster_img
-  
+
   end #included
 
 
@@ -53,14 +57,10 @@ module Lesson::AttachedMedia
   
 private
 
+  # DEPRECATED
   # the audio_to_video processor requires :poster_img
   def process_poster_img_first
     return unless Array.wrap(@attachments_for_processing).include? :poster_img
     @attachments_for_processing.delete(:poster_img) && @attachments_for_processing.unshift(:poster_img)
   end
-
 end
-
-# Source:
-# - https://github.com/owahab/paperclip-ffmpeg
-# - http://docs.sublimevideo.net/encode-videos-for-the-web

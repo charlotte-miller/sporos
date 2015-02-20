@@ -39,6 +39,8 @@ module Paperclip
       it 'updates remote_url with the vimeo url' do
         run_make
         expect(lesson.video_original_url).to eq("https://vimeo.com/#{subject.vimeo_video_id}")
+        expect(Lesson.find(lesson.id).video_original_url).to eq("https://vimeo.com/#{subject.vimeo_video_id}")
+        # ^ Tests an edge case where the link was stored in an attr_accessor
       end
     end
   end

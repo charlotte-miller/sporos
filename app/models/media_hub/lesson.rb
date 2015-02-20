@@ -20,6 +20,7 @@
 #  video_content_type      :string
 #  video_file_size         :integer
 #  video_updated_at        :datetime
+#  video_vimeo_id          :string
 #  video_original_url      :string
 #  video_fingerprint       :string
 #  video_processing        :boolean
@@ -40,6 +41,7 @@
 #
 #  index_lessons_on_backlink               (backlink)
 #  index_lessons_on_study_id_and_position  (study_id,position)
+#  index_lessons_on_video_vimeo_id         (video_vimeo_id) UNIQUE
 #
 
 class Lesson < ActiveRecord::Base
@@ -94,6 +96,7 @@ class Lesson < ActiveRecord::Base
   # Callbacks
   # ---------------------------------------------------------------------------------
   before_save :process_poster_img_first # Lesson::AttachedMedia
+  before_save :video_vimeo_id_from_original_url
   
   # ---------------------------------------------------------------------------------
   # Scopes
@@ -129,8 +132,10 @@ class Lesson < ActiveRecord::Base
     Lesson.where(backlink: backlink).exists?
   end
 
-  def vimeo_video_id
-    return nil unless video_original_url =~ /vimeo.com/
-    video_original_url.match(/vimeo.com\/(\d+)/)[1]
+private
+
+  def video_vimeo_id_from_original_url
+    return unless video_original_url_changed? && video_original_url =~ /vimeo.com/
+    self.video_vimeo_id = video_original_url.match(/vimeo.com\/(\d+)/)[1]
   end
 end

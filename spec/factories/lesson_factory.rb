@@ -20,6 +20,7 @@
 #  video_content_type      :string
 #  video_file_size         :integer
 #  video_updated_at        :datetime
+#  video_vimeo_id          :string
 #  video_original_url      :string
 #  video_fingerprint       :string
 #  video_processing        :boolean
@@ -40,6 +41,7 @@
 #
 #  index_lessons_on_backlink               (backlink)
 #  index_lessons_on_study_id_and_position  (study_id,position)
+#  index_lessons_on_video_vimeo_id         (video_vimeo_id) UNIQUE
 #
 
 include ActionDispatch::TestProcess

@@ -142,6 +142,7 @@ ActiveRecord::Schema.define(version: 20150126225444) do
     t.string   "poster_img_original_url"
     t.string   "poster_img_fingerprint"
     t.boolean  "poster_img_processing"
+    t.string   "video_vimeo_id"
     t.string   "video_file_name"
     t.string   "video_content_type"
     t.integer  "video_file_size"
@@ -165,6 +166,7 @@ ActiveRecord::Schema.define(version: 20150126225444) do
 
   add_index "lessons", ["backlink"], name: "index_lessons_on_backlink", using: :btree
   add_index "lessons", ["study_id", "position"], name: "index_lessons_on_study_id_and_position", using: :btree
+  add_index "lessons", ["video_vimeo_id"], name: "index_lessons_on_video_vimeo_id", unique: true, using: :btree
 
   create_table "meetings", force: :cascade do |t|
     t.integer  "group_id",                          null: false

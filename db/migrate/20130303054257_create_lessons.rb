@@ -11,6 +11,7 @@ class CreateLessons < ActiveRecord::Migration
       t.string        :poster_img_original_url
       t.string        :poster_img_fingerprint
       t.boolean       :poster_img_processing
+      t.string        :video_vimeo_id
       t.attachment    :video
       t.string        :video_original_url
       t.string        :video_fingerprint
@@ -27,5 +28,6 @@ class CreateLessons < ActiveRecord::Migration
     
     add_index :lessons, [:study_id, :position]
     add_index :lessons, :backlink
+    add_index :lessons, :video_vimeo_id, unique:true
   end
 end

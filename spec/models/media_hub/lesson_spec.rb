@@ -73,6 +73,25 @@ describe Lesson do
       end
     end
   end
+  
+  describe '[callbacks]' do
+    describe '#video_vimeo_id_from_original_url' do
+      it 'is a no-op if video_original_url is not from vimeo.com' do
+        expect(create(:lesson, video_original_url:nil).video_vimeo_id).to eq(nil)
+        expect(create(:lesson, video_original_url:'http://foo.com/4567').video_vimeo_id).to eq(nil)
+      end
+
+      it 'parses the vimeo_id from the video url' do
+        expect(create(:lesson, video_original_url:'http://vimeo.com/3456789').video_vimeo_id).to eq('3456789')
+        expect(create(:lesson, video_original_url:'http://vimeo.com/3456788/').video_vimeo_id).to eq('3456788')
+        expect(create(:lesson, video_original_url:'http://vimeo.com/3456787?foo=bar').video_vimeo_id).to eq('3456787')
+      end
+      
+      it 'can be feed by self.video_remote_url' do
+        expect(create(:lesson, video_remote_url:'http://vimeo.com/3456789').video_vimeo_id).to eq('3456789')
+      end
+    end
+  end
 
   describe '.new_from_adapter(lesson_adapter)' do
     subject { Lesson.new_from_adapter(adapter) }
@@ -138,16 +157,4 @@ describe Lesson do
     end
   end
 
-  describe '#vimeo_video_id' do
-    it 'returns nil if video_remote_url is not from vimeo.com' do
-      expect(build_stubbed(:lesson, video_original_url:nil).vimeo_video_id).to eq(nil)
-      expect(build_stubbed(:lesson, video_original_url:'http://foo.com/4567').vimeo_video_id).to eq(nil)
-    end
-    
-    it 'parses the vimeo_id from the video url' do
-      expect(build_stubbed(:lesson, video_original_url:'http://vimeo.com/3456789').vimeo_video_id).to eq('3456789')
-      expect(build_stubbed(:lesson, video_original_url:'http://vimeo.com/3456789/').vimeo_video_id).to eq('3456789')
-      expect(build_stubbed(:lesson, video_original_url:'http://vimeo.com/3456789?foo=bar').vimeo_video_id).to eq('3456789')
-    end
-  end
 end

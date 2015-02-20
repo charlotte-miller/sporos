@@ -31,15 +31,15 @@ module Paperclip
         expect(video_data.description).to eq(lesson.description)
       end
       
-      it 'gets a vimeo id' do
+      it 'stores the video_vimeo_id' do
         run_make
         expect(subject.vimeo_video_id).not_to be_nil
+        expect(subject.vimeo_video_id).to eq(subject.vimeo_video_id)
       end
       
-      it 'updates remote_url with the vimeo url' do
+      it 'leaves video_original_url for reference' do
         run_make
-        expect(lesson.video_original_url).to eq("https://vimeo.com/#{subject.vimeo_video_id}")
-        expect(Lesson.find(lesson.id).video_original_url).to eq("https://vimeo.com/#{subject.vimeo_video_id}")
+        expect(lesson.video_original_url).to eq('http://foo.com/bar')
         # ^ Tests an edge case where the link was stored in an attr_accessor
       end
     end

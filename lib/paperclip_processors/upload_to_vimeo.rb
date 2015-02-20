@@ -12,7 +12,7 @@ module Paperclip
     def make
       return file if already_a_vimeo_video? || over_vimeo_upload_quota?
       upload_to_vimeo!(file)
-      attachment.instance.update_attribute :video_original_url, "https://vimeo.com/#{@vimeo_video_id}"
+      attachment.instance.update_attribute :video_vimeo_id, @vimeo_video_id
       
       return file
     end

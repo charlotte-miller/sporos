@@ -137,4 +137,17 @@ describe Lesson do
       b.should be_duplicate
     end
   end
+
+  describe '#vimeo_video_id' do
+    it 'returns nil if video_remote_url is not from vimeo.com' do
+      expect(build_stubbed(:lesson, video_remote_url:nil).vimeo_video_id).to eq(nil)
+      expect(build_stubbed(:lesson, video_remote_url:'http://foo.com/4567').vimeo_video_id).to eq(nil)
+    end
+    
+    it 'parses the vimeo_id from the video url' do
+      expect(build_stubbed(:lesson, video_remote_url:'http://vimeo.com/3456789').vimeo_video_id).to eq('3456789')
+      expect(build_stubbed(:lesson, video_remote_url:'http://vimeo.com/3456789/').vimeo_video_id).to eq('3456789')
+      expect(build_stubbed(:lesson, video_remote_url:'http://vimeo.com/3456789?foo=bar').vimeo_video_id).to eq('3456789')
+    end
+  end
 end

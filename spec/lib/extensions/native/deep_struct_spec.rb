@@ -15,4 +15,16 @@ describe DeepStruct do
   it 'returns nil if method not defined' do
     expect(subject.foo).to be_nil
   end
+
+  describe '.from_json(json_str)' do
+    subject{DeepStruct.from_json( Oj.dump(nested_hash) )}
+
+    it 'creates a DeepStruct' do
+      expect(subject).to be_a DeepStruct
+    end
+
+    it 'uses the json_str' do
+      expect(subject.to_h).to eq(nested_hash)
+    end
+  end
 end

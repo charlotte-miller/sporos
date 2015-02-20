@@ -128,4 +128,9 @@ class Lesson < ActiveRecord::Base
   def duplicate?
     Lesson.where(backlink: backlink).exists?
   end
+
+  def vimeo_video_id
+    return nil unless video_remote_url =~ /vimeo.com/
+    video_remote_url.match(/vimeo.com\/(\d+)/)[1]
+  end
 end

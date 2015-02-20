@@ -2,6 +2,7 @@
 require 'ostruct'
 
 class DeepStruct < OpenStruct
+
   def initialize(hash=nil)
     @table = {}
     @hash_table = {}
@@ -20,4 +21,7 @@ class DeepStruct < OpenStruct
     @hash_table
   end
 
+  def self.from_json(json_str)
+    DeepStruct.new Oj.load(json_str)
+  end
 end

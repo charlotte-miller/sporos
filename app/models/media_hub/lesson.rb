@@ -130,7 +130,7 @@ class Lesson < ActiveRecord::Base
   end
 
   def vimeo_video_id
-    return nil unless video_remote_url =~ /vimeo.com/
-    video_remote_url.match(/vimeo.com\/(\d+)/)[1]
+    return nil unless video_original_url =~ /vimeo.com/
+    video_original_url.match(/vimeo.com\/(\d+)/)[1]
   end
 end

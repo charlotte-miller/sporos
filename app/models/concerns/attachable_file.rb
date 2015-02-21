@@ -73,7 +73,7 @@ module AttachableFile
         attr_reader :#{attachment_name}_remote_url
         def #{attachment_name}_remote_url=(url_str)
           return if url_str.nil?
-          self.#{attachment_name}_original_url = @#{attachment_name}_remote_url = url_str
+          self.#{attachment_name}_original_url = @#{attachment_name}_remote_url = URI.escape( url_str )
           (@attachments_for_processing ||= []) << :#{attachment_name}
           
           # require lib/extensions/active_record/instance_after_save

@@ -43,6 +43,11 @@ describe AttachableFile do
         expect(subject.wonderful_img_original_url).to eq @img_location
       end
 
+      it "handles path's with spaces (non-encoded)" do
+        subject.wonderful_img_remote_url = 'http://foo.com/poster with spaces.jpg'
+        expect(subject.wonderful_img_original_url).to eq 'http://foo.com/poster%20with%20spaces.jpg'
+      end
+
       it "adds an after_save hook" do
         expect(subject).to respond_to(:after_save) 
       end

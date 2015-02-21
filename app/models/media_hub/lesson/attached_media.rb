@@ -14,7 +14,7 @@ module Lesson::AttachedMedia
     
     Paperclip.interpolates(:study_id) { |attachment, style| attachment.instance.study_id }
     common_config = {
-      path: ':rails_env/studies/lesson_media/:study_id/:id-:attachment:quiet_style.:extension',
+      # path: ':rails_env/studies/lesson_media/:study_id/:id-:attachment:quiet_style.:extension',
       production_path: 'studies/lesson_media/:study_id/:hash:quiet_style.:extension' }
 
     has_attachable_file :audio, {

@@ -1,5 +1,6 @@
 require 'tempfile'
 require 'uri'
+require Rails.root.join('lib/paperclip_processors/upload_to_vimeo')
 
 class AttachmentDownloader
   extend Resque::Plugins::Retry #https://github.com/lantins/resque-retry
@@ -38,6 +39,9 @@ private
       tempfile.binmode
       curl_to(url_str, tempfile.path)
       @obj_instance.send("#{attachment_name}=", tempfile)
+
+      # Use the downloaded video file
+      upload_to_vimeo(tempfile) if attachment_name.to_s == 'video'
     end
   end
 
@@ -48,4 +52,7 @@ private
     curl.run(from_url:from_url, to_file_path:to_file_path)
   end
   
+  def upload_to_vimeo(tempfile)
+    Paperclip::UploadToVimeo.new(tempfile, {}, @obj_instance.video)
+  end
 end

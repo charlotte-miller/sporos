@@ -10,7 +10,7 @@ module Paperclip
     end
     
     def make
-      return file if already_a_vimeo_video? || over_vimeo_upload_quota?
+      return file if already_a_vimeo_video? || already_uploaded? || over_vimeo_upload_quota?
       upload_to_vimeo!(file)
       attachment.instance.update_attribute :video_vimeo_id, @vimeo_video_id
       
@@ -23,6 +23,10 @@ module Paperclip
       @lesson.video_original_url =~ /vimeo\.com/
     end
     
+    def already_uploaded?
+      !!@lesson.video_vimeo_id
+    end
+
     def over_vimeo_upload_quota?
       account_info = contact_vimeo(:get, "https://api.vimeo.com/me")
       free_space = account_info.upload_quota.space.free

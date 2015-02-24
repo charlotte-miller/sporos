@@ -1,6 +1,6 @@
 CStone.Community.News.init()
-CStone.Community.Pages.init()
 CStone.Community.Search.init()
+CStone.Community.Pages.init('/', ['/library'])
 
 $ ->
   CStone.Shared.logger.info('Main Page Initialized')
@@ -12,10 +12,6 @@ $ ->
     $('#headroom').addClass('headroom--unpinned')
 
     CStone.Community.Pages.layout.loadPage $(@).prop('href')
-  
-  $('#media-library-link').mouseenter ->
-    url = $('a', @).prop('href')
-    CStone.Community.Pages.layout.loadPage(url,{onlyPrefetch:true})
   
   $('#headroom').headroom
     offset : 800

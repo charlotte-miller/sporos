@@ -2,15 +2,16 @@ module ApplicationHelper
   
   def is_homepage?; current_page?(controller:'special_pages', action:'homepage') ;end
   def is_library?;  current_page?(controller:'studies', action:'index') ;end
+  def main_frame?;  is_homepage? || is_library? ;end
   
-  def homepage_toggle
+  def main_frame_toggle
     capture_haml do
-      haml_tag :div, id:'main-page', class:"view-port-page #{is_homepage? ? 'current' : 'background'}" do
-        yield if is_homepage?
+      haml_tag :div, id:'main-page', class:"view-port-page #{main_frame? ? 'current' : 'background'}" do
+        yield if main_frame?
       end
     
-      haml_tag :div, id:'page', class:"view-port-page #{'current' unless is_homepage?}" do
-        yield unless is_homepage?
+      haml_tag :div, id:'page', class:"view-port-page #{'current' unless main_frame?}" do
+        yield unless main_frame?
       end
     end
   end

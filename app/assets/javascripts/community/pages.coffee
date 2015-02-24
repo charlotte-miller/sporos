@@ -1,21 +1,22 @@
 class CStone.Community.Pages
   # CStone.Community.Pages.layout
   @layout: 'CStone.Community.Pages not initialized'
-  @init: =>
+  @init: (mainPath, blacklist=[])=>
     return if @initalized
     @initalized = true
-    @layout = new Layout('#main-page', '#page')
+    @layout = new Layout(mainPath, blacklist)
     # Initialize jQuery in page_initializers using CStone.Community.Pages.layout
   
   
   class Layout
-    constructor: (main, page) ->
-      @mainPath = '/'                   # The url/path to the main page
-      @$main = $(main)                  # Container element for the main page
-      @$page = $(page)                  # Container element content pages load into
-      @cache = {}                       # Variable that stores pages after they are requested
-      @href = window.location.href      # Url of the content that is currently displayed
-      window.onpopstate = @onPopState   # Sets the popstate function
+    constructor: (mainPath, blacklist=[]) ->
+      @mainPath = mainPath                                 # The url/path to the main page
+      @blacklist = Layout.utility.normalizeUrls blacklist  # Array of urls that are always ignored
+      @$main = $('#main-page')                             # Container element for the main page
+      @$page = $('#page')                                  # Container element content pages load into
+      @cache = {}                                          # Variable that stores pages after they are requested
+      @href = window.location.href                         # Url of the content that is currently displayed
+      window.onpopstate = @onPopState                      # Sets the popstate function
     
       # Sets a default state
       unless history.state #is null
@@ -168,11 +169,16 @@ class CStone.Community.Pages
     isMainPage: (url)=>
       Layout.utility.urlMatchesPath(url, @mainPath)
 
-    loadNormally: (lastUrl, url)=>
-      Layout.utility.isExternal(url) or Layout.utility.isHash(url) or !(@isMainPage(lastUrl) || @isMainPage(url))
+    isBlacklisted: (url)->
+      _(@blacklist).indexOf( Layout.utility.normalizeUrl(url) ) != -1
 
-    # Handles the popstate event, like when the user hits 'back'
+    loadNormally: (lastUrl, url)=>
+      @isBlacklisted(url) or
+      Layout.utility.isExternal(url) or
+      Layout.utility.isHash(url)
+
     onPopState: (e)=>
+      # Handles the popstate event, like when the user hits 'back'
       if e.state #isnt null
         url = window.location.href
         @$page = $("#" + e.state.id)
@@ -201,6 +207,9 @@ class CStone.Community.Pages
 
       normalizeUrl: (path_or_url)->
         $("<a href='#{path_or_url}'>").prop('href')
+
+      normalizeUrls: (array_of_paths_or_urls)->
+        _(array_of_paths_or_urls).map (url)=> @normalizeUrl(url)
 
       urlMatchesPath: (url,path)->
         @normalizeUrl(path) == @normalizeUrl(url)
@@ -254,16 +263,10 @@ class CStone.Community.Pages
         $htmlDoc = @htmlDoc(html)
         cache[url] = # Content is indexed by the url
           status: "loaded"
-          title: $htmlDoc.find("title").text() # Stores the title of the page
+          title: $htmlDoc.find("title").text()
           html: html # Stores the raw html
           stored_at: Date.now()
         cache
 
       getStoredPage: (cache, url)->
         @htmlDoc(cache[url].html)
-
-
-
-      
-
-

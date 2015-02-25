@@ -1,13 +1,13 @@
-- content_for :page_specific_js do
-  = javascript_include_tag "//cdn.sublimevideo.net/js/lqhbkm50.js", "lessons"
+/ - content_for :page_specific_js do
+/   = javascript_include_tag "vimeo"
 
 - content_for :page_specific_js_initializers do
-  = javascript_include_tag "page_initializers/library_show"  
+  = javascript_include_tag "page_initializers/library_content"#, "lesson"
 
 #study
   #study-header
     %h1
-      %span.title= @study.title
+      %span.title= [@study.title, @lesson.title].join(': ')
       .small
         %span.church
           = @lesson.author
@@ -34,8 +34,10 @@
       %ol
         - @study.lessons.each do |lesson|
           %li.lessons{:id => "lesson_#{lesson.id}"}
-            = link_to( image_tag(lesson.poster_img.url(:thumbnail), height:200, width:300), study_lesson_path(@study, lesson), class:'thumbnail')
-            %span.lesson-number= lesson.position
+            %a.thumbnail{href:study_lesson_path(@study, lesson)}
+              = lesson.title
+              / = image_tag(lesson.poster_img.url(:thumbnail), height:200, width:300)
+              %span.lesson-number= lesson.position
           
   #similar-studies-lg
     = render partial: 'lessons/similar_studies'

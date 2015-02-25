@@ -1,4 +1,4 @@
-#= require page_initializers/content
+CStone.Community.Pages.init('/library', ['/'])
 
 $ ->
   $('#study-library').setupMediaItems ($details_scope)->

@@ -1,5 +1,6 @@
 # NOTE: Bump the version after ANY changes
 #
+#= require vendor_preload_config
 #= require browser_compatibility/localstorage-polyfill
 #= require es6-promise
 #= require fastclick
@@ -18,6 +19,7 @@
 #= require backbone-relational
 #= require Backbone.BindTo
 #= require Backbone.Handlebars
+#= require pace
 #  require moment
 #  require utility/boba-0.0.2
 

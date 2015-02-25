@@ -119,7 +119,7 @@ class CStone.Community.Pages
   
         cleanup: =>
           # Clear @cache varible if it's getting too big
-          @clearCacheIfOverCapacity(2)
+          @clearCacheIfOverCapacity(5)
           callback?()
     
 
@@ -132,7 +132,6 @@ class CStone.Community.Pages
             @$main.addClass('background')
             @$main.removeClass('current')
             @$page.addClass('current')
-            trans_callback()
       
         else #fromPage
           if toMain
@@ -140,11 +139,16 @@ class CStone.Community.Pages
             @$main.addClass('current')
             setTimeout (=> @$main.removeClass('background')), 500
             setTimeout (=> @$page.html('')), 1000
-            trans_callback()
-          # else #toPage
+          else #toPage
+            @$page.removeClass('transition')
+
+        trans_callback()
 
       ## Execute
-      fetch(url)
+      if @isMainPage(url) || @isMainPage(lastUrl)
+        fetch(url)
+      else
+        Pace.track -> fetch(url)
       return @
 
     loadAndInitalizePageSpecificJavascript: ($page_specific_javascripts)=>

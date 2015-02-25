@@ -89,3 +89,29 @@ html, body{
     }
   }
 }
+
+.pace {
+  -webkit-pointer-events: none;
+  pointer-events: none;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+
+  .pace-progress {
+    background: $gray-darker;
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    right: 100%;
+    width: 100%;
+    height: 10px;
+    @extend %transitionHeight;
+  }
+
+  &.pace-inactive {
+    .pace-progress{
+      height:0px;
+    }
+  }
+}

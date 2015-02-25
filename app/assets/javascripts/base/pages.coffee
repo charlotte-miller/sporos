@@ -1,11 +1,11 @@
-class CStone.Community.Pages
-  # CStone.Community.Pages.layout
-  @layout: 'CStone.Community.Pages not initialized'
+class CStone.Base.Pages
+  # CStone.Base.Pages.layout
+  @layout: 'CStone.Base.Pages not initialized'
   @init: (mainPath, blacklist=[])=>
     return if @initalized
     @initalized = true
     @layout = new Layout(mainPath, blacklist)
-    # Initialize jQuery in page_initializers using CStone.Community.Pages.layout
+    # Initialize jQuery in page_initializers using CStone.Base.Pages.layout
   
   
   class Layout

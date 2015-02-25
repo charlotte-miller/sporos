@@ -1,8 +1,6 @@
 #= require application_namespace
 #= require shared
-#= require community/news
-#= require community/pages
-#= require community/search
+#= require base/pages
 #= require_self
 
 CStone.Animation =

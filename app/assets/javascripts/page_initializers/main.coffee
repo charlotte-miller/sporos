@@ -1,6 +1,9 @@
+#= require community/news
+#= require community/search
+
+CStone.Base.Pages.init('/', ['/library'])
 CStone.Community.News.init()
 CStone.Community.Search.init()
-CStone.Community.Pages.init('/', ['/library'])
 
 $ ->
   CStone.Shared.logger.info('Main Page Initialized')
@@ -11,7 +14,7 @@ $ ->
     $('#headroom').removeClass('headroom--pinned')
     $('#headroom').addClass('headroom--unpinned')
 
-    CStone.Community.Pages.layout.loadPage $(@).prop('href')
+    CStone.Base.Pages.layout.loadPage $(@).prop('href')
   
   $('#headroom').headroom
     offset : 800

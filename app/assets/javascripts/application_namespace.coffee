@@ -1,5 +1,6 @@
 window.CStone =
-  Community: {}  # News, Pages, Search
-  Media:     {}
+  Base:      {}  # Pages
+  Community: {}  # News, Search
+  Library:   {}
   Shared:    {}  # Backbone, Helpers, Utils
   Animation: {}

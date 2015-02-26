@@ -14,6 +14,7 @@
     "backbone-relational": "~0.8.8",
     "Backbone.BindTo": "~1.1.0",
     "Backbone.Handlebars": "~1.0.0",
+    "vide": "~0.1.2",
     "quill": "~0.19.3",
     "headroom.js": "~0.7.0",
     "backbone-filtered-collection": "~0.4.0",

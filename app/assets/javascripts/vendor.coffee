@@ -8,7 +8,7 @@
 #= require jquery.animate-enhanced
 #= require headroom.js/dist/headroom.js
 #= require headroom.js/dist/jQuery.headroom.js
-#  require vide
+#= require vide
 #= require isotope/dist/isotope.pkgd
 #= require typeahead.js/dist/bloodhound.js
 #= require handlebars/handlebars.runtime.js

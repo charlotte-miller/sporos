@@ -19,7 +19,7 @@ group :vendor, assets_path:'assets/javascripts' do
   asset "Backbone.BindTo", "~1.1.0"
   asset "Backbone.Handlebars", "~1.0.0"
   # asset "moment", "~2.8.2"
-  # asset "vide", "~0.1.2"
+  asset "vide", "~0.1.2"
   # asset "shine", "~0.2.7"
   # asset "sweetalert"
   asset "quill", "~0.19.3"

@@ -24,6 +24,8 @@ describe "lessons/show" do
   end
   
   it "renders the Study's media" do
+    pending 'doing media conversion instead of using vimeo'
+
     # assert_select '#study',   count:1
     rendered.should match( url_to_regex( @lesson.audio.url ))
     [:webm, :mp4, :webm_hd, :mp4_hd, :mp4_mobile].each do |format|

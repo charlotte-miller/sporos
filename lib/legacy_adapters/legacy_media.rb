@@ -18,8 +18,8 @@ class LegacyMedia < ActiveRecord::Base
     lesson.study_id         = series.find_create_or_update_media_study.id
     lesson.description      = best_description
     lesson.author           = best_author
-    lesson.video_remote_url = video_remote_url  unless lesson.video_original_url == video_remote_url
-    lesson.audio_remote_url = audio_remote_url  unless lesson.audio_original_url == audio_remote_url
+    # lesson.video_remote_url = video_remote_url  unless lesson.video_original_url == video_remote_url
+    # lesson.audio_remote_url = audio_remote_url  unless lesson.audio_original_url == audio_remote_url
     lesson.save!                                if lesson.changed?
     lesson
     
@@ -29,8 +29,8 @@ class LegacyMedia < ActiveRecord::Base
       title:            title,
       description:      best_description,
       author:           best_author,
-      audio_remote_url: audio_remote_url,
-      video_remote_url: video_remote_url,
+      #audio_remote_url: audio_remote_url,
+      #video_remote_url: video_remote_url,
     })
     lesson
   end

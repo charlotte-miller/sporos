@@ -54,8 +54,13 @@ class Study < ActiveRecord::Base
 
   process_in_background :poster_img
   
-  # http://sunspot.github.com/
-  # searchable do
+  # ---------------------------------------------------------------------------------
+  # Search
+  # ---------------------------------------------------------------------------------
+  def should_index?; !!last_published_at ;end
+  
+  # def search_data
+  #   # http://sunspot.github.com/
   #   string(  :title)                { searchable_title title } #, boost: 2.0
   #   string(  :lesson_title    )     { searchable_title lessons.select(:title).map(&:title).join(' | ') }
   #   text     :description
@@ -63,7 +68,7 @@ class Study < ActiveRecord::Base
   #   integer( :church_id       )     { podcast.church_id }
   #   # string(  :tags          )     { tags.select(:text).map(&:text).join(' | ')}
   # end
-  
+    
   
   # ---------------------------------------------------------------------------------
   # Associations

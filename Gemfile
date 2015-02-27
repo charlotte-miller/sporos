@@ -34,7 +34,6 @@ gem 'protected_attributes'
 # gem 'elasticsearch-rails'
 gem 'searchkick'
 gem "searchjoy"
-gem 'patron'
 
 
 # Media Download/Processing/Storage
@@ -103,7 +102,7 @@ group :development, :test do
   gem 'growl'
   gem 'rb-fsevent'
   gem 'guard-rspec'#, '~> 3.0.2'
-  gem 'guard-bundler'
+  gem 'guard-bundler', require: false
   gem "teaspoon"
   gem "guard-teaspoon"
   

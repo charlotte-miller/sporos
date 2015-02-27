@@ -68,12 +68,18 @@ class Lesson < ActiveRecord::Base
                   :audio, :video, :poster_img, :audio_remote_url, :video_remote_url, :poster_img_remote_url
 
 
-  # http://sunspot.github.com/
-  # searchable do
+  # ---------------------------------------------------------------------------------
+  # Search
+  # ---------------------------------------------------------------------------------
+  def should_index?; !!published_at ;end
+  
+  # def search_data
+  #   # http://sunspot.github.com/
   #   string( :title  )      { searchable_title title        }
   #   string( :study_title ) { searchable_title study.title }
   #   text    :description
   # end
+
   
   # ---------------------------------------------------------------------------------
   # Associations

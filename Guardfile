@@ -1,11 +1,7 @@
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 
-# guard :bundler do
-#   watch('Gemfile')
-#   # Uncomment next line if your Gemfile contains the `gemspec' command.
-#   # watch(/^.+\.gemspec/)
-# end
+guard( :bundler ){ watch('Gemfile') }
 
 rspec_options ={
   all_on_start: true,
@@ -13,7 +9,7 @@ rspec_options ={
   notification:false,
   cmd: 'zeus rspec',
   cmd_additional_args: '--deprecation-out log/deprecation.log',
-  run_all: { cmd_additional_args:"--deprecation-out log/deprecation.log" } #--profile 
+  run_all: { cmd_additional_args:"--deprecation-out log/deprecation.log" } #--profile
 }
 
 guard 'rspec', rspec_options do

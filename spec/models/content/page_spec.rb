@@ -24,5 +24,17 @@ RSpec.describe Page, :type => :model do
     lambda { create(:page) }.should_not raise_error
   end
   
-  
+  describe '[searchkick callbacks]' do
+    describe 'should_index?' do
+      it 'needs tests' do
+        expect(false).to eq(true)
+      end
+    end
+    
+    describe '#search_data' do
+      it 'needs tests' do
+        expect(false).to eq(true)
+      end
+    end
+  end
 end

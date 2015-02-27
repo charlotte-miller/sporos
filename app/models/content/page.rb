@@ -18,10 +18,27 @@
 #
 
 class Page < ActiveRecord::Base
+  include Searchable
+  include Sanitizable
   include Sluggable
   slug_candidates :title, [:title, :year], [:title, :month, :year]
 
   
+  # ---------------------------------------------------------------------------------
+  # Search
+  # ---------------------------------------------------------------------------------
+  def should_index?; !hidden_link ;end
+  
+  def search_data
+    {
+      type:  'page',
+      title: searchable_title,
+      body:  plain_text(body),
+      seo_keywords: seo_keywords
+    }
+  end
+
+
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------

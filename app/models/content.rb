@@ -1,5 +1,5 @@
 module Content
-  include Searchable
+  # include Searchable
   
   def self.table_name_prefix
     'content_'

@@ -113,6 +113,11 @@ GEM
       elasticsearch-transport (= 1.0.6)
     elasticsearch-api (1.0.6)
       multi_json
+    elasticsearch-model (0.1.6)
+      activesupport (> 3)
+      elasticsearch (> 0.4)
+      hashie
+    elasticsearch-rails (0.1.6)
     elasticsearch-transport (1.0.6)
       faraday
       multi_json
@@ -371,10 +376,6 @@ GEM
     searchjoy (0.0.7)
       chartkick
       groupdate
-    searchkick (0.8.5)
-      activemodel
-      elasticsearch (>= 1)
-      hashie
     sexp_processor (4.4.4)
     shellany (0.0.1)
     shoulda-matchers (2.7.0)
@@ -459,6 +460,9 @@ DEPENDENCIES
   database_cleaner
   delayed_paperclip (>= 2.9.0)
   devise
+  elasticsearch
+  elasticsearch-model
+  elasticsearch-rails
   factory_girl_rails
   faker
   fakeredis
@@ -506,7 +510,6 @@ DEPENDENCIES
   sass-rails (~> 5.0.0.beta1)
   sdoc (~> 0.4.0)
   searchjoy
-  searchkick
   shoulda-matchers (~> 2.7.0)
   simplecov
   sitemap_generator

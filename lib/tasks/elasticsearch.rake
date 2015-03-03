@@ -1,4 +1,7 @@
-namespace :search do
+# https://github.com/elasticsearch/elasticsearch-rails/tree/master/elasticsearch-rails#rake-tasks
+require 'elasticsearch/rails/tasks/import'
+
+namespace :elasticsearch do
   
   desc "Downloads the WordNet 3.0 synonyms database for Searchkick - might require sudo privlages for /var/lib"
   task :download_wordnet do

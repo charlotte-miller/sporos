@@ -17,11 +17,26 @@
 #  index_pages_on_slug  (slug) UNIQUE
 #
 
-require 'rails_helper'
+module Page::Search
+  extend  ActiveSupport::Concern
+  include Searchable
+    
+  included do
+    searchable_model do
+      # indexes :title, analyzer: 'english', index_options: 'offsets'
+    end
+    
+    # def should_index?
+    #   !hidden_link
+    # end
 
-RSpec.describe Page, :type => :model do
-  it "builds from factory", :internal do
-    lambda { create(:page) }.should_not raise_error
+    def as_indexed_json(options={})
+      {
+        title: searchable_title,
+        body:  plain_text(body),
+        seo_keywords: seo_keywords,
+        path: legacy_url, #url_helpers.page_url(self) ,
+      }
+    end
   end
-  
 end

@@ -31,8 +31,10 @@ gem 'protected_attributes'
 
 # Search
 # =======
-# gem 'elasticsearch-rails'
-gem 'searchkick'
+gem 'elasticsearch'
+gem 'elasticsearch-model', require: 'elasticsearch/model'
+gem 'elasticsearch-rails', require: false
+# gem 'searchkick'
 gem "searchjoy"
 
 
@@ -146,6 +148,7 @@ group :test do
   gem "activerecord-tableless", ">= 1.3.4",  git:'https://github.com/david135/activerecord-tableless.git' #https://github.com/softace/activerecord-tableless.git' #used by DummyClass when testing concerns
   gem "resque_spec"
   gem "fakeredis", :require => "fakeredis/rspec"
+  # gem 'elasticsearch-extensions'
   # gem 'mock_redis', ">= 0.14.0"
 end
 

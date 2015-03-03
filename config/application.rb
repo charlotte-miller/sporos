@@ -7,6 +7,8 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
 require "sprockets/railtie"
+require 'elasticsearch/rails/instrumentation'
+# require 'elasticsearch/rails/lograge'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -38,6 +40,13 @@ module Sporos
     # Be sure to have the adapter's gem in your Gemfile and follow
     # the adapter's specific installation and deployment instructions.
     config.active_job.queue_adapter = :resque
+    
+    # Generate Controllers w/out associated styles/scripts 
+    config.generators do |g|
+      g.assets = false
+      # g.helper false
+      # g.template_engine false
+    end
     
     # String should use VARCHAR not VARCHAR(255)
     initializer "postgresql.no_default_string_limit" do

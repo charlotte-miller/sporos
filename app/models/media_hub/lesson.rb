@@ -46,9 +46,10 @@
 
 class Lesson < ActiveRecord::Base
   include Sortable
-  include Searchable
+  include Sanitizable
   include Questionable
   include Lesson::AttachedMedia
+  include Lesson::Search
 
   # ---------------------------------------------------------------------------------
   # Attributes
@@ -66,19 +67,6 @@ class Lesson < ActiveRecord::Base
   # Public
   attr_accessible :study, :study_id, :position, :title, :author, :description, :backlink, :published_at, :machine_sorted,
                   :audio, :video, :poster_img, :audio_remote_url, :video_remote_url, :poster_img_remote_url
-
-
-  # ---------------------------------------------------------------------------------
-  # Search
-  # ---------------------------------------------------------------------------------
-  def should_index?; !!published_at ;end
-  
-  # def search_data
-  #   # http://sunspot.github.com/
-  #   string( :title  )      { searchable_title title        }
-  #   string( :study_title ) { searchable_title study.title }
-  #   text    :description
-  # end
 
   
   # ---------------------------------------------------------------------------------

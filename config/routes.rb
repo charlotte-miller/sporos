@@ -6,6 +6,11 @@ Rails.application.routes.draw do
   get 'times-and-locations' => 'special_pages#times_and_locations'
   get 'invest'              => 'special_pages#invest_in_cornerstone' 
 
+  # Search
+  get 'search' => 'search#index'
+  post 'search/conversion'  => 'search#conversion'
+  post 'search/abandonment' => 'search#abandonment'
+
   resources :media do
   end
   

@@ -25,19 +25,23 @@ describe Searchable do
     end
   end
 
-  it "enforces the #search_data interface" do
-    lambda { DummyClass.new.search_data }.should raise_error(NotImplementedError)
+  describe '#url_helpers' do
+    it 'delegates to Rails routes' do
+      expect(Rails.application.routes).to receive(:url_for).with(:foo)
+      subject.url_helpers.url_for(:foo)
+    end
+  end
+  
+  describe '.searchable_model(options={})' do
+    # expect(false).to eq(true)
   end
 
-  it "enforces the #should_index? interface" do
-    lambda { DummyClass.new.should_index? }.should raise_error(NotImplementedError)
-  end
 end
 
 
-class DummyClass < ActiveRecord::Base
-  has_no_table
+class DummyClass
+  include Searchable
   attr_accessor :title
   
-  include Searchable
+  # searchable_model
 end

@@ -1,0 +1,29 @@
+/ Twitter Large Image Summary
+%meta{name:'twitter:site',        content: '@cornerstonesf' }
+%meta{name:'twitter:card',        content: 'summary_large_image' }
+%meta{name:'twitter:title',       content: current_page.data.social.title }
+%meta{name:'twitter:description', content: 'CORNERSTONE PRESENTS: Come+See - A Journey Through the Easter Scriptures #comeandsee @cornerstonesf' }
+%meta{name:'twitter:image',       content: current_page.data.social.image.url }
+
+/ FB Page
+%meta{property:'og:type',             content: 'article' }
+%meta{property:'og:url',              content: current_page.data.social.url }
+%meta{property:'og:title',            content: current_page.data.social.title }
+%meta{property:'og:description',      content: current_page.data.social.description }
+%meta{property:'og:site_name',        content: 'CornerstoneSF' }
+
+/ Google
+%meta{name:'description',             content: "Easter Service at Cornerstone SF - #{current_page.data.social.description}" }
+
+/ FB Image
+%meta{property:'og:image',            content: current_page.data.social.image.url }
+%meta{property:'og:image:height',     content: current_page.data.social.image.height }
+%meta{property:'og:image:width',      content: current_page.data.social.image.width }
+%meta{property:'og:image:type',       content: current_page.data.social.image.mime }
+
+
+- if current_page.data.social.video
+  %meta{property:'og:video',            content: current_page.data.social.video.path }
+  %meta{property:'og:video:height',     content: current_page.data.social.video.height }
+  %meta{property:'og:video:width',      content: current_page.data.social.video.width }
+  %meta{property:'og:video:type',       content: current_page.data.social.video.type }

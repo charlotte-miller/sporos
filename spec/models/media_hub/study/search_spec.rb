@@ -1,29 +1,56 @@
 require 'rails_helper'
 
-RSpec.describe Study::Search, type:'model', elasticsearch: true, focus:true do
-  subject { build(:study) }
-  before(:all) do
-    @studies = 3.times.map { create(:study) }
-  end
-  
-  describe '.import' do
-    before(:each) { Study.__elasticsearch__.create_index!(force: true) }
-    after(:each)  { Study.__elasticsearch__.create_index!(force: true) }
+RSpec.describe Study::Search, type:'model', elasticsearch: true do
+  subject { build_stubbed(:study) }
     
-    it 'imports successfully' do
-      expect( lambda {Study.import}).not_to raise_error
-      wait_for_success(3) { Study.search('*').present? }
-      expect(Study.search('*').records.to_a).to eq(@studies)
-    end
-  end
+  it_behaves_like 'it is Searchable', klass:Study
   
-  describe '[indexed data]' do
-    index_model Search
-    
-    describe '#as_indexed_json(options={})' do
-      it 'needs tests' do
+  describe 'Searching -', focus:true do
+    before(:all) do
+      @life_apps, @building_blocks, @wisdom = @studies = [
         
+        create(:study, { # life_apps
+          title:        'Life Apps', 
+          description:  "Understanding Jesus' Life Platform, message by Lead Pastor Terry Brisbane with video application by Rusty Rueff."}),
+        
+        create(:study, { # building_blocks
+          title:        'Building Blocks for a Sustainable Faith', 
+          description:  "A Life of Progress message by Lead Pastor Terry Brisbane."}),
+        
+        create(:study, { # wisdom
+          title:        'Wisdom for Living', 
+          description:  "Paul's Prayer for the church at Colosse, Part 1"}),
+      ]
+    end
+    
+    index_model Study
+    
+    describe 'by title' do
+      it 'finds exact matches' do
+        expect(Study.search('Life Apps').records.to_a).to eq([@life_apps])
+      end
+      
+      it 'finds matched words' do
+        expect(Study.search('Life').records.to_a).to eq([@life_apps])
+        expect(Study.search('Apps').records.to_a).to eq([@life_apps])
+      end
+      
+      it 'finds partial matched words' do
+        expect(Study.search('Lif').records.to_a).to eq([@life_apps])
+        expect(Study.search('Sustaina').records.to_a).to eq([@building_blocks])
+      end
+      
+      it 'ignores filler words' do
+        expect(Study.search('for').records.to_a).to be_empty
       end
     end
+    
+    describe 'by description' do
+      
+    end
+    
+    # title partial match
+    # description/body/etc phrase with partial after 1 word
+    # keywords partial match
   end
 end

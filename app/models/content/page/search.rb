@@ -23,7 +23,10 @@ module Page::Search
     
   included do
     searchable_model do
-      # indexes :title, analyzer: 'english', index_options: 'offsets'
+      # [title, short_description, path] are already declaired
+      
+      indexes :body,         analyzer: 'english', index_options: 'offsets'
+      indexes :seo_keywords, analyzer: 'keyword', boost:2.0
     end
     
     # def should_index?
@@ -32,10 +35,11 @@ module Page::Search
 
     def as_indexed_json(options={})
       {
-        title: searchable_title,
-        body:  plain_text(body),
-        seo_keywords: seo_keywords,
-        path: legacy_url, #url_helpers.page_url(self) ,
+        title:              searchable_title,
+        short_description:  shorter_plain_text(body),
+        body:               plain_text(body),
+        seo_keywords:       seo_keywords,
+        path:               legacy_url, #url_helpers.page_url(self) ,
       }
     end
   end

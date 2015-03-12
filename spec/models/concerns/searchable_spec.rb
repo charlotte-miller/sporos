@@ -1,3 +1,5 @@
+#DEPRECATED: moving these tests into _acts_searchable_shared
+
 require 'rails_helper'
 
 describe Searchable do
@@ -23,17 +25,6 @@ describe Searchable do
         should eql 'glory and honor'
       end
     end
-  end
-
-  describe '#url_helpers' do
-    it 'delegates to Rails routes' do
-      expect(Rails.application.routes).to receive(:url_for).with(:foo)
-      subject.url_helpers.url_for(:foo)
-    end
-  end
-  
-  describe '.searchable_model(options={})' do
-    # expect(false).to eq(true)
   end
 
 end

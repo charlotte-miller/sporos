@@ -1,25 +1,17 @@
 require 'rails_helper'
 
-RSpec.describe Lesson::Search, :type => :model, elasticsearch: true, focus:true do
-  before(:each) { Lesson.__elasticsearch__.create_index!(force: true) }
-  after(:each)  { Lesson.__elasticsearch__.create_index!(force: true) }
+RSpec.describe Lesson::Search, :type => :model, elasticsearch: true do
+  subject { build_stubbed(:lesson) }
   
-  subject { build(:lesson) }
+  it_behaves_like 'it is Searchable', klass:Page
   
-  describe '.import' do
+  describe 'Search By:' do
     before(:all) do
       @lessons = 3.times.map { create(:lesson) }
     end
     
-    it 'imports successfully' do
-      expect( lambda {Lesson.import}).not_to raise_error
-      wait_for_success(3) { Lesson.search('*').present? }
-      expect(Lesson.search('*').records.to_a).to eq(@lessons)
-    end
+    index_model Lesson
+    
+    
   end
-  
-  # =====================================================
-  # = Consider what can be abstracted from study search =
-  # =====================================================
-  # maybe behaves_like a_searchable_model
 end

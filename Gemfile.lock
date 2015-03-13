@@ -65,6 +65,7 @@ GEM
     annotate (2.6.5)
       activerecord (>= 2.3.0)
       rake (>= 0.8.7)
+    ansi (1.5.0)
     arel (6.0.0)
     aws-sdk (1.60.2)
       aws-sdk-v1 (= 1.60.2)
@@ -108,17 +109,17 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
     docile (1.1.5)
-    elasticsearch (1.0.6)
-      elasticsearch-api (= 1.0.6)
-      elasticsearch-transport (= 1.0.6)
-    elasticsearch-api (1.0.6)
+    elasticsearch (1.0.8)
+      elasticsearch-api (= 1.0.7)
+      elasticsearch-transport (= 1.0.7)
+    elasticsearch-api (1.0.7)
       multi_json
     elasticsearch-model (0.1.6)
       activesupport (> 3)
       elasticsearch (> 0.4)
       hashie
     elasticsearch-rails (0.1.6)
-    elasticsearch-transport (1.0.6)
+    elasticsearch-transport (1.0.7)
       faraday
       multi_json
     erubis (2.7.0)
@@ -214,7 +215,7 @@ GEM
     mini_portile (0.6.2)
     minitest (5.5.1)
     mono_logger (1.1.0)
-    multi_json (1.10.1)
+    multi_json (1.11.0)
     multipart-post (2.0.0)
     nenv (0.1.1)
     net-ssh (2.9.1)
@@ -451,6 +452,7 @@ DEPENDENCIES
   acts_as_list
   airbrake
   annotate (>= 2.5.0)
+  ansi
   aws-sdk
   bootstrap-sass (~> 3.2.0)
   bower-rails
@@ -460,7 +462,7 @@ DEPENDENCIES
   database_cleaner
   delayed_paperclip (>= 2.9.0)
   devise
-  elasticsearch
+  elasticsearch (~> 1.0.8)
   elasticsearch-model
   elasticsearch-rails
   factory_girl_rails

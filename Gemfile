@@ -31,7 +31,7 @@ gem 'protected_attributes'
 
 # Search
 # =======
-gem 'elasticsearch'
+gem 'elasticsearch', '~> 1.0.8'
 gem 'elasticsearch-model', require: 'elasticsearch/model'
 gem 'elasticsearch-rails', require: false
 # gem 'searchkick'
@@ -91,7 +91,9 @@ gem 'therubyracer', :platforms => :ruby, :require => false
 gem 'bootstrap-sass', '~> 3.2.0'
 gem "haml-rails"
 gem 'handlebars_assets'#, '0.17.1'
-gem 'lorem_ipsum_amet' #, :group => :development 
+gem 'lorem_ipsum_amet' #, :group => :development
+
+gem 'ansi'
 
 group :development, :test do
   # gem "bullet"

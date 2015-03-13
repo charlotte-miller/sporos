@@ -133,3 +133,7 @@ private
     self.video_vimeo_id = video_original_url.match(/vimeo.com\/(\d+)/)[1]
   end
 end
+
+
+# Support the namespacing convention for rake tasks etc.
+MediaHub::Lesson = Lesson

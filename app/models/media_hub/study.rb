@@ -153,3 +153,6 @@ class Study < ActiveRecord::Base
     self.channel_id || self.channel ||= Channel.first
   end
 end
+
+# Support the namespacing convention for rake tasks etc.
+MediaHub::Study = Study

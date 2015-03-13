@@ -45,3 +45,6 @@ class Channel < ActiveRecord::Base
 
   
 end
+
+# Support the namespacing convention for rake tasks etc.
+MediaHub::Channel = Channel

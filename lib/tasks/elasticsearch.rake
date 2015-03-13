@@ -62,7 +62,7 @@ namespace :elasticsearch do
       searchable_classes.each do |klass|
         puts "[IMPORT] Processing mappings for: #{klass}..."
         
-        es_indices = klass.__elasticsearch__.client.indices
+        es_indices = Elasticsearch::Model.client.indices
         options = {index: klass.index_name}
         
         # Find or create index

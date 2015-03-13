@@ -10,7 +10,7 @@ RSpec.describe Page::Search, :type => :model, elasticsearch: true do
       @pages = 3.times.map { create(:page) }
     end
     
-    index_model Page
+    index_models Page
     
     
   end

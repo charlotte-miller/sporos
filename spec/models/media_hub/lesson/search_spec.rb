@@ -10,7 +10,7 @@ RSpec.describe Lesson::Search, :type => :model, elasticsearch: true do
       @lessons = 3.times.map { create(:lesson) }
     end
     
-    index_model Lesson
+    index_models Lesson
     
     
   end

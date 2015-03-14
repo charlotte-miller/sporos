@@ -62,8 +62,8 @@ module Lesson::Search
 
     def as_indexed_json(options={})
       {
-        title:              searchable_title,
-        study_title:        searchable_title(study.title),
+        title:              title,
+        study_title:        study.title,
         short_description:  shorter_plain_text(description),
         description:        plain_text(description),
         author:             author,

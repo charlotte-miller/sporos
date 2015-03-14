@@ -35,7 +35,7 @@ module Page::Search
 
     def as_indexed_json(options={})
       {
-        title:              searchable_title,
+        title:              title,
         short_description:  shorter_plain_text(body),
         body:               plain_text(body),
         seo_keywords:       seo_keywords,

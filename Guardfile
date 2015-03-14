@@ -1,11 +1,9 @@
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 
-guard( :bundler ){ watch('Gemfile') }
-
 rspec_options ={
   all_on_start: true,
-  all_after_pass:true,
+  all_after_pass:false,
   notification:false,
   cmd: 'zeus rspec',
   cmd_additional_args: '--deprecation-out log/deprecation.log',
@@ -48,3 +46,5 @@ end
 #     watch(%r{^spec/javascripts/specs/(.+)_spec\.(js|coffee)$})  { |m| "specs/#{m[1]}_spec" }
 #     watch(%r{^lib/assets/javascripts/.*\/(.*)\.(js|coffee)$})   { |m| "specs/lib/#{m[1]}_spec" }
 # end
+
+guard( :bundler ){ watch('Gemfile') }

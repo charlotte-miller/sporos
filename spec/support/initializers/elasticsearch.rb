@@ -17,9 +17,6 @@ RSpec.configure do |config|
   #   Elasticsearch::Extensions::Test::Cluster.stop if Elasticsearch::Extensions::Test::Cluster.running?
   # end
   
-  ####
-  # READY TO TEST
-  ####
   def index_models(*klasses)
     options = klasses.extract_options!
     
@@ -42,12 +39,8 @@ RSpec.configure do |config|
         })
         searchable_klass.import
       end
-      
-      klasses.map do |klass|
-        Process.fork do
-          wait_for_success(2) { klass.search('*').present? }
-        end
-      end.each{|pid| Process.waitpid(pid)}
+
+      klasses.each { |klass| wait_for_success(2) { klass.search('*').present? } }
     end
     
     after(options[:frequency] || :all) do

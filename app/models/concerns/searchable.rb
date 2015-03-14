@@ -52,11 +52,7 @@ module Searchable
   
 private
   
-  # Helpers - should be analyzers
-  def searchable_title str=title
-    str.downcase.gsub(/^(an?|the|for|by)\b/, '').strip
-  end
-  
+  # Helpers - could be analyzers  
   def shorter_plain_text(str, truncate_options={})
     truncate( plain_text(str), {
       length:30, 

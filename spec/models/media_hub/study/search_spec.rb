@@ -5,7 +5,7 @@ RSpec.describe Study::Search, type:'model', elasticsearch: true do
     
   it_behaves_like 'it is Searchable', klass:Study
   
-  describe 'Searching -', focus:true do
+  describe 'Searching -' do
     before(:all) do
       @life_apps, @building_blocks, @wisdom = @studies = [
         
@@ -15,7 +15,7 @@ RSpec.describe Study::Search, type:'model', elasticsearch: true do
         
         create(:study, { # building_blocks
           title:        'Building Blocks for a Sustainable Faith', 
-          description:  "A Life of Progress message by Lead Pastor Terry Brisbane."}),
+          description:  "A Story of Progress message by Lead Pastor Terry Brisbane."}),
         
         create(:study, { # wisdom
           title:        'Wisdom for Living', 
@@ -27,30 +27,35 @@ RSpec.describe Study::Search, type:'model', elasticsearch: true do
     
     describe 'by title' do
       it 'finds exact matches' do
-        expect(Study.search('Life Apps').records.to_a).to eq([@life_apps])
+        expect(Study.search('title:Life Apps').records.to_a).to eq([@life_apps])
       end
       
       it 'finds matched words' do
-        expect(Study.search('Life').records.to_a).to eq([@life_apps])
-        expect(Study.search('Apps').records.to_a).to eq([@life_apps])
+        expect(Study.search('title:Life').records.to_a).to eq([@life_apps])
+        expect(Study.search('title:Apps').records.to_a).to eq([@life_apps])
       end
       
       it 'finds partial matched words' do
-        expect(Study.search('Lif').records.to_a).to eq([@life_apps])
-        expect(Study.search('Sustaina').records.to_a).to eq([@building_blocks])
+        pending
+        expect(Study.search('title:Lif').records.to_a).to eq([@life_apps])
+        expect(Study.search('title:Sustaina').records.to_a).to eq([@building_blocks])
       end
       
       it 'ignores filler words' do
-        expect(Study.search('for').records.to_a).to be_empty
+        expect(Study.search('title:for').records.to_a).to be_empty
       end
     end
     
-    describe 'by description' do
-      
+    describe 'by description' do      
+      # phrase with partial after 1 word
+    end
+
+    describe 'by short_description' do      
+      # phrase with partial after 1 word
     end
     
-    # title partial match
-    # description/body/etc phrase with partial after 1 word
-    # keywords partial match
+    describe 'by keywords' do      
+      # partial match
+    end
   end
 end

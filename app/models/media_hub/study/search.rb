@@ -47,7 +47,7 @@ module Study::Search
 
     def as_indexed_json(options={})
       {
-        title:              searchable_title,
+        title:              title,
         short_description:  shorter_plain_text(description),
         description:        plain_text(description),
         keywords:           keywords,

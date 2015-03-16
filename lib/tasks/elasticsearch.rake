@@ -40,7 +40,7 @@ namespace :elasticsearch do
     DESC
     task :combined => 'environment' do
       dir = ENV['DIR'].to_s != '' ? ENV['DIR'] : Rails.root.join("app/models")
-    
+
       searchable_classes = Dir.glob(File.join("#{dir}/**/*.rb")).map do |path|
         model_filename = path[/#{Regexp.escape(dir.to_s)}\/([^\.]+).rb/, 1]
 
@@ -57,6 +57,8 @@ namespace :elasticsearch do
         klass
       end.compact
 
+      # REBUILD deletes the index before building
+      rebuild_once = ENV['REBUILD'] ? searchable_classes.map(&:index_name).uniq : []
     
       ## Update Each Class
       searchable_classes.each do |klass|
@@ -64,6 +66,12 @@ namespace :elasticsearch do
         
         es_indices = Elasticsearch::Model.client.indices
         options = {index: klass.index_name}
+        
+        # Delete index once if REBUILD
+        if rebuild_once.include? klass.index_name
+          es_indices.delete(options)
+          rebuild_once.delete(klass.index_name)
+        end
         
         # Find or create index
         es_indices.create(options) unless es_indices.exists(options)

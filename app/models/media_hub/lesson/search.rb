@@ -50,27 +50,26 @@ module Lesson::Search
     
   included do
     searchable_model do
-      # [title, short_description, path] are already declaired
+      # [title, display_description, description, keywords, path] are already declaired
       
       indexes :study_title, analyzer: 'english', index_options: 'offsets', boost:1.5
-      indexes :description, analyzer: 'english', index_options: 'offsets'
-      indexes :author,      analyzer: 'english', index_options: 'offsets'
+      indexes :author,      analyzer: 'standard'
       indexes :duration,    type:'long'
     end
     
     # def should_index?; !!published_at ;end
-
-    def as_indexed_json(options={})
-      {
-        title:              title,
-        study_title:        study.title,
-        short_description:  shorter_plain_text(description),
-        description:        plain_text(description),
-        author:             author,
-        duration:           duration,
-        path:               url_helpers.study_lesson_path(study, self) ,
-      }
-    end
-
+  end
+  
+  def as_indexed_json(options={})
+    {
+      title:                title,
+      display_description:  shorter_plain_text(description),
+      path:                 url_helpers.study_lesson_path(study, self),
+      study_title:          study.title,
+      description:          plain_text(description),
+      keywords:             study.keywords,
+      author:               author,
+      duration:             duration,
+    }
   end
 end

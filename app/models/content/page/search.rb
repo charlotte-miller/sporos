@@ -22,25 +22,20 @@ module Page::Search
   include Searchable
     
   included do
-    searchable_model do
-      # [title, short_description, path] are already declaired
-      
-      indexes :body,         analyzer: 'english', index_options: 'offsets'
-      indexes :seo_keywords, analyzer: 'keyword', boost:2.0
-    end
+    searchable_model # [title, display_description, description, keywords, path] are already declaired
     
     # def should_index?
     #   !hidden_link
     # end
-
-    def as_indexed_json(options={})
-      {
-        title:              title,
-        short_description:  shorter_plain_text(body),
-        body:               plain_text(body),
-        seo_keywords:       seo_keywords,
-        path:               legacy_url, #url_helpers.page_url(self) ,
-      }
-    end
+  end
+  
+  def as_indexed_json(options={})
+    {
+      title:                title,
+      display_description:  shorter_plain_text(body),
+      path:                 legacy_url, #url_helpers.page_url(self),
+      description:          plain_text(body),
+      keywords:             seo_keywords,
+    }
   end
 end

@@ -3,7 +3,7 @@
 module Searchable
   extend ActiveSupport::Concern
   
-  REQUIRED_KEYS = [:title, :short_description, :path]
+  REQUIRED_KEYS = [:title, :display_description, :path, :description, :keywords]
   
   included do
     include Sanitizable
@@ -20,7 +20,7 @@ module Searchable
       options = DeepStruct.new(options)
 
       class_eval do
-        index_name     "sporos_#{Rails.env}"
+        index_name     AppConfig.elasticsearch.index_name
         document_type  options.type || name.downcase 
         
         settings index: { number_of_shards: 1 } do
@@ -29,19 +29,29 @@ module Searchable
             # - this makes adding new indexes easier as you cannot update existing indexes (potetnally triggered by new fields)
             # [options] http://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-core-types.html
                         
-            indexes :title, analyzer: 'english',
-                            index_options: 'offsets',
-                            boost: 2.0
-                            # stem_exclusion: dont_stem
-            
-            indexes :short_description, analyzer: 'english',    
-                            index_options: 'offsets',
-                            boost: 1.5
-                            # stem_exclusion: dont_stem
+            indexes :title, 
+                     analyzer: 'english',
+                     index_options: 'offsets',
+                     boost: 2.0
+                     # stem_exclusion: dont_stem
+         
+            indexes :description, 
+                     analyzer: 'english', 
+                     index_options: 'offsets'
+                     # boost: 1.5
+                     # stem_exclusion: dont_stem
                             
-            indexes :path,  type: 'string', index:'no' #:not_analyzed
+            indexes :keywords, 
+                     analyzer: 'keyword', #:not_analyzed
+                     boost:2.0
+                     #might makes sense to stem bible verses
+                            
+            # Not Searchable
+            indexes :path,              index:'no'
+            indexes :display_description, index:'no'
 
-            instance_eval &specific_indexes #add model specific indexes here
+            # Add model specific indexes
+            instance_eval( &specific_indexes ) if block_given?
           end
         end
       end

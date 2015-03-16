@@ -36,24 +36,21 @@ module Study::Search
     
   included do
     searchable_model do
-      # [title, short_description, path] are already declaired
-       
-      indexes :description, analyzer: 'english', index_options: 'offsets'
-      indexes :keywords,    analyzer: 'keyword', boost:2.0 #might makes sense to stem bible verses
+      # [title, display_description, description, keywords, path] are already declaired
       indexes :last_published_at, type: 'date'
     end
     
     # def should_index?; !!last_published_at ;end
-
-    def as_indexed_json(options={})
-      {
-        title:              title,
-        short_description:  shorter_plain_text(description),
-        description:        plain_text(description),
-        keywords:           keywords,
-        last_published_at:  last_published_at,
-        path:               url_helpers.study_path(self),
-      }
-    end
+  end
+  
+  def as_indexed_json(options={})
+    {
+      title:                title,
+      display_description:  shorter_plain_text(description),
+      path:                 url_helpers.study_path(self),
+      description:          plain_text(description),
+      keywords:             keywords,
+      last_published_at:    last_published_at,
+    }
   end
 end

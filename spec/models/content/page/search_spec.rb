@@ -48,7 +48,7 @@ RSpec.describe Page::Search, :type => :model, elasticsearch: true do
       end
     end
     
-    describe 'short_description' do      
+    describe 'display_description' do
       # phrase with partial after 1 word
     end
     

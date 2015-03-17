@@ -65,16 +65,16 @@ namespace :elasticsearch do
         puts "[IMPORT] Processing mappings for: #{klass}..."
         
         es_indices = Elasticsearch::Model.client.indices
-        options = {index: klass.index_name}
+        options = {index: klass.index_name }
         
         # Delete index once if REBUILD
         if rebuild_once.include? klass.index_name
-          es_indices.delete(options)
+          es_indices.delete(options) if es_indices.exists(options)
           rebuild_once.delete(klass.index_name)
         end
         
         # Find or create index
-        es_indices.create(options) unless es_indices.exists(options)
+        es_indices.create(options.merge({ body:{settings: klass.settings.to_hash} })) unless es_indices.exists(options)
         es_indices.put_mapping(options.merge({
           type: klass.document_type,
           body: klass.mappings.to_hash,

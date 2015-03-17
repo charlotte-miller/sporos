@@ -23,7 +23,23 @@ module Searchable
         index_name     AppConfig.elasticsearch.index_name
         document_type  options.type || name.downcase 
         
-        settings index: { number_of_shards: 1 } do
+        settings index: { 
+          number_of_shards: 1,
+          number_of_replicas: 0,
+          analysis: {
+            # char_filter: { ... custom character filters ... },
+            # tokenizer:   { ...    custom tokenizers     ... },
+            # filter:      { ...   custom token filters   ... },
+            analyzer: {
+              html: {
+                type:'custom',
+                char_filter: ['html_strip'],
+                tokenizer: 'classic',
+                filter:['lowercase', 'stop'],
+              },
+            },
+          }        
+        } do        
           mappings dynamic: 'false' do
             # dynamic:'false' - Indexes are not automaticly created and must be added by code to be searched
             # - this makes adding new indexes easier as you cannot update existing indexes (potetnally triggered by new fields)
@@ -34,12 +50,9 @@ module Searchable
                      index_options: 'offsets',
                      boost: 2.0
                      # stem_exclusion: dont_stem
-         
+                                     
             indexes :description, 
-                     analyzer: 'english', 
-                     index_options: 'offsets'
-                     # boost: 1.5
-                     # stem_exclusion: dont_stem
+                     analyzer: 'html'
                             
             indexes :keywords, 
                      analyzer: 'keyword', #:not_analyzed

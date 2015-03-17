@@ -57,6 +57,8 @@ Rails.application.configure do
     metastore:   "#{AppConfig.redis.host}/1/metastore",
     entitystore: "#{AppConfig.redis.host}/1/entitystore"
   }
+  
+  config.action_controller.action_on_unpermitted_parameters = :log #:raise
 
   # TODO
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.

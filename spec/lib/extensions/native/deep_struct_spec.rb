@@ -17,7 +17,7 @@ describe DeepStruct do
   end
 
   describe '.from_json(json_str)' do
-    subject{DeepStruct.from_json( Oj.dump(nested_hash) )}
+    subject{DeepStruct.from_json( MultiJson.dump(nested_hash) )}
 
     it 'creates a DeepStruct' do
       expect(subject).to be_a DeepStruct

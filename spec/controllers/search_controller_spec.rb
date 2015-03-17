@@ -8,5 +8,20 @@ RSpec.describe SearchController, :type => :controller do
       expect(response).to have_http_status(:success)
     end
   end
+  
+  describe 'RESPONSE SCHEMA' do
+    describe '.hits[n]._source' do
+      
+    end
+    
+    describe '.hits[n].highlight' do
+      
+    end
+    
+    describe '.aggregations.type_counts' do
+      #test facets
+    end
+  end
+  
 
 end

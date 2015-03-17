@@ -22,6 +22,6 @@ class DeepStruct < OpenStruct
   end
 
   def self.from_json(json_str)
-    DeepStruct.new Oj.load(json_str)
+    DeepStruct.new MultiJson.load(json_str)
   end
 end

@@ -53,7 +53,7 @@ module Lesson::Search
       # [title, display_description, description, keywords, path] are already declaired
       
       indexes :study_title, analyzer: 'english', index_options: 'offsets', boost:1.5
-      indexes :author,      analyzer: 'standard'
+      indexes :author,      analyzer: 'standard', stopwords:%w{ pastor }
       indexes :duration,    type:'long'
     end
     

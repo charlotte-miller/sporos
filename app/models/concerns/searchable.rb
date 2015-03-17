@@ -47,7 +47,7 @@ module Searchable
                      #might makes sense to stem bible verses
                             
             # Not Searchable
-            indexes :path,              index:'no'
+            indexes :path,                index:'no'
             indexes :display_description, index:'no'
 
             # Add model specific indexes

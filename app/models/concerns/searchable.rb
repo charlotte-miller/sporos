@@ -125,7 +125,7 @@ private
   # Helpers - could be analyzers  
   def shorter_plain_text(str, truncate_options={})
     truncate( plain_text(str), {
-      length:30, 
+      length:50,
       omission:'...', 
       separator: ' '
     }.merge(truncate_options))

@@ -6,7 +6,7 @@ class DummySearchableClass
   define_singleton_method(:import){}
 end
 
-describe Searchable, :elasticsearch, :focus do
+describe Searchable, :elasticsearch do
   subject { DummySearchableClass.new }
   let(:es_client) { Elasticsearch::Model.client }
   

@@ -1,16 +1,11 @@
 class SearchController < ApplicationController
   include ElasticsearchHelpers
   
-  def index
-    # results = Page.search(query, {
-    #   index:'content',
-    #   type:[:page,:media],
-    #   # fields:[:title,:path],
-    # }).map(&:as_json)
-    
-    results = Elasticsearch::Model.client.search({
+  def index    
+    @results = Elasticsearch::Model.client.search({
       index: AppConfig.elasticsearch.index_name,
       type: types_w_defaults,
+      # search_type:'count', #w/out hits
       body: { 
         query: {
           multi_match: { 
@@ -29,9 +24,42 @@ class SearchController < ApplicationController
         #   last_published_at:{ order:'desc' },
         #   expires_at:{ order: 'asc' },
         # },
-        # suggest:{
-        #
-        # },
+        suggest:{
+          text: query,
+          # words:{
+          #   term:{
+          #     field:'title',             # pretty bad
+          #     size:3,
+          #     sort:'score', #frequency
+          #     suggest_mode:'popular'
+          #   }
+          # },
+          
+          # Use fuzzy instead
+          # spelling:{
+          #   phrase:{
+          #     # analyzer:'standard',
+          #     field:'description',
+          #     size:3,
+          #     real_word_error_likelihood:0.95,
+          #     max_errors:0.5,
+          #     gram_size: 2,
+          #     direct_generator:[{
+          #       field:'description',
+          #       suggest_mode:'popular',
+          #       min_word_length:1,
+          #     }],
+          #     highlight:{
+          #       pre_tag:'<em>',
+          #       post_tag:'</em>'
+          #     },
+          #   },
+          # },
+          
+          autocomplete:{
+            #TODO
+          },
+        },
         highlight:{
           fields:{
             title:{}, 
@@ -47,7 +75,7 @@ class SearchController < ApplicationController
       }.merge(pagination_options)
     })
     
-    render json: MultiJson.dump(results, pretty:true)
+    render json: MultiJson.dump(@results, pretty:false)
   end
   
   # POST search/conversion
@@ -62,11 +90,11 @@ class SearchController < ApplicationController
 private
   def search_params
     params.require(:q)
-    params.permit(:types, :page)
+    @search_params ||= params.permit(:q, :types, :page)
   end
   
   def query
-    q = params[:q] || ''
+    q = search_params[:q] || ''
     # q = ActionController::Base.helpers.strip_tags( q )
     # q = ElasticsearchHelpers.sanitize_string( q )
   end

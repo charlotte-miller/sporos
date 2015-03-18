@@ -21,6 +21,7 @@ RSpec.configure do |config|
     options = klasses.extract_options!
     
     before(options[:frequency] || :all) do  
+      puts "Indexing #{klasses.map(&:name).join(', ')}"
       es_indices = Elasticsearch::Model.client.indices
       
       # Clear and build indexes

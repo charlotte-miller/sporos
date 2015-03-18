@@ -24,9 +24,10 @@ RSpec.configure do |config|
       es_indices = Elasticsearch::Model.client.indices
       
       # Clear and build indexes
-      klasses.map(&:index_name).uniq.each do |index|
-        es_indices.delete(index: index) if es_indices.exists(index: index)
-        es_indices.create(index: index)
+      uniq_indexes_w_settings = klasses.inject({}) {|hash, klass| hash.update( klass.index_name => klass.settings.to_hash ) }
+      uniq_indexes_w_settings.each_pair do |index_name, settings|
+        es_indices.delete(index: index_name) if es_indices.exists(index: index_name)
+        es_indices.create(index: index_name, body:{ settings: settings })
       end
       
       # Update Mappings & Import Data

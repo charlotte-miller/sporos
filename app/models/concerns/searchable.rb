@@ -29,30 +29,77 @@ module Searchable
           analysis: {
             # char_filter: { ... custom character filters ... },
             # tokenizer:   { ...    custom tokenizers     ... },
-            # filter:      { ...   custom token filters   ... },
+            filter: {
+              bi_and_uni_gram:{
+                type:'shingle',
+                output_unigrams:true,
+              },
+              
+              tri_bi_and_uni_gram:{
+                type:'shingle',
+                min_shingle_size:2,
+                max_shingle_size:3,
+                output_unigrams:true,
+              },
+              
+              wordnet_synonym:{
+                type:'synonym',
+                format:'wordnet',
+                synonyms_path:'/var/lib/wn_s.pl'
+              },
+
+              cstone_synonyms:{
+                type:'synonym',
+                synonyms:[
+                  'sermon => message'
+                ]
+              },
+              
+              max_50:{
+                type:'length',
+                max:50
+              },
+              
+              common_leading_stopword:{
+                type:'pattern_replace',
+                pattern:"^(an?|the)\b",
+                replacement:'',
+                preserve_original:true
+              }
+            },
+            
             analyzer: {
-              html: {
+              html_stem: {
                 type:'custom',
                 char_filter: ['html_strip'],
                 tokenizer: 'classic',
-                filter:['lowercase', 'stop'],
+                filter:['trim', 'lowercase', 'asciifolding', 'stop', 'cstone_synonyms', 'kstem'], #'wordnet_synonym',
+              },
+              
+              html_bi_and_uni_gram:{
+                type:'custom',
+                char_filter: ['html_strip'],
+                tokenizer: 'classic',
+                filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'max_50', 'bi_and_uni_gram', 'stop'], #'wordnet_synonym',
+              },
+
+              html_tri_bi_and_uni_gram:{
+                type:'custom',
+                char_filter: ['html_strip'],
+                tokenizer: 'classic',
+                filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'max_50', 'tri_bi_and_uni_gram', 'stop'], #'wordnet_synonym',
               },
             },
           }        
         } do        
           mappings dynamic: 'false' do
             # dynamic:'false' - Indexes are not automaticly created and must be added by code to be searched
-            # - this makes adding new indexes easier as you cannot update existing indexes (potetnally triggered by new fields)
-            # [options] http://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-core-types.html
-                        
-            indexes :title, 
-                     analyzer: 'english',
-                     index_options: 'offsets',
-                     boost: 2.0
-                     # stem_exclusion: dont_stem
+                                    
+            indexes :title, analyzer: 'html_stem',                  boost: 1.5
+            indexes :title, analyzer: 'html_tri_bi_and_uni_gram',   boost: 2.0
                                      
-            indexes :description, 
-                     analyzer: 'html'
+            indexes :description, analyzer: 'html_stem'
+            indexes :description, analyzer: 'html_bi_and_uni_gram', boost: 1.0
                             
             indexes :keywords, 
                      analyzer: 'keyword', #:not_analyzed

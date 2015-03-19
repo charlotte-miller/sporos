@@ -30,16 +30,16 @@ module Searchable
             # char_filter: { ... custom character filters ... },
             # tokenizer:   { ...    custom tokenizers     ... },
             filter: {
-              bi_and_uni_gram:{
+              bi_gram:{
                 type:'shingle',
-                output_unigrams:true,
+                output_unigrams:false,
               },
               
-              tri_bi_and_uni_gram:{
+              tri_gram:{
                 type:'shingle',
-                min_shingle_size:2,
+                min_shingle_size:3,
                 max_shingle_size:3,
-                output_unigrams:true,
+                output_unigrams:false,
               },
               
               wordnet_synonym:{
@@ -51,8 +51,14 @@ module Searchable
               cstone_synonyms:{
                 type:'synonym',
                 synonyms:[
-                  'sermon => message'
+                  'sermon => message',
+                  'christ => jesus',
                 ]
+              },
+              
+              cstone_stopwords:{
+                type:'stop',
+                stopwords:['pastor']
               },
               
               max_50:{
@@ -73,37 +79,61 @@ module Searchable
                 type:'custom',
                 char_filter: ['html_strip'],
                 tokenizer: 'classic',
-                filter:['trim', 'lowercase', 'asciifolding', 'stop', 'cstone_synonyms', 'kstem'], #'wordnet_synonym',
+                filter:['trim', 'lowercase', 'asciifolding', 'stop', 'cstone_synonyms', 'cstone_stopwords', 'porter_stem'], #'wordnet_synonym', 'kstem'
               },
               
-              html_bi_and_uni_gram:{
+              html_bi_gram:{
                 type:'custom',
                 char_filter: ['html_strip'],
                 tokenizer: 'classic',
-                filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'max_50', 'bi_and_uni_gram', 'stop'], #'wordnet_synonym',
+                filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'max_50', 'bi_gram'], #'wordnet_synonym',
               },
 
-              html_tri_bi_and_uni_gram:{
+              html_tri_gram:{
                 type:'custom',
                 char_filter: ['html_strip'],
                 tokenizer: 'classic',
-                filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'max_50', 'tri_bi_and_uni_gram', 'stop'], #'wordnet_synonym',
+                filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'max_50', 'tri_gram'], #'wordnet_synonym',
               },
             },
           }        
-        } do        
+        } do
           mappings dynamic: 'false' do
-            # dynamic:'false' - Indexes are not automaticly created and must be added by code to be searched
-                                    
-            indexes :title, analyzer: 'html_stem',                  boost: 1.5
-            indexes :title, analyzer: 'html_tri_bi_and_uni_gram',   boost: 2.0
+            #Indexes are not automaticly created and must be added by code to be searched
+
+            indexes :title,
+                     analyzer: 'html_stem',          #boost: 1.5
+                     fields:{
+                       bi_grams:{
+                         type:'string',
+                         analyzer:'html_bi_gram'     #boost: 2.0
+                       },
+                       tri_grams:{
+                         type:'string',
+                         analyzer:'html_tri_gram'    #boost: 3.0
+                       },
+                       # raw:{
+                       #   type:'string',
+                       #   index:'not_analyzed'
+                       # },
+                     }
                                      
-            indexes :description, analyzer: 'html_stem'
-            indexes :description, analyzer: 'html_bi_and_uni_gram', boost: 1.0
+            indexes :description, 
+                     analyzer: 'html_stem',
+                     fields:{
+                       bi_grams:{                    # boost: 1.0
+                         type:'string',
+                         analyzer:'html_bi_gram'
+                       }
+                       # raw:{
+                       #   type:'string',
+                       #   index:'not_analyzed'
+                       # },
+                     }
                             
             indexes :keywords, 
-                     analyzer: 'keyword', #:not_analyzed
-                     boost:2.0
+                     analyzer: 'keyword' #:not_analyzed
+                     # boost:2.0
                      #might makes sense to stem bible verses
                             
             # Not Searchable

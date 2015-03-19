@@ -52,8 +52,17 @@ module Lesson::Search
     searchable_model do
       # [title, display_description, description, keywords, path] are already declaired
       
-      indexes :study_title, analyzer: 'english', index_options: 'offsets', boost:1.5
-      indexes :author,      analyzer: 'standard', stopwords:%w{ pastor }
+      indexes :study_title, 
+               analyzer: 'english',      # boost:1.5
+               index_options: 'offsets',
+               fields:{
+                 # raw:{
+                 #   type:'string',
+                 #   index:'not_analyzed'
+                 # },
+               }
+               
+      indexes :author,      analyzer: 'standard'
       indexes :duration,    type:'long'
     end
     

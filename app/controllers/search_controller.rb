@@ -5,19 +5,34 @@ class SearchController < ApplicationController
     @results = Elasticsearch::Model.client.search({
       index: AppConfig.elasticsearch.index_name,
       type: types_w_defaults,
+      # explain:true,
       # search_type:'count', #w/out hits
       body: { 
         query: {
-          multi_match: { 
-            query: query,
-            fields:[
-              :title,             # all
-              :description,       # all
-              :keywords,          # all
-              :study_title,       # lesson
-              :author,            # lesson
-            ]
-          } 
+          bool: {
+            must:{
+              multi_match: { 
+                query: query,
+                fields:[
+                  :title,             # all
+                  :description,       # all
+                  :keywords,          # all
+                  :study_title,       # lesson
+                  :author,            # lesson
+                ]
+              }
+            },
+            should:{
+              multi_match: { 
+                query: query,
+                fields:[
+                  'title.bi_grams',
+                  'title.tri_grams',
+                  'description.bi_grams',
+                ]
+              }
+            }
+          }
         },
         # filter expires_at lt Time.now
         # sort:{

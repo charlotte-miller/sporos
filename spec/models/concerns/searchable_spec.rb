@@ -13,7 +13,7 @@ describe Searchable, :elasticsearch do
   describe 'INDEX MANAGMENT' do
     let(:es_indices)    { es_client.indices }
     let(:index_options) { {index: DummySearchableClass.index_name} }
-    index_models DummySearchableClass
+    import_models DummySearchableClass
     
     it "creates the index" do
       expect(es_indices.exists(index_options)).to be true

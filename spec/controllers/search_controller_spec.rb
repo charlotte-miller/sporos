@@ -15,7 +15,7 @@ RSpec.describe SearchController, :type => :controller do
       let(:results) { DeepStruct.new( get( :index, {q:'foo'} ) && assigns(:results)) }
       let(:hit) { results.hits.hits.first }
       before(:all) { create(:page, title:'Foo is How We Do') }
-      index_models Page
+      import_models Page
       
       it 'returns JSON' do
         get :index, {q:'foo'}
@@ -64,7 +64,7 @@ RSpec.describe SearchController, :type => :controller do
             body:         '<img src="{{ MEDIA_URL }}/uploads/generic/volunteerDinner_logotype_1.png"><br/><br/><h2>Friday, October 17 • 6:30pm-8:30pm<br/>Lake Merced Campus</h2>'}),
         ]
       end
-      # index_models Page, Study, Lesson
+      # import_models Page, Study, Lesson
     end
     
   end

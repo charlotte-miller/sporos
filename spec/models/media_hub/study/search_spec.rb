@@ -23,7 +23,7 @@ RSpec.describe Study::Search, type:'model', elasticsearch: true do
       ]
     end
     
-    index_models Study
+    import_models Study
     
     describe 'by title' do
       it 'finds exact matches' do

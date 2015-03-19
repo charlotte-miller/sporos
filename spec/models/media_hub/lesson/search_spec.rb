@@ -23,7 +23,7 @@ RSpec.describe Lesson::Search, :type => :model, elasticsearch: true do
       ]
     end
     
-    index_models Lesson
+    import_models Lesson
     
     describe 'by title' do
       it 'finds exact matches' do

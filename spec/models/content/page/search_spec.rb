@@ -23,7 +23,7 @@ RSpec.describe Page::Search, :type => :model, elasticsearch: true do
       ]
     end
     
-    index_models Page
+    import_models Page
     
     
     

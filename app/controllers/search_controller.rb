@@ -11,14 +11,23 @@ class SearchController < ApplicationController
         query: {
           bool: {
             must:{
-              multi_match: { 
-                query: query,
-                fields:[
-                  :title,             # all
-                  :description,       # all
-                  :keywords,          # all
-                  :study_title,       # lesson
-                  :author,            # lesson
+              bool:{
+                should:[
+                  { multi_match: { 
+                      query: query,
+                      # fuzziness:2,
+                      fields:[
+                        :title,             # all
+                        :description,       # all
+                        :keywords,          # all
+                        :study_title,       # lesson
+                        :author,            # lesson
+                      ]
+                    }
+                  },
+                  # {
+                  #   match:{description:query}
+                  # },
                 ]
               }
             },

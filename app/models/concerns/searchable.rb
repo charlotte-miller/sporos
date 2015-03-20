@@ -58,7 +58,7 @@ module Searchable
               
               cstone_stopwords:{
                 type:'stop',
-                stopwords:['pastor']
+                stopwords:['pastor', 'chruch']
               },
               
               max_50:{
@@ -124,7 +124,7 @@ module Searchable
                        bi_grams:{                    # boost: 1.0
                          type:'string',
                          analyzer:'html_bi_gram'
-                       }
+                       },
                        # raw:{
                        #   type:'string',
                        #   index:'not_analyzed'

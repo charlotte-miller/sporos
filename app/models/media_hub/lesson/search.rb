@@ -62,7 +62,7 @@ module Lesson::Search
                  # },
                }
                
-      indexes :author,      analyzer: 'standard'
+      indexes :author,      analyzer: 'stop'
       indexes :duration,    type:'long'
     end
     

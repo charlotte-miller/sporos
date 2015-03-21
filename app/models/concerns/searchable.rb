@@ -27,21 +27,26 @@ module Searchable
           number_of_shards: 1,
           number_of_replicas: 0,
           analysis: {
-            # char_filter: { ... custom character filters ... },
             # tokenizer:   { ...    custom tokenizers     ... },
             filter: {
-              bi_gram:{
+              word_edge_ngram:{
+                type:'edge_ngram',
+                min_gram:3,
+                max_gram:20,
+              },
+
+              phrase_bi_gram:{
                 type:'shingle',
                 output_unigrams:false,
               },
-              
-              tri_gram:{
+
+              phrase_tri_gram:{
                 type:'shingle',
                 min_shingle_size:3,
                 max_shingle_size:3,
                 output_unigrams:false,
               },
-              
+
               wordnet_synonym:{
                 type:'synonym',
                 format:'wordnet',
@@ -60,12 +65,20 @@ module Searchable
                 type:'stop',
                 stopwords:['pastor', 'chruch']
               },
-              
-              max_50:{
+
+              word_edge_ngram__range:{
+                # Don't search for terms that are longer or shorter then the avalible ngrams
                 type:'length',
-                max:50
+                min:3,
+                max:20,
               },
-              
+
+              query_length_cap:{
+                # Don't make terms that are longer then the searchable length in SearchController
+                type:'length',
+                max:80,
+              },
+
               common_leading_stopword:{
                 type:'pattern_replace',
                 pattern:"^(an?|the)\b",
@@ -73,30 +86,51 @@ module Searchable
                 preserve_original:true
               }
             },
-            
+
+            char_filter: {
+              "&_to_and" => {
+                type: 'mapping',
+                mappings: [ '&=> and ']
+              }
+            },
+
             analyzer: {
               html_stem: {
                 type:'custom',
-                char_filter: ['html_strip'],
+                char_filter: ['html_strip', '&_to_and'],
                 tokenizer: 'classic',
-                filter:['trim', 'lowercase', 'asciifolding', 'stop', 'cstone_synonyms', 'cstone_stopwords', 'porter_stem'], #'wordnet_synonym', 'kstem'
+                filter:['trim', 'lowercase', 'asciifolding', 'stop', 'cstone_synonyms', 'cstone_stopwords', 'porter_stem'], #'wordnet_synonym'
               },
               
-              html_bi_gram:{
+              html_word_edge_ngram__index:{
                 type:'custom',
-                char_filter: ['html_strip'],
+                char_filter: ['html_strip', '&_to_and'],
                 tokenizer: 'classic',
-                filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'max_50', 'bi_gram'], #'wordnet_synonym',
+                filter:['trim', 'lowercase', 'asciifolding', 'stop', 'common_leading_stopword', 'cstone_synonyms', 'word_edge_ngram'],
               },
 
-              html_tri_gram:{
+              html_word_edge_ngram__search:{
                 type:'custom',
-                char_filter: ['html_strip'],
+                char_filter: ['html_strip', '&_to_and'],
                 tokenizer: 'classic',
-                filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'max_50', 'tri_gram'], #'wordnet_synonym',
+                filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'word_edge_ngram__range'],
+              },
+
+              html_phrase_bi_gram:{
+                type:'custom',
+                char_filter: ['html_strip', '&_to_and'],
+                tokenizer: 'classic',
+                filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'phrase_bi_gram', 'query_length_cap'], #'wordnet_synonym',
+              },
+
+              html_phrase_tri_gram:{
+                type:'custom',
+                char_filter: ['html_strip', '&_to_and'],
+                tokenizer: 'classic',
+                filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'phrase_tri_gram', 'query_length_cap'], #'wordnet_synonym',
               },
             },
-          }        
+          }
         } do
           mappings dynamic: 'false' do
             #Indexes are not automaticly created and must be added by code to be searched
@@ -104,35 +138,55 @@ module Searchable
             indexes :title,
                      analyzer: 'html_stem',          #boost: 1.5
                      fields:{
-                       bi_grams:{
+
+                       word_edge_ngrams:{
                          type:'string',
-                         analyzer:'html_bi_gram'     #boost: 2.0
+                         index_analyzer:  'html_word_edge_ngram__index',
+                         search_analyzer: 'html_word_edge_ngram__search'
                        },
-                       tri_grams:{
+
+                       phrase_bi_grams:{
                          type:'string',
-                         analyzer:'html_tri_gram'    #boost: 3.0
+                         analyzer:'html_phrase_bi_gram',
+                         boost: 2.0
                        },
+
+                       phrase_tri_grams:{
+                         type:'string',
+                         analyzer:'html_phrase_tri_gram',
+                         boost: 3.0
+                       },
+
                        # raw:{
                        #   type:'string',
                        #   index:'not_analyzed'
                        # },
                      }
-                                     
+
             indexes :description, 
                      analyzer: 'html_stem',
                      fields:{
-                       bi_grams:{                    # boost: 1.0
+
+                       word_edge_ngrams:{
                          type:'string',
-                         analyzer:'html_bi_gram'
+                         index_analyzer:  'html_word_edge_ngram__index',
+                         search_analyzer: 'html_word_edge_ngram__search'
                        },
+
+                       phrase_bi_grams:{
+                         type:'string',
+                         analyzer:'html_phrase_bi_gram',
+                         boost:1.0
+                       },
+
                        # raw:{
                        #   type:'string',
                        #   index:'not_analyzed'
                        # },
                      }
-                            
-            indexes :keywords, 
-                     analyzer: 'keyword' #:not_analyzed
+
+            indexes :keywords, index: :not_analyzed
+                     # analyzer: 'keyword',
                      # boost:2.0
                      #might makes sense to stem bible verses
                             

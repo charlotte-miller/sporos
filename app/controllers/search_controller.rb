@@ -15,7 +15,8 @@ class SearchController < ApplicationController
                 should:[
                   { multi_match: { 
                       query: query,
-                      # fuzziness:2,
+                      # fuzziness:'AUTO',
+                      # prefix_length:3,
                       fields:[
                         :title,             # all
                         :description,       # all
@@ -25,9 +26,14 @@ class SearchController < ApplicationController
                       ]
                     }
                   },
-                  # {
-                  #   match:{description:query}
-                  # },
+                  { multi_match:{
+                      query:query,
+                      fields:[
+                        'title.word_edge_ngrams',
+                        'description.word_edge_ngrams'
+                      ]
+                    }
+                  },
                 ]
               }
             },
@@ -35,9 +41,9 @@ class SearchController < ApplicationController
               multi_match: { 
                 query: query,
                 fields:[
-                  'title.bi_grams',
-                  'title.tri_grams',
-                  'description.bi_grams',
+                  'title.phrase_bi_grams',
+                  'title.phrase_tri_grams',
+                  'description.phrase_bi_grams',
                 ]
               }
             }
@@ -89,7 +95,9 @@ class SearchController < ApplicationController
             title:{}, 
             study_title:{},
             description:{},
-            author:{}
+            author:{},
+            'title.word_edge_ngrams'=>{},
+            'description.word_edge_ngrams'=>{},
           }
         },
         aggs: {
@@ -118,8 +126,8 @@ private
   end
   
   def query
-    q = search_params[:q] || ''
-    # q = ActionController::Base.helpers.strip_tags( q )
+    q = search_params[:q]
+    q = q[0...80] #cap at 50 char
     # q = ElasticsearchHelpers.sanitize_string( q )
   end
   

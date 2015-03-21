@@ -185,8 +185,21 @@ module Searchable
                        # },
                      }
 
-            indexes :keywords, index: :not_analyzed
-                     # analyzer: 'keyword',
+            indexes :keywords,
+                     analyzer: 'keyword',
+                     fields:{
+                       # POPULAR TERMS ONLY? COMMON PHRASES?
+                       # These have to start at the begining... so they are not well suited to tite / description
+                       # Better for keywords / questions etc.
+                       #
+                       autocomplete:{
+                         type:'completion',
+                         index_analyzer:'keyword',
+                         search_analyzer:'keyword',
+                         payloads:true,             # {path:'/blah'}
+                         preserve_separators:true,  #foof != foo fighters
+                       }
+                     }
                      # boost:2.0
                      #might makes sense to stem bible verses
                             

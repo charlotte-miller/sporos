@@ -9,6 +9,8 @@ class SearchController < ApplicationController
       # search_type:'count', #w/out hits
       body: { 
         query: {
+        # if query.length > 3
+        # - update this with {}.merge
           bool: {
             must:{
               bool:{
@@ -48,6 +50,7 @@ class SearchController < ApplicationController
               }
             }
           }
+        # end
         },
         # filter expires_at lt Time.now
         # sort:{
@@ -56,39 +59,13 @@ class SearchController < ApplicationController
         # },
         suggest:{
           text: query,
-          # words:{
-          #   term:{
-          #     field:'title',             # pretty bad
-          #     size:3,
-          #     sort:'score', #frequency
-          #     suggest_mode:'popular'
-          #   }
-          # },
-          
-          # Use fuzzy instead
-          # spelling:{
-          #   phrase:{
-          #     # analyzer:'standard',
-          #     field:'description',
-          #     size:3,
-          #     real_word_error_likelihood:0.95,
-          #     max_errors:0.5,
-          #     gram_size: 2,
-          #     direct_generator:[{
-          #       field:'description',
-          #       suggest_mode:'popular',
-          #       min_word_length:1,
-          #     }],
-          #     highlight:{
-          #       pre_tag:'<em>',
-          #       post_tag:'</em>'
-          #     },
-          #   },
-          # },
           
           autocomplete:{
-            #TODO
+            completion:{
+              field:'keywords.autocomplete'
+            }
           },
+
         },
         highlight:{
           fields:{

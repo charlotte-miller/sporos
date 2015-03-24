@@ -25,7 +25,7 @@ class CStone.Community.Search
         {name: 'page'         },
         {name: 'question'     },
         {name: 'sermon'       },
-        {name: 'site_content' },
+        # {name: 'site_content' },
       ]
     
     @main   = new @Views.UI( ui_name: 'main',   el:'#main-header' )

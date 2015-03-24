@@ -6,7 +6,15 @@ class SearchNamespace.Sources.Sermon extends SearchNamespace.AbstractSource
 
   defaults:
     name:   'sermon'
-    local:  [{ payload: 'dog', id:61 }, { payload: 'pig', id:62 }, { payload: 'moose', id:63 }]
-    # remote: 'http://example.com/animals?q=%QUERY'
+    remote:
+      url: 'http://localhost:3000/search?q=%QUERY&types=study,lesson'
+      filter: (results)->
+        _(results.hits.hits).map (result)->
+          type:    'page' #result._type
+          id:      parseInt(result._id)
+          score:   result._source.score
+          payload: result._source.title
+          description: result._source.display_description
+          path:    result._source.path
 
 SearchNamespace.Sources.Sermon.setup()

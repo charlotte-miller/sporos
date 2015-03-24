@@ -14,7 +14,7 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
     'page'         : 'CStone.Community.Search.Models.Sources.Page'
     'question'     : 'CStone.Community.Search.Models.Sources.Question'
     'sermon'       : 'CStone.Community.Search.Models.Sources.Sermon'
-    'site_content' : 'CStone.Community.Search.Models.Sources.SiteContent'
+    # 'site_content' : 'CStone.Community.Search.Models.Sources.SiteContent'
   
   
   initialize: =>

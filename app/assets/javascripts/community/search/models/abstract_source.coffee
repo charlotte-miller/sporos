@@ -14,6 +14,7 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
     'page'         : 'CStone.Community.Search.Models.Sources.Page'
     'question'     : 'CStone.Community.Search.Models.Sources.Question'
     'sermon'       : 'CStone.Community.Search.Models.Sources.Sermon'
+    'site_content' : 'CStone.Community.Search.Models.Sources.SiteContent'
   
   
   initialize: =>
@@ -41,13 +42,11 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
   
   search: (query)=>
     @bloodhound.get query, (async_results)=>
-      # unless _(async_results).isEmpty()
-      processed_results = async_results # @processResults(async_results)
+      processed_results = @processResults(async_results)
       @get('session').get('results').updateSingleSource(@get('name'), processed_results)
 
-  processResults: (results)->
-    throw new Error "Abstract Funciton - Overwrite in child"
-  
+  # Abstract Funciton - Overwrite in child
+  processResults: (results)-> results
   
   # Internal #########
   startPhraseTokenizer = (str, word_cap=3)-> [str.split(/\s+/, word_cap).join(' ')]

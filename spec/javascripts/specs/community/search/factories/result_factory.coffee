@@ -7,7 +7,7 @@ BackboneFactory.define 'result', CStone.Community.Search.Models.Result, ->
   id: BackboneFactory.next('id')
   source: 'ministry'
   payload: "Men's Ministry"
-  destination: '/men'
+  path: '/men'
   # size:         _(['Tall', 'Grande', 'Venti', 'Trenta']).shuffle()[0]
   # section:      Factory.section()
 

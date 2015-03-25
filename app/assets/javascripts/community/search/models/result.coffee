@@ -11,11 +11,11 @@ class CStone.Community.Search.Models.Result extends Backbone.RelationalModel
     id: @get('id')
     source:  @get('source')
     payload: @get('payload')
-    destination: @get('destination')
+    path: @get('path')
     focusClass: if @get('focus') then 'active' else ''
   
   open: =>
-    window.location= @get('destination')
+    window.location= @get('path')
     #or something fancier
     
 CStone.Community.Search.Models.Result.setup()

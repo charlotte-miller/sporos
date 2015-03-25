@@ -4,7 +4,7 @@
 .search{id:namespace_id}
   %form.search-form{role:'search'}
     .input-group
-      %input.text{id:"#{namespace_id}-input", type:'text', placeholder:'What are you looking for?'}
+      %input.text{id:"#{namespace_id}-input", type:'text', placeholder:'What are you looking for?', autocomplete:"off"}
       %input.search-hint
       .input-group-btn  
         %button.search-button.submit{type:'submit'}

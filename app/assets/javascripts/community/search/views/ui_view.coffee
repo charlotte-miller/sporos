@@ -22,6 +22,7 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
   initialize: =>
     @session = CStone.Community.Search.session
     @session.on 'change:active_ui', @onUIActivationChange
+    _.defer( @onInputFocus ) if @$('.text').is(":focus") #already focused
   
   onUIActivationChange: (e)=>
     active = @ui_name == @session.get('active_ui')
@@ -30,7 +31,7 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
   # React to DOM - Change Models
   # ----------------------------------------------------------------------
   onInputFocus: (e)=>
-    e.preventDefault()
+    e.preventDefault() if e
     @session.set active_ui: @ui_name #triggers listeners - must be first
     @session.set dropdown_visible:true
   
@@ -125,7 +126,7 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
     
     col_sm_min = 768
     container  = $('#main-page')
-    scroll_to  = if container.width() <= col_sm_min then '#global-search' else '#main-header'
+    scroll_to  = if container.width() < col_sm_min then '#global-search' else '#main-header'
     
     $(scroll_to).smoothScroll CStone.Animation.layoutTransition.duration, CStone.Animation.layoutTransition.easing,
       container: container

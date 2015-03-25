@@ -91,41 +91,47 @@ module Searchable
               "&_to_and" => {
                 type: 'mapping',
                 mappings: [ '&=> and ']
-              }
+              },
+
+              "@_to_at" => {
+                type: 'pattern_replace',
+                pattern: '\s+@\s+',
+                replacement:' at '
+              },
             },
 
             analyzer: {
               html_stem: {
                 type:'custom',
-                char_filter: ['html_strip', '&_to_and'],
+                char_filter: ['html_strip', '&_to_and', '@_to_at'],
                 tokenizer: 'classic',
                 filter:['trim', 'lowercase', 'asciifolding', 'stop', 'cstone_synonyms', 'cstone_stopwords', 'porter_stem'], #'wordnet_synonym'
               },
               
               html_word_edge_ngram__index:{
                 type:'custom',
-                char_filter: ['html_strip', '&_to_and'],
+                char_filter: ['html_strip', '&_to_and', '@_to_at'],
                 tokenizer: 'classic',
                 filter:['trim', 'lowercase', 'asciifolding', 'stop', 'common_leading_stopword', 'cstone_synonyms', 'word_edge_ngram'],
               },
 
               html_word_edge_ngram__search:{
                 type:'custom',
-                char_filter: ['html_strip', '&_to_and'],
+                char_filter: ['html_strip', '&_to_and', '@_to_at'],
                 tokenizer: 'classic',
                 filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'word_edge_ngram__range'],
               },
 
               html_phrase_bi_gram:{
                 type:'custom',
-                char_filter: ['html_strip', '&_to_and'],
+                char_filter: ['html_strip', '&_to_and', '@_to_at'],
                 tokenizer: 'classic',
                 filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'phrase_bi_gram', 'query_length_cap'], #'wordnet_synonym',
               },
 
               html_phrase_tri_gram:{
                 type:'custom',
-                char_filter: ['html_strip', '&_to_and'],
+                char_filter: ['html_strip', '&_to_and', '@_to_at'],
                 tokenizer: 'classic',
                 filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'phrase_tri_gram', 'query_length_cap'], #'wordnet_synonym',
               },

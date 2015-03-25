@@ -13,6 +13,7 @@ class CStone.Community.Search.Views.SuggestionsSources extends CStone.Shared.Bac
     
   modelEvents: =>
     @listenTo @results_collection, 'filtered:change',        @thenUpdateFocus
+    @listenTo @results_collection, 'filtered:reset',         @thenUpdateFocus
     @listenTo @results_collection, 'filtered:filters:reset', @thenUpdateFocus
   
   templateData: =>

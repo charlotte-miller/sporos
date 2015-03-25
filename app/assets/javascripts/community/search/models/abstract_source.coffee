@@ -82,5 +82,19 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
     if a.score > b.score then return  1
     if a.score < b.score then -1 else 0
     
+  # Singletons ##########
+  @helpers:
+    elasticsearchResultProcessor: (type)->
+      processor = (results)->
+        results_array = _(results.hits.hits).map (result)->
+          type:    type
+          id:      parseInt(result._id)
+          score:   result._source.score
+          payload: result._source.title
+          description: result._source.display_description
+          path:    result._source.path
+        results_array.total_hits = results.hits.total
+        results_array
+      return processor
     
 CStone.Community.Search.Models.AbstractSource.setup()

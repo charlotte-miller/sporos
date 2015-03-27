@@ -1,9 +1,15 @@
 class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalModel
   STOPWORDS = """
-    I a about an am are as at be by for from
+    I a about an am are as be by for from
     how in is it of on or that the this to
     was what when where who will with w/ the
   """.toLowerCase().split(/\s+/)
+  
+  REPLACEMENTS = [
+    ['@', 'at'],
+    ['&', 'and'],
+    ['+', 'and'],
+  ]
   
   subModelTypeAttribute: 'name'
   subModelTypes:
@@ -31,6 +37,7 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
       queryTokenizer: defaultQueryTokenizer
       dupDetector:    defaultDupDetector
       sorter:         defaultSorter
+      limit:          5
       local:          @get 'local'
       remote:         @get 'remote'
       prefetch:       @get 'prefetch'
@@ -41,11 +48,15 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
   
   search: (query)=>
     @bloodhound.get query, (async_results)=>
-      processed_results = @processResults(async_results)
+      processed_results = @processResults(async_results, query = query) #preserve query
       @get('session').get('results').updateSingleSource(@get('name'), processed_results)
 
-  # Abstract Funciton - Overwrite in child
-  processResults: (results)-> results
+  processResults: (results, query)=>
+    if @get('elasticsearch')
+      @bloodhound.add(results)
+      @bloodhound.index.get(query)
+    else
+      results # Abstract Funciton - Overwrite in child
   
   # Internal #########
   startPhraseTokenizer = (str, word_cap=3)-> [str.split(/\s+/, word_cap).join(' ')]
@@ -53,9 +64,15 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
     q_array = Bloodhound.tokenizers.whitespace(query)
     q_array = _(q_array).difference( STOPWORDS )
     
+  charFilter = (str)->
+    _(REPLACEMENTS).each (pair)->
+      escapedForRegEx = pair[0].replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&")
+      str= str.replace(///#{escapedForRegEx}///g, pair[1])
+    str
   
   defaultDatumTokenizer = (datum)->
     q = datum.payload.toLowerCase()
+    q = charFilter(q)
     answer = _([
       significantWordTokenizer(q),
       startPhraseTokenizer(q)
@@ -65,6 +82,7 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
   
   defaultQueryTokenizer = (query)->
     q = query.toLowerCase()
+    q = charFilter(q)
     unless query.match /\s+/
       answer = [q]
     else
@@ -83,18 +101,17 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
     if a.score < b.score then -1 else 0
     
   # Singletons ##########
-  @helpers:
-    elasticsearchResultProcessor: (type)->
-      processor = (results)->
-        results_array = _(results.hits.hits).map (result)->
-          type:    type
-          id:      parseInt(result._id)
-          score:   result._source.score
-          payload: result._source.title
-          description: result._source.display_description
-          path:    result._source.path
-        results_array.total_hits = results.hits.total
-        results_array
-      return processor
+  @elasticsearchProcessor: (type)->
+    processor = (results)->
+      results_array = _(results.hits.hits).map (result)->
+        type:    type
+        id:      parseInt(result._id)
+        score:   result._score
+        payload: result._source.title
+        description: result._source.display_description
+        path:    result._source.path
+      results_array.total_counts = results.total_counts
+      results_array
+    return processor
     
 CStone.Community.Search.Models.AbstractSource.setup()

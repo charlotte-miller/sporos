@@ -73,6 +73,7 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
       @get('sources').search(query)
     else
       @get('results').reset()
+      @get('sources').clearRemotelyBuiltIndexes()
 
   _hideHintWhenHidingDropdown: =>
     @set(hint_visible:false) unless @get('dropdown_visible')

@@ -22,3 +22,8 @@ class CStone.Community.Search.Collections.Sources extends CStone.Shared.Backbone
     current_focus = @findWhere(focus:true)
     current_focus.set(focus:false) if current_focus
     optional_model.set(focus:true) if optional_model
+  
+  clearRemotelyBuiltIndexes: =>
+    remote_sources = @select((source)->source.get('remote'))
+    _(remote_sources).each (remote_source)->
+      remote_source.bloodhound.clear()

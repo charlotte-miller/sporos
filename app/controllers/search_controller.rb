@@ -67,9 +67,10 @@ class SearchController < ApplicationController
           },
 
         },
+        
         highlight:{
           fields:{
-            title:{}, 
+            title:{},
             study_title:{},
             description:{},
             author:{},
@@ -77,6 +78,8 @@ class SearchController < ApplicationController
             'description.word_edge_ngrams'=>{},
           }
         },
+
+        # #FUTURE: Consolidated search calls
         aggs: {
           type_counts: { terms:{ field:'_type' }}
         },
@@ -84,7 +87,14 @@ class SearchController < ApplicationController
       }.merge(pagination_options)
     })
     
-    render json: MultiJson.dump(@results, pretty:false)
+    filtered_results = {
+      took: @results['took'],
+      hits: @results['hits'],
+      suggest: @results['suggest'],
+      total_counts: total_counts,
+    }
+    
+    render json: MultiJson.dump(filtered_results, pretty:false)
   end
   
   # POST search/conversion
@@ -121,5 +131,12 @@ private
       size: page_size,
       from: result_count
     }
+  end
+  
+  def total_counts
+    hash_w_total = {total:@results['hits']['total']}
+    @results['aggregations']['type_counts']['buckets'].inject(hash_w_total) do |hash,obj|
+      hash[obj['key']]= obj['doc_count']; hash
+    end
   end
 end

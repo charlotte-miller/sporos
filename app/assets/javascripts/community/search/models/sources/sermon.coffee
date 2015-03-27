@@ -6,8 +6,10 @@ class SearchNamespace.Sources.Sermon extends SearchNamespace.AbstractSource
 
   defaults:
     name:   'sermon'
+    elasticsearch: true
     remote:
       url: 'http://localhost:3000/search?q=%QUERY&types=study,lesson'
-      filter: @helpers.elasticsearchResultProcessor('sermon')
-
+      filter: @elasticsearchProcessor('sermon')
+    
+    
 SearchNamespace.Sources.Sermon.setup()

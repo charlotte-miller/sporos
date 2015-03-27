@@ -8,7 +8,10 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
   REPLACEMENTS = [
     ['@', 'at'],
     ['&', 'and'],
-    ['+', 'and'],
+    ['\\+', 'and'],
+    ['[\\(|\\)]', ''], # ()
+    ['\s?-\s?', ' '],  # -
+    ['\s?:\s?', ' '],  # :
   ]
   
   subModelTypeAttribute: 'name'
@@ -66,12 +69,12 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
     
   charFilter = (str)->
     _(REPLACEMENTS).each (pair)->
-      escapedForRegEx = pair[0].replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&")
-      str= str.replace(///#{escapedForRegEx}///g, pair[1])
+      [regex, replacement] = pair
+      str= str.replace(///#{regex}///g, replacement)
     str
   
   defaultDatumTokenizer = (datum)->
-    q = datum.payload.toLowerCase()
+    q = datum.payload.toLowerCase().trim()
     q = charFilter(q)
     answer = _([
       significantWordTokenizer(q),
@@ -81,7 +84,7 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
     answer
   
   defaultQueryTokenizer = (query)->
-    q = query.toLowerCase()
+    q = query.toLowerCase().trim()
     q = charFilter(q)
     unless query.match /\s+/
       answer = [q]

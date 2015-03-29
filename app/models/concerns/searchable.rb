@@ -12,6 +12,13 @@ module Searchable
     delegate :url_helpers, to: 'Rails.application.routes'
 
     # include Elasticsearch::Model::Callbacks  # https://github.com/elasticsearch/elasticsearch-rails/tree/master/elasticsearch-model#asynchronous-callbacks
+    
+    class << self
+      def import_with_scope( options = {} )
+        import_without_scope({ scope: 'search_indexable' }.merge(options))
+      end
+      alias_method_chain :import, :scope
+    end
   end
 
   module ClassMethods
@@ -219,7 +226,7 @@ module Searchable
         end
       end
     end
-
+    
   end #ClassMethods
   
   

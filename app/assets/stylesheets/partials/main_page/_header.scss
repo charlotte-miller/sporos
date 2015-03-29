@@ -143,9 +143,12 @@
             &.ministry{     @extend .glyphicon-user;  }
             &.music{        @extend .glyphicon-music;  }
             &.sermon{       @extend .glyphicon-play-circle;  }
+//            &.drama{        @extend .glyphicon-film; }
+            &.video{        @extend .glyphicon-film; }
             &.announcement{ @extend .glyphicon-bullhorn;  }
             &.event{        @extend .glyphicon-calendar;  }
             &.page{         @extend .glyphicon-list-alt;  }
+//            &.resource{     @extend .glyphicon-education; }
             &.question{     @extend .glyphicon-comment;  }
           }
         }

@@ -6,7 +6,7 @@ require 'elasticsearch/rails/tasks/import'
 
 namespace :elasticsearch do
   
-  desc "Downloads the WordNet 3.0 synonyms database for Searchkick - might require sudo privlages for /var/lib"
+  desc "Downloads the WordNet 3.0 synonyms database - might require sudo privlages for /var/lib"
   task :download_wordnet do
     [
       'cd /tmp && curl -o wordnet.tar.gz http://wordnetcode.princeton.edu/3.0/WNprolog-3.0.tar.gz',
@@ -83,9 +83,14 @@ namespace :elasticsearch do
         
       end
       
+      # Run Import for each class using .custom_import or .import
+      searchable_classes.each do |klass|
+        defined?(klass.custom_import) ? klass.custom_import : klass.import
+      end
+      
 
       ## Import data into the newly created index
-      Rake::Task["elasticsearch:import:all"].invoke
+      # Rake::Task["elasticsearch:import:all"].invoke
     end
 
   end

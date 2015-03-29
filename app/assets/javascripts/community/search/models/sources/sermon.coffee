@@ -8,7 +8,7 @@ class SearchNamespace.Sources.Sermon extends SearchNamespace.AbstractSource
     name:   'sermon'
     elasticsearch: true
     remote:
-      url: 'http://localhost:3000/search?q=%QUERY&types=study,lesson'
+      url: 'http://localhost:3000/search?q=%QUERY&types=sermon'
       filter: @elasticsearchProcessor('sermon')
     
     

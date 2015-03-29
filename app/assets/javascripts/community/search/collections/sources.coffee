@@ -1,7 +1,7 @@
 #= require community/search/models/abstract_source
 
 class CStone.Community.Search.Collections.Sources extends CStone.Shared.Backbone.ExtendedCollection
-  PRESENTATION_ORDER = 'ministry event sermon music page announcement question'.split(' ')
+  PRESENTATION_ORDER = 'ministry event sermon music video page announcement question'.split(' ')
   
   model: CStone.Community.Search.Models.AbstractSource
   

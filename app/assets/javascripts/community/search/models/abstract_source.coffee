@@ -20,6 +20,7 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
     'event'        : 'CStone.Community.Search.Models.Sources.Event'
     'ministry'     : 'CStone.Community.Search.Models.Sources.Ministry'
     'music'        : 'CStone.Community.Search.Models.Sources.Music'
+    'video'        : 'CStone.Community.Search.Models.Sources.Video'
     'page'         : 'CStone.Community.Search.Models.Sources.Page'
     'question'     : 'CStone.Community.Search.Models.Sources.Question'
     'sermon'       : 'CStone.Community.Search.Models.Sources.Sermon'

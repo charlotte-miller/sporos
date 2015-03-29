@@ -16,6 +16,7 @@
 #= require backbone-relational
 #= require Backbone.BindTo
 #= require Backbone.Handlebars
+#= require pace
 #  require moment
 #  require utility/boba-0.0.2
 #

@@ -22,6 +22,7 @@ class CStone.Community.Search
         {name: 'event'        },
         {name: 'ministry'     },
         {name: 'music'        },
+        {name: 'video'        },
         {name: 'page'         },
         {name: 'question'     },
         {name: 'sermon'       },

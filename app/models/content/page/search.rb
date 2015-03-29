@@ -24,9 +24,7 @@ module Page::Search
   included do
     searchable_model # [title, display_description, description, keywords, path] are already declaired
     
-    # def should_index?
-    #   !hidden_link
-    # end
+    scope :search_indexable, lambda { where(hidden_link:false) }
   end
   
   def as_indexed_json(options={})

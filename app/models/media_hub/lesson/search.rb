@@ -66,7 +66,30 @@ module Lesson::Search
       indexes :duration,    type:'long'
     end
     
-    # def should_index?; !!published_at ;end
+    scope :search_indexable, ->{} #-> { where('published_at IS NOT NULL') }    
+  end
+  
+  module ClassMethods
+    
+    def custom_import
+      channel_to_type = {
+        sermon: 'messages',
+        music:  'music',
+        # drama:  'dramavideo',              # not in UI
+        video:  ['studies', 'resources', 'coffeetalk', 'mens-retreat', 'dramavideo'],
+      }
+      
+      channel_to_type.each do |type, channel_name|
+        channel_ids = Channel.where(slug:channel_name).pluck(:id)
+        study_ids = Study.where(channel_id:channel_ids).pluck(:id)
+        
+        import({
+          # scoped to search_indexable by searchable.rb
+          query: ->{ where(study_id:study_ids) } ,
+          type: type,
+        })
+      end
+    end
   end
   
   def as_indexed_json(options={})

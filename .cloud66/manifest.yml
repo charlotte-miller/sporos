@@ -7,7 +7,7 @@ production:
         - chrony
         - htop
         - graphicsmagick
-        - libcurl
+        - libcurl3
         - pngquant
 
   redis:

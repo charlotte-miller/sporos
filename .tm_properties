@@ -5,7 +5,7 @@ followSymbolicLinks = true
 
 # Extra files to include
 #
-myExtraIncludes = ".tm_properties,.htaccess,.gitignore,.rspec,.resque"
+myExtraIncludes = ".tm_properties,.htaccess,.gitignore,.rspec,.resque,.cloud66"
 fileBrowserGlob  = "{*,$myExtraIncludes}"
 include = "{$include,$myExtraIncludes}"
  

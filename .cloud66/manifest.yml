@@ -1,0 +1,34 @@
+production:  
+  rails:
+    server:
+      unique_name: app1
+    configuration:
+      extra_packages:
+        - chrony
+        - htop
+        - graphicsmagick
+        - libcurl
+        - pngquant
+
+  redis:
+    server:
+      same_as: app1
+      
+  postgresql:
+    server:
+      unique_name: db1
+    configuration:
+      version: 9.4.1
+      extra_packages:
+        - chrony
+        - htop
+  
+  elasticsearch:
+    server:
+      unique_name: search1
+    configuration:
+      version: 1.5.0
+      extra_packages:
+        - chrony
+        - htop
+  

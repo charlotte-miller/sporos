@@ -1,6 +1,6 @@
 require 'git'
 
-namespace :deploy do
+namespace :deploy_to_git do
   
   desc "Roles the master branch back to the last tag or a specified commit"
   task :rollback, [:tag_or_sha]=> :environment do |t, args|

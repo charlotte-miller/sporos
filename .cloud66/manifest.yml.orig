@@ -1,5 +1,7 @@
 production:  
   rails:
+    server:
+      unique_name: app1
     configuration:
       extra_packages:
         - chrony
@@ -7,18 +9,10 @@ production:
         - graphicsmagick
         - libcurl3
         - pngquant
-    servers:
-      - server:
-          unique_name: app1
-      - server:
-          unique_name: app2
-          
+
   redis:
-    servers:
-      - server:
-          same_as: app1
-      - server:
-          same_as: app2
+    server:
+      same_as: app1
       
   postgresql:
     server:

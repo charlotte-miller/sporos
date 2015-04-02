@@ -1,4 +1,4 @@
-worker_processes 8
+worker_processes 4
 working_directory "#{ENV['STACK_PATH']}"
 timeout 15
 check_client_connection false

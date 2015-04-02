@@ -11,8 +11,8 @@ if ENV['RAILS_ENV'] == 'production'
   # Max requests per worker
   use Unicorn::WorkerKiller::MaxRequests, max_request_min, max_request_max
 
-  oom_min = (240) * (1024**2) #240 MB  Tune for production... actual size is currently < 1MB
-  oom_max = (260) * (1024**2) #260 MB  Tune for production... actual size is currently < 1MB
+  oom_min = (240) * (1024**2) #240 MB
+  oom_max = (260) * (1024**2) #260 MB
 
   # Max memory size (RSS) per worker
   use Unicorn::WorkerKiller::Oom, oom_min, oom_max

@@ -1,20 +1,16 @@
-worker_processes Integer(ENV["WEB_CONCURRENCY"] || 2)
+worker_processes 8
 working_directory "#{ENV['STACK_PATH']}"
+timeout 15
+check_client_connection false
+
+preload_app true
+GC.copy_on_write_friendly = true  if GC.respond_to?(:copy_on_write_friendly=)
 
 listen "/tmp/web_server.sock", :backlog => 64
-
-timeout 30
-
 pid '/tmp/web_server.pid'
-
 stderr_path "#{ENV['STACK_PATH']}/log/unicorn.stderr.log"
 stdout_path "#{ENV['STACK_PATH']}/log/unicorn.stdout.log"
 
-preload_app true
-GC.respond_to?(:copy_on_write_friendly=) and
-	GC.copy_on_write_friendly = true
-
-check_client_connection false
 
 before_fork do |server, worker|
 	old_pid = '/tmp/web_server.pid.oldbin'
@@ -26,13 +22,27 @@ before_fork do |server, worker|
 		end
 	end
 
-	defined?(ActiveRecord::Base) and
+	if defined?(ActiveRecord::Base)
 		ActiveRecord::Base.connection.disconnect!
+  end
+  
+  if defined?(Resque)
+    Resque.redis.quit
+    Rails.logger.info('Disconnected from Redis')
+  end
 end
 
+
 after_fork do |server, worker|
-	defined?(ActiveRecord::Base) and
+  if defined?(ActiveRecord::Base)
 		ActiveRecord::Base.establish_connection
+  end
+  
+  if defined?(Resque)
+    Resque.redis = Redis.new( AppConfig.redis )
+    Resque.redis.namespace = AppConfig.redis.namespace
+    Rails.logger.info('Connected to Redis')
+  end
   
   # Reset the connections to memcache-based object and session stores - this                           
   # is using a dalli-specific reset method. Otherwise you'll get wacky cache                           
@@ -40,14 +50,4 @@ after_fork do |server, worker|
   # Rails.cache.reset if Rails.cache.respond_to?(:reset)
   # Rails.application.config.session_options[:cache] if Rails.application.config.session_options[:cache]
 
-  # redis_url = AppConfig.redis.host
-  # redis_namespace = "sporos:resque"
-  # redis_config = {:url => redis_url, :namespace => redis_namespace}
-  #
-  # Sidekiq.configure_client do |config|
-  #   config.redis = redis_config
-  #   config.client_middleware do |chain|
-  #     chain.add RequestStore::SidekiqMiddleware
-  #   end
-  # end
 end

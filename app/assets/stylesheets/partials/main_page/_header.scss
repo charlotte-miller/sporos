@@ -81,7 +81,7 @@
               @extend .col-md-offset-1;
               @extend .col-md-10;
               @extend %verticalCenter;
-              @extend .fadeIn;
+//              @extend .fadeIn;
 
               @media (max-width: $screen-md-min) {
                 @include verticalAlign(15%);

@@ -1,6 +1,4 @@
-require 'git'
-
-namespace :deploy do
+namespace :deploy_to_git do
   
   desc "Roles the master branch back to the last tag or a specified commit"
   task :rollback, [:tag_or_sha]=> :environment do |t, args|
@@ -40,6 +38,7 @@ private
   end
   
   def current_version
+    require 'git'
     git = Git.open(Rails.root)
     git.tags.map(&:name).select {|tag| tag =~ /^v(\d*)\.(\d*)\.(\d*)$/}.last  # Example: v1.0.23
   end

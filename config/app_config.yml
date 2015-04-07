@@ -14,13 +14,13 @@ common:
   dev_user: developer
   dev_pass: developer
   domains:
-    cdn: cornerstonesf.chruch
-    cdn_range: cdn%d.cornerstonesf.chruch
-    media: media.cornerstonesf.chruch
-    media_cdn_range: media%d.cornerstonesf.chruch
+    cdn: cornerstonesf.org
+    cdn_range: cdn%d.cornerstonesf.org
+    media: media.cornerstonesf.org
+    media_cdn_range: media%d.cornerstonesf.org
   s3:
     url: s3-us-west-2.amazonaws.com #s3.amazonaws.com
-    bucket: media.cornerstonesf.chruch
+    bucket: media.cornerstonesf.org
     credentials:
       access_key_id: AKIAJAW4PTOXOO6POA7Q
       secret_access_key: 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
@@ -29,10 +29,11 @@ common:
   paperclip:
     hash_secret: 'faffb797c3645584210908fea09473f330f9a07857e3ea84fa37c732f6b5af667d3d3f71ed292726bdba0d7d935f2f5813fe3454f0b44cf332a69153562cc6e9'
   redis:
-    host: 'localhost'
+    host: localhost
     port: 6379
     timeout: 2
     pool: 5
+    namespace: sporos:resque
   crawler_user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36' #http://www.useragentstring.com/pages/All/
   devise:
     secret_key: '0082e339f557aa3bd6bf6574779ad8c01ae5e70493b94895a5340b815926a09ebc7d319f7b0518ffdddd1e9dd8361af6e2bceb442446918bbeb95802564c92dd'
@@ -43,9 +44,9 @@ common:
 
 development:
   domains:
-    cdn: www.cornerstonesf.chruch
-    media: media.cornerstonesf.chruch.s3-website-us-west-2.amazonaws.com            #media.cornerstonesf.chruch
-    media_cdn_range: media.cornerstonesf.chruch.s3-website-us-west-2.amazonaws.com  #media%d.cornerstonesf.chruch
+    cdn: www.cornerstonesf.org
+    media: media.cornerstonesf.org.s3-website-us-west-2.amazonaws.com            #media.cornerstonesf.org
+    media_cdn_range: media.cornerstonesf.org.s3-website-us-west-2.amazonaws.com  #media%d.cornerstonesf.org
     
 
 test:
@@ -55,7 +56,13 @@ production:
   dev_pass: 6a582863aa0cb850ff62924825e54555b5ee705b42d21c4280d5bced9adaaed3757eb2afcdf2c5d497226f811020f782905e909032fc9532e91f9110143b9fc8
   
   redis:
-    host: <%= ENV['REDIS_URL'] || 'redis://redis-master.cornerstonesf.chruch:6379' %>
-    pool: 10
+    host: <%= ENV['REDIS_ADDRESS_INT'] %>
+  
+  s3:
+    url: s3-us-west-2.amazonaws.com #s3.amazonaws.com
+    bucket: assets.cornerstonesf.org
+    credentials:
+      access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+      secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
 
 #custom_environment:

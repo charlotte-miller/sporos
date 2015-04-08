@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   resources :media do
   end
   
+  resources :pages, only:[:show]
+  
   # Library
   resources :studies, only: [:index, :show ], path: 'library' do
     resources :lessons, only: [:index, :show ] do

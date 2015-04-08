@@ -31,7 +31,7 @@ module Page::Search
     {
       title:                title,
       display_description:  shorter_plain_text(body),
-      path:                 legacy_url, #url_helpers.page_url(self),
+      path:                 path,
       description:          plain_text(body),
       keywords:             seo_keywords,
     }

@@ -45,7 +45,7 @@ common:
 development:
   domains:
     cdn: www.cornerstonesf.org
-    media: media.cornerstonesf.org.s3-website-us-west-2.amazonaws.com            #media.cornerstonesf.org
+    media: http://media.cornerstone-sf.org/ #media.cornerstonesf.org.s3-website-us-west-2.amazonaws.com            #media.cornerstonesf.org
     media_cdn_range: media.cornerstonesf.org.s3-website-us-west-2.amazonaws.com  #media%d.cornerstonesf.org
     
 

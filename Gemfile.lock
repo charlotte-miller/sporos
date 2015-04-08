@@ -251,6 +251,9 @@ GEM
       rack (>= 0.4)
     rack-protection (1.5.3)
       rack
+    rack-rewrite (1.5.1)
+    rack-slashenforce (0.0.2)
+      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.0)
@@ -496,6 +499,8 @@ DEPENDENCIES
   pry-rails
   quiet_assets
   rack-cache
+  rack-rewrite (~> 1.5.0)
+  rack-slashenforce
   rails (~> 4.2.0)
   rails-backbone-generator
   rb-fsevent

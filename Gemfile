@@ -69,6 +69,9 @@ gem "redis-namespace"
 # gem 'slim', '<= 1.3.0'
 # gem 'sinatra', :require => nil
 
+# Legacy 
+gem 'rack-slashenforce'#, :require => 'rack'
+gem 'rack-rewrite', '~> 1.5.0'#, require:'rack/rewrite'
 
 # Monitoring
 # ==========

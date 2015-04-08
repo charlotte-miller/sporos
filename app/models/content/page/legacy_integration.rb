@@ -9,13 +9,13 @@ module Page::LegacyIntegration
       slug_chain.unshift ancestor.slug
       ancestor = ancestor.parent
     end
-    slug_chain.join('/')
+    "/#{slug_chain.join('/')}"
   end
   
   def self.audit_urls
     hydra = Typhoeus::Hydra.new
     all.map(&:legacy_url).each do |path|
-      request = Typhoeus::Request.new("http://cornerstone-sf.org/#{path}", followlocation: true)
+      request = Typhoeus::Request.new("http://cornerstone-sf.org#{path}", followlocation: true)
       request.on_complete do |response|
         if response.success?
         else

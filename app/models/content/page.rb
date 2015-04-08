@@ -46,6 +46,17 @@ class Page < ActiveRecord::Base
   # Methods
   # ---------------------------------------------------------------------------------
   
+  def url
+    url_helpers.page_url(self)
+  end
+
+  def path
+    url_helpers.page_path(self)
+  end
+  
+  def body_w_media
+    body.gsub("{{ MEDIA_URL }}", AppConfig.domains.media)
+  end
   
 end
 

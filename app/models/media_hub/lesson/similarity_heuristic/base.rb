@@ -13,10 +13,7 @@ module Lesson::SimilarityHeuristic
     end
   
     # Load STRATEGIES into a single array
-    unless defined?( Lesson::SimilarityHeuristic::NumericTitle ) && defined?( Lesson::SimilarityHeuristic::Subtitle )
-      Dir.glob("#{__FILE__}/**/*").each {|file| require file}
-    end
-    
+    Dir.glob("#{__FILE__}/**/*").each {|file| require file}
     STRATEGIES = [
       Lesson::SimilarityHeuristic::NumericTitle,
       Lesson::SimilarityHeuristic::Subtitle,

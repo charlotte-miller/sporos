@@ -40,7 +40,8 @@ common:
     pepper:     '7bfc982773957f715e0d65a138b355b26b4727e85d8323136b11c65451a315a56b630e99a9c7c4580701d7048df9d6bb0516e71ff0552e778e9533fc9b442c93'
   elasticsearch:
     index_name: sporos_<%= Rails.env %>
-
+    address: localhost
+    
 
 development:
   domains:
@@ -65,4 +66,7 @@ production:
       access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
       secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
 
+  elasticsearch:
+    address: <%= ENV['ELASTICSEARCH_ADDRESS_INT'] %>
+    
 #custom_environment:

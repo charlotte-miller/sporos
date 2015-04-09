@@ -14,8 +14,8 @@ class CStone.Community.Search.Models.Result extends Backbone.RelationalModel
     path: @get('path')
     focusClass: if @get('focus') then 'active' else ''
   
-  open: ->
+  open: =>
     # window.location= @get('path')
-    CStone.Base.Pages.layout.loadPage('path')
+    CStone.Base.Pages.layout.loadPage @get('path')
     
 CStone.Community.Search.Models.Result.setup()

@@ -1,7 +1,4 @@
 class SpecialPagesController < ApplicationController
-  def homepage
-  end
-
   def new_to_cornerstone
   end
 

@@ -1,7 +1,7 @@
 module Page::LegacyIntegration
   extend  ActiveSupport::Concern
   
-  def legacy_url
+  def legacy_url(joiner='/')
     slug_chain = []
     ancestor = self
     
@@ -9,7 +9,7 @@ module Page::LegacyIntegration
       slug_chain.unshift ancestor.slug
       ancestor = ancestor.parent
     end
-    "/#{slug_chain.join('/')}"
+    "/#{slug_chain.join(joiner)}"
   end
   
   def self.audit_urls

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SearchController, :type => :controller do
   
-  describe "GET index", :elasticsearch, :focus do  
+  describe "GET index", :elasticsearch do  
     let(:stub_search) { Elasticsearch::Model.client.stub :search }
     
     it 'requires params[:q]' do

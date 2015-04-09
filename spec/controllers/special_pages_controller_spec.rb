@@ -2,13 +2,6 @@ require 'rails_helper'
 
 RSpec.describe SpecialPagesController, :type => :controller do
 
-  describe "GET 'homepage'" do
-    it "returns http success" do
-      get 'homepage'
-      expect(response).to be_success
-    end
-  end
-
   describe "GET 'new_to_cornerstone'" do
     it "returns http success" do
       get 'new_to_cornerstone'

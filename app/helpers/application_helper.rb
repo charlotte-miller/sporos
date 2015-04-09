@@ -1,6 +1,6 @@
 module ApplicationHelper
   
-  def is_homepage?; current_page?(controller:'special_pages', action:'homepage') ;end
+  def is_homepage?; controller_name == 'communities' ;end
   def is_library?;  current_page?(controller:'studies', action:'index') ;end
   def main_frame?;  is_homepage? || is_library? ;end
   

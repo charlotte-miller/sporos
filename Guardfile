@@ -6,8 +6,8 @@ rspec_options ={
   all_after_pass:false,
   notification:false,
   cmd: 'zeus rspec',
-  cmd_additional_args: '--deprecation-out log/deprecation.log',
-  run_all: { cmd_additional_args:"--deprecation-out log/deprecation.log" } #--profile
+  cmd_additional_args: '--deprecation-out log/deprecation.log --tag ~elasticsearch',
+  run_all: { cmd_additional_args:"--deprecation-out log/deprecation.log --tag ~elasticsearch" } #--profile
 }
 
 guard 'rspec', rspec_options do

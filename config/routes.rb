@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
-  root                     to: 'special_pages#homepage'
+  root                     to: 'communities#index'
   get 'new'                 => 'special_pages#new_to_cornerstone'
   get 'times-and-locations' => 'special_pages#times_and_locations'
   get 'invest'              => 'special_pages#invest_in_cornerstone' 
@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get 'search' => 'search#index'
   post 'search/conversion'  => 'search#conversion'
   post 'search/abandonment' => 'search#abandonment'
-
+  
   resources :media do
   end
   
@@ -27,6 +27,9 @@ Rails.application.routes.draw do
       end
     end
   end
+  
+  # Ministry
+  get '/:id'  => 'communities#show', constraints: {id: /men|women|rendezvous|teens|kids|outreach/}
   
   # # Questions
   # resources :questions do

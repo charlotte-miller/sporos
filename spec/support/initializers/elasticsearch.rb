@@ -2,13 +2,16 @@
 
 RSpec.configure do |config|
 
-  config.before :suite do
+  # config.before :suite do
+  #   vcr_ignore_localhost do
+  #     create_index_snapshot_for Page, Study, Lesson
+  #   end
+  # end
+  
+  config.before :all, elasticsearch: true do
     vcr_ignore_localhost do
       create_index_snapshot_for Page, Study, Lesson
     end
-  end
-  
-  config.before :all, elasticsearch: true do
     VCR.request_ignorer.ignore_localhost = true
   end
 

@@ -50,6 +50,8 @@ namespace :elasticsearch do
           klass = model_filename.camelize.constantize
         rescue NameError
           require(path) ? retry : raise(RuntimeError, "Cannot load class '#{klass}'")
+        rescue RuntimeError => e
+          next if e.message =~ /^Circular dependency detected while autoloading constant/
         end
 
         # Skip if the class doesn't have Elasticsearch integration

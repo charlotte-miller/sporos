@@ -56,8 +56,8 @@ test:
 
 production:
   domains:
-    primary: http://app1.sporos.c66.me
-    origin:  http://app1.sporos.c66.me
+    primary: app1.sporos.c66.me
+    origin:  app1.sporos.c66.me
     assets:  assets.cornerstonesf.org.s3-website-us-west-1.amazonaws.com
     assets_origin:  assets.cornerstonesf.org.s3-website-us-west-1.amazonaws.com
   

@@ -17,12 +17,12 @@ module Lesson::AttachedMedia
       production_path: 'studies/lesson_media/:study_id/:hash:quiet_style.:extension' }
 
     has_attachable_file :audio, {
-                        :s3_host_alias => AppConfig.domains.media,
+                        :s3_host_alias => AppConfig.domains.assets_origin),
                         :content_type => ['audio/mp4', 'audio/mpeg'] }.merge(common_config)
 
     
     has_attachable_file :video, {
-                        :s3_host_alias => AppConfig.domains.media,  #archive only - hosting through Vimeo
+                        :s3_host_alias => AppConfig.domains.assets_origin,  #archive only - hosting through Vimeo
                         :processors => [:upload_to_vimeo],
                         :skip_processing_urls => ['youtube.com', 'vimeo.com'],
                         :content_type => ['video/mp4'] }.merge(common_config)

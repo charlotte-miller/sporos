@@ -49,7 +49,7 @@ module AttachableFile
           :s3_host_name     => AppConfig.s3.url,
           :hash_secret      => AppConfig.paperclip.hash_secret,
           :hash_data        => ":class/:id/:attachment/:fingerprint-:style",
-          :s3_host_alias    => lambda {|attach| AppConfig.domains.media_cdn_range.gsub('%d', rand(0..3).to_s)}, # Override for large media assets
+          :s3_host_alias    => lambda {|attach| AppConfig.domains.assets_cdn_range.gsub('%d', rand(0..3).to_s)}, # Override for large media assets
           :url              => ':s3_alias_url',
         }.deep_merge(options)
         

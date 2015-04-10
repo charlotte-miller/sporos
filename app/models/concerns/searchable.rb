@@ -54,11 +54,11 @@ module Searchable
                 output_unigrams:false,
               },
 
-              wordnet_synonym:{
-                type:'synonym',
-                format:'wordnet',
-                synonyms_path:'/var/lib/wn_s.pl'
-              },
+              # wordnet_synonym:{
+              #   type:'synonym',
+              #   format:'wordnet',
+              #   synonyms_path:'/var/lib/wn_s.pl'
+              # },
 
               cstone_synonyms:{
                 type:'synonym',

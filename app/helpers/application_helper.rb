@@ -38,4 +38,17 @@ module ApplicationHelper
     favicons << favicon_link_tag( 'favicon.ico', :rel => 'shortcut icon' )
     favicons.join("\n").html_safe
   end
+  
+  def favicon_by_environment
+    url = if Rails.env.development?
+      image_url "development_favicon.png"
+    else
+      'http://static.cornerstone-sf.org/img/favicon.png'
+    end
+    
+    capture_haml do
+      # %link{rel:'shortcut icon', href:'http://static.cornerstone-sf.org/img/favicon.png', type:'image/x-icon'}
+      haml_tag :link, rel:'shortcut icon', href:url, type:'image/x-icon'
+    end
+  end
 end

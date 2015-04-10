@@ -13,9 +13,11 @@
     %link{ rel:'dns-prefetch', href:'//assets1.cornerstonesf.org'}
     %link{ rel:'dns-prefetch', href:'//assets2.cornerstonesf.org'}
     %link{ rel:'dns-prefetch', href:'//assets3.cornerstonesf.org'}
+    %link{ rel:'dns-prefetch', href:'//use.typekit.net'}
+    %link{ rel:'dns-prefetch', href:'//www.google-analytics.com'}
     
-    / Use title if it's in the page YAML frontmatter
     %title= @title || "Cornerstone SF Church"
+    = favicon_by_environment
     
     = stylesheet_link_tag "application", media:'all'
     = yield :page_stylesheets

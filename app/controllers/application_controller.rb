@@ -3,8 +3,14 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   
+  before_filter :domains_for_js
+  
 protected
 
+  def domains_for_js
+    gon.domains = AppConfig.domains
+  end
+  
   def format_json?
     request.format.json?
   end

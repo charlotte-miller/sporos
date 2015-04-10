@@ -9,7 +9,7 @@ class SearchNamespace.Sources.Ministry extends SearchNamespace.AbstractSource
     local:  [{ payload: 'doggy', id:21 }, { payload: 'pig', id:22 }, { payload: 'moose', id:23 }]
     # elasticsearch: true
     # remote:
-    #   url: 'http://localhost:3000/search?q=%QUERY&types=ministry'
+    #   url: "http://#{CStoneData.domains.origin}/search?q=%QUERY&types=ministry"
     #   filter: @elasticsearchProcessor('ministry')
 
 SearchNamespace.Sources.Ministry.setup()

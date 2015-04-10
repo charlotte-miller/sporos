@@ -8,7 +8,7 @@ class SearchNamespace.Sources.Page extends SearchNamespace.AbstractSource
     name:   'page'
     elasticsearch: true
     remote:
-      url: 'http://localhost:3000/search?q=%QUERY&types=page'
+      url: "http://#{CStoneData.domains.origin}/search?q=%QUERY&types=page"
       filter: @elasticsearchProcessor('page')
 
   

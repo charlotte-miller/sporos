@@ -14,10 +14,10 @@ common:
   dev_user: developer
   dev_pass: developer
   domains:
-    cdn: cornerstonesf.org
-    cdn_range: cdn%d.cornerstonesf.org
-    media: media.cornerstonesf.org
-    media_cdn_range: media%d.cornerstonesf.org
+    primary: cornerstonesf.org                        # CLOUDFRONT -> ORIGIN
+    origin: origin.cornerstonesf.org                  # WEB SERVERS
+    assets: assets%d.cornerstonesf.org                # DOMAIN RANGE: CLOUDFRONT -> S3
+    assets_origin: origin.assets.cornerstonesf.org    # S3
   s3:
     url: s3-us-west-2.amazonaws.com #s3.amazonaws.com
     bucket: media.cornerstonesf.org
@@ -45,14 +45,22 @@ common:
 
 development:
   domains:
-    cdn: www.cornerstonesf.org
-    media: http://media.cornerstone-sf.org/ #media.cornerstonesf.org.s3-website-us-west-2.amazonaws.com            #media.cornerstonesf.org
-    media_cdn_range: media.cornerstonesf.org.s3-website-us-west-2.amazonaws.com  #media%d.cornerstonesf.org
+    primary:  localhost:3000
+    origin:   localhost:3000
+    assets:   localhost:3000
+    assets_origin: localhost:3000
+    # media: http://media.cornerstone-sf.org/ #media.cornerstonesf.org.s3-website-us-west-2.amazonaws.com            #media.cornerstonesf.org
     
 
 test:
 
 production:
+  domains:
+    primary: http://app1.sporos.c66.me
+    origin:  http://app1.sporos.c66.me
+    assets:  assets.cornerstonesf.org.s3-website-us-west-1.amazonaws.com
+    assets_origin:  assets.cornerstonesf.org.s3-website-us-west-1.amazonaws.com
+  
   dev_user: developer
   dev_pass: 6a582863aa0cb850ff62924825e54555b5ee705b42d21c4280d5bced9adaaed3757eb2afcdf2c5d497226f811020f782905e909032fc9532e91f9110143b9fc8
   

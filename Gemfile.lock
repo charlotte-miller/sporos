@@ -146,6 +146,11 @@ GEM
     git (1.2.9.1)
     globalid (0.3.0)
       activesupport (>= 4.1.0)
+    gon (5.2.3)
+      actionpack (>= 2.3.0)
+      json
+      multi_json
+      request_store (>= 1.0.5)
     groupdate (2.4.0)
       activesupport (>= 3)
     growl (1.0.3)
@@ -309,6 +314,7 @@ GEM
     redis-store (1.1.4)
       redis (>= 2.2)
     ref (1.0.5)
+    request_store (1.1.0)
     responders (2.0.2)
       railties (>= 4.2.0.alpha, < 5)
     resque (1.25.2)
@@ -477,6 +483,7 @@ DEPENDENCIES
   fakeredis
   friendly_id (~> 5.0.4)
   git
+  gon
   growl
   guard-bundler
   guard-rspec

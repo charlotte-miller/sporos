@@ -30,6 +30,7 @@
     #javascripts
       / = partial 'layouts/ie'
       = javascript_include_tag  "vendor", digest:'v1'
+      = Gon::Base.render_data({namespace:'CStoneData'})
       = javascript_include_tag  "application"
       #page_specific_javascripts
         #load_once

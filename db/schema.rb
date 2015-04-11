@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150126225444) do
+ActiveRecord::Schema.define(version: 20150411191000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "admin_users", force: :cascade do |t|
     t.string   "first_name",             limit: 60
@@ -58,6 +59,19 @@ ActiveRecord::Schema.define(version: 20150126225444) do
 
   add_index "answers", ["author_id"], name: "index_answers_on_author_id", using: :btree
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
+
+  create_table "approvals", force: :cascade do |t|
+    t.integer  "post_id"
+    t.integer  "user_id"
+    t.string   "approver_ids", default: [],              array: true
+    t.integer  "status",       default: 0,  null: false
+    t.datetime "published_at"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "approvals", ["post_id", "status"], name: "index_approvals_on_post_id_and_status", using: :btree
+  add_index "approvals", ["user_id", "status"], name: "index_approvals_on_user_id_and_status", using: :btree
 
   create_table "block_requests", force: :cascade do |t|
     t.integer  "admin_user_id"
@@ -128,6 +142,18 @@ ActiveRecord::Schema.define(version: 20150126225444) do
 
   add_index "groups", ["state", "is_public"], name: "index_groups_on_state_and_is_public", using: :btree
 
+  create_table "involvements", force: :cascade do |t|
+    t.integer  "user_id",                 null: false
+    t.integer  "ministry_id",             null: false
+    t.integer  "status",      default: 0, null: false
+    t.integer  "level",       default: 0, null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "involvements", ["ministry_id", "level"], name: "index_involvements_on_ministry_id_and_level", using: :btree
+  add_index "involvements", ["user_id", "ministry_id"], name: "index_involvements_on_user_id_and_ministry_id", using: :btree
+
   create_table "lessons", force: :cascade do |t|
     t.integer  "study_id",                                null: false
     t.integer  "position",                default: 0
@@ -182,6 +208,16 @@ ActiveRecord::Schema.define(version: 20150126225444) do
   add_index "meetings", ["group_id", "state"], name: "index_meetings_on_group_id_and_state", using: :btree
   add_index "meetings", ["lesson_id"], name: "index_meetings_on_lesson_id", using: :btree
 
+  create_table "ministries", force: :cascade do |t|
+    t.string   "name",        null: false
+    t.text     "description"
+    t.string   "url_path",    null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "ministries", ["name"], name: "index_ministries_on_name", unique: true, using: :btree
+
   create_table "pages", force: :cascade do |t|
     t.integer  "parent_id"
     t.string   "slug",                         null: false
@@ -206,6 +242,26 @@ ActiveRecord::Schema.define(version: 20150126225444) do
   end
 
   add_index "podcasts", ["church_id"], name: "index_podcasts_on_church_id", using: :btree
+
+  create_table "posts", force: :cascade do |t|
+    t.integer  "parent_id"
+    t.text     "type",                null: false
+    t.integer  "ministry_id",         null: false
+    t.text     "title",               null: false
+    t.text     "description"
+    t.hstore   "display_options"
+    t.string   "poster_file_name"
+    t.string   "poster_content_type"
+    t.integer  "poster_file_size"
+    t.datetime "poster_updated_at"
+    t.datetime "expires_at"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "posts", ["ministry_id"], name: "index_posts_on_ministry_id", using: :btree
+  add_index "posts", ["parent_id"], name: "index_posts_on_parent_id", using: :btree
+  add_index "posts", ["type"], name: "index_posts_on_type", using: :btree
 
   create_table "questions", force: :cascade do |t|
     t.integer  "user_id",                   null: false
@@ -297,4 +353,9 @@ ActiveRecord::Schema.define(version: 20150126225444) do
   add_index "users", ["public_id"], name: "index_users_on_public_id", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "approvals", "posts"
+  add_foreign_key "approvals", "users"
+  add_foreign_key "involvements", "ministries"
+  add_foreign_key "involvements", "users"
+  add_foreign_key "posts", "ministries"
 end

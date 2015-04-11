@@ -84,8 +84,10 @@ class User < ActiveRecord::Base
       group_id = group.is_a?( Group ) ? group.id : group
       where(group_id:group_id).first
     end
-  end 
+  end
   
+  has_many :ministry_involvements, :class_name => "Involvement"
+  has_many :approvals, -> (obj){ where(["? = ANY (approver_ids)", obj.id]) }
   
   # ---------------------------------------------------------------------------------
   # Validations

@@ -17,7 +17,7 @@ module Lesson::AttachedMedia
       production_path: 'studies/lesson_media/:study_id/:hash:quiet_style.:extension' }
 
     has_attachable_file :audio, {
-                        :s3_host_alias => AppConfig.domains.assets_origin),
+                        :s3_host_alias => AppConfig.domains.assets_origin,
                         :content_type => ['audio/mp4', 'audio/mpeg'] }.merge(common_config)
 
     

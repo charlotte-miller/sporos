@@ -1,2 +1,3 @@
 #page_body
+  %h3= [@parent.try(:title), @page.title].compact.join(': ')
   = @page_body

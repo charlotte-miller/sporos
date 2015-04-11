@@ -18,6 +18,8 @@ common:
     origin: origin.cornerstonesf.org                  # WEB SERVERS
     assets: assets%d.cornerstonesf.org                # DOMAIN RANGE: CLOUDFRONT -> S3
     assets_origin: origin.assets.cornerstonesf.org    # S3
+    legacy_media: media.cornerstone-sf.org
+      
   s3:
     url: s3-us-west-2.amazonaws.com #s3.amazonaws.com
     bucket: media.cornerstonesf.org
@@ -48,9 +50,7 @@ development:
     primary:  localhost:3000
     origin:   localhost:3000
     assets:   localhost:3000
-    assets_origin: localhost:3000
-    # media: http://media.cornerstone-sf.org/ #media.cornerstonesf.org.s3-website-us-west-2.amazonaws.com            #media.cornerstonesf.org
-    
+    assets_origin: localhost:3000    
 
 test:
 

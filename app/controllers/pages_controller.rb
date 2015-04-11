@@ -2,6 +2,7 @@ class PagesController < ApplicationController
   
   def show
     @page = find_or_redirect_to_page
+    @parent = @page.parent
     @page_body = @page.body_w_media.html_safe
     # render html: @page.body_w_media.html_safe
   end
@@ -17,7 +18,7 @@ private
   # Return @page OR follow old friendly_id
   # Usage: @page = find_or_redirect_to_page || return #redirecting
   def find_or_redirect_to_page
-    page = Page.friendly.find(page_params[:id]) 
+    page = Page.friendly.includes(:parent).find(page_params[:id])
     unless request.path == page_path(page)
       redirect_to( page_url(page), status: :moved_permanently ) && (return false)
     end

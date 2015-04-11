@@ -55,7 +55,7 @@ class Page < ActiveRecord::Base
   end
   
   def body_w_media
-    body.gsub("{{ MEDIA_URL }}", AppConfig.domains.assets.gsub('%d', rand(0..3).to_s))
+    body.gsub "{{ MEDIA_URL }}", "http://#{AppConfig.domains.legacy_media}" #AppConfig.domains.assets.gsub('%d', rand(0..3).to_s)
   end
   
 end

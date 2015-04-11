@@ -3,6 +3,7 @@ html, body{
   -webkit-overflow-scrolling: touch;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  @include square(100%);
 }
 
 .view-port-page{ 
@@ -31,13 +32,18 @@ html, body{
   position:relative;
   
   &.transition{
+    @include transitionValue(min-height);
+    
     &.current{
       @extend .bounceInUp;
       animation-fill-mode:backwards;
       -webkit-animation-fill-mode:backwards;
+      
+      min-height:100%;
     }
     &:not(.current){
       @extend .bounceOutDown;
+      min-height:0px;
     }
   }
   

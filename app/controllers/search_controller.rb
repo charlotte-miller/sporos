@@ -97,6 +97,27 @@ class SearchController < ApplicationController
     render json: MultiJson.dump(filtered_results, pretty:false)
   end
   
+  def preload
+    @results = Elasticsearch::Model.client.search({
+      index: AppConfig.elasticsearch.index_name,
+      type: types_w_defaults,
+      _source: [:title, :path], # :display_description,
+      body:{
+        size:200,
+        query:{match_all:{}}
+      }
+    })
+      
+    filtered_results = {
+      took: @results['took'],
+      hits: @results['hits'],
+      # suggest: @results['suggest'],
+      # total_counts: total_counts,
+    }
+    
+    render json: MultiJson.dump(filtered_results, pretty:false)
+  end
+  
   # POST search/conversion
   def conversion
   end
@@ -108,7 +129,7 @@ class SearchController < ApplicationController
 
 private
   def search_params
-    params.require(:q)
+    # params.require(:q)
     @search_params ||= params.permit(:q, :types, :page)
   end
   
@@ -135,8 +156,10 @@ private
   
   def total_counts
     hash_w_total = {total:@results['hits']['total']}
-    @results['aggregations']['type_counts']['buckets'].inject(hash_w_total) do |hash,obj|
-      hash[obj['key']]= obj['doc_count']; hash
+    if @results['aggregations']
+      @results['aggregations']['type_counts']['buckets'].inject(hash_w_total) do |hash,obj|
+        hash[obj['key']]= obj['doc_count']; hash
+      end
     end
   end
 end

@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   get 'invest'              => 'special_pages#invest_in_cornerstone' 
 
   # Search
-  get 'search' => 'search#index'
+  get  'search' => 'search#index'
+  get  'search/preload'     => 'search#preload'
   post 'search/conversion'  => 'search#conversion'
   post 'search/abandonment' => 'search#abandonment'
   

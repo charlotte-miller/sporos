@@ -33,6 +33,10 @@ test:
   <<: *default
   database: sporos_test
 
+# Convienently debug issues in Rails.env.production?
+production:
+  <<: *default
+  database: sporos_development
 
 # ===============
 # = Legacy Site =

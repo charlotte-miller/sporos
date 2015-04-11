@@ -1,3 +1,6 @@
+- content_for :page_specific_js_initializers do
+  = javascript_include_tag "page_initializers/community_content"
+
 #page_body
   %h3= [@parent.try(:title), @page.title].compact.join(': ')
   = @page_body

@@ -2,7 +2,8 @@ class PagesController < ApplicationController
   
   def show
     @page = find_or_redirect_to_page
-    render html: @page.body_w_media.html_safe
+    @page_body = @page.body_w_media.html_safe
+    # render html: @page.body_w_media.html_safe
   end
   
   

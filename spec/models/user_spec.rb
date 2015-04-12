@@ -55,7 +55,7 @@ describe User do
   it { should have_many(:groups) }
   it { should have_many(:block_requests) }
   it { should have_many(:ministry_involvements) }
-  it { should have_many(:approvals) }
+  it { should have_many(:approval_requests) }
   
   it { should validate_presence_of(:email) }
   it { should ensure_length_of(:email).is_at_most(80) }

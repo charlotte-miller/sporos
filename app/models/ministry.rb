@@ -25,8 +25,6 @@ class Ministry < ActiveRecord::Base
   has_many :members,                                        through: :involvements, source:'user'
   has_many :volunteers, ->{where 'involvements.level > 0'}, through: :involvements, source:'user'
   has_many :leaders,    ->{where 'involvements.level > 1'}, through: :involvements, source:'user'
-  has_many :staff,      ->{where 'involvements.level > 2'}, through: :involvements, source:'user'
-  has_many :admins,     ->{where 'involvements.level > 3'}, through: :involvements, source:'user'
   
   # ---------------------------------------------------------------------------------
   # Validations

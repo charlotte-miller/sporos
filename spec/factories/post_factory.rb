@@ -6,6 +6,7 @@
 #  parent_id           :integer
 #  type                :text             not null
 #  ministry_id         :integer          not null
+#  user_id             :integer          not null
 #  title               :text             not null
 #  description         :text
 #  display_options     :hstore
@@ -13,7 +14,8 @@
 #  poster_content_type :string
 #  poster_file_size    :integer
 #  poster_updated_at   :datetime
-#  expires_at          :datetime
+#  published_at        :datetime
+#  expires_at          :datetime         not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #
@@ -22,6 +24,7 @@
 #  index_posts_on_ministry_id  (ministry_id)
 #  index_posts_on_parent_id    (parent_id)
 #  index_posts_on_type         (type)
+#  index_posts_on_user_id      (user_id)
 #
 
 FactoryGirl.define do
@@ -29,10 +32,12 @@ FactoryGirl.define do
     before(:create, :stub) { AWS.stub! if Rails.env.test? }
     
     ministry
+    author          { FactoryGirl.create(:involvement).user}
     title           { Faker::Lorem.sentence(rand(3..8))  }
     description     { Faker::Lorem.paragraph(rand(2..5)) }
     display_options { {} }
     poster { fixture_file_upload(Rails.root.join('spec/files/', 'poster_image.jpg'), 'image/jpg', true) }
+    published_at nil
     expires_at {Time.now + 3.days}
   end
 

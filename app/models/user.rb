@@ -87,7 +87,7 @@ class User < ActiveRecord::Base
   end
   
   has_many :ministry_involvements, :class_name => "Involvement"
-  has_many :approvals, -> (obj){ where(["? = ANY (approver_ids)", obj.id]) }
+  has_many :approval_requests
   
   # ---------------------------------------------------------------------------------
   # Validations

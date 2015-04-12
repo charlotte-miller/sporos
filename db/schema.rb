@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150411191000) do
+ActiveRecord::Schema.define(version: 20150412014602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,18 +60,17 @@ ActiveRecord::Schema.define(version: 20150411191000) do
   add_index "answers", ["author_id"], name: "index_answers_on_author_id", using: :btree
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
 
-  create_table "approvals", force: :cascade do |t|
-    t.integer  "post_id"
+  create_table "approval_requests", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "approver_ids", default: [],              array: true
-    t.integer  "status",       default: 0,  null: false
-    t.datetime "published_at"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.integer  "post_id"
+    t.integer  "status",     default: 0, null: false
+    t.text     "notes"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
-  add_index "approvals", ["post_id", "status"], name: "index_approvals_on_post_id_and_status", using: :btree
-  add_index "approvals", ["user_id", "status"], name: "index_approvals_on_user_id_and_status", using: :btree
+  add_index "approval_requests", ["post_id"], name: "index_approval_requests_on_post_id", using: :btree
+  add_index "approval_requests", ["user_id"], name: "index_approval_requests_on_user_id", using: :btree
 
   create_table "block_requests", force: :cascade do |t|
     t.integer  "admin_user_id"
@@ -247,6 +246,7 @@ ActiveRecord::Schema.define(version: 20150411191000) do
     t.integer  "parent_id"
     t.text     "type",                null: false
     t.integer  "ministry_id",         null: false
+    t.integer  "user_id",             null: false
     t.text     "title",               null: false
     t.text     "description"
     t.hstore   "display_options"
@@ -254,7 +254,8 @@ ActiveRecord::Schema.define(version: 20150411191000) do
     t.string   "poster_content_type"
     t.integer  "poster_file_size"
     t.datetime "poster_updated_at"
-    t.datetime "expires_at"
+    t.datetime "published_at"
+    t.datetime "expires_at",          null: false
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
   end
@@ -262,6 +263,7 @@ ActiveRecord::Schema.define(version: 20150411191000) do
   add_index "posts", ["ministry_id"], name: "index_posts_on_ministry_id", using: :btree
   add_index "posts", ["parent_id"], name: "index_posts_on_parent_id", using: :btree
   add_index "posts", ["type"], name: "index_posts_on_type", using: :btree
+  add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
   create_table "questions", force: :cascade do |t|
     t.integer  "user_id",                   null: false
@@ -353,9 +355,10 @@ ActiveRecord::Schema.define(version: 20150411191000) do
   add_index "users", ["public_id"], name: "index_users_on_public_id", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  add_foreign_key "approvals", "posts"
-  add_foreign_key "approvals", "users"
+  add_foreign_key "approval_requests", "posts"
+  add_foreign_key "approval_requests", "users"
   add_foreign_key "involvements", "ministries"
   add_foreign_key "involvements", "users"
   add_foreign_key "posts", "ministries"
+  add_foreign_key "posts", "users"
 end

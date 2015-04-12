@@ -6,6 +6,7 @@
 #  parent_id           :integer
 #  type                :text             not null
 #  ministry_id         :integer          not null
+#  user_id             :integer          not null
 #  title               :text             not null
 #  description         :text
 #  display_options     :hstore
@@ -13,7 +14,8 @@
 #  poster_content_type :string
 #  poster_file_size    :integer
 #  poster_updated_at   :datetime
-#  expires_at          :datetime
+#  published_at        :datetime
+#  expires_at          :datetime         not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #
@@ -22,6 +24,7 @@
 #  index_posts_on_ministry_id  (ministry_id)
 #  index_posts_on_parent_id    (parent_id)
 #  index_posts_on_type         (type)
+#  index_posts_on_user_id      (user_id)
 #
 
 require 'rails_helper'
@@ -36,6 +39,13 @@ RSpec.describe Post, :type => :model do
   end
   
   it { should belong_to(:ministry) }
-  it { should have_many(:approvals) }
+  it { should have_many(:approval_requests) }
   it { should have_one(:draft) }
+  
+  describe '#update_status!' do
+    before(:all) do
+      
+    end
+    
+  end
 end

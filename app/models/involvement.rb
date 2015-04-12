@@ -17,9 +17,15 @@
 #
 
 class Involvement < ActiveRecord::Base
-  enum status: [ :inactive, :active ]
-  enum level:  [ :member, :volunteer, :leader, :staff, :admin ]
+  enum status: [ :active, :inactive ]
+  enum level:  [ :member, :volunteer, :leader, :editor ]
   
+  # ---------------------------------------------------------------------------------
+  # Scopes
+  # ---------------------------------------------------------------------------------
+  default_scope ->{ where(status: :active) }
+  
+
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------

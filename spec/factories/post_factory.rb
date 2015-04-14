@@ -15,7 +15,7 @@
 #  poster_file_size    :integer
 #  poster_updated_at   :datetime
 #  published_at        :datetime
-#  expires_at          :datetime         not null
+#  expired_at          :datetime
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #
@@ -38,7 +38,7 @@ FactoryGirl.define do
     display_options { {} }
     poster { fixture_file_upload(Rails.root.join('spec/files/', 'poster_image.jpg'), 'image/jpg', true) }
     published_at nil
-    expires_at {Time.now + 3.days}
+    expired_at {Time.now + 3.days}
   end
 
   factory :post_event, parent:'post', class:'Posts::Event' do

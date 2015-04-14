@@ -15,7 +15,7 @@
 #  poster_file_size    :integer
 #  poster_updated_at   :datetime
 #  published_at        :datetime
-#  expires_at          :datetime         not null
+#  expired_at          :datetime
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #
@@ -32,13 +32,19 @@ class Post < ActiveRecord::Base
   include AttachableFile
 
   # ---------------------------------------------------------------------------------
-  # Single Table Inheritance
+  # Scopes
   # ---------------------------------------------------------------------------------  
+  # Single Table Inheritance
   scope :events,  -> { where(type: 'Post::Event') }
   scope :link,    -> { where(type: 'Post::Link')  }
   scope :page,    -> { where(type: 'Post::Page')  }
   scope :photo,   -> { where(type: 'Post::Photo') }
   scope :video,   -> { where(type: 'Post::Video') }
+  
+  scope :pre_release, -> { where( 'published_at IS NULL') }
+  scope :current,     -> { where( '(published_at IS NOT NULL) AND (expired_at IS NOT NULL) AND (NOW() BETWEEN published_at AND expired_at)' )}
+  scope :expired,     -> { where( 'expired_at IS NOT NULL AND NOW() > expired_at') }
+  scope :evergreen,   -> { where( 'expired_at IS NULL') }
 
 
   # ---------------------------------------------------------------------------------
@@ -47,8 +53,15 @@ class Post < ActiveRecord::Base
   belongs_to :ministry
   belongs_to :author, class_name:'User', foreign_key: :user_id
   
-  has_many :approval_requests
+  has_many :approval_requests, dependent: :destroy
   has_one :draft, :class_name => "Post", :foreign_key => "parent_id"
+
+
+  # ---------------------------------------------------------------------------------
+  # Validations
+  # ---------------------------------------------------------------------------------  
+  validates_presence_of :type, :user, :ministry, :title
+  validates_presence_of :expired_at, unless: -> (obj){obj.type=='Post::Page'} #evergreen
   
   
   # ---------------------------------------------------------------------------------

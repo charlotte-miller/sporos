@@ -11,7 +11,8 @@
 #
 # Indexes
 #
-#  index_ministries_on_name  (name) UNIQUE
+#  index_ministries_on_name      (name) UNIQUE
+#  index_ministries_on_url_path  (url_path) UNIQUE
 #
 
 require 'rails_helper'
@@ -29,8 +30,8 @@ RSpec.describe Ministry, :type => :model do
   describe 'involvement.level' do
     before(:all) do
       @subject = create(:ministry)
-      Involvement::LEVELS.map do |level|
-        create(:involvement, ministry: @subject, level: level)
+      Involvement.levels.map do |level|
+        create(:involvement, ministry: @subject, level: level[1])
       end
     end
     
@@ -41,10 +42,11 @@ RSpec.describe Ministry, :type => :model do
     it { should have_many(:admins).through(:involvements) }
     
     it 'restricts access by level' do
+      binding.pry
       expect(@subject.members.count).to eq(5)
       
       expect(@subject.volunteers.count).to eq(4)
-      expect(@subject.volunteers.first.ministry_involvements.first.volunteer?).to be true
+      expect(@subject.volunteers.first.ministry_involvements.map(&:status).uniq[0]).to be :volunteer
       
       expect(@subject.leaders.count).to eq(3)
       expect(@subject.leaders.first.ministry_involvements.first.leader?).to be true

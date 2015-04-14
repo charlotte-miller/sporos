@@ -15,7 +15,7 @@
 #  poster_file_size    :integer
 #  poster_updated_at   :datetime
 #  published_at        :datetime
-#  expires_at          :datetime         not null
+#  expired_at          :datetime
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #
@@ -30,7 +30,10 @@
 require 'rails_helper'
 
 RSpec.describe Post, :type => :model do
-  subject { build(:post) }
+  subject { build(:post, ministry:@ministry) }
+  before(:all) do
+    @ministry = create(:populated_ministry)
+  end
 
   it "builds from factory", :internal do
     [:post, :post_event, :post_link, :post_page, :post_photo, :post_video].each do |factory|
@@ -42,10 +45,18 @@ RSpec.describe Post, :type => :model do
   it { should have_many(:approval_requests) }
   it { should have_one(:draft) }
   
-  describe '#update_status!' do
-    before(:all) do
-      
+  describe '#request_approval!', :focus do
+    subject { create(:post, ministry:@ministry) }
+    
+    it 'is creates ApprovalRequests on create' do
+      # binding.pry
+      expect(subject.approval_requests.count).to eq(6)
     end
+    
+  end
+  
+  describe '#update_status!' do
+    
     
   end
 end

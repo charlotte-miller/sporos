@@ -52,10 +52,10 @@ class SearchController < ApplicationController
           }
         # end
         },
-        # filter expires_at lt Time.now
+        # filter expired_at lt Time.now
         # sort:{
         #   last_published_at:{ order:'desc' },
-        #   expires_at:{ order: 'asc' },
+        #   expired_at:{ order: 'asc' },
         # },
         suggest:{
           text: query,

@@ -13,7 +13,7 @@
 # Indexes
 #
 #  index_involvements_on_ministry_id_and_level    (ministry_id,level)
-#  index_involvements_on_user_id_and_ministry_id  (user_id,ministry_id)
+#  index_involvements_on_user_id_and_ministry_id  (user_id,ministry_id) UNIQUE
 #
 
 class Involvement < ActiveRecord::Base
@@ -32,8 +32,17 @@ class Involvement < ActiveRecord::Base
   belongs_to :user
   belongs_to :ministry
   
+  
   # ---------------------------------------------------------------------------------
   # Validations
   # ---------------------------------------------------------------------------------
-  validates_presence_of :user_id, :ministry_id
+  validates_presence_of   :user_id, :ministry_id
+  validates_associated    :user, :ministry, :on => :create
+  validates_uniqueness_of :ministry_id, scope:[:user_id]
+  
+  
+  # ---------------------------------------------------------------------------------
+  # Methods
+  # ---------------------------------------------------------------------------------
+  
 end

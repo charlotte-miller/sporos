@@ -86,7 +86,7 @@ class User < ActiveRecord::Base
     end
   end
   
-  has_many :ministry_involvements, :class_name => "Involvement"
+  has_many :ministry_involvements, class_name: "Involvement", dependent: :destroy, inverse_of: :user
   has_many :approval_requests
   
   # ---------------------------------------------------------------------------------

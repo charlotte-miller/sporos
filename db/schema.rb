@@ -61,8 +61,8 @@ ActiveRecord::Schema.define(version: 20150412014602) do
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
 
   create_table "approval_requests", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "post_id"
+    t.integer  "user_id",                null: false
+    t.integer  "post_id",                null: false
     t.integer  "status",     default: 0, null: false
     t.text     "notes"
     t.datetime "created_at",             null: false
@@ -70,7 +70,8 @@ ActiveRecord::Schema.define(version: 20150412014602) do
   end
 
   add_index "approval_requests", ["post_id"], name: "index_approval_requests_on_post_id", using: :btree
-  add_index "approval_requests", ["user_id"], name: "index_approval_requests_on_user_id", using: :btree
+  add_index "approval_requests", ["user_id", "post_id"], name: "index_approval_requests_on_user_id_and_post_id", unique: true, using: :btree
+  add_index "approval_requests", ["user_id", "status"], name: "index_approval_requests_on_user_id_and_status", using: :btree
 
   create_table "block_requests", force: :cascade do |t|
     t.integer  "admin_user_id"
@@ -150,8 +151,8 @@ ActiveRecord::Schema.define(version: 20150412014602) do
     t.datetime "updated_at",              null: false
   end
 
-  add_index "involvements", ["ministry_id", "level"], name: "index_involvements_on_ministry_id_and_level", using: :btree
-  add_index "involvements", ["user_id", "ministry_id"], name: "index_involvements_on_user_id_and_ministry_id", using: :btree
+  add_index "involvements", ["ministry_id", "level"], name: "index_involvements_on_ministry_id_and_level", order: {"level"=>:desc}, using: :btree
+  add_index "involvements", ["user_id", "ministry_id"], name: "index_involvements_on_user_id_and_ministry_id", unique: true, using: :btree
 
   create_table "lessons", force: :cascade do |t|
     t.integer  "study_id",                                null: false
@@ -216,6 +217,7 @@ ActiveRecord::Schema.define(version: 20150412014602) do
   end
 
   add_index "ministries", ["name"], name: "index_ministries_on_name", unique: true, using: :btree
+  add_index "ministries", ["url_path"], name: "index_ministries_on_url_path", unique: true, using: :btree
 
   create_table "pages", force: :cascade do |t|
     t.integer  "parent_id"
@@ -255,13 +257,13 @@ ActiveRecord::Schema.define(version: 20150412014602) do
     t.integer  "poster_file_size"
     t.datetime "poster_updated_at"
     t.datetime "published_at"
-    t.datetime "expires_at",          null: false
+    t.datetime "expired_at"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
   end
 
   add_index "posts", ["ministry_id"], name: "index_posts_on_ministry_id", using: :btree
-  add_index "posts", ["parent_id"], name: "index_posts_on_parent_id", using: :btree
+  add_index "posts", ["parent_id"], name: "index_posts_on_parent_id", where: "(parent_id IS NOT NULL)", using: :btree
   add_index "posts", ["type"], name: "index_posts_on_type", using: :btree
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 

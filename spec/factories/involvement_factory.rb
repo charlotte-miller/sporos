@@ -13,7 +13,7 @@
 # Indexes
 #
 #  index_involvements_on_ministry_id_and_level    (ministry_id,level)
-#  index_involvements_on_user_id_and_ministry_id  (user_id,ministry_id)
+#  index_involvements_on_user_id_and_ministry_id  (user_id,ministry_id) UNIQUE
 #
 
 FactoryGirl.define do

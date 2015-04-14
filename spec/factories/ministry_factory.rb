@@ -11,13 +11,14 @@
 #
 # Indexes
 #
-#  index_ministries_on_name  (name) UNIQUE
+#  index_ministries_on_name      (name) UNIQUE
+#  index_ministries_on_url_path  (url_path) UNIQUE
 #
 
 FactoryGirl.define do
   factory :ministry do      
-    name {Faker::Lorem.word}
-    description { "#{name}'s Ministry is for #{name}... coffee will be served." }
+    name {Faker::Lorem.word.titlecase}
+    description { "#{name.titlecase}'s Ministry is for #{name.downcase.pluralize}... coffee will be served." }
     url_path { "/#{name.downcase}" }
   end
   
@@ -33,6 +34,20 @@ FactoryGirl.define do
       options.merge!({user: context.user}) if context.user
       
       FactoryGirl.create(:involvement, options)
+    end
+  end
+  
+  factory :populated_ministry, parent:'ministry' do
+    ignore do
+      n 2
+    end
+    
+    after(:create) do |ministry, context|
+      Involvement.levels.each do |level|
+        2.times do
+          FactoryGirl.create(:involvement, { ministry: ministry, level:level.last })
+        end
+      end
     end
   end
 

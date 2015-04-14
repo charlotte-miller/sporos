@@ -15,7 +15,7 @@
 #  poster_file_size    :integer
 #  poster_updated_at   :datetime
 #  published_at        :datetime
-#  expires_at          :datetime         not null
+#  expired_at          :datetime
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #

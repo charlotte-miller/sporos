@@ -12,7 +12,7 @@ class CreateInvolvements < ActiveRecord::Migration
     add_foreign_key :involvements, :users
     add_foreign_key :involvements, :ministries
     
-    add_index :involvements, [:ministry_id, :level]
-    add_index :involvements, [:user_id, :ministry_id]
+    add_index :involvements, [:ministry_id, :level], order: {level:'DESC'}
+    add_index :involvements, [:user_id, :ministry_id], unique:true
   end
 end

@@ -13,7 +13,7 @@
 # Indexes
 #
 #  index_involvements_on_ministry_id_and_level    (ministry_id,level)
-#  index_involvements_on_user_id_and_ministry_id  (user_id,ministry_id)
+#  index_involvements_on_user_id_and_ministry_id  (user_id,ministry_id) UNIQUE
 #
 
 require 'rails_helper'
@@ -27,6 +27,12 @@ RSpec.describe Involvement, :type => :model do
   
   it { should belong_to(:ministry) }
   it { should belong_to(:user) }
+  
+  it { should validate_presence_of(:user_id) }
+  it { should validate_presence_of(:ministry_id) }
+  # it { should validate_associated(:user) }      # not is shoulda
+  # it { should validate_associated(:ministry) }  # not is shoulda
+  # it { should validate_uniqueness_of(:ministry_id).scoped_to(:user_id) }
   
   describe '#level' do    
     Involvement.levels.map(&:first).each do |level|

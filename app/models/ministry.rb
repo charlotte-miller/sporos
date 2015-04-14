@@ -11,7 +11,8 @@
 #
 # Indexes
 #
-#  index_ministries_on_name  (name) UNIQUE
+#  index_ministries_on_name      (name) UNIQUE
+#  index_ministries_on_url_path  (url_path) UNIQUE
 #
 
 class Ministry < ActiveRecord::Base
@@ -19,8 +20,8 @@ class Ministry < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------
-  has_many :posts
-  has_many :involvements
+  has_many :posts,        dependent: :destroy, inverse_of: :ministry
+  has_many :involvements, dependent: :destroy, inverse_of: :ministry
   
   has_many :members,                                        through: :involvements, source:'user'
   has_many :volunteers, ->{where 'involvements.level > 0'}, through: :involvements, source:'user'
@@ -29,7 +30,12 @@ class Ministry < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Validations
   # ---------------------------------------------------------------------------------
+  validates_presence_of   :name, :url_path
+  validates_uniqueness_of :name, :url_path
   
-  validates_presence_of :name, :url_path
+  
+  # ---------------------------------------------------------------------------------
+  # Methods
+  # ---------------------------------------------------------------------------------
   
 end

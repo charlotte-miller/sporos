@@ -22,40 +22,53 @@ RSpec.describe Ministry, :type => :model do
 
   it "builds from factory", :internal do
     expect { create(:ministry) }.to_not raise_error
+    expect { create(:populated_ministry) }.to_not raise_error
   end
   
   it { should have_many(:posts) }
   it { should have_many(:involvements) }
   
-  describe 'involvement.level' do
+  describe 'ASSOCIATIONS' do
     before(:all) do
-      @subject = create(:ministry)
-      Involvement.levels.map do |level|
-        create(:involvement, ministry: @subject, level: level[1])
+      @subject = create(:populated_ministry)
+    end
+    
+    describe '#members, :volunteers, :leaders, :editors' do
+      
+      it { should have_many(:members).through(:involvements) }
+      it { should have_many(:volunteers).through(:involvements) }
+      it { should have_many(:leaders).through(:involvements) }
+      it { should have_many(:editors).through(:involvements) }
+      
+      it 'scopes the association by level' do
+        expect(@subject.members.count).to    eq(2)
+        expect(@subject.volunteers.count).to eq(2)
+        expect(@subject.leaders.count).to    eq(2)
+        expect(@subject.editors.count).to    eq(2)
+        
+        expect(@subject.members.map {|u|u.involvements.in(@subject)}.map(&:level).uniq).to    eq ["member"]
+        expect(@subject.volunteers.map {|u|u.involvements.in(@subject)}.map(&:level).uniq).to eq ["volunteer"]
+        expect(@subject.leaders.map {|u|u.involvements.in(@subject)}.map(&:level).uniq).to    eq ["leader"]
+        expect(@subject.editors.map {|u|u.involvements.in(@subject)}.map(&:level).uniq).to    eq ["editor"]
       end
     end
     
-    it { should have_many(:members).through(:involvements) }
-    it { should have_many(:volunteers).through(:involvements) }
-    it { should have_many(:leaders).through(:involvements) }
-    it { should have_many(:staff).through(:involvements) }
-    it { should have_many(:admins).through(:involvements) }
+    describe '#more_involved_than_a_members, #more_involved_than_a_volunteers, #more_involved_than_a_leaders' do
+      it { should have_many(:more_involved_than_a_members).through(:involvements) }
+      it { should have_many(:more_involved_than_a_volunteers).through(:involvements) }
+      it { should have_many(:more_involved_than_a_leaders).through(:involvements) }
     
-    it 'restricts access by level' do
-      binding.pry
-      expect(@subject.members.count).to eq(5)
+      it 'scopes the association by level' do
+        expect(@subject.more_involved_than_a_members.count).to eq(6)
+        expect(@subject.more_involved_than_a_members.map {|u|u.involvements.in(@subject)}.map(&:level).uniq).to eq ["volunteer", "leader", "editor"]
       
-      expect(@subject.volunteers.count).to eq(4)
-      expect(@subject.volunteers.first.ministry_involvements.map(&:status).uniq[0]).to be :volunteer
+        expect(@subject.more_involved_than_a_volunteers.count).to eq(4)
+        expect(@subject.more_involved_than_a_volunteers.map {|u|u.involvements.in(@subject)}.map(&:level).uniq).to eq ["leader", "editor"]
       
-      expect(@subject.leaders.count).to eq(3)
-      expect(@subject.leaders.first.ministry_involvements.first.leader?).to be true
+        expect(@subject.more_involved_than_a_leaders.count).to eq(2)
+        expect(@subject.more_involved_than_a_leaders.map {|u|u.involvements.in(@subject)}.map(&:level).uniq).to eq ["editor"]
+      end
       
-      expect(@subject.staff.count).to eq(2)
-      expect(@subject.staff.first.ministry_involvements.first.staff?).to be true
-      
-      expect(@subject.admins.count).to eq(1)
-      expect(@subject.admins.first.ministry_involvements.first.admin?).to be true
     end
   end
 end

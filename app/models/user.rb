@@ -86,7 +86,11 @@ class User < ActiveRecord::Base
     end
   end
   
-  has_many :ministry_involvements, class_name: "Involvement", dependent: :destroy, inverse_of: :user
+  has_many :involvements, class_name: "Involvement", dependent: :destroy, inverse_of: :user do
+    def in(ministry)
+      where(['ministry_id = ?', ministry.id]).first
+    end
+  end
   has_many :approval_requests
   
   # ---------------------------------------------------------------------------------

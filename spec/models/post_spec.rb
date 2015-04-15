@@ -31,8 +31,16 @@ require 'rails_helper'
 
 RSpec.describe Post, :type => :model do
   subject { build(:post, ministry:@ministry) }
+
+  it { should belong_to(:ministry) }
+  it { should have_many(:approval_requests) }
+  it { should have_many(:approvers) }
+  it { should have_one(:draft) }
+
+
   before(:all) do
     @ministry = create(:populated_ministry)
+    @subject = create(:post, ministry:@ministry, author:@ministry.members.first)
   end
 
   it "builds from factory", :internal do
@@ -41,22 +49,19 @@ RSpec.describe Post, :type => :model do
     end
   end
   
-  it { should belong_to(:ministry) }
-  it { should have_many(:approval_requests) }
-  it { should have_one(:draft) }
-  
-  describe '#request_approval!', :focus do
-    subject { create(:post, ministry:@ministry) }
-    
-    it 'is creates ApprovalRequests on create' do
-      # binding.pry
-      expect(subject.approval_requests.count).to eq(6)
+  describe '#find_approvers ' do
+    it 'returns an array of Users' do
+      expect(@subject.find_approvers.first).to be_a User
+      expect(@subject.find_approvers.count).to eq(6)
     end
     
   end
   
-  describe '#update_status!' do
+  describe '#request_approval!' do
+    subject { create(:post, ministry:@ministry, author:@ministry.members.sample) }
     
-    
+    it 'is creates ApprovalRequests on create callback' do
+      expect(@subject.approval_requests.count).to eq(6)
+    end  
   end
 end

@@ -23,8 +23,8 @@ class Involvement < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Scopes
   # ---------------------------------------------------------------------------------
-  default_scope ->{ where(status: :active) }
-  
+  default_scope ->{ where('status=0') }
+  scope :in_ministry, -> (ministry){where(ministry: ministry)}
 
   # ---------------------------------------------------------------------------------
   # Associations
@@ -45,4 +45,9 @@ class Involvement < ActiveRecord::Base
   # Methods
   # ---------------------------------------------------------------------------------
   
+  def more_involved_in_this_ministry
+    User.joins(:involvements)
+    .where(['involvements.ministry_id = ? AND involvements.level > ?', self.ministry_id, self[:level] ])
+    .all
+  end
 end

@@ -54,7 +54,7 @@ describe User do
   it { should have_many(:group_memberships) }
   it { should have_many(:groups) }
   it { should have_many(:block_requests) }
-  it { should have_many(:ministry_involvements) }
+  it { should have_many(:involvements) }
   it { should have_many(:approval_requests) }
   
   it { should validate_presence_of(:email) }

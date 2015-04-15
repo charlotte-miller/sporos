@@ -17,7 +17,7 @@
 
 FactoryGirl.define do
   factory :ministry do      
-    name {Faker::Lorem.word.titlecase}
+    name {Faker::Lorem.words(3).split('').shuffle.join('').titlecase }
     description { "#{name.titlecase}'s Ministry is for #{name.downcase.pluralize}... coffee will be served." }
     url_path { "/#{name.downcase}" }
   end
@@ -42,12 +42,13 @@ FactoryGirl.define do
       n 2
     end
     
-    after(:create) do |ministry, context|
-      Involvement.levels.each do |level|
+    before(:create) do |ministry, context|
+      Involvement.levels.values.each do |level_index|
         2.times do
-          FactoryGirl.create(:involvement, { ministry: ministry, level:level.last })
+          ministry.involvements << FactoryGirl.create(:involvement, { level:level_index })
         end
       end
+      ministry.save!
     end
   end
 

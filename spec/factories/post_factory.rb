@@ -32,7 +32,7 @@ FactoryGirl.define do
     before(:create, :stub) { AWS.stub! if Rails.env.test? }
     
     ministry
-    author          { FactoryGirl.create(:involvement).user}
+    author          { FactoryGirl.create(:involvement, ministry:ministry).user }
     title           { Faker::Lorem.sentence(rand(3..8))  }
     description     { Faker::Lorem.paragraph(rand(2..5)) }
     display_options { {} }

@@ -19,7 +19,11 @@
 require 'rails_helper'
 
 RSpec.describe Involvement, :type => :model do
-  subject { build(:involvement) }
+  before(:all) do
+    @ministry = create(:populated_ministry)
+  end
+  
+  subject { build(:involvement, ministry:@ministry) }
 
   it "builds from factory", :internal do
     expect { create(:involvement) }.to_not raise_error
@@ -33,6 +37,26 @@ RSpec.describe Involvement, :type => :model do
   # it { should validate_associated(:user) }      # not is shoulda
   # it { should validate_associated(:ministry) }  # not is shoulda
   # it { should validate_uniqueness_of(:ministry_id).scoped_to(:user_id) }
+    
+  describe '.in_ministry(ministry)' do
+    
+  end
+  
+  describe '.more_involved_in_this_ministry' do
+    subject { build_stubbed(:involvement, ministry:@ministry) }
+    
+    it 'returns Users' do
+      expect(subject.more_involved_in_this_ministry.first).to be_a User
+    end
+    
+    it 'returns MORE INVOLVED Users' do
+      (0..2).each do |i|
+        approvers = build_stubbed(:involvement, ministry:@ministry, level:i).more_involved_in_this_ministry
+        approver_levels = approvers.map {|u| u.involvements.in_ministry(@ministry).pluck('level') }.flatten
+        expect(approver_levels.min).to be > i
+      end
+    end
+  end
   
   describe '#level' do    
     Involvement.levels.map(&:first).each do |level|

@@ -54,19 +54,22 @@ class Post < ActiveRecord::Base
   belongs_to :author, class_name:'User', foreign_key: :user_id
   
   has_many :approval_requests, dependent: :destroy
+  has_many :approvers, class_name: "User", through:'approval_requests'
+  
   has_one :draft, :class_name => "Post", :foreign_key => "parent_id"
 
 
   # ---------------------------------------------------------------------------------
   # Validations
   # ---------------------------------------------------------------------------------  
-  validates_presence_of :type, :user, :ministry, :title
+  validates_presence_of :type, :user_id, :ministry_id, :title
   validates_presence_of :expired_at, unless: -> (obj){obj.type=='Post::Page'} #evergreen
   
   
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
+  attr_accessor :approvers
   has_attachable_file :poster, {
                       # :processors      => [:thumbnail, :pngquant],
                       :default_style => :sd,
@@ -90,38 +93,25 @@ class Post < ActiveRecord::Base
     after_create :request_approval!
 
     def request_approval!
-      author_level = author
-        .ministry_involvements
-        .where( ministry:ministry )
-        .first.try(:level).try(:to_i)
-      
-      more_involved_users = Involvement
-        .where( ministry:ministry )
-        .where(['level > ?', author_level])
-        .map(&:user)
-      
-      more_involved_users.each do |user|
-        ApprovalRequest.create({
-          post:self,
-          user_id:user
-        })
+      if find_approvers.present?
+         find_approvers.map do |user|
+          ApprovalRequest.create!( post_id:id, user_id:user.id )
+        end
+      else
+        if author.involvements.in_ministry(ministry).first.editor?
+          # Editors publish instantly
+          self.touch :published_at
+        end
       end
     end
     
-    def update_status!
-      votes                 = approval_requests.decided
-      results               = votes.map(&:status).uniq
-      supporting_districts  = votes.where(status: :accepted).map(&:level).uniq.length
-      required_districts    = 4 - (author.level+1) # Leader, Admin
+    
+    def find_approvers #=> Users
+      @find_approvers ||= begin
+        involvement = Involvement.where(user_id:user_id, ministry_id:ministry_id).first
+        involvement.more_involved_in_this_ministry
       
-      if is_rejected  = results.include?(:rejected)
-        # send rejection notice
-        
-      elsif is_accepted  = results.include?(:accepted) && required_districts <= supporting_districts
-        touch :published_at
-        approval_requests.update_all('status = 3')
-      else
-        # do nothing... no votes
+        # filter from UI
       end
     end
 end

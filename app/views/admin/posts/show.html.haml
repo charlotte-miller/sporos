@@ -1,0 +1,7 @@
+= render "posts/cards/#{post.type}", locals:{post:post}
+
+.admin_controls
+  .published= link_to( 'View Published', post_path(post)) if post.published_at
+  .edit= link_to 'Edit', edit_admin_post_path(post)
+  .destroy= link_to 'Destroy', admin_post_path(post), :method => :delete, :data => { :confirm => "Are you sure?\nIt will really be gone." }
+

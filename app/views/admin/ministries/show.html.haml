@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @ministry.name
+%p
+  %b Description:
+  = @ministry.description
+%p
+  %b Url path:
+  = @ministry.slug
+
+= link_to 'Edit', edit_admin_ministry_path(@ministry)
+\|
+= link_to 'Back', admin_ministries_path

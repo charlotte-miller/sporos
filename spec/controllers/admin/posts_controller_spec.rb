@@ -1,25 +1,21 @@
 require 'rails_helper'
 
-RSpec.describe Admin::PostsController, :type => :controller do
-  login_admin_user
-  before(:each) { AWS.stub! }
+RSpec.describe Admin::PostsController, :type => :controller, focus:true do
+  login_admin_user #TODO: remove
+  login_user
   
   before(:all) do
-    @ministry = create(:populated_ministry)
+   @ministry = create(:populated_ministry)
+   @ministry.leaders << @user
+   @ministry.save!
+   @editor   = @ministry.editors.first
+   @volunteer= @ministry.volunteers.first
   end
+  before(:each) { AWS.stub! }
   
-  
-  
-  # This should return the minimal set of attributes required to create a valid
-  # Post. As you add validations to Post, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  let(:valid_attributes) { attributes_for(:post, ministry:@ministry, author:@user, ministry_id:@ministry.id, user_id:@user.id, type:'Posts::Link') }
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:invalid_attributes) { {foo:'bar'} }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -28,7 +24,7 @@ RSpec.describe Admin::PostsController, :type => :controller do
 
   describe "GET index" do
     it "assigns all posts as @posts" do
-      post = Post.create! valid_attributes
+      post = create(:post, ministry:@ministry, author:@user)
       get :index, {}, valid_session
       expect(assigns(:posts)).to eq([post])
     end
@@ -36,7 +32,7 @@ RSpec.describe Admin::PostsController, :type => :controller do
 
   describe "GET show" do
     it "assigns the requested post as @post" do
-      post = Post.create! valid_attributes
+      post = create(:post, ministry:@ministry, author:@user)
       get :show, {:id => post.to_param}, valid_session
       expect(assigns(:post)).to eq(post)
     end
@@ -51,7 +47,7 @@ RSpec.describe Admin::PostsController, :type => :controller do
 
   describe "GET edit" do
     it "assigns the requested post as @post" do
-      post = Post.create! valid_attributes
+      post = create(:post, ministry:@ministry, author:@user)
       get :edit, {:id => post.to_param}, valid_session
       expect(assigns(:post)).to eq(post)
     end
@@ -73,7 +69,7 @@ RSpec.describe Admin::PostsController, :type => :controller do
 
       it "redirects to the created post" do
         post :create, {:post => valid_attributes}, valid_session
-        expect(response).to redirect_to(Post.last)
+        expect(response).to redirect_to(admin_post_url Post.last)
       end
     end
 
@@ -97,34 +93,34 @@ RSpec.describe Admin::PostsController, :type => :controller do
       }
 
       it "updates the requested post" do
-        post = Post.create! valid_attributes
+        post = create(:post, ministry:@ministry, author:@user)
         put :update, {:id => post.to_param, :post => new_attributes}, valid_session
         post.reload
         skip("Add assertions for updated state")
       end
 
       it "assigns the requested post as @post" do
-        post = Post.create! valid_attributes
+        post = create(:post, ministry:@ministry, author:@user)
         put :update, {:id => post.to_param, :post => valid_attributes}, valid_session
         expect(assigns(:post)).to eq(post)
       end
 
       it "redirects to the post" do
-        post = Post.create! valid_attributes
+        post = create(:post, ministry:@ministry, author:@user)
         put :update, {:id => post.to_param, :post => valid_attributes}, valid_session
-        expect(response).to redirect_to(post)
+        expect(response).to redirect_to(admin_post_url post)
       end
     end
 
     describe "with invalid params" do
       it "assigns the post as @post" do
-        post = Post.create! valid_attributes
+        post = create(:post, ministry:@ministry, author:@user)
         put :update, {:id => post.to_param, :post => invalid_attributes}, valid_session
         expect(assigns(:post)).to eq(post)
       end
 
       it "re-renders the 'edit' template" do
-        post = Post.create! valid_attributes
+        post = create(:post, ministry:@ministry, author:@user)
         put :update, {:id => post.to_param, :post => invalid_attributes}, valid_session
         expect(response).to render_template("edit")
       end
@@ -133,16 +129,24 @@ RSpec.describe Admin::PostsController, :type => :controller do
 
   describe "DELETE destroy" do
     it "destroys the requested post" do
-      post = Post.create! valid_attributes
+      post = create(:post, ministry:@ministry, author:@user)
       expect {
         delete :destroy, {:id => post.to_param}, valid_session
       }.to change(Post, :count).by(-1)
     end
 
     it "redirects to the posts list" do
-      post = Post.create! valid_attributes
+      post = create(:post, ministry:@ministry, author:@user)
       delete :destroy, {:id => post.to_param}, valid_session
-      expect(response).to redirect_to(posts_url)
+      expect(response).to redirect_to(admin_posts_url)
+    end
+  end
+
+  describe "GET link_preview" do
+    it "assigns all posts as @posts" do
+      link = 'http://catalystconference.com/'
+      expect(LinkThumbnailer).to receive(:generate).with(link)
+      get :link_preview, {url:link}, valid_session
     end
   end
 

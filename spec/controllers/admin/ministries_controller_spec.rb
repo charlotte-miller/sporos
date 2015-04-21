@@ -3,16 +3,16 @@ require 'rails_helper'
 RSpec.describe Admin::MinistriesController, :type => :controller do
   login_admin_user
 
-  # This should return the minimal set of attributes required to create a valid
-  # Ministry. As you add validations to Ministry, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  before(:all) do
+    AWS.stub!
+    @valid_attributes = attributes_for(:ministry)
+  end
+  
+  let(:valid_attributes){ @valid_attributes }
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  # let(:invalid_attributes) {
+  #   skip("Add a hash of attributes invalid for your model")
+  # }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in

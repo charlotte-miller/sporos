@@ -33,6 +33,7 @@ FactoryGirl.define do
     before(:create, :stub) { AWS.stub! if Rails.env.test? }
     # after(:build) {|post, context| post.class.skip_callback(:create, :after, :request_approval!) }
     
+    type            'Posts::Link'
     ministry
     author          { FactoryGirl.create(:involvement, ministry:ministry).user }
     title           { Faker::Lorem.sentence(rand(3..8))  }
@@ -45,6 +46,10 @@ FactoryGirl.define do
     # factory :post_w_approval_requests do
     #   after(:create) {|post, context| post.send(:request_approval!)}
     # end
+  end
+  
+  factory :published_post, parent:'post' do
+    published_at {Time.now - 1.minute}
   end
   
   factory :post_event, parent:'post', class:'Posts::Event' do

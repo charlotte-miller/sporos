@@ -47,6 +47,7 @@ gem 'aws-sdk'
 gem 'paperclip',          git:'https://github.com/thoughtbot/paperclip.git'
 gem 'delayed_paperclip',  '>= 2.9.0'#,  git:'https://github.com/jrgifford/delayed_paperclip.git'
 # gem 'paperclip-optimizer'
+gem 'link_thumbnailer'
 
 
 # Resque Queue

@@ -74,6 +74,7 @@ class Post < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
+  attr_protected #none - using strong params
   attr_accessor :approvers
   has_attachable_file :poster, {
                       # :processors      => [:thumbnail, :pngquant],

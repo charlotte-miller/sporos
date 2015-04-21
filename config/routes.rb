@@ -59,7 +59,11 @@ Rails.application.routes.draw do
   devise_for :admin_user # to remove
   namespace :admin do
     resources :ministries
-    resources :posts
+    resources :posts do
+      collection do |variable|
+        get 'link_preview'
+      end
+    end
     
     resources :studies, :lessons
     

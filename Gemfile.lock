@@ -138,6 +138,8 @@ GEM
       redis (~> 3.0)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
+    fastimage (1.6.8)
+      addressable (~> 2.3, >= 2.3.5)
     ffi (1.9.6)
     formatador (0.2.5)
     friendly_id (5.0.4)
@@ -199,6 +201,7 @@ GEM
       haml (>= 4.0.0.rc.1)
       hpricot (~> 0.8.6)
       ruby_parser (~> 3.1.1)
+    htmlentities (4.3.3)
     i18n (0.7.0)
     json (1.8.2)
     kaminari (0.16.1)
@@ -206,6 +209,14 @@ GEM
       activesupport (>= 3.0.0)
     kgio (2.9.3)
     libv8 (3.16.14.7)
+    link_thumbnailer (2.5.0)
+      activesupport (>= 3.0)
+      fastimage (~> 1.6)
+      json (~> 1.8, >= 1.7.7)
+      net-http-persistent (~> 2.9)
+      nokogiri (~> 1.6)
+      rake (>= 0.9)
+      video_info (~> 2.4)
     listen (2.8.5)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
@@ -224,6 +235,7 @@ GEM
     multi_json (1.11.0)
     multipart-post (2.0.0)
     nenv (0.1.1)
+    net-http-persistent (2.9.4)
     net-ssh (2.9.1)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
@@ -447,6 +459,10 @@ GEM
     vcr (2.9.3)
     vegas (0.1.11)
       rack (>= 1.0.0)
+    video_info (2.4.2)
+      addressable
+      htmlentities
+      multi_json
     warden (1.2.3)
       rack (>= 1.0)
     webmock (1.20.4)
@@ -493,6 +509,7 @@ DEPENDENCIES
   hiredis
   kaminari
   kgio
+  link_thumbnailer
   lorem_ipsum_amet
   minitest
   net-ssh-gateway

@@ -31,5 +31,8 @@ RSpec.describe Admin::PostsController, :type => :routing do
       expect(:delete => "/admin/posts/1").to route_to("admin/posts#destroy", :id => "1")
     end
 
+    it "routes to #link_preview" do
+      expect(:get => "/admin/posts/link_preview").to route_to("admin/posts#link_preview")
+    end
   end
 end

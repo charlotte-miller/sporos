@@ -38,6 +38,7 @@
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_public_id             (public_id) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_unlock_token          (unlock_token) UNIQUE
 #
 
 class User < ActiveRecord::Base
@@ -47,11 +48,22 @@ class User < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Authentication
   # ---------------------------------------------------------------------------------
-  devise  :database_authenticatable, :trackable, :validatable, :lockable,
-          :registerable, :recoverable, :confirmable, :rememberable #:omniauthable,
-          # :omniauth_providers => []
+  devise  :database_authenticatable, :trackable, :validatable, :timeoutable,
+          :registerable, :recoverable, :confirmable, :rememberable,
+          :lockable, :lock_strategy => :failed_attempts, :maximum_attempts => 10, :unlock_strategy => :both, :unlock_in => 10.minute,
+          :stretches => 12
+          # :omniauthable, :omniauth_providers => []
          
+          #https://github.com/plataformatec/devise/wiki/How-To:-Add-timeout_in-value-dynamically
+          def timeout_in
+            if self.admin?
+              3.days
+            else
+              30.days
+            end
+          end
          
+        
 
   # ---------------------------------------------------------------------------------
   # Attributes

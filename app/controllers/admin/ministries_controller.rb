@@ -29,7 +29,7 @@ class Admin::MinistriesController < Admin::BaseController
 
   def update
     @ministry.update(ministry_params)
-    respond_with(@ministry)
+    respond_with(admin_ministry_url @ministry)
   end
 
   #admin_only
@@ -42,18 +42,18 @@ class Admin::MinistriesController < Admin::BaseController
   def create
     @ministry = Ministry.new(ministry_params)
     @ministry.save
-    respond_with(@ministry)
+    respond_with(admin_ministry_url @ministry)
   end
 
   #admin_only
   def destroy
     @ministry.destroy
-    respond_with(@ministry)
+    respond_with(admin_ministries_url)
   end
 
   private
     def set_ministry
-      @ministry = Ministry.find(params[:id])
+      @ministry = Ministry.friendly.find(params[:id])
     end
 
     def ministry_params

@@ -17,36 +17,6 @@ ActiveRecord::Schema.define(version: 20150412014602) do
   enable_extension "plpgsql"
   enable_extension "hstore"
 
-  create_table "admin_users", force: :cascade do |t|
-    t.string   "first_name",             limit: 60
-    t.string   "last_name",              limit: 60
-    t.integer  "user_id"
-    t.string   "email",                  limit: 80, default: "", null: false
-    t.string   "encrypted_password",                default: "", null: false
-    t.string   "password_salt"
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.integer  "sign_in_count",                     default: 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
-    t.integer  "failed_attempts",                   default: 0
-    t.string   "unlock_token"
-    t.datetime "locked_at"
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
-  end
-
-  add_index "admin_users", ["confirmation_token"], name: "index_admin_users_on_confirmation_token", unique: true, using: :btree
-  add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
-  add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
-  add_index "admin_users", ["unlock_token"], name: "index_admin_users_on_unlock_token", unique: true, using: :btree
-
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id"
     t.integer  "author_id"
@@ -326,8 +296,9 @@ ActiveRecord::Schema.define(version: 20150412014602) do
     t.string   "first_name",                 limit: 60
     t.string   "last_name",                  limit: 60
     t.string   "public_id",                  limit: 20
-    t.string   "email",                      limit: 80, default: "", null: false
-    t.string   "encrypted_password",                    default: "", null: false
+    t.string   "email",                      limit: 80, default: "",    null: false
+    t.string   "encrypted_password",                    default: "",    null: false
+    t.boolean  "admin",                                 default: false
     t.string   "password_salt"
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -343,19 +314,21 @@ ActiveRecord::Schema.define(version: 20150412014602) do
     t.string   "unconfirmed_email"
     t.integer  "failed_attempts",                       default: 0
     t.datetime "locked_at"
+    t.string   "unlock_token"
     t.string   "profile_image_file_name"
     t.string   "profile_image_content_type"
     t.integer  "profile_image_file_size"
     t.datetime "profile_image_updated_at"
     t.string   "profile_image_fingerprint"
     t.boolean  "profile_image_processing"
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["public_id"], name: "index_users_on_public_id", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
 end

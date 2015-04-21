@@ -15,7 +15,7 @@ module Devise
       
       let(:current_admin_user){ @admin_user }
       before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:admin_user]
+        @request.env["devise.mapping"] = Devise.mappings[:user]
         sign_in @admin_user
       end
     end
@@ -36,7 +36,7 @@ module Devise
       
       let(:current_admin_user){ @admin_user }
       before(:each) do
-        post_via_redirect admin_user_session_path, 'admin_user[email]' => @admin_user.email, 'admin_user[password]' => @admin_user.password      
+        post_via_redirect user_session_path, 'user[email]' => @admin_user.email, 'user[password]' => @admin_user.password      
       end
     end
   end

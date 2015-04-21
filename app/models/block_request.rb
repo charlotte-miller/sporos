@@ -29,8 +29,8 @@ class BlockRequest < ActiveRecord::Base
   # Associations
   # ---------------------------------------------------------------------------------
   belongs_to :requester, :class_name  => "User",        :foreign_key => "user_id"
-  belongs_to :approver,  :class_name  => "AdminUser",   :foreign_key => "admin_user_id"
-  belongs_to :source,    :polymorphic =>  true,        :counter_cache => true
+  belongs_to :approver,  -> { where(admin:true) },      :class_name  => "User",        :foreign_key => "admin_user_id"
+  belongs_to :source,    :polymorphic =>  true,         :counter_cache => :blocked_count
   # has_one  :author,    :class_name => "user", :through => :source
   
   

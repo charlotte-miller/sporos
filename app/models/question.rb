@@ -34,7 +34,7 @@ class Question < ActiveRecord::Base
   # Associations
   # ---------------------------------------------------------------------------------
   belongs_to :author,   :class_name => "User",      :foreign_key => "user_id"
-  belongs_to :permanent_approver, :class_name => "AdminUser", :foreign_key => "admin_user_id"
+  belongs_to :permanent_approver, -> { where(admin:true) }, :class_name => "User", :foreign_key => "admin_user_id"
   belongs_to :source,   polymorphic: true  # Meeting, Lesson, Group
 
   has_many   :answers, inverse_of: :question do

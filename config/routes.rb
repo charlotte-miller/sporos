@@ -49,14 +49,13 @@ Rails.application.routes.draw do
   
   devise_for :users, :skip => [:sessions]
   as :user do
-    get     'join' => 'devise/registrations#new', :as => :new_registrations
+    get     'join'  => 'devise/registrations#new', :as => :new_registrations
     get     'login' => 'devise/sessions#new',      :as => :new_user_session
     post    'login' => 'devise/sessions#create',   :as => :user_session
-    delete  'logout' => 'devise/sessions#destroy', :as => :destroy_user_session
-    get     'logout'  => 'devise/sessions#destroy' #convenience
+    delete  'logout'=> 'devise/sessions#destroy', :as => :destroy_user_session
+    get     'logout'=> 'devise/sessions#destroy' #convenience
   end
 
-  devise_for :admin_user # to remove
   namespace :admin do
     resources :ministries
     resources :posts do

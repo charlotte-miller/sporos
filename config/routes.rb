@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   end
   
   resources :pages, only:[:show]
+  resources :posts, only:[:index, :show]
   
   # Library
   resources :studies, only: [:index, :show ], path: 'library' do
@@ -57,6 +58,9 @@ Rails.application.routes.draw do
 
   devise_for :admin_user # to remove
   namespace :admin do
+    resources :ministries
+    resources :posts
+    
     resources :studies, :lessons
     
     namespace :content do

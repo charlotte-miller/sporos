@@ -3,23 +3,22 @@
 # Table name: ministries
 #
 #  id          :integer          not null, primary key
+#  slug        :string           not null
 #  name        :string           not null
 #  description :text
-#  url_path    :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
 # Indexes
 #
-#  index_ministries_on_name      (name) UNIQUE
-#  index_ministries_on_url_path  (url_path) UNIQUE
+#  index_ministries_on_name  (name) UNIQUE
+#  index_ministries_on_slug  (slug) UNIQUE
 #
 
 FactoryGirl.define do
   factory :ministry do      
     name {Faker::Lorem.words(3).split('').shuffle.join('').titlecase }
     description { "#{name.titlecase}'s Ministry is for #{name.downcase.pluralize}... coffee will be served." }
-    url_path { "/#{name.downcase}" }
   end
   
   factory :ministry_w_member, parent:'ministry' do

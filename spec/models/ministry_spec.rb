@@ -3,16 +3,16 @@
 # Table name: ministries
 #
 #  id          :integer          not null, primary key
+#  slug        :string           not null
 #  name        :string           not null
 #  description :text
-#  url_path    :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
 # Indexes
 #
-#  index_ministries_on_name      (name) UNIQUE
-#  index_ministries_on_url_path  (url_path) UNIQUE
+#  index_ministries_on_name  (name) UNIQUE
+#  index_ministries_on_slug  (slug) UNIQUE
 #
 
 require 'rails_helper'

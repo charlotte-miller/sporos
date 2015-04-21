@@ -15,9 +15,7 @@ class CreatePosts < ActiveRecord::Migration
       t.timestamps            null: false
     end
     
-    add_foreign_key :posts, :ministries
-    add_foreign_key :posts, :users
-    
-    add_index :posts, :parent_id, where:'parent_id IS NOT NULL'
+    add_index :posts, :parent_id,  where:'parent_id IS NOT NULL'
+    add_index :posts, :expired_at, order: {expired_at: 'DESC NULLS LAST'}
   end
 end

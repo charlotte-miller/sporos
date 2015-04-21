@@ -21,6 +21,7 @@
 #
 # Indexes
 #
+#  index_posts_on_expired_at   (expired_at)
 #  index_posts_on_ministry_id  (ministry_id)
 #  index_posts_on_parent_id    (parent_id)
 #  index_posts_on_type         (type)
@@ -30,6 +31,7 @@
 FactoryGirl.define do
   factory :post, class:'Posts::Link' do
     before(:create, :stub) { AWS.stub! if Rails.env.test? }
+    after(:build) {|post, context| post.class.skip_callback(:create, :after, :request_approval!) }
     
     ministry
     author          { FactoryGirl.create(:involvement, ministry:ministry).user }
@@ -39,8 +41,12 @@ FactoryGirl.define do
     poster { fixture_file_upload(Rails.root.join('spec/files/', 'poster_image.jpg'), 'image/jpg', true) }
     published_at nil
     expired_at {Time.now + 3.days}
+    
+    factory :post_w_approval_requests do
+      after(:create) {|post, context| post.send(:request_approval!)}
+    end
   end
-
+  
   factory :post_event, parent:'post', class:'Posts::Event' do
   end
 

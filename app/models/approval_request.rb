@@ -43,7 +43,7 @@ class ApprovalRequest < ActiveRecord::Base
   # Validations
   # ---------------------------------------------------------------------------------  
   validates_presence_of   :user_id, :post_id
-  validates_associated    :user,    :post, :on => :create
+  validates_associated    :user,    :post,    :on => :create
   validates_uniqueness_of :post_id, scope:[:user_id]
   
   

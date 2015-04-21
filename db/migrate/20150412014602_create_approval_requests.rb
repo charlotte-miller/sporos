@@ -9,8 +9,6 @@ class CreateApprovalRequests < ActiveRecord::Migration
       t.timestamps null: false
     end
     
-    add_foreign_key :approval_requests, :users
-    add_foreign_key :approval_requests, :posts
     
     add_index :approval_requests, [:user_id, :post_id], unique:true
     add_index :approval_requests, [:user_id, :status]

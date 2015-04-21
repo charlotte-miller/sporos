@@ -21,6 +21,7 @@
 #
 # Indexes
 #
+#  index_posts_on_expired_at   (expired_at)
 #  index_posts_on_ministry_id  (ministry_id)
 #  index_posts_on_parent_id    (parent_id)
 #  index_posts_on_type         (type)
@@ -34,6 +35,8 @@ class Post < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Scopes
   # ---------------------------------------------------------------------------------  
+  default_scope ->{ order('expired_at DESC NULLS LAST')}
+  
   # Single Table Inheritance
   scope :events,  -> { where(type: 'Post::Event') }
   scope :link,    -> { where(type: 'Post::Link')  }
@@ -45,8 +48,9 @@ class Post < ActiveRecord::Base
   scope :current,     -> { where( '(published_at IS NOT NULL) AND (expired_at IS NOT NULL) AND (NOW() BETWEEN published_at AND expired_at)' )}
   scope :expired,     -> { where( 'expired_at IS NOT NULL AND NOW() > expired_at') }
   scope :evergreen,   -> { where( 'expired_at IS NULL') }
-
-
+  scope :published,   -> { where( 'published_at IS NOT NULL') }
+  
+  
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------  
@@ -64,6 +68,7 @@ class Post < ActiveRecord::Base
   # ---------------------------------------------------------------------------------  
   validates_presence_of :type, :user_id, :ministry_id, :title
   validates_presence_of :expired_at, unless: -> (obj){obj.type=='Post::Page'} #evergreen
+  validates_associated :ministry, :author, on:'create'
   
   
   # ---------------------------------------------------------------------------------
@@ -80,11 +85,6 @@ class Post < ActiveRecord::Base
                         hd:     { format: 'png', convert_options: "-strip" },
                         mobile: { format: 'png', convert_options: "-strip" }}}
 
-    # ---------------------------------------------------------------------------------
-    # Scopes
-    # ---------------------------------------------------------------------------------
-    default_scope ->{ where('published_at IS NOT NULL') }
-    
 
     # ---------------------------------------------------------------------------------
     # Callbacks

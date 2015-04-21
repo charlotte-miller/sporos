@@ -209,15 +209,15 @@ ActiveRecord::Schema.define(version: 20150412014602) do
   add_index "meetings", ["lesson_id"], name: "index_meetings_on_lesson_id", using: :btree
 
   create_table "ministries", force: :cascade do |t|
+    t.string   "slug",        null: false
     t.string   "name",        null: false
     t.text     "description"
-    t.string   "url_path",    null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
 
   add_index "ministries", ["name"], name: "index_ministries_on_name", unique: true, using: :btree
-  add_index "ministries", ["url_path"], name: "index_ministries_on_url_path", unique: true, using: :btree
+  add_index "ministries", ["slug"], name: "index_ministries_on_slug", unique: true, using: :btree
 
   create_table "pages", force: :cascade do |t|
     t.integer  "parent_id"
@@ -262,6 +262,7 @@ ActiveRecord::Schema.define(version: 20150412014602) do
     t.datetime "updated_at",          null: false
   end
 
+  add_index "posts", ["expired_at"], name: "index_posts_on_expired_at", order: {"expired_at"=>:desc}, using: :btree
   add_index "posts", ["ministry_id"], name: "index_posts_on_ministry_id", using: :btree
   add_index "posts", ["parent_id"], name: "index_posts_on_parent_id", where: "(parent_id IS NOT NULL)", using: :btree
   add_index "posts", ["type"], name: "index_posts_on_type", using: :btree
@@ -357,10 +358,4 @@ ActiveRecord::Schema.define(version: 20150412014602) do
   add_index "users", ["public_id"], name: "index_users_on_public_id", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  add_foreign_key "approval_requests", "posts"
-  add_foreign_key "approval_requests", "users"
-  add_foreign_key "involvements", "ministries"
-  add_foreign_key "involvements", "users"
-  add_foreign_key "posts", "ministries"
-  add_foreign_key "posts", "users"
 end

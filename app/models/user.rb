@@ -91,7 +91,10 @@ class User < ActiveRecord::Base
       where(['ministry_id = ?', ministry.id]).first
     end
   end
+  
+  has_many :ministries, through: :involvements
   has_many :approval_requests
+  has_many :posts
   
   # ---------------------------------------------------------------------------------
   # Validations

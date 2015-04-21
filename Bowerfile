@@ -18,7 +18,7 @@ group :vendor, assets_path:'assets/javascripts' do
   asset "backbone-relational", "~0.8.8"
   asset "Backbone.BindTo", "~1.1.0"
   asset "Backbone.Handlebars", "~1.0.0"
-  # asset "moment", "~2.8.2"
+  asset "moment", "~2.8.2"
   asset "vide", "~0.1.2"
   asset "jquery-resize"
   # asset "shine", "~0.2.7"

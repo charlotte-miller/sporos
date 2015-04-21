@@ -1,4 +1,4 @@
-= form_for admin_post_path(post) do |f|
+= form_for admin_post_path(@post) do |f|
   - if @post.errors.any?
     #error_explanation
       %h2= "#{pluralize(@post.errors.count, "error")} prohibited this post from being saved:"
@@ -25,4 +25,4 @@
     = f.label :expired_at
     = f.datetime_select :expired_at
   .actions
-    = f.submit 'Save'
+    = f.submit 'Publish'

@@ -1,22 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe "admin/posts/show", :type => :view do
+  include PostsHelper
+  
   before(:each) do
     @post = assign(:post, build_stubbed(:post,
-      :type => "MyText",
       :title => "MyText",
       :description => "MyText",
       :display_options => "",
       :poster => ""
     ))
+    @type = assign(:type, post_type_of(@post))
   end
 
   it "renders attributes in <p>" do
     render
     expect(rendered).to match(/MyText/)
-    expect(rendered).to match(/MyText/)
-    expect(rendered).to match(/MyText/)
-    expect(rendered).to match(//)
-    expect(rendered).to match(//)
   end
 end

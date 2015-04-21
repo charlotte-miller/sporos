@@ -1,6 +1,6 @@
-.card{class:ministry_class(post)}
-  %a.thumbnail{href: post_path(post)}
-    - vimeo_id = post.display_options.vimeo_id
+.card{class:ministry_class(@post)}
+  %a.thumbnail{href: post_path(@post)}
+    - vimeo_id = @post.display_options.vimeo_id
     .vimeo-video{data:{vimeo_player: "https://player.vimeo.com/video/#{vimeo_id}"}}
       %img{ src:"http://i.vimeocdn.com/video/#{vimeo_id}_640.webp", height:'281', width:'500' }
       %iframe{ :allowfullscreen => "",                           |
@@ -11,6 +11,6 @@
                :webkitallowfullscreen => "", :width => "500" }
     
     .captions
-      %h3.title= post.title
-      %p.description= post.description
-    .expires-in{ data:{expired_at:post.expired_at.to_i}} #NOTE: Relative time inserted here. Example:  'in 11 hours'
+      %h3.title= @post.title
+      %p.description= @post.description
+    .expires-in{ data:{expired_at:@post.expired_at.to_i}} #NOTE: Relative time inserted here. Example:  'in 11 hours'

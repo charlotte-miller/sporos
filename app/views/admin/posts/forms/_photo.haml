@@ -1,4 +1,5 @@
-= form_for admin_post_path(post) do |f|
+= form_for admin_post_path(@post) do |f|
+  = f.hidden_field :type
   - if @post.errors.any?
     #error_explanation
       %h2= "#{pluralize(@post.errors.count, "error")} prohibited this post from being saved:"
@@ -6,9 +7,6 @@
         - @post.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
-    = f.label :type
-    = f.text_area :type
   .field
     = f.label :title
     = f.text_area :title
@@ -25,4 +23,4 @@
     = f.label :expired_at
     = f.datetime_select :expired_at
   .actions
-    = f.submit 'Save'
+    = f.submit 'Publish'

@@ -1,4 +1,4 @@
-= render "posts/cards/#{post.type}", locals:{post:post}
+= render "posts/cards/#{@type}"
 
 .admin_controls
   .published= link_to( 'View Published', post_path(post)) if post.published_at

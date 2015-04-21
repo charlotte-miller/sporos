@@ -1,12 +1,12 @@
-.card{class:ministry_class(post)}
-  %a.thumbnail{href: post_path(post)}
+.card{class:ministry_class(@post)}
+  %a.thumbnail{href: post_path(@post)}
     %img.thumbnail-img{src: placeholder_img,
-        data: {src: post.poster.url},
-        alt: post.title,
+        data: {src: @post.poster.url},
+        alt: @post.title,
         height:'360',
         width:'640'}
 
     .captions
-      %h3.title= post.title
-      %p.description= post.description
-    .expires-in{ data:{expired_at:post.expired_at.to_i}} #NOTE: Relative time inserted here. Example:  'in 11 hours'
+      %h3.title= @post.title
+      %p.description= @post.description
+    .expires-in{ data:{expired_at:@post.expired_at.to_i}} #NOTE: Relative time inserted here. Example:  'in 11 hours'

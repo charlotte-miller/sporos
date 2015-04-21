@@ -1,5 +1,6 @@
 class Admin::PostsController < Admin::BaseController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_type, only: [:show, :edit, :update, :destroy]
 
   respond_to :html
 
@@ -21,7 +22,6 @@ class Admin::PostsController < Admin::BaseController
   end
 
   def edit
-    @type = @post.class_name.downcase
   end
 
   def create
@@ -42,9 +42,13 @@ class Admin::PostsController < Admin::BaseController
 
   private
     def set_post
-      @post = current_user.posts.find(params[:id])
+      @post ||= current_user.posts.find(params[:id])
     end
-
+    
+    def set_type
+      @type ||= PostsHelper.post_type_of( @post )
+    end
+    
     def post_params
       params.require(:post).permit(:type, :ministry_id, :title, :description, :display_options, :poster, :expired_at)
     end

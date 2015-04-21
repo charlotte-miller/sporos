@@ -31,7 +31,7 @@
 FactoryGirl.define do
   factory :post, class:'Posts::Link' do
     before(:create, :stub) { AWS.stub! if Rails.env.test? }
-    after(:build) {|post, context| post.class.skip_callback(:create, :after, :request_approval!) }
+    # after(:build) {|post, context| post.class.skip_callback(:create, :after, :request_approval!) }
     
     ministry
     author          { FactoryGirl.create(:involvement, ministry:ministry).user }
@@ -42,9 +42,9 @@ FactoryGirl.define do
     published_at nil
     expired_at {Time.now + 3.days}
     
-    factory :post_w_approval_requests do
-      after(:create) {|post, context| post.send(:request_approval!)}
-    end
+    # factory :post_w_approval_requests do
+    #   after(:create) {|post, context| post.send(:request_approval!)}
+    # end
   end
   
   factory :post_event, parent:'post', class:'Posts::Event' do

@@ -1,6 +1,6 @@
 .card{class:ministry_class(@post)}
   %a.thumbnail{href: post_path(@post)}
-    %img.thumbnail-img{src: placeholder_img,
+    %img.thumbnail-img{src: @post.poster.url,
         data: {src: @post.poster.url},
         alt: @post.title,
         height:'360',

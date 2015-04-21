@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Admin::PostsController, :type => :controller, focus:true do
+RSpec.describe Admin::PostsController, :type => :controller do
   login_admin_user #TODO: remove
   login_user
   

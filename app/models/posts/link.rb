@@ -29,7 +29,10 @@
 #
 
 class Posts::Link < Post
-
+  delegate :url, to: :display_options
   
+  def display_options
+    DeepStruct.new super
+  end
   
 end

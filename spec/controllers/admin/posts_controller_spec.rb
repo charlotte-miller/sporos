@@ -15,7 +15,7 @@ RSpec.describe Admin::PostsController, :type => :controller do
   
   let(:valid_attributes) { attributes_for(:post, ministry:@ministry, author:@user, ministry_id:@ministry.id, user_id:@user.id, type:'Posts::Link') }
 
-  let(:invalid_attributes) { {foo:'bar'} }
+  let(:invalid_attributes) { {type:'Posts::Link', title:''} }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -67,7 +67,7 @@ RSpec.describe Admin::PostsController, :type => :controller do
         expect(assigns(:post)).to be_persisted
       end
 
-      it "redirects to the created post" do
+      it "redirects to the created post", :focus do
         post :create, {:post => valid_attributes}, valid_session
         expect(response).to redirect_to(admin_post_url Post.last)
       end

@@ -5,7 +5,6 @@ RSpec.describe "admin/ministries/new", :type => :view do
     assign(:ministry, Ministry.new(
       :name => "MyString",
       :description => "MyText",
-      :slug => "MyString"
     ))
   end
 
@@ -17,8 +16,6 @@ RSpec.describe "admin/ministries/new", :type => :view do
       assert_select "input#ministry_name[name=?]", "ministry[name]"
 
       assert_select "textarea#ministry_description[name=?]", "ministry[description]"
-
-      assert_select "input#ministry_slug[name=?]", "ministry[slug]"
     end
   end
 end

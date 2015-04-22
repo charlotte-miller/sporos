@@ -1,0 +1,16 @@
+- post_type = @post.class.name
+= form_for [:admin, @post.becomes(Post)], multipart:true do |f|
+  - f.object = @post.becomes(@post.class)
+  - if @post.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@post.errors.count, "error")} prohibited this post from being saved:"
+      %ul
+        - @post.errors.full_messages.each do |msg|
+          %li= msg
+
+  - if @ministries.length > 1
+    .field
+      = f.label :Ministry
+      = f.collection_select :ministry_id, @ministries, :id, :name, prompt:true
+  = f.hidden_field :type
+  = render partial:"admin/posts/forms/#{post_type_of @post}", locals:{f:f}

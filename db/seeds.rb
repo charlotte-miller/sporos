@@ -18,3 +18,7 @@
   # Where are you located
   # Who is the pastor
   # What denomination is the church
+
+
+  @user = FactoryGirl.create(:user, email:'dev@cornerstonesf.org', password:'password', admin:true)
+  

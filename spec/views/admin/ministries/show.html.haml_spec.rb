@@ -7,6 +7,7 @@ RSpec.describe "admin/ministries/show", :type => :view do
       :description => "MyText",
       :slug => "Url Path"
     ))
+    @posts = assign(:posts, 3.times.map {build_stubbed(:post)})
   end
 
   it "renders attributes in <p>" do

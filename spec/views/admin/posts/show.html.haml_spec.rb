@@ -10,7 +10,7 @@ RSpec.describe "admin/posts/show", :type => :view do
       :display_options => "",
       :poster => ""
     ))
-    @type = assign(:type, post_type_of(@post))
+    # @type = assign(:type, post_type_of(@post))
   end
 
   it "renders attributes in <p>" do

@@ -16,6 +16,6 @@ class CreatePosts < ActiveRecord::Migration
     end
     
     add_index :posts, :parent_id,  where:'parent_id IS NOT NULL'
-    add_index :posts, :expired_at, order: {expired_at: 'DESC NULLS LAST'}
+    add_index :posts, :expired_at, order: {expired_at: 'DESC'}
   end
 end

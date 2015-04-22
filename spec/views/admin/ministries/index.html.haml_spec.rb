@@ -6,12 +6,10 @@ RSpec.describe "admin/ministries/index", :type => :view do
      build_stubbed(:ministry,
         :name => "Name",
         :description => "MyText",
-        :slug => "Url Path"
       ),
       build_stubbed(:ministry,
         :name => "Name",
         :description => "MyText",
-        :slug => "Url Path"
       )
     ])
   end
@@ -20,6 +18,5 @@ RSpec.describe "admin/ministries/index", :type => :view do
     render
     assert_select "tr>td", :text => "Name".to_s, :count => 2
     assert_select "tr>td", :text => "MyText".to_s, :count => 2
-    assert_select "tr>td", :text => "Url Path".to_s, :count => 2
   end
 end

@@ -31,12 +31,10 @@ class Admin::PostsController < Admin::BaseController
   end
 
   def create
-    post_class = post_params.require(:type).constantize
+    post_class = post_params[:type].constantize
     @post = post_class.new(post_params.merge(author:current_user) )
-    @post.save!
+    @post.save
     respond_with(@post)
-  rescue ActionController::ParameterMissing
-    render :new
   end
 
   def update

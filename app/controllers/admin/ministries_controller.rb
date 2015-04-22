@@ -18,7 +18,7 @@ class Admin::MinistriesController < Admin::BaseController
     #Ministry Dashboard
     @posts = @ministry.posts
       .paginated(params[:page].to_i).per(20)
-      .group_by('published_at IS NULL AS Published')
+      .group('published_at IS NULL AS Published')
       .all
     
     respond_with(@ministry)
@@ -29,7 +29,7 @@ class Admin::MinistriesController < Admin::BaseController
 
   def update
     @ministry.update(ministry_params)
-    respond_with(admin_ministry_url @ministry)
+    respond_with(@ministry, location: admin_ministry_url(@ministry))
   end
 
   #admin_only
@@ -42,13 +42,13 @@ class Admin::MinistriesController < Admin::BaseController
   def create
     @ministry = Ministry.new(ministry_params)
     @ministry.save
-    respond_with(admin_ministry_url @ministry)
+    respond_with(@ministry)
   end
 
   #admin_only
   def destroy
     @ministry.destroy
-    respond_with(admin_ministries_url)
+    respond_with(@ministry)
   end
 
   private
@@ -62,5 +62,13 @@ class Admin::MinistriesController < Admin::BaseController
     
     def admin_only
       (redirect_to :index and return) unless current_user.admin?
+    end
+    
+    def ministry_url(*args)
+      admin_ministry_url(*args)
+    end
+    
+    def ministries_url(*args)
+      admin_ministries_url(*args)
     end
 end

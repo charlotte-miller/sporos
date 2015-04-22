@@ -13,8 +13,9 @@
       %tr
         %td= link_to ministry.name, [:admin, ministry]
         %td= ministry.description
+        %td= link_to 'Public Link', "/#{ministry.slug}"
         %td= link_to 'Edit', edit_admin_ministry_path(ministry)
-        %td= link_to 'Destroy', [:admin, ministrydi], :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= link_to 'Destroy', [:admin, ministry], :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 

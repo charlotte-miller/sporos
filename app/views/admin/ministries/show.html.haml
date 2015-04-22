@@ -1,15 +1,14 @@
 %p#notice= notice
 
-%p
-  %b Name:
-  = @ministry.name
-%p
-  %b Description:
-  = @ministry.description
-%p
-  %b Url path:
-  = @ministry.slug
+%h3
+  = link_to @ministry.name, "/#{@ministry.slug}"
+%a{href:edit_admin_ministry_path(@ministry)}
+  %p
+    %b Description:
+    = @ministry.description
 
-= link_to 'Edit', edit_admin_ministry_path(@ministry)
-\|
+
+- @posts.each do |post|
+  = render partial:"posts/cards/#{post_type_of(post)}", locals:{post:post}
+
 = link_to 'Back', admin_ministries_path

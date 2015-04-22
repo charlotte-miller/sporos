@@ -35,7 +35,7 @@ class Post < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Scopes
   # ---------------------------------------------------------------------------------  
-  default_scope ->{ order('expired_at DESC NULLS LAST')}
+  default_scope ->{ order('expired_at DESC')}
   
   # Single Table Inheritance
   scope :events,  -> { where(type: 'Post::Event') }
@@ -87,32 +87,32 @@ class Post < ActiveRecord::Base
                         mobile: { format: 'png', convert_options: "-strip" }}}
 
 
-    # ---------------------------------------------------------------------------------
-    # Callbacks
-    # ---------------------------------------------------------------------------------
-    
-    after_create :request_approval!
+  # ---------------------------------------------------------------------------------
+  # Callbacks
+  # ---------------------------------------------------------------------------------
+  
+  after_create :request_approval!
 
-    def request_approval!
-      if find_approvers.present?
-         find_approvers.map do |user|
-          ApprovalRequest.create!( post_id:id, user_id:user.id )
-        end
-      else
-        if author.involvements.in_ministry(ministry).first.editor?
-          # Editors publish instantly
-          self.touch :published_at
-        end
+  def request_approval!
+    if find_approvers.present?
+       find_approvers.map do |user|
+        ApprovalRequest.create!( post_id:id, user_id:user.id )
+      end
+    else
+      if author.involvements.in_ministry(ministry).first.editor?
+        # Editors publish instantly
+        self.touch :published_at
       end
     end
+  end
+  
+  
+  def find_approvers #=> Users
+    @find_approvers ||= begin
+      involvement = Involvement.where(user_id:user_id, ministry_id:ministry_id).first
+      involvement.more_involved_in_this_ministry
     
-    
-    def find_approvers #=> Users
-      @find_approvers ||= begin
-        involvement = Involvement.where(user_id:user_id, ministry_id:ministry_id).first
-        involvement.more_involved_in_this_ministry
-      
-        # filter from UI
-      end
+      # filter from UI
     end
+  end
 end

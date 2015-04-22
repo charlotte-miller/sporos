@@ -5,7 +5,6 @@ RSpec.describe "admin/ministries/edit", :type => :view do
     @ministry = assign(:ministry, build_stubbed(:ministry,
       :name => "MyString",
       :description => "MyText",
-      :slug => "MyString"
     ))
   end
 
@@ -18,7 +17,6 @@ RSpec.describe "admin/ministries/edit", :type => :view do
 
       assert_select "textarea#ministry_description[name=?]", "ministry[description]"
 
-      assert_select "input#ministry_slug[name=?]", "ministry[slug]"
     end
   end
 end

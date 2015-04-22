@@ -10,9 +10,7 @@ RSpec.describe Admin::MinistriesController, :type => :controller do
   
   let(:valid_attributes){ @valid_attributes }
 
-  # let(:invalid_attributes) {
-  #   skip("Add a hash of attributes invalid for your model")
-  # }
+  let(:invalid_attributes) { {name:'', description:''} }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -66,7 +64,7 @@ RSpec.describe Admin::MinistriesController, :type => :controller do
 
       it "redirects to the created ministry" do
         post :create, {:ministry => valid_attributes}, valid_session
-        expect(response).to redirect_to(Ministry.last)
+        expect(response).to redirect_to(admin_ministry_url Ministry.last)
       end
     end
 
@@ -105,7 +103,7 @@ RSpec.describe Admin::MinistriesController, :type => :controller do
       it "redirects to the ministry" do
         ministry = Ministry.create! valid_attributes
         put :update, {:id => ministry.to_param, :ministry => valid_attributes}, valid_session
-        expect(response).to redirect_to(ministry)
+        expect(response).to redirect_to(admin_ministry_url ministry)
       end
     end
 
@@ -135,7 +133,7 @@ RSpec.describe Admin::MinistriesController, :type => :controller do
     it "redirects to the ministries list" do
       ministry = Ministry.create! valid_attributes
       delete :destroy, {:id => ministry.to_param}, valid_session
-      expect(response).to redirect_to(ministries_url)
+      expect(response).to redirect_to(admin_ministries_url)
     end
   end
 

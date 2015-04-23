@@ -21,7 +21,6 @@
 #
 # Indexes
 #
-#  index_posts_on_expired_at   (expired_at)
 #  index_posts_on_ministry_id  (ministry_id)
 #  index_posts_on_parent_id    (parent_id)
 #  index_posts_on_type         (type)
@@ -32,24 +31,27 @@ class Post < ActiveRecord::Base
   include Sanitizable
   include AttachableFile
 
+
   # ---------------------------------------------------------------------------------
   # Scopes
   # ---------------------------------------------------------------------------------  
-  default_scope ->{ order('expired_at DESC')}
+  # default_scope ->{ order('updated_at DESC')}
   
   # Single Table Inheritance
-  scope :events,  -> { where(type: 'Post::Event') }
-  scope :link,    -> { where(type: 'Post::Link')  }
-  scope :page,    -> { where(type: 'Post::Page')  }
-  scope :photo,   -> { where(type: 'Post::Photo') }
-  scope :video,   -> { where(type: 'Post::Video') }
+  scope :events,      -> { where(type: 'Post::Event')    }
+  scope :link,        -> { where(type: 'Post::Link')     }
+  scope :page,        -> { where(type: 'Post::Page')     }
+  scope :photo,       -> { where(type: 'Post::Photo')    }
+  scope :video,       -> { where(type: 'Post::Video')    }
+  scope :w_out_pages, -> { where(type != "Posts::Page")  }
   
   scope :pre_release, -> { where( 'published_at IS NULL') }
-  scope :current,     -> { where( '(published_at IS NOT NULL) AND (expired_at IS NOT NULL) AND (NOW() BETWEEN published_at AND expired_at)' )}
+  scope :published,   -> { where( 'published_at IS NOT NULL') }
+  scope :current,     -> { published.where('(NOW() <= COALESCE(expired_at, NOW()))')} #'(NOW() BETWEEN published_at AND expired_at)'
   scope :expired,     -> { where( 'expired_at IS NOT NULL AND NOW() > expired_at') }
   scope :evergreen,   -> { where( 'expired_at IS NULL') }
-  scope :published,   -> { where( 'published_at IS NOT NULL') }
   
+  scope :relevance_order, ->{ order('ABS(EXTRACT(EPOCH FROM (NOW() - COALESCE(expired_at, published_at)))) ASC')}
   
   # ---------------------------------------------------------------------------------
   # Associations
@@ -67,7 +69,7 @@ class Post < ActiveRecord::Base
   # Validations
   # ---------------------------------------------------------------------------------  
   validates_presence_of :type, :user_id, :ministry_id, :title
-  validates_presence_of :expired_at, unless: -> (obj){obj.type=='Post::Page'} #evergreen
+  validates_presence_of :expired_at, if: -> (obj){obj.type=='Post::Event'}
   validates_associated :ministry, :author, on:'create'
   
   

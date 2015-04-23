@@ -1,9 +1,14 @@
 class PostsController < ApplicationController
+  before_action :set_ministry, only: [:index]
   before_action :set_post, only: [:show]
   respond_to :html, :json
 
   def index
-    @posts = Post.all
+    context = @ministry.posts || Post.w_out_pages
+    
+    @posts = context.current.relevance_order
+      .paginated(params[:page].to_i).per(20)
+      .all
     render @posts, layout: !request.xhr?
   end
 
@@ -12,12 +17,14 @@ class PostsController < ApplicationController
   end
 
 
-  private
-    def set_post
-      @post = Post.find(params[:id])
+private
+  def set_post
+    @post = Post.find(params[:id])
+  end
+  
+  def set_ministry
+    if params[:ministry]
+      @ministry = Ministry.friendly.find(params[:ministry])
     end
-
-    def post_params
-      params.require(:post).permit(:type, :title, :description, :display_options, :poster, :expired_at)
-    end
+  end
 end

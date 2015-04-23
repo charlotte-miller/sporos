@@ -8,6 +8,7 @@
 #  public_id                  :string(20)
 #  email                      :string(80)       default(""), not null
 #  encrypted_password         :string           default(""), not null
+#  admin                      :boolean          default("false")
 #  password_salt              :string
 #  reset_password_token       :string
 #  reset_password_sent_at     :datetime
@@ -23,6 +24,7 @@
 #  unconfirmed_email          :string
 #  failed_attempts            :integer          default("0")
 #  locked_at                  :datetime
+#  unlock_token               :string
 #  profile_image_file_name    :string
 #  profile_image_content_type :string
 #  profile_image_file_size    :integer

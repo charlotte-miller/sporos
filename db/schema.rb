@@ -232,7 +232,6 @@ ActiveRecord::Schema.define(version: 20150412014602) do
     t.datetime "updated_at",          null: false
   end
 
-  add_index "posts", ["expired_at"], name: "index_posts_on_expired_at", order: {"expired_at"=>:desc}, using: :btree
   add_index "posts", ["ministry_id"], name: "index_posts_on_ministry_id", using: :btree
   add_index "posts", ["parent_id"], name: "index_posts_on_parent_id", where: "(parent_id IS NOT NULL)", using: :btree
   add_index "posts", ["type"], name: "index_posts_on_type", using: :btree

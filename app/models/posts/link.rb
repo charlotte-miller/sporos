@@ -21,7 +21,6 @@
 #
 # Indexes
 #
-#  index_posts_on_expired_at   (expired_at)
 #  index_posts_on_ministry_id  (ministry_id)
 #  index_posts_on_parent_id    (parent_id)
 #  index_posts_on_type         (type)

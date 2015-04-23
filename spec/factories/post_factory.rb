@@ -21,7 +21,6 @@
 #
 # Indexes
 #
-#  index_posts_on_expired_at   (expired_at)
 #  index_posts_on_ministry_id  (ministry_id)
 #  index_posts_on_parent_id    (parent_id)
 #  index_posts_on_type         (type)
@@ -41,7 +40,7 @@ FactoryGirl.define do
     display_options { {} }
     poster { fixture_file_upload(Rails.root.join('spec/files/', 'poster_image.jpg'), 'image/jpg', true) }
     published_at nil
-    expired_at {Time.now + 3.days}
+    expired_at   nil
     
     # factory :post_w_approval_requests do
     #   after(:create) {|post, context| post.send(:request_approval!)}
@@ -53,6 +52,7 @@ FactoryGirl.define do
   end
   
   factory :post_event, parent:'post', class:'Posts::Event' do
+    expired_at {Time.now + 2.weeks}
   end
 
   factory :post_link, parent:'post', class:'Posts::Link' do

@@ -1,16 +1,23 @@
-= form_for [:admin, @ministry] do |f|
-  - if @ministry.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@ministry.errors.count, "error")} prohibited this ministry from being saved:"
-      %ul
-        - @ministry.errors.full_messages.each do |msg|
-          %li= msg
+.panel.panel-default
+  .panel-heading
+    %h4= "Editing #{@ministry.name.titleize}"
+  .panel-body
 
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :description
-    = f.text_area :description
-  .actions
-    = f.submit 'Save'
+    = form_for [:admin, @ministry], html: { role: "form" } do |f|
+      - if @ministry.errors.any?
+        #error_explanation
+          %h2= "#{pluralize(@ministry.errors.count, "error")} prohibited this ministry from being saved:"
+          %ul
+            - @ministry.errors.full_messages.each do |msg|
+              %li= msg
+
+      .form-group
+        = f.label :name, 'Ministry Name'
+        = f.text_field :name, class:'form-control'
+      .form-group
+        = f.label :description
+        %br/
+        = f.text_area :description, class:'form-control'
+      = f.submit 'Save', class: "btn btn-primary"
+      %a{href:admin_ministries_path}
+        .button.btn.btn-link Cancel

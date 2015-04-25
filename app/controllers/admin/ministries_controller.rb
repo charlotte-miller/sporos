@@ -4,21 +4,22 @@ class Admin::MinistriesController < Admin::BaseController
 
   respond_to :html
 
-  def index
-    @ministries = if current_user.admin?
-      Ministry
+  def index  
+    case @ministries.length
+    when 1
+      redirect_to admin_ministry_url(@ministries.first)
+    when 0
+      redirect_to edit_user_registrations_url
     else
-      current_user.ministries
-    end.paginated(params[:page].to_i).per(20).all
-    
-    respond_with(@ministries)
+      respond_with(@ministries)
+    end
   end
 
   def show
     #Ministry Dashboard
     @posts = @ministry.posts
       .paginated(params[:page].to_i).per(20)
-      .group('published_at IS NULL AS Published')
+      .order('updated_at DESC')
       .all
     
     respond_with(@ministry)

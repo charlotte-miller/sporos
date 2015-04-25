@@ -95,6 +95,7 @@ gem 'gon'
 gem 'therubyracer', :platforms => :ruby, :require => false
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'devise-bootstrap-views'
+gem 'jquery-rails'
 gem "haml-rails"
 gem 'handlebars_assets'#, '0.17.1'
 gem 'lorem_ipsum_amet' #, :group => :development

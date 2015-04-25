@@ -4,15 +4,22 @@
     %h4= t('.title', :resource => resource_class.model_name.human , :default => 'Edit #{resource_name.to_s.humanize}')
   .panel-body
     = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
+      .form-group.row
+        .col-sm-6
+          = f.label :first_name
+          = f.text_field :first_name, class: "form-control"
+        .col-sm-6
+          = f.label :last_name
+          = f.text_field :last_name, class: "form-control"
       .form-group
         = f.label :email
-        = f.email_field :email, autofocus: true, class: "form-control"
+        = f.email_field :email, class: "form-control"
       .form-group
         = f.label :password
         %i
           (#{t('.leave_blank_if_you_don_t_want_to_change_it', :default => "leave blank if you don't want to change it")})
         %br/
-        = f.password_field :password, :autocomplete => "off", class: "form-control"
+        = f.password_field :password, autofocus: true, :autocomplete => "off", class: "form-control"
       .form-group
         = f.label :password_confirmation
         %br/
@@ -22,8 +29,11 @@
         %i
           (#{t('.we_need_your_current_password_to_confirm_your_changes', :default => 'we need your current password to confirm your changes')})
         = f.password_field :current_password, class: "form-control"
+        = link_to t(".forgot_your_password", :default => "Forgot your password?"), new_password_path(resource_name), id:'forgot-password-link'
+
       = f.submit t('.update', :default => "Update"), class: "btn btn-primary"
-%p
-  = t('.unhappy', :default => 'Unhappy')
-  ? #{link_to t('.cancel_my_account', :default => "Cancel my account"), registration_path(resource_name), :data => { :confirm => t('.are_you_sure', :default => "Are you sure?") }, :method => :delete}.
-= link_to "Back", :back
+      = link_to :back do
+        .button.btn.btn-link Cancel
+      = link_to user_registration_path, :method => :delete, :data => { :confirm => "This cannot be undone. \rAre you sure?" }, class:'pull-right' do
+        .button.btn.btn-link Delete Account
+        

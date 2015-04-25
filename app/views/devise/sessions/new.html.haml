@@ -1,6 +1,6 @@
 .panel.panel-default
   .panel-heading
-    %h4= t('.sign_in', :default => "Sign in")
+    %h4= "Login"
   .panel-body
     = form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: "form" }) do |f|
       .form-group
@@ -9,10 +9,14 @@
       .form-group
         = f.label :password
         = f.password_field :password, autocomplete: "off", class: "form-control"
+        = link_to t(".forgot_your_password", :default => "Forgot your password?"), new_password_path(resource_name), id:'forgot-password-link'
       - if devise_mapping.rememberable?
         .checkbox
           %label
             = f.check_box :remember_me
             = f.label :remember_me
-      = f.submit  t('.sign_in', :default => "Sign in"), class: "btn btn-primary"
+      = f.submit  "Login", class: "btn btn-primary"
+      %a{href:new_registrations_path}
+        .button.btn.btn-link Need an account?
+
 = render "devise/shared/links"

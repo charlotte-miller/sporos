@@ -1,5 +1,15 @@
 @import "modules/bootstrap_extended";
-//@import "modules/text_rotator";
 @import "modules/helpers";
-@import "partials/all";
-//@import "vendor/animate";
+
+.panel.panel-default{
+  margin-top:10px;
+}
+
+.nav-header{
+  font-weight:bold;
+  margin-top:20px;
+  
+  &:first-child{
+    margin-top:0px;
+  }
+}

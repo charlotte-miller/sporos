@@ -9,6 +9,6 @@
 
 
 - @posts.each do |post|
-  = render partial:"posts/cards/#{post_type_of(post)}", locals:{post:post}
+  = render_partial_for post
 
 = link_to 'Back', admin_ministries_path

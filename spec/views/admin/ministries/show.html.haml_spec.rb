@@ -5,7 +5,6 @@ RSpec.describe "admin/ministries/show", :type => :view do
     @ministry = assign(:ministry, build_stubbed(:ministry,
       :name => "Name",
       :description => "MyText",
-      :slug => "Url Path"
     ))
     @posts = assign(:posts, 3.times.map {build_stubbed(:post)})
   end
@@ -14,6 +13,5 @@ RSpec.describe "admin/ministries/show", :type => :view do
     render
     expect(rendered).to match(/Name/)
     expect(rendered).to match(/MyText/)
-    expect(rendered).to match(/Url Path/)
   end
 end

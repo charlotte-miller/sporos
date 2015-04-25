@@ -5,33 +5,36 @@ RSpec.describe PostsController, :type => :controller do
   
   before(:all) do
     @ministry = create(:populated_ministry)
+    @ministry_post, @other_post = @posts = [
+      create(:post, published_at:Time.now-1.days, ministry:@ministry),
+      create(:post, published_at:Time.now-2.days) ]
   end
   
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
-
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
-
-  let(:valid_session) { {} }
-
+  let(:valid_attributes) { {} }
+  
   describe "GET index" do
-    it "assigns all posts as @posts" do
-      post = Post.create! valid_attributes
-      get :index, {}, valid_session
-      expect(assigns(:posts)).to eq([post])
+    context 'COMBINED FEED' do
+      it "assigns all posts as @posts" do
+        get :index, valid_attributes
+        expect(assigns(:posts).map(&:id)).to eq(@posts.map(&:id))
+      end
     end
+    
+    context 'MINISTRY FEED' do
+      let(:valid_attributes) { {ministry:@ministry.to_param} }
+      
+      it "assigns all posts as @posts" do
+        get :index, valid_attributes
+        expect(assigns(:posts)).to eq([@ministry_post])
+      end
+    end
+    
   end
 
   describe "GET show" do
     it "assigns the requested post as @post" do
-      post = Post.create! valid_attributes
-      get :show, {:id => post.to_param}, valid_session
-      expect(assigns(:post)).to eq(post)
+      get :show, {:id => @other_post.to_param}
+      expect(assigns(:post)).to eq(@other_post)
     end
   end
-
-
 end

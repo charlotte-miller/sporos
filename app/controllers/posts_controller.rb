@@ -4,22 +4,23 @@ class PostsController < ApplicationController
   respond_to :html, :json
 
   def index
-    context = @ministry.posts || Post.w_out_pages
+    context = @ministry.try(:posts) || Post.w_out_pages
     
     @posts = context.current.relevance_order
       .paginated(params[:page].to_i).per(20)
       .all
-    render @posts, layout: !request.xhr?
+    
+    render template:'posts/show', layout: !request.xhr?
   end
 
   def show
-    render @post,  layout: !request.xhr?
+    render template:'posts/show',  layout: !request.xhr?
   end
 
 
 private
   def set_post
-    @post = Post.find(params[:id])
+    @post = Post.find_by(public_id:params[:id])
   end
   
   def set_ministry

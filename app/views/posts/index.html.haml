@@ -1,2 +1,2 @@
 - @posts.each do |post|
-  = render "posts/cards/#{post.type}", locals:{post:post}
+  = render_partial_for post

@@ -3,8 +3,9 @@
 # Table name: posts
 #
 #  id                  :integer          not null, primary key
-#  parent_id           :integer
 #  type                :text             not null
+#  public_id           :string(21)       not null
+#  parent_id           :integer
 #  ministry_id         :integer          not null
 #  user_id             :integer          not null
 #  title               :text             not null
@@ -23,6 +24,7 @@
 #
 #  index_posts_on_ministry_id  (ministry_id)
 #  index_posts_on_parent_id    (parent_id)
+#  index_posts_on_public_id    (public_id) UNIQUE
 #  index_posts_on_type         (type)
 #  index_posts_on_user_id      (user_id)
 #

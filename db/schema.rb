@@ -215,11 +215,12 @@ ActiveRecord::Schema.define(version: 20150412014602) do
   add_index "podcasts", ["church_id"], name: "index_podcasts_on_church_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
+    t.text     "type",                           null: false
+    t.string   "public_id",           limit: 21, null: false
     t.integer  "parent_id"
-    t.text     "type",                null: false
-    t.integer  "ministry_id",         null: false
-    t.integer  "user_id",             null: false
-    t.text     "title",               null: false
+    t.integer  "ministry_id",                    null: false
+    t.integer  "user_id",                        null: false
+    t.text     "title",                          null: false
     t.text     "description"
     t.hstore   "display_options"
     t.string   "poster_file_name"
@@ -228,12 +229,13 @@ ActiveRecord::Schema.define(version: 20150412014602) do
     t.datetime "poster_updated_at"
     t.datetime "published_at"
     t.datetime "expired_at"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   add_index "posts", ["ministry_id"], name: "index_posts_on_ministry_id", using: :btree
   add_index "posts", ["parent_id"], name: "index_posts_on_parent_id", where: "(parent_id IS NOT NULL)", using: :btree
+  add_index "posts", ["public_id"], name: "index_posts_on_public_id", unique: true, using: :btree
   add_index "posts", ["type"], name: "index_posts_on_type", using: :btree
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 

@@ -51,9 +51,7 @@ class User < ActiveRecord::Base
   # Authentication
   # ---------------------------------------------------------------------------------
   devise  :database_authenticatable, :trackable, :validatable, :timeoutable,
-          :registerable, :recoverable, :confirmable, :rememberable,
-          :lockable, :lock_strategy => :failed_attempts, :maximum_attempts => 10, :unlock_strategy => :both, :unlock_in => 10.minute,
-          :stretches => 12
+          :registerable, :recoverable, :confirmable, :rememberable  #configuration in devise.rb
           # :omniauthable, :omniauth_providers => []
          
           #https://github.com/plataformatec/devise/wiki/How-To:-Add-timeout_in-value-dynamically
@@ -64,6 +62,14 @@ class User < ActiveRecord::Base
               30.days
             end
           end
+          
+          # https://github.com/plataformatec/devise/wiki/How-To:-Add-:confirmable-to-Users#allowing-unconfirmed-access
+          # def confirmation_required?
+          #   # how do they get the request?
+          #   if highest_involvement_level = self.involvements.order('level DESC').first
+          #     highest_involvement_level[:level] > 0
+          #   end
+          # end
          
         
 

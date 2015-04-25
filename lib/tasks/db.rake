@@ -7,7 +7,7 @@ namespace :db do
       'db:test:purge',
       'db:test:load_schema',
       # 'parallel:prepare'
-      # 'db:seed'
+      'db:seed'
     ].each { |task| Rake::Task[ task ].invoke  } #rescue next
   end
 end

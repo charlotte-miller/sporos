@@ -73,5 +73,5 @@
       #card-sizer
       - placeholder_img = placeholder_image '640x360', text:'default'
       - @posts.each do |post|
-        = render "posts/cards/#{post.type}", locals:{post:post}
+        = render_partial_for post
   

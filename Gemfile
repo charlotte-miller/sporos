@@ -102,6 +102,7 @@ gem 'lorem_ipsum_amet' #, :group => :development
 gem 'ansi'
 
 group :development, :test do
+  gem "erb2haml"
   # gem "bullet"
   
   gem 'zeus'

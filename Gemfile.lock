@@ -124,6 +124,8 @@ GEM
     elasticsearch-transport (1.0.7)
       faraday
       multi_json
+    erb2haml (0.1.5)
+      html2haml
     erubis (2.7.0)
     ethon (0.7.2)
       ffi (>= 1.3.0)
@@ -498,6 +500,7 @@ DEPENDENCIES
   elasticsearch (~> 1.0.8)
   elasticsearch-model
   elasticsearch-rails
+  erb2haml
   factory_girl_rails
   faker
   fakeredis

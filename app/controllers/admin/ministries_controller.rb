@@ -9,18 +9,17 @@ class Admin::MinistriesController < Admin::BaseController
     when 1
       redirect_to admin_ministry_url(@ministries.first)
     when 0
-      redirect_to edit_user_registrations_url
+      redirect_to edit_user_registration_url
     else
       respond_with(@ministries)
     end
   end
 
   def show
-    #Ministry Dashboard
-    @posts = @ministry.posts
-      .paginated(params[:page].to_i).per(20)
-      .order('updated_at DESC')
-      .all
+    grouped_involvements = @ministry.involvements.group_by(&:level)
+    @grouped_users = grouped_involvements.each_pair do |level, involvements|
+      grouped_involvements[level] = User.find(involvements.map(&:user_id))
+    end
     
     respond_with(@ministry)
   end

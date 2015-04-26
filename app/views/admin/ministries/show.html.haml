@@ -6,11 +6,12 @@
     %b Bio:
     = @ministry.description
 
-- if @posts.empty?
-  %h4#no_posts 
-    (You have no posts.
-    = link_to 'Create One!', new_admin_post_path
+- if @grouped_users.empty?
+  %h4#no_users 
+    (You have no members.
+    = link_to 'Invite One!', '#'
     )
 
-- @posts.each do |post|
-  = render_partial_for post
+- @grouped_users.each do |level, users|
+  %h4= level.titleize
+  = users.map(&:name).join(', ')

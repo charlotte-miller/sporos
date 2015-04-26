@@ -6,7 +6,12 @@ RSpec.describe "admin/ministries/show", :type => :view do
       :name => "Name",
       :description => "MyText",
     ))
-    @posts = assign(:posts, 3.times.map {build_stubbed(:post)})
+    # @grouped_users = assign(:grouped_users, )
+    grouped_involvements = @ministry.involvements.group_by(&:level)
+    @grouped_users = grouped_involvements.each_pair do |level, involvements|
+      grouped_involvements[level] = User.find(involvements.map(&:user_id))
+    end
+    assign :grouped_users, @grouped_users
   end
 
   it "renders attributes in <p>" do

@@ -3,7 +3,7 @@
 %h3= "#{@ministry.name.titlecase.possessive} Ministry Dashboard"
 %a{href:edit_admin_ministry_path(@ministry)}
   %p
-    %b Bio:
+    %b Edit Description:
     = @ministry.description
 
 - if @grouped_users.empty?
@@ -13,5 +13,6 @@
     )
 
 - @grouped_users.each do |level, users|
+  - next if level == 'editor'
   %h4= level.titleize
   = users.map(&:name).join(', ')

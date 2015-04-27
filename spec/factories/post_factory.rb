@@ -54,19 +54,29 @@ FactoryGirl.define do
   end
   
   factory :post_event, parent:'post', class:'Posts::Event' do
+    type       'Posts::Event'
     expired_at {Time.now + 2.weeks}
   end
 
   factory :post_link, parent:'post', class:'Posts::Link' do
+    type 'Posts::Link'
   end
 
   factory :post_page, parent:'post', class:'Posts::Page' do
+    type 'Posts::Page'
   end
   
   factory :post_photo, parent:'post', class:'Posts::Photo' do
+    type 'Posts::Photo'
   end
   
   factory :post_video, parent:'post', class:'Posts::Video' do
+    ignore do
+      vimeo_id '124184882'
+    end
+    
+    type 'Posts::Video'
+    display_options { {vimeo_id: vimeo_id} }
   end
   
 end

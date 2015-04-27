@@ -19,6 +19,9 @@
   # Who is the pastor
   # What denomination is the church
 
+# =============================================
+# =       Ministries Roles Users & Posts      =
+# =============================================
   @mens_ministry, @womens_ministry, @rendezvous_ministry, @teens_ministry, @kids_ministry, @outreach_ministry = @ministries = {
     men:        "A ministry for the men of Cornerstone",
     women:      "A ministry for the women of Cornerstone",
@@ -28,26 +31,11 @@
     outreach:   "We believe that as Christ followers we display Christ's love through caring for the least of these. (Matthew 25:40)"
   }.map {|name,description| Ministry.find_by(name:name) || FactoryGirl.create(:ministry, name:name, description:description) }
 
+
+  # Editors
   @chip     = User.find_by(first_name:'Chip'    ) || FactoryGirl.create(:user, first_name:'Chip',     last_name:'Miller',   email:'chip@cornerstonesf.org',     password:'Dearborn',  admin:true)
   @rick     = User.find_by(first_name:'Rick'    ) || FactoryGirl.create(:user, first_name:'Rick',     last_name:'Narvarte', email:'rick@cornerstonesf.org',     password:'Dearborn',  admin:true)
   @gretchen = User.find_by(first_name:'Gretchen') || FactoryGirl.create(:user, first_name:'Gretchen', last_name:'Wanger',   email:'gretchen@cornerstonesf.org', password:'Dearborn')             
-  
-  # Sample Ministries
-  @mens_member    = User.find_by(email:'mens_member@example.com'   ) || FactoryGirl.create(:user, email:'mens_member@example.com',    password:'Dearborn')
-  @mens_volunteer = User.find_by(email:'mens_volunteer@example.com') || FactoryGirl.create(:user, email:'mens_volunteer@example.com', password:'Dearborn')
-  @mens_leader    = User.find_by(email:'mens_leaders@example.com'  ) || FactoryGirl.create(:user, email:'mens_leaders@example.com',   password:'Dearborn')
-  @mens_ministry.members    << @mens_member     unless @mens_ministry.members.present?
-  @mens_ministry.volunteers << @mens_volunteer  unless @mens_ministry.volunteers.present?
-  @mens_ministry.leaders    << @mens_leader     unless @mens_ministry.leaders.present?
-  
-  @womens_member    = User.find_by(email:'womens_member@example.com'   ) || FactoryGirl.create(:user, email:'womens_member@example.com',    password:'Dearborn')
-  @womens_volunteer = User.find_by(email:'womens_volunteer@example.com') || FactoryGirl.create(:user, email:'womens_volunteer@example.com', password:'Dearborn')
-  @womens_leader    = User.find_by(email:'womens_leaders@example.com'  ) || FactoryGirl.create(:user, email:'womens_leaders@example.com',   password:'Dearborn')
-  @womens_ministry.members    << @womens_member     unless @womens_ministry.members.present?
-  @womens_ministry.volunteers << @womens_volunteer  unless @womens_ministry.volunteers.present?
-  @womens_ministry.leaders    << @womens_leader     unless @womens_ministry.leaders.present?
-  
-  # Editors
   @digital_team = [@chip, @gretchen, @rick]
   @digital_team.each do |member|
     next if member.ministries.present?
@@ -56,4 +44,25 @@
   end
   
   
-  
+  # Ministry Users and Posts
+  @ministries.each do |ministry|
+    slug = ministry.slug
+    users_found_or_created = { 
+      "@#{slug}_member"    => (User.find_by(email:"#{slug}_member@example.com"   ) || FactoryGirl.create(:user, email:"#{slug}_member@example.com",    password:'Dearborn')),
+      "@#{slug}_volunteer" => (User.find_by(email:"#{slug}_volunteer@example.com") || FactoryGirl.create(:user, email:"#{slug}_volunteer@example.com", password:'Dearborn')),
+      "@#{slug}_leader"    => (User.find_by(email:"#{slug}_leaders@example.com"  ) || FactoryGirl.create(:user, email:"#{slug}_leaders@example.com",   password:'Dearborn'))}
+    users_found_or_created.each &method(:instance_variable_set)
+    
+    member, volunteer, leader = users_found_or_created.values
+    ministry.members    << member     unless ministry.members.present?
+    ministry.volunteers << volunteer  unless ministry.volunteers.present?
+    ministry.leaders    << leader     unless ministry.leaders.present?
+    
+    if ministry.posts.empty?
+      post_factory_type = [:post_event, :post_link, :post_page, :post_photo, :post_video ]
+      instance_variable_set "@#{slug}_posts", [
+        6.times.map { FactoryGirl.create(post_factory_type.sample, author:volunteer, ministry:ministry) },
+        6.times.map { FactoryGirl.create(post_factory_type.sample, author:leader,    ministry:ministry) },
+      ].flatten
+    end
+  end

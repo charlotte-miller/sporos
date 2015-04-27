@@ -94,6 +94,9 @@ class Post < ActiveRecord::Base
                         hd:     { format: 'png', convert_options: "-strip" },
                         mobile: { format: 'png', convert_options: "-strip" }}}
 
+  def display_options
+    DeepStruct.new super
+  end
 
   # ---------------------------------------------------------------------------------
   # Callbacks

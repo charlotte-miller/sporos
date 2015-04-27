@@ -21,3 +21,6 @@
       = f.submit 'Save', class: "btn btn-primary"
       %a{href:admin_ministries_path}
         .button.btn.btn-link Cancel
+      - if current_user.admin?
+        = link_to [:admin, @ministry], :method => :delete, :data => { :confirm => "This cannot be undone. \rAre you sure?" }, class:'pull-right' do
+          .button.btn.btn-link Delete Ministry

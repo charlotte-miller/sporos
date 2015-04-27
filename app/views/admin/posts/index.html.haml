@@ -1,5 +1,6 @@
+%h2 Your Posts
 - @posts.each do |post|
-  = render_partial_for post
+  = render partial:"admin/posts/compact_post", locals:{post:post}
 
   .admin_controls
     .published= link_to( 'View Published', post_path(id:post.id)) if post.published_at

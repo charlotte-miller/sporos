@@ -1,6 +1,6 @@
 class Admin::MinistriesController < Admin::BaseController
   before_action :admin_only,    only:[:new, :create, :destroy]
-  before_action :set_ministry,  only: [:show, :edit, :update, :destroy]
+  before_action :set_ministry,  only: [:edit, :update, :destroy] #:show
 
   respond_to :html
 
@@ -15,14 +15,14 @@ class Admin::MinistriesController < Admin::BaseController
     end
   end
 
-  def show
-    grouped_involvements = @ministry.involvements.group_by(&:level)
-    @grouped_users = grouped_involvements.each_pair do |level, involvements|
-      grouped_involvements[level] = User.find(involvements.map(&:user_id))
-    end
-    
-    respond_with(@ministry)
-  end
+  # def show
+  #   grouped_involvements = @ministry.involvements.group_by(&:level)
+  #   @grouped_users = grouped_involvements.each_pair do |level, involvements|
+  #     grouped_involvements[level] = User.find(involvements.map(&:user_id))
+  #   end
+  #
+  #   respond_with(@ministry)
+  # end
 
   def edit
   end

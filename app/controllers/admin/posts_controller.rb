@@ -11,7 +11,7 @@ class Admin::PostsController < Admin::BaseController
   respond_to :html
 
   def index
-    @posts = current_user.posts
+    @posts =  current_user.approval_requests.paginated(params[:page].to_i).per(20).map(&:post) | current_user.posts.paginated(params[:page].to_i).per(20)
     respond_with(@posts)
   end
 

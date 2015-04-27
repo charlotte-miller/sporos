@@ -1,4 +1,4 @@
-%h1 Listing ministries
+%h1 Select a Ministry
 
 %table
   %thead
@@ -11,12 +11,10 @@
   %tbody
     - @ministries.each do |ministry|
       %tr
-        %td= link_to ministry.name, [:admin, ministry]
+        %td= ministry.name.titleize
         %td= ministry.description
-        %td= link_to 'Public Link', "/#{ministry.slug}"
         %td= link_to 'Edit', edit_admin_ministry_path(ministry)
-        %td= link_to 'Destroy', [:admin, ministry], :method => :delete, :data => { :confirm => 'Are you sure?' }
 
-%br
-
-= link_to 'New Ministry', new_admin_ministry_path
+- if current_user.admin?
+  %hr
+    = link_to 'New Ministry', new_admin_ministry_path

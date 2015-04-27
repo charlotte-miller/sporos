@@ -57,7 +57,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :ministries
+    resources :ministries, except: :show
     resources :posts do
       collection do |variable|
         get 'link_preview'

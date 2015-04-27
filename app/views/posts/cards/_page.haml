@@ -1,3 +1,5 @@
+- post && @post = post
+- placeholder_img = placeholder_image '640x360', text:'default'
 .card{class:ministry_class(@post)}
   %a.thumbnail{href: post_path(id:@post.id)}
     %img.thumbnail-img{src: placeholder_img,

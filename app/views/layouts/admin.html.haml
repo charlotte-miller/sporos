@@ -51,9 +51,9 @@
                 %li.nav-header Ministries
                 - @ministries.each do |ministry|
                   %li= link_to ministry.name.titleize, admin_ministry_path(ministry)
-                %li.nav-header Account
-                %li= link_to "Settings", edit_user_registration_path
-                %li= link_to "Logout", destroy_user_session_path
+              %li.nav-header Account
+              %li= link_to "Settings", edit_user_registration_path
+              %li= link_to "Logout", destroy_user_session_path
           / /.well
         / /span
         .col-sm-9

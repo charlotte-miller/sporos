@@ -13,7 +13,7 @@
       - if devise_mapping.rememberable?
         .checkbox
           %label
-            = f.check_box :remember_me
+            = f.check_box :remember_me, checked: true
             = f.label :remember_me
       = f.submit  "Login", class: "btn btn-primary"
       %a{href:new_registrations_path}

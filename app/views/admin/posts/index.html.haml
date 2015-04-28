@@ -1,24 +1,30 @@
-%h2 Dashboard
-.row
-  .col-xs-4
-    %img.img-circle{src: current_user.profile_image.url}
-  .col-xs-8
-    %h3
-      = current_user.first_name
-      %br
-      %small= current_user.last_name
+#posts-index
+  #header
+    .col-xs-12
+      %h1 DASHBOARD
+  #profile
+    .picture
+      %img.img-circle{src: 'http://www.montejano.es/wp-content/uploads/2014/06/perfil1.jpg' } 
+      / current_user.profile_image.url
+    .name
+      %h3
+        = current_user.first_name.upcase
+        %br
+        %small= current_user.last_name.upcase
     
-- @grouped_posts.each do |group_name, posts|
-  %h4= group_name
-  - posts.each do |post|
-    = render partial:"admin/posts/compact_post", locals:{post:post}
+  #posts
+    - @grouped_posts.each do |group_name, posts|
+      - next unless posts.present?
+      %h4= group_name
+      - posts.each do |post|
+        = render partial:"admin/posts/compact_post", locals:{post:post}
 
-%nav#new-post
-  #new-post-types
-    = link_to 'EVENTS', new_admin_post_path( post_type:'event')
-    = link_to 'LINK',   new_admin_post_path( post_type:'link')
-    = link_to 'PHOTO',  new_admin_post_path( post_type:'photo')
-    = link_to 'VIDEO',  new_admin_post_path( post_type:'video')
+  %nav#new-post
+    #new-post-types
+      = link_to 'EVENTS', new_admin_post_path( post_type:'event')
+      = link_to 'LINK',   new_admin_post_path( post_type:'link')
+      = link_to 'PHOTO',  new_admin_post_path( post_type:'photo')
+      = link_to 'VIDEO',  new_admin_post_path( post_type:'video')
     
-  %a.go-back{href:'#'} Go Back
+    %a.go-back{href:'#'} Go Back
     

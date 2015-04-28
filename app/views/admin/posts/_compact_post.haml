@@ -1,14 +1,19 @@
-.row
-  .col-xs-2
-    .user-icon
-  .col-xs-6
+.compact-post
+  .user-icon :)
+   
+  .info
     .row
-      Title
-    .row
-      Submitted
-    - if post.expired_at
+      .title= post.title
+    %small.details
       .row
-        .expires
-  .col-xs-4
-    %button.btn Follow Up
+        .submitted= "SUBMITTED: #{distance_of_time_in_words_to_now post.created_at} ago"
+      - if post.expired_at
+        .row  
+          .expires= "EXPIRES IN: #{distance_of_time_in_words_to_now post.expired_at }"
+        
+  .follow-up
+    %button.follow-up-btn
+      FOLLOW
+      %br
+      UP
     

@@ -1,6 +1,10 @@
 @import "modules/bootstrap_extended";
 @import "modules/helpers";
 
+html,body{
+  background-color:$gray-lighter;
+}
+
 .panel.panel-default{
   margin-top:10px;
 }
@@ -35,3 +39,112 @@
     border-right:2px solid $gray-lighter;
   }
 }
+
+
+#posts-index{
+  h1,h2,h3,h4,h5,button,.title{
+    font-weight: 300;
+    letter-spacing: 1px; 
+  }
+  
+  #posts{
+//    margin-top:80px;
+    margin-bottom:70px;
+    
+    h4{
+      margin-top: 20px;
+    }
+  }
+  
+  #header, #profile, #header h4 {color:$gray-dark;}
+  
+  #header{
+    top: 0;
+    left: 0;
+    width:100%;
+    text-align:center;
+    height:100px;
+    line-height:100px;
+    position:fixed;
+    background-color:$gray-lighter;
+    z-index: 1;
+  }
+
+  #profile{
+    @extend .row;
+    padding-top:100px;
+    padding-bottom:100px;
+    text-align:center;
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    
+    
+    .picture{
+//      @extend .col-xs-4;
+      margin-top: 15px;
+      height: 120px;
+      line-height: 120px;
+      text-align: center;
+      align-self:center;
+      
+      img{
+        height:inherit;
+      }
+    }
+    
+    .name{
+      margin-left:20px;
+      align-self:center;
+      
+      h3{
+        font-size:36px;
+        line-height: 26px;
+      }
+    }
+  }
+  
+  .compact-post{
+    @extend .row;
+    background-color:white;
+    color:$gray-light;
+    height:70px;
+    line-height:70px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  
+    .info{
+     @extend .col-xs-7;
+     @extend %verticalCenter;
+   
+     .row{ line-height: initial; }
+    }
+    
+    .follow-up{
+      @extend .col-xs-3;
+      text-align:center;
+    }
+  
+    .user-icon{
+      @extend .col-xs-2;
+      text-align:center;
+    }
+  
+    .title{
+      @extend %truncate;
+      font-size:18px;
+    }
+    .follow-up-btn{
+      @extend .btn;
+      font-weight:300;
+      color:white;
+      background-color:$gray;
+      
+      &:focus, &:hover{
+        color: white;
+        background-color:$gray-light;
+      }
+    }
+  }
+}
+

@@ -11,6 +11,12 @@
         .col-sm-6
           = f.label :last_name
           = f.text_field :last_name, class: "form-control"
+      .form-group.row
+        .col-xs-9
+          = f.label :profile_image
+          = f.file_field :profile_image, class: "form-control"
+        .col-xs-3
+          %img.img-circle{src: current_user.profile_image.url}
       .form-group
         = f.label :email
         = f.email_field :email, class: "form-control"
@@ -24,10 +30,10 @@
         = f.label :password_confirmation
         %br/
         = f.password_field :password_confirmation, class: "form-control"
+      %hr
       .form-group
-        = f.label :current_password
-        %i
-          (#{t('.we_need_your_current_password_to_confirm_your_changes', :default => 'we need your current password to confirm your changes')})
+        = f.label :current_password, 'Current Password'
+        %i We always need your current password to confirm your changes
         = f.password_field :current_password, class: "form-control"
         = link_to t(".forgot_your_password", :default => "Forgot your password?"), new_password_path(resource_name), id:'forgot-password-link'
 

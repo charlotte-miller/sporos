@@ -29,9 +29,7 @@
     = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
   %body
     .container
-      .row
-        .col-sm-12
-          = yield
+      = yield
       #global-nav
         .global_nav_item.col-xs-3
           = link_to admin_posts_path do

@@ -23,10 +23,31 @@ RSpec.describe Admin::PostsController, :type => :controller do
   let(:valid_session) { {} }
 
   describe "GET index" do
-    it "assigns all posts as @posts" do
-      post = create(:post, ministry:@ministry, author:@user)
-      get :index, {}, valid_session
-      expect(assigns(:posts)).to eq([post])
+    describe 'assigns to @grouped_posts' do
+      before(:all) do
+        @my_recently_approved_posts = [create(:post, ministry:@ministry, author:@user, published_at:5.minutes.ago)]
+        @i_should_approve           = [create(:post, ministry:@ministry, author:@volunteer)]
+        @my_rejected_posts          = [create(:post, ministry:@ministry, author:@user, rejected_at:5.minutes.ago)]
+        @my_pending_posts           = [create(:post, ministry:@ministry, author:@user)]
+      end
+      
+      before(:each) { get :index, {}, valid_session }
+       
+      it 'includes "Recently Published" posts' do
+        expect(assigns(:grouped_posts)['Recently Published'].to_ary).to eq(@my_recently_approved_posts)
+      end
+
+      it 'includes "Approval Required" posts' do
+        expect(assigns(:grouped_posts)['Approval Required'].to_ary).to eq(@i_should_approve)
+      end
+
+      it 'includes "Rejected Posts" posts' do
+        expect(assigns(:grouped_posts)['Rejected Posts'].to_ary).to eq(@my_rejected_posts)
+      end
+
+      it 'includes "Pending Posts" posts' do
+        expect(assigns(:grouped_posts)['Pending Posts'].to_ary).to eq(@my_pending_posts)
+      end
     end
   end
 

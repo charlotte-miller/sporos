@@ -37,7 +37,7 @@ class ApprovalRequest < ActiveRecord::Base
   # ---------------------------------------------------------------------------------  
   scope :current, -> { where('status < 3') }
   scope :decided, -> { where('status = 1 OR status = 2') }
-  scope :action_required, -> { where('status = 1 OR status = 3') }
+  scope :action_required, -> { where('status = 0 OR status = 2') }
   
     
   # ---------------------------------------------------------------------------------

@@ -1,12 +1,17 @@
-%h2 Your Posts
-- @posts.each do |post|
-  = render partial:"admin/posts/compact_post", locals:{post:post}
-
-  .admin_controls
-    .published= link_to( 'View Published', post_path(id:post.id)) if post.published_at
-    .edit= link_to 'Edit', edit_admin_post_path(id:post.id)
-    .destroy= link_to 'Destroy', admin_post_path(id:post.id), :method => :delete, :data => { :confirm => "Are you sure?\nIt will really be gone." }
-
+%h2 Dashboard
+.row
+  .col-xs-4
+    %img.img-circle{src: current_user.profile_image.url}
+  .col-xs-8
+    %h3
+      = current_user.first_name
+      %br
+      %small= current_user.last_name
+    
+- @grouped_posts.each do |group_name, posts|
+  %h4= group_name
+  - posts.each do |post|
+    = render partial:"admin/posts/compact_post", locals:{post:post}
 
 %nav#new-post
   #new-post-types

@@ -11,8 +11,21 @@ class Admin::PostsController < Admin::BaseController
   respond_to :html
 
   def index
-    @posts =  current_user.approval_requests.paginated(params[:page].to_i).per(20).map(&:post) | current_user.posts.paginated(params[:page].to_i).per(20)
-    respond_with(@posts)
+    my_recently_approved_posts = current_user.posts.where(['published_at > ?', 2.days.ago]).order(published_at: :desc).limit(5)
+    i_should_approve           = current_user.approval_requests.action_required.paginated(params[:page]).per(20).map(&:post)
+    i_wrote_this               = current_user.posts.paginated(params[:page]).per(20)
+    my_pending_posts           = i_wrote_this.pending
+    my_rejected_posts          = i_wrote_this.rejected
+      
+    @grouped_posts = {
+      "Recently Published" => my_recently_approved_posts,
+      "Approval Required"  => i_should_approve,
+      "Rejected Posts"     => my_rejected_posts,
+      "Pending Posts"      => my_pending_posts,
+    }
+    
+    
+    respond_with(@grouped_posts)
   end
 
   def show

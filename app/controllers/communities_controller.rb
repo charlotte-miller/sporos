@@ -15,7 +15,7 @@ private
   
   def set_posts
     @posts ||= Post.current
-      .paginated(params[:page].to_i)
+      .paginated(params[:page])
       .per(20)
       .all
     

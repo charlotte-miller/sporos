@@ -7,7 +7,7 @@ class PostsController < ApplicationController
     context = @ministry.try(:posts) || Post.w_out_pages
     
     @posts = context.current.relevance_order
-      .paginated(params[:page].to_i).per(20)
+      .paginated(params[:page]).per(20)
       .all
     
     render template:'posts/show', layout: !request.xhr?

@@ -117,7 +117,7 @@ RSpec.describe ApprovalRequest, :type => :model do
         expect(ApprovalRequest.archived.count).to eq(2)
       end
       
-      it 'touches post.rejected_at', :focus do
+      it 'touches post.rejected_at' do
         expect(@post.rejected_at).to be_nil
         @leader1.rejected!
         expect(@post.reload.rejected_at).to_not be_nil

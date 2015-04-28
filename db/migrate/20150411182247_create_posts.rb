@@ -11,6 +11,7 @@ class CreatePosts < ActiveRecord::Migration
       t.hstore     :display_options
       t.attachment :poster
       
+      t.datetime :rejected_at
       t.datetime :published_at
       t.datetime :expired_at
       t.timestamps            null: false

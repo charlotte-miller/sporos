@@ -37,6 +37,7 @@ class ApprovalRequest < ActiveRecord::Base
   # ---------------------------------------------------------------------------------  
   scope :current, -> { where('status < 3') }
   scope :decided, -> { where('status = 1 OR status = 2') }
+  scope :action_required, -> { where('status = 1 OR status = 3') }
   
     
   # ---------------------------------------------------------------------------------
@@ -79,8 +80,7 @@ class ApprovalRequest < ActiveRecord::Base
         
         
     if is_rejected  = results.include?('rejected')
-      archive_unchecked_requests
-      # send rejection notice
+      reject_post!
 
     elsif is_accepted  = results.include?('accepted') && required_districts <= supporting_districts
       publish_post!
@@ -88,6 +88,15 @@ class ApprovalRequest < ActiveRecord::Base
     else
       # not enough votes... do nothing
     end
+  end
+  
+  def reject_post!
+    if post.rejected_at.nil?
+      #send notification to author
+    end
+    
+    self.post.touch :rejected_at
+    archive_unchecked_requests
   end
   
   def publish_post!

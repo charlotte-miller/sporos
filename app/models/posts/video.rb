@@ -15,6 +15,7 @@
 #  poster_content_type :string
 #  poster_file_size    :integer
 #  poster_updated_at   :datetime
+#  rejected_at         :datetime
 #  published_at        :datetime
 #  expired_at          :datetime
 #  created_at          :datetime         not null

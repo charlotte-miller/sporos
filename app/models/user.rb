@@ -114,7 +114,15 @@ class User < ActiveRecord::Base
   
   has_many :ministries, through: :involvements
   has_many :approval_requests
-  has_many :posts
+  has_many :posts do
+    def pending
+      where('published_at IS NULL AND rejected_at IS NULL')
+    end
+    
+    def rejected
+      where('rejected_at IS NOT NULL')
+    end
+  end
   
   # ---------------------------------------------------------------------------------
   # Validations

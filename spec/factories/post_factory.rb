@@ -15,6 +15,7 @@
 #  poster_content_type :string
 #  poster_file_size    :integer
 #  poster_updated_at   :datetime
+#  rejected_at         :datetime
 #  published_at        :datetime
 #  expired_at          :datetime
 #  created_at          :datetime         not null
@@ -41,6 +42,7 @@ FactoryGirl.define do
     description     { Faker::Lorem.paragraph(rand(2..5)) }
     display_options { {} }
     poster { fixture_file_upload(Rails.root.join('spec/files/', 'poster_image.jpg'), 'image/jpg', true) }
+    rejected_at  nil
     published_at nil
     expired_at   nil
     

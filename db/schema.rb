@@ -227,6 +227,7 @@ ActiveRecord::Schema.define(version: 20150412014602) do
     t.string   "poster_content_type"
     t.integer  "poster_file_size"
     t.datetime "poster_updated_at"
+    t.datetime "rejected_at"
     t.datetime "published_at"
     t.datetime "expired_at"
     t.datetime "created_at",                     null: false

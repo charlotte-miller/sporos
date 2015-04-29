@@ -1,5 +1,6 @@
 .compact-post
-  .user-icon :)
+  .user-icon
+    %img.img-circle{src: 'http://www.montejano.es/wp-content/uploads/2014/06/perfil1.jpg' } 
    
   .info
     .row
@@ -12,8 +13,14 @@
           .expires= "EXPIRES IN: #{distance_of_time_in_words_to_now post.expired_at }"
         
   .follow-up
-    %button.follow-up-btn
-      FOLLOW
-      %br
-      UP
+    - if post.published_at
+      = link_to post_path(post) do
+        %i.public-link
+    - else    
+      = link_to admin_post_path(post) do
+        %button.follow-up-btn
+          FOLLOW
+          %br
+          UP
+        
     

@@ -19,7 +19,6 @@ html,body{
 }
 
 #global-nav{
-//  @extend .row;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -34,9 +33,25 @@ html,body{
   }
   
   .col-xs-6{
-    font-size: 36px;
+    font-size: 28px;
     border-left:2px solid $gray-lighter;
     border-right:2px solid $gray-lighter;
+  }
+  
+  a{
+    color:$gray-lighter;
+  }
+}
+
+.btn{
+  font-weight: 300;
+  letter-spacing: 1px;
+  color:white;
+  background-color:$gray;
+
+  &:focus, &:hover{
+    color: white;
+    background-color:$gray-light;
   }
 }
 
@@ -123,28 +138,94 @@ html,body{
     .follow-up{
       @extend .col-xs-3;
       text-align:center;
+      
+      .follow-up-btn{
+        @extend .btn;
+        font-weight:300;
+        color:white;
+        background-color:$gray;
+      
+        &:focus, &:hover{
+          color: white;
+          background-color:$gray-light;
+        }
+      }
+    
+      .public-link{
+        @extend .glyphicon;
+        @extend .glyphicon-new-window;
+        font-size: 24px;
+        height:70px;
+        line-height:70px;
+        color:$gray;
+        
+        &:hover{
+          color:$gray-darker;
+        }
+      }
     }
   
     .user-icon{
       @extend .col-xs-2;
       text-align:center;
+      height:40px;
+      
+      img{
+        height:inherit;
+      }
     }
   
     .title{
       @extend %truncate;
       font-size:18px;
     }
-    .follow-up-btn{
-      @extend .btn;
-      font-weight:300;
-      color:white;
-      background-color:$gray;
-      
-      &:focus, &:hover{
-        color: white;
-        background-color:$gray-light;
-      }
-    }
+
   }
 }
 
+#posts-show{
+  background-color:$gray-lighter;
+  
+  #status-bar{
+    letter-spacing: 1px;
+    @extend .row; 
+    border-top:10px solid $gray-dark;
+    border-bottom:5px solid $gray-dark;
+    height:80px;
+    line-height:65px;
+    background-color:$gray-lighter;
+  }
+  
+  #status{
+    line-height: 24px;
+    padding: 10px 20px;
+    
+    p { 
+      margin: 0 0 -20px;
+      font-weight:100;
+    }
+
+    strong{
+      font-size:24px;
+      font-weight:300;
+      line-height: 55px;
+    }
+  }
+  
+  #status-action{
+    @extend .pull-right;
+    padding: 0 20px;
+  }
+  
+  #comments{
+    @extend .row; 
+    
+    #read-comments{
+      
+    }
+    #write-comment{
+      
+    }
+  }
+  
+}

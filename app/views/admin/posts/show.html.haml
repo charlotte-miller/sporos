@@ -1,7 +1,38 @@
-= render_partial_for @post
+#posts-show
+  #status-bar
+    #status-action
+      = link_to '#write-comments' do
+        %button.btn CONTACT THE EDITORS
+    #status
+      %p POST STATUS:
+      %strong= @post.status.upcase
 
-.admin_controls
-  .published= link_to( 'View Published', post_path(id:@post.id)) if @post.published_at
-  .edit= link_to 'Edit', edit_admin_post_path(id:@post.id)
-  .destroy= link_to 'Destroy', admin_post_path(id:@post.id), :method => :delete, :data => { :confirm => "Are you sure?\nIt will really be gone." }
+    
+  .row
+    = render_partial_for @post
+  .row
+    .admin_controls
+      .edit= link_to 'Edit', edit_admin_post_path(id:@post.id)
+      .destroy= link_to 'Destroy', admin_post_path(id:@post.id), :method => :delete, :data => { :confirm => "Are you sure?\nIt will really be gone." }
 
+  #comments
+    #read-comments
+      / - @comments.each do |comment|
+      /   - my_comment = comment.author == current_user
+      /   .comment.media
+      /     - unless my_comment
+      /       .author.media-left
+      /         %a{href:'#'}
+      /           %img.img-circle.media-object{src:'http://www.montejano.es/wp-content/uploads/2014/06/perfil1.jpg'}
+      /
+      /     .media-body
+      /       %h4.author-name= comment.author.name
+      /       .comment-body= comment.body
+      /
+      /     - if my_comment
+      /       .author.media-right
+      /         %a{href:'#'}
+      /           %img.img-circle.media-object{src:'http://www.montejano.es/wp-content/uploads/2014/06/perfil1.jpg'}
+          
+    #write-comments
+      / = form_for [:admin, @post, Comment.new]

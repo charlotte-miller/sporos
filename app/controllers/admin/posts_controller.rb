@@ -12,7 +12,7 @@ class Admin::PostsController < Admin::BaseController
 
   def index
     my_recently_approved_posts = current_user.posts.where(['published_at > ?', 2.days.ago]).order(published_at: :desc).limit(5)
-    i_should_approve           = current_user.approval_requests.action_required.paginated(params[:page]).per(20).map(&:post)
+    i_should_approve           = current_user.approval_requests.action_required.includes(:post).paginated(params[:page]).per(20).map(&:post)
     i_wrote_this               = current_user.posts.paginated(params[:page]).per(20)
     my_pending_posts           = i_wrote_this.pending
     my_rejected_posts          = i_wrote_this.rejected
@@ -29,6 +29,8 @@ class Admin::PostsController < Admin::BaseController
   end
 
   def show
+    # comments
+    
     respond_with(@post)
   end
 
@@ -69,6 +71,7 @@ class Admin::PostsController < Admin::BaseController
   private
     def set_post
       @post ||= current_user.posts.find_by(public_id:params[:id])
+      @post ||= current_user.approval_requests.action_required.includes(:post).map(&:post).find {|post| post.public_id == params[:id]}
     end
     
     def set_type

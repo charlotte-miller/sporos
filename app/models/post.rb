@@ -127,4 +127,15 @@ class Post < ActiveRecord::Base
       # filter from UI
     end
   end
+  
+  # ---------------------------------------------------------------------------------
+  # Methods
+  # ---------------------------------------------------------------------------------
+  def status
+    return 'rejected'  if rejected_at
+    return 'pending'   if !published_at
+    return 'published' if published_at && expired_at > Time.now
+    return 'archived'  if expired_at < Time.now
+  end
+  
 end

@@ -29,7 +29,7 @@ class Admin::PostsController < Admin::BaseController
   end
 
   def show
-    # comments
+    @comments = @post.comment_threads
     
     respond_with(@post)
   end

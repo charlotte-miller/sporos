@@ -17,22 +17,22 @@
 
   #comments
     #read-comments
-      / - @comments.each do |comment|
-      /   - my_comment = comment.author == current_user
-      /   .comment.media
-      /     - unless my_comment
-      /       .author.media-left
-      /         %a{href:'#'}
-      /           %img.img-circle.media-object{src:'http://www.montejano.es/wp-content/uploads/2014/06/perfil1.jpg'}
-      /
-      /     .media-body
-      /       %h4.author-name= comment.author.name
-      /       .comment-body= comment.body
-      /
-      /     - if my_comment
-      /       .author.media-right
-      /         %a{href:'#'}
-      /           %img.img-circle.media-object{src:'http://www.montejano.es/wp-content/uploads/2014/06/perfil1.jpg'}
+      - @comments.each do |comment|
+        - my_comment = comment.author == current_user
+        .comment.media
+          - unless my_comment
+            .author.media-left
+              %a{href:'#'}
+                %img.img-circle.media-object{src:'http://www.montejano.es/wp-content/uploads/2014/06/perfil1.jpg'}
+
+          .media-body
+            %h4.author-name= comment.author.name
+            .comment-body= comment.body
+
+          - if my_comment
+            .author.media-right
+              %a{href:'#'}
+                %img.img-circle.media-object{src:'http://www.montejano.es/wp-content/uploads/2014/06/perfil1.jpg'}
           
     #write-comments
       / = form_for [:admin, @post, Comment.new]

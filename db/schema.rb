@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150412014602) do
+ActiveRecord::Schema.define(version: 20150429160413) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,28 @@ ActiveRecord::Schema.define(version: 20150412014602) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
+
+  create_table "comments", force: :cascade do |t|
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.string   "title"
+    t.text     "body"
+    t.integer  "user_id",                      null: false
+    t.integer  "parent_id"
+    t.integer  "lft",                          null: false
+    t.integer  "rgt",                          null: false
+    t.integer  "depth",            default: 0, null: false
+    t.integer  "children_count",   default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
+  add_index "comments", ["depth"], name: "index_comments_on_depth", using: :btree
+  add_index "comments", ["lft"], name: "index_comments_on_lft", using: :btree
+  add_index "comments", ["parent_id"], name: "index_comments_on_parent_id", using: :btree
+  add_index "comments", ["rgt"], name: "index_comments_on_rgt", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false

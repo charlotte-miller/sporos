@@ -34,6 +34,7 @@ class Post < ActiveRecord::Base
   include Sanitizable
   include AttachableFile
   include Uuidable
+  include Commentable
 
 
   # ---------------------------------------------------------------------------------
@@ -67,7 +68,9 @@ class Post < ActiveRecord::Base
   has_many :approvers, class_name: "User", through:'approval_requests'
   
   has_one :draft, :class_name => "Post", :foreign_key => "parent_id"
-
+  
+  # FROM Commentable
+  # has_many :comment_threads, :class_name => "Comment", :as => :commentable
 
   # ---------------------------------------------------------------------------------
   # Validations

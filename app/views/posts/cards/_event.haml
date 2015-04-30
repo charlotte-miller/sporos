@@ -10,4 +10,4 @@
     .captions
       %h3.title= @post.title
       %p.description= @post.description
-    .expires-in{ data:{expired_at:@post.expired_at.to_i}} #NOTE: Relative time inserted here. Example:  'in 11 hours'
+    .expires-in{ data:{expired_at:@post.expired_at.to_i}}= "Expires In: #{distance_of_time_in_words_to_now( @post.expired_at )}"

@@ -19,6 +19,8 @@
 #
 
 class ApprovalRequest < ActiveRecord::Base
+  include Commentable
+  
   attr_accessible :user, :user_id, :post, :post_id, :status
   enum status: [ :pending, :accepted, :rejected, :archived ].freeze
   
@@ -34,8 +36,11 @@ class ApprovalRequest < ActiveRecord::Base
   
   has_many :peers, class_name:'ApprovalRequest', foreign_key:'post_id', primary_key:'post_id'
   
-  has_many :unread_comments, -> (obj){where(["commentable_type = 'Post' AND comments.created_at > ?", obj.last_vistited_at]) }, { class_name:'Comment', primary_key: :post_id, foreign_key: :commentable_id}
-    
+  # FROM Commentable
+  # has_many :comment_threads, :class_name => "Comment", :as => :commentable
+  has_many :unread_comments, -> (obj){ where(["comments.created_at > ?", obj.last_vistited_at]) }, :class_name => "Comment", :as => :commentable
+
+  
   # ---------------------------------------------------------------------------------
   # Scopes
   # ---------------------------------------------------------------------------------  

@@ -42,7 +42,7 @@ Rails.application.routes.draw do
   resources :groups do
     resources :meetings do
       resources :questions, only: [:index, :new, :create]
-      # NOTE: :block, :star, :show, :answers 
+      # NOTE: :block, :star, :show, :answers
       # already part of the previous shallow routes
     end
   end
@@ -59,10 +59,12 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :ministries, except: :show
     resources :posts do
-      collection do |variable|
+      collection do
         get 'link_preview'
       end
     end
+    
+    resources :approval_requests, only: :update
     
     resources :studies, :lessons
     

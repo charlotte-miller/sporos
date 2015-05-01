@@ -2,13 +2,14 @@
 #
 # Table name: approval_requests
 #
-#  id         :integer          not null, primary key
-#  user_id    :integer          not null
-#  post_id    :integer          not null
-#  status     :integer          default("0"), not null
-#  notes      :text
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id               :integer          not null, primary key
+#  user_id          :integer          not null
+#  post_id          :integer          not null
+#  status           :integer          default("0"), not null
+#  notes            :text
+#  last_vistited_at :datetime         not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 # Indexes
 #
@@ -27,10 +28,13 @@ class ApprovalRequest < ActiveRecord::Base
   belongs_to :user
   belongs_to :post
   
+  has_one :ministry, through: :post
+  
   has_one :author, :class_name => "User", through: :post, source: :author
   
   has_many :peers, class_name:'ApprovalRequest', foreign_key:'post_id', primary_key:'post_id'
   
+  has_many :unread_comments, -> (obj){where(["commentable_type = 'Post' AND comments.created_at > ?", obj.last_vistited_at]) }, { class_name:'Comment', primary_key: :post_id, foreign_key: :commentable_id}
     
   # ---------------------------------------------------------------------------------
   # Scopes
@@ -43,7 +47,7 @@ class ApprovalRequest < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Validations
   # ---------------------------------------------------------------------------------  
-  validates_presence_of   :user_id, :post_id
+  validates_presence_of   :user_id, :post_id, :last_vistited_at
   validates_associated    :user,    :post,    :on => :create
   validates_uniqueness_of :post_id, scope:[:user_id]
   
@@ -51,14 +55,17 @@ class ApprovalRequest < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Callbacks
   # --------------------------------------------------------------------------------- 
+  before_validation :set_last_vistited_at 
   after_create :send_notification
   before_update :check_for_concensus
   
- 
+  def set_last_vistited_at
+    self.last_vistited_at ||= Time.now
+  end 
+  
   # ---------------------------------------------------------------------------------
   # Methods
   # --------------------------------------------------------------------------------- 
-  
   
   def send_notification
     # Mailer.ApprovalRequest.deliver(user)

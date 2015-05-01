@@ -87,7 +87,7 @@ class Post < ActiveRecord::Base
   def to_param; public_id ;end
   
   attr_protected #none - using strong params
-  attr_accessor :approvers
+  attr_accessor :approvers, :unread_comment_count
   has_attachable_file :poster, {
                       # :processors      => [:thumbnail, :pngquant],
                       :default_style => :sd,
@@ -110,9 +110,10 @@ class Post < ActiveRecord::Base
 
   def request_approval!
     if find_approvers.present?
-       find_approvers.map do |user|
+      find_approvers.map do |user|
         ApprovalRequest.create!( post_id:id, user_id:user.id )
       end
+      ApprovalRequest.create!( post_id:id, user_id:author.id, status:'accepted' )
     else
       if author.involvements.in_ministry(ministry).first.editor?
         # Editors publish instantly

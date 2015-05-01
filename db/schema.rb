@@ -31,12 +31,13 @@ ActiveRecord::Schema.define(version: 20150429160413) do
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
 
   create_table "approval_requests", force: :cascade do |t|
-    t.integer  "user_id",                null: false
-    t.integer  "post_id",                null: false
-    t.integer  "status",     default: 0, null: false
+    t.integer  "user_id",                      null: false
+    t.integer  "post_id",                      null: false
+    t.integer  "status",           default: 0, null: false
     t.text     "notes"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "last_vistited_at",             null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
   add_index "approval_requests", ["post_id"], name: "index_approval_requests_on_post_id", using: :btree

@@ -1,6 +1,8 @@
 .compact-post
-  .user-icon
-    %img.img-circle{src: 'http://www.montejano.es/wp-content/uploads/2014/06/perfil1.jpg' } 
+  .unread-comments
+    %i.glyphicon.glyphicon-envelope
+    - if post.unread_comment_count > 0
+      %span.label.label-primary.label-as-badge= post.unread_comment_count
    
   .info
     .row

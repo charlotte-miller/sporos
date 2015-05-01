@@ -6,6 +6,7 @@ class CreateApprovalRequests < ActiveRecord::Migration
       t.integer    :status,  null:false,  default:0
       t.text       :notes
 
+      t.datetime   :last_vistited_at, null:false
       t.timestamps null: false
     end
     

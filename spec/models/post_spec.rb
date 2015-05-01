@@ -58,6 +58,7 @@ RSpec.describe Post, :type => :model do
     let!(:expired) { create(:post, expired_at:1.days.ago, published_at:2.days.ago, ministry:@ministry, author:@ministry.members.first) }
     
     it 'filteres unpublished and expired posts' do
+      
       expect(Post.current.pluck(:id)).to eq([published.id])
     end
   end
@@ -91,7 +92,13 @@ RSpec.describe Post, :type => :model do
     subject { create(:post, ministry:@ministry, author:@ministry.members.sample) }
     
     it 'is creates ApprovalRequests on create callback' do
-      expect(subject.approval_requests.count).to eq(6)
-    end  
+      expect(subject.approval_requests.where(status: 0).count).to eq(6)
+    end
+    
+    it 'creates an approved ApprovalRequest for the author' do
+      approved = subject.approval_requests.where(status: 1).all
+      expect(approved.length).to eq(1)
+      expect(approved.first.user).to eq(subject.author)
+    end
   end
 end

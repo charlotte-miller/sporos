@@ -165,13 +165,20 @@ html,body{
       }
     }
   
-    .user-icon{
+    .unread-comments{
       @extend .col-xs-2;
       text-align:center;
       height:40px;
+      position:relative;
       
-      img{
-        height:inherit;
+      .glyphicon{
+        font-size:30px;
+        top: 10px;
+      }
+      .label{
+        position:absolute;
+        top: 20px;
+        margin-left: -10px;
       }
     }
   

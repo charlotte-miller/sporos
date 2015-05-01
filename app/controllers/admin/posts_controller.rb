@@ -12,10 +12,10 @@ class Admin::PostsController < Admin::BaseController
 
   def index
     my_recently_approved_posts = current_user.posts.where(['published_at > ?', 2.days.ago]).order(published_at: :desc).limit(5)
-    i_should_approve           = current_user.approval_requests.action_required.includes(:post).paginated(params[:page]).per(20).map(&:post)
-    i_wrote_this               = current_user.posts.paginated(params[:page]).per(20)
-    my_pending_posts           = i_wrote_this.pending
-    my_rejected_posts          = i_wrote_this.rejected
+    i_should_approve           = current_user.approval_requests.action_required.includes(:post).paginated(params[:page]).per(10).map(&:post)
+    i_wrote_this               = current_user.posts.paginated(params[:page]).per(10)
+    my_pending_posts           = i_wrote_this.pending.paginated(params[:page]).per(10)
+    my_rejected_posts          = i_wrote_this.rejected.paginated(params[:page]).per(10)
       
     @grouped_posts = {
       "Recently Published" => my_recently_approved_posts,
@@ -23,6 +23,15 @@ class Admin::PostsController < Admin::BaseController
       "Rejected Posts"     => my_rejected_posts,
       "Pending Posts"      => my_pending_posts,
     }
+    
+    # inject counts here
+    @grouped_posts.values.each do |posts|
+      these_approval_requests = ApprovalRequest.where(post:posts, user:current_user).all
+      posts.each do |post|
+        this_posts_request = these_approval_requests.find {|request| request.post_id == post.id}
+        post.unread_comment_count = this_posts_request.unread_comments.count       
+      end
+    end
     
     
     respond_with(@grouped_posts)
@@ -70,7 +79,7 @@ class Admin::PostsController < Admin::BaseController
   
   private
     def set_post
-      @post ||= current_user.posts.find_by(public_id:params[:id])
+      @post ||= current_user.posts.includes(:ministry).find_by(public_id:params[:id])
       @post ||= current_user.approval_requests.action_required.includes(:post).map(&:post).find {|post| post.public_id == params[:id]}
     end
     

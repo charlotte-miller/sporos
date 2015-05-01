@@ -16,8 +16,8 @@
     - @grouped_posts.each do |group_name, posts|
       - next unless posts.present?
       %h4= group_name
-      - posts.each do |post|
-        = render partial:"admin/posts/compact_post", locals:{post:post}
+      
+      = render partial:"admin/posts/compact_post", collection:posts, as: :post
 
   %nav#new-post
     #new-post-types

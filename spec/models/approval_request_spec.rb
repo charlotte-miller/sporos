@@ -2,13 +2,14 @@
 #
 # Table name: approval_requests
 #
-#  id         :integer          not null, primary key
-#  user_id    :integer          not null
-#  post_id    :integer          not null
-#  status     :integer          default("0"), not null
-#  notes      :text
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id               :integer          not null, primary key
+#  user_id          :integer          not null
+#  post_id          :integer          not null
+#  status           :integer          default("0"), not null
+#  notes            :text
+#  last_vistited_at :datetime         not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 # Indexes
 #
@@ -20,6 +21,10 @@
 require 'rails_helper'
 
 RSpec.describe ApprovalRequest, :type => :model do
+  before(:all) do
+    @ministry = create(:populated_ministry)
+  end
+  
   subject { build(:approval_request) }
 
   it "builds from factory", :internal do
@@ -51,9 +56,6 @@ RSpec.describe ApprovalRequest, :type => :model do
   end
   
   describe '#check_for_concensus' do
-    before(:all) do
-      @ministry = create(:populated_ministry)
-    end
     
     before(:each) do
       @author ||= @ministry.volunteers.first
@@ -125,4 +127,20 @@ RSpec.describe ApprovalRequest, :type => :model do
     end
   end
   
+  describe '#unread_comments' do    
+    before(:each) do
+      @author ||= @ministry.volunteers.first
+      @post = create(:post, ministry:@ministry, author: @author)
+      @approval_requests = @post.approval_requests
+      @subject = @approval_requests.first
+      # @leader1, @leader2, @editor1, @editor2 = @approval_requests
+      @comments = @post.comment_threads << 2.times.map { create(:comment)}
+    end
+    
+    it 'returns comments that were created after last_vistited_at' do
+      expect(@subject.unread_comments).to eq(@comments)
+      @subject.touch(:last_vistited_at)
+      expect(@subject.unread_comments.reload).to be_empty
+    end
+  end
 end

@@ -48,6 +48,12 @@ RSpec.describe Admin::PostsController, :type => :controller do
       it 'includes "Pending Posts" posts' do
         expect(assigns(:grouped_posts)['Pending Posts'].to_ary).to eq(@my_pending_posts)
       end
+      
+      it 'adds post.unread_comment_count' do
+        assigns(:grouped_posts).values.flatten.each do |post|
+          expect(post.unread_comment_count).to_not be_nil
+        end
+      end
     end
   end
 

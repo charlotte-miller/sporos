@@ -3,3 +3,7 @@
 @import "vendor/bootstrap-grid-xl/grid-xl";
 @import "devise_bootstrap_views";
 @import "bootstrap/theme";
+
+.label-as-badge {
+  border-radius: 1em;
+}

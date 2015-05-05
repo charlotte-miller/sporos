@@ -15,17 +15,10 @@ common:
   dev_pass: developer
   domains:
     primary: cornerstonesf.org                        # CLOUDFRONT -> ORIGIN
-    origin: origin.cornerstonesf.org                  # WEB SERVERS
-    assets: assets%d.cornerstonesf.org                # DOMAIN RANGE: CLOUDFRONT -> S3
-    assets_origin: origin.assets.cornerstonesf.org    # S3
+    origin:  origin.cornerstonesf.org                 # WEB SERVERS
+    assets:  assets%d.cornerstonesf.org               # DOMAIN RANGE: CLOUDFRONT -> S3
     legacy_media: media.cornerstone-sf.org
       
-  s3:
-    url: s3-us-west-2.amazonaws.com #s3.amazonaws.com
-    bucket: media.cornerstonesf.org
-    credentials:
-      access_key_id: AKIAJAW4PTOXOO6POA7Q
-      secret_access_key: 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
   vimeo:
     token: deddea72ddcd1b0d99e0c461ee52ba96
   paperclip:
@@ -49,17 +42,23 @@ development:
   domains:
     primary:  localhost:3000
     origin:   localhost:3000
-    assets:   localhost:3000
-    assets_origin: localhost:3000    
+    assets:   assets.dev.cornerstonesf.org
+  
+  s3:
+    url: s3-us-west-1.amazonaws.com
+    bucket: assets.dev.cornerstonesf.org
+    credentials:
+      access_key_id: NOT A USER?
+      secret_access_key: GET AN ACCESS KEY FROM THE CORNERSTONE DIGITAL TEAM.
 
 test:
 
-production:
+production:  
   domains:
-    primary: app1.sporos.c66.me
-    origin:  app1.sporos.c66.me
-    assets:  assets.cornerstonesf.org.s3-website-us-west-1.amazonaws.com
-    assets_origin:  assets.cornerstonesf.org.s3-website-us-west-1.amazonaws.com
+    primary: cornerstonesf.org                        # CLOUDFRONT -> ORIGIN
+    origin:  sporos.cornerstonesf.org                 # WEB SERVERS
+    assets:  assets%d.cornerstonesf.org               # DOMAIN RANGE: CLOUDFRONT -> S3
+    legacy_media:  media.cornerstone-sf.org
   
   dev_user: developer
   dev_pass: 6a582863aa0cb850ff62924825e54555b5ee705b42d21c4280d5bced9adaaed3757eb2afcdf2c5d497226f811020f782905e909032fc9532e91f9110143b9fc8
@@ -74,7 +73,17 @@ production:
       access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
       secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
 
+  vimeo:
+    # token: deddea72ddcd1b0d99e0c461ee52ba96
+  
   elasticsearch:
     address: <%= ENV['ELASTICSEARCH_ADDRESS_INT'] %>
+  
+  devise:
+    secret_key: <%= ENV['DEVISE_SECRET_KEY'] %>
+    pepper:     <%= ENV['DEVISE_PEPPER'] %>
+  
+  paperclip:
+    hash_secret: <%= ENV['PAPERCLIP_HASH_SECRET'] %>
     
 #custom_environment:

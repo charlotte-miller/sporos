@@ -11,7 +11,7 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
     ['\\+', 'and'],
     ['[\\(|\\)]', ''], # ()
     ['\s?-\s?', ' '],  # -
-    ['\s?:\s?', ' '],  # :
+    ['\s?:\s?', ''],  # :
   ]
   
   subModelTypeAttribute: 'name'

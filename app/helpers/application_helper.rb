@@ -51,4 +51,24 @@ module ApplicationHelper
       haml_tag :link, rel:'shortcut icon', href:url, type:'image/x-icon'
     end
   end
+
+  def flash_messages(opts = {})
+    def bootstrap_class_for flash_type
+      { success: "alert-success", error: "alert-danger", alert: "alert-warning", notice: "alert-info" }[flash_type.to_sym] || flash_type.to_s
+    end
+    
+    capture_haml do
+      flash.each do |msg_type, message|
+        haml_tag(:div, class: "alert #{bootstrap_class_for(msg_type)} alert-dismissible", role: 'alert') do
+          haml_concat message
+          haml_tag :button, class: 'close', data: { dismiss: 'alert' } do
+            haml_tag(:span, '&times;'.html_safe, 'aria-hidden' => true)
+            haml_tag(:span, 'Close', class: 'sr-only') 
+          end
+          haml_concat message
+        end
+      end
+    end
+    # nil
+  end
 end

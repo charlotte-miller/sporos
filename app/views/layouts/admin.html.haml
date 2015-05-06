@@ -29,6 +29,8 @@
     = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
   %body
     .container
+      .row
+        = flash_messages
       = yield
       #global-nav
         .global_nav_item.col-xs-3

@@ -2,6 +2,8 @@
   .panel-heading
     %h4= "Login"
   .panel-body
+    .col-xs-12
+      = flash_messages
     = form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: "form" }) do |f|
       .form-group
         = f.label :email

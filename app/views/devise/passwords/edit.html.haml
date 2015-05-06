@@ -1,8 +1,10 @@
-= bootstrap_devise_error_messages!
 .panel.panel-default
   .panel-heading
     %h4= t('.change_your_password', :default => 'Change your password')
   .panel-body
+    .col-xs-12
+      = flash_messages
+      = bootstrap_devise_error_messages!
     = form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put, role: "form" }) do |f|
       = f.hidden_field :reset_password_token
       .form-group

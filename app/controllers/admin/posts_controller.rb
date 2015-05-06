@@ -29,7 +29,7 @@ class Admin::PostsController < Admin::BaseController
       these_approval_requests = ApprovalRequest.where(post:posts, user:current_user).includes(:comment_threads).all
       posts.each do |post|
         this_posts_request = these_approval_requests.find {|request| request.post_id == post.id}
-        post.unread_comment_count = this_posts_request.comment_threads.select {|comment| comment.created_at > comment.commentable.last_viewed_at }.length #.unread_comments.count       
+        post.unread_comment_count = this_posts_request.comment_threads.select {|comment| comment.created_at > comment.commentable.last_vistited_at }.length #.unread_comments.count       
       end
     end
     
@@ -39,6 +39,7 @@ class Admin::PostsController < Admin::BaseController
 
   def show
     @comments = @post.comment_threads
+    @current_users_approval_request = ApprovalRequest.find_by( user:current_user, post:@post )
     
     respond_with(@post)
   end

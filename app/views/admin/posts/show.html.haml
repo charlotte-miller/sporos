@@ -10,29 +10,59 @@
     
   .row
     = render_partial_for @post
-  .row
-    .admin_controls
-      .edit= link_to 'Edit', edit_admin_post_path(id:@post.id)
-      .destroy= link_to 'Destroy', admin_post_path(id:@post.id), :method => :delete, :data => { :confirm => "Are you sure?\nIt will really be gone." }
-
+  
+  - if current_user == @post.author || current_user.admin?
+    .row
+      .admin_controls.col-xs-8.col-xs-offset-2
+        .btn-group.btn-group-justified{html:{role:'group'}}
+          = link_to 'Edit', edit_admin_post_path(id:@post.id), html:{role:'button'}, class:'btn'
+          = link_to 'Destroy', admin_post_path(id:@post.id), :method => :delete, :data => { :confirm => "Are you sure?\nIt will really be gone." }, html:{role:'button'}, class:'btn'
+        %hr
+            
   #comments
+    %h3 Feedback:
     #read-comments
       - @comments.each do |comment|
-        - my_comment = comment.author == current_user
+        - my_comment = comment.user == current_user
         .comment.media
           - unless my_comment
-            .author.media-left
+            .user.media-left.pull-left
               %a{href:'#'}
-                %img.img-circle.media-object{src:'http://www.montejano.es/wp-content/uploads/2014/06/perfil1.jpg'}
+                = image_tag comment.user.profile_image.url(:thumb), height:64, width:64, class:'img-circle media-object'
 
           .media-body
-            %h4.author-name= comment.author.name
+            %h4.media-heading.user-name= comment.user.name
             .comment-body= comment.body
 
           - if my_comment
-            .author.media-right
+            .user.media-right.pull-right
               %a{href:'#'}
-                %img.img-circle.media-object{src:'http://www.montejano.es/wp-content/uploads/2014/06/perfil1.jpg'}
-          
+                = image_tag comment.user.profile_image.url(:thumb), height:64, width:64, class:'img-circle media-object'
+                          
+    %hr
     #write-comments
-      / = form_for [:admin, @post, Comment.new]
+      .comment.media       
+        .user.media-right.pull-right.media-middle
+          %a{href:'#'}
+            = image_tag current_user.profile_image.url(:thumb), height:64, width:64, class:'img-circle media-object'        
+        .media-body
+          / %h4.media-heading.pull-right.user-name= current_user.name
+          = form_for [:admin, @current_users_approval_request] do |f|
+            .form-group
+              = f.text_area :new_comment, id:'comment-field', placeholder:"#{@post.author.first_name} would appreciate feedback", class: "form-control"
+
+            .form-group.pull-right
+              .btn-group.dropup
+                = f.submit 'Approve', class: "btn btn-success"
+                %button.btn.btn-success.dropdown-toggle{ data:{toggle:'dropdown'} }
+                  %span.caret
+                  %span.sr-only Toggle Dropdown
+                %ul.dropdown-menu.dropdown-menu-right{role:'menu'}
+                  %li
+                    %a{href:'#'} Comment Only
+                  %li
+                    %a{href:'#'} Approve
+                  %li.divider
+                  %li
+                    %a{href:'#'} Reject
+                  

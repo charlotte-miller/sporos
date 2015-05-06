@@ -57,6 +57,9 @@ html,body{
 
 
 #posts-index{
+  padding-bottom:160px;
+  background-color:$gray-lighter;
+  
   h1,h2,h3,h4,h5,button,.title{
     font-weight: 300;
     letter-spacing: 1px; 
@@ -191,6 +194,7 @@ html,body{
 }
 
 #posts-show{
+  padding-bottom:160px;
   background-color:$gray-lighter;
   
   #status-bar{
@@ -228,10 +232,22 @@ html,body{
     @extend .row; 
     
     #read-comments{
-      
+      .comment{
+        margin: 0;
+        padding: 20px 0;
+      }
     }
-    #write-comment{
+    #write-comments{
+      #comment-field{
+        @extend .col-xs-12;
+        min-height: 90px;
+        padding: 10px 15px;
+        font-size: 16px;
+        margin-bottom:10px;
+      }
       
+      // Patching Bootstrap
+      .btn-success:hover, .btn-success:focus{@extend .btn-success;}
     }
   }
   

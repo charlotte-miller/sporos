@@ -21,6 +21,7 @@
 class ApprovalRequest < ActiveRecord::Base
   include Commentable
   
+  attr_accessor :new_comment
   attr_accessible :user, :user_id, :post, :post_id, :status
   enum status: [ :pending, :accepted, :rejected, :archived ].freeze
   

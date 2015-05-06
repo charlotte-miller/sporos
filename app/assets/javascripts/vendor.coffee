@@ -19,6 +19,7 @@
 #= require pace
 #= require moment
 #  require utility/boba-0.0.2
+#= require autosize
 #
 #  -- Community Only -----
 #= require headroom.js/dist/headroom.js

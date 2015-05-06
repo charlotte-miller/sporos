@@ -31,6 +31,7 @@ group :vendor, assets_path:'assets/javascripts' do
   asset "jasmine-sinon", "~0.3.2"
   asset "jasmine-ajax", "~2.0.1"
   asset 'pace', '~1.0.2'
+  asset 'autosize'
 end
 
 group :lib do  

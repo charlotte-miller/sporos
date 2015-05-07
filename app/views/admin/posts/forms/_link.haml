@@ -1,17 +1,25 @@
+= f.hidden_field :type, value:'Post::Link'
 .field
-  = f.label :title
-  = f.text_area :title
-.field
-  = f.label 'post[display_options][url]', 'URL'
-  = f.text_field :url, name:'post[display_options][url]'
-.field
-  = f.label :description, 'Comments'
-  = f.text_area :description
+  .input-group
+    %span#instrutions.input-group-addon
+      #instruction-text Paste a Link:
+      #show-loading
+        %i.glyphicon.glyphicon-refresh.glyphicon-refresh-animate
+    = f.text_field :url, name:'post[display_options][url]', type:"url", class:'form-control', id:'external-url-field', placeholder:'www.example.com/interesting-article'
+#external-url-details{class: f.object.new_record? ? '' : 'populated'}
+  .field
+    = f.label :title
+    = f.text_area :title, class:'form-control'
+  .field
+    = f.label :description, 'Description or Commentary'
+    = f.text_area :description, class:'form-control'
 / .field
 /   = f.label :poster
 /   = f.text_field :poster
-.field
-  = f.label :expired_at, 'Archive at:'
-  = f.datetime_select :expired_at
-.actions
-  = f.submit 'Publish'
+/ .field
+/   = f.label :expired_at, 'Archive at:'
+/   .input-group
+/     = f.text_field :expired_at, class:'form-control pick-a-date'
+/     .input-group-btn.trigger-pick-a-date
+/       %button.btn.btn-default
+/         %i.glyphicon.glyphicon-calendar

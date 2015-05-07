@@ -1,5 +1,5 @@
 - post_type = @post.class.name
-= form_for [:admin, @post.becomes(Post)], multipart:true do |f|
+= form_for [:admin, @post.becomes(Post)], html: {multipart:true, id:'post-form'} do |f|
   - f.object = @post.becomes(@post.class)
   - if @post.errors.any?
     #error_explanation
@@ -10,7 +10,9 @@
 
   - if @ministries.length > 1
     .field
-      = f.label :Ministry
-      = f.collection_select :ministry_id, @ministries, :id, :name, prompt:true
-  = f.hidden_field :type
+      .input-group
+        %span#instrutions.input-group-addon Posting for:
+        = f.collection_select :ministry_id, @ministries, :id, :title, {prompt:'Please Select a Ministry', selected: @post.try(:ministry).try(:id)}, {class:'form-control'}
   = render partial:"admin/posts/forms/#{post_type_of @post}", locals:{f:f}
+  .actions
+    = f.button 'SUBMIT FOR APPROVAL', class:'btn btn-primary form-control', id:'post-form-submit'

@@ -1,17 +1,16 @@
+= f.hidden_field :type, value:'Post::Video'
 .field
   = f.label :title
-  = f.text_area :title
+  = f.text_area :title, class:'form-control'
 .field
   = f.label :description
-  = f.text_area :description
+  = f.text_area :description, class:'form-control'
 .field
   = f.label :display_options
-  = f.text_field :display_options
+  = f.text_field :display_options, class:'form-control'
 .field
   = f.label :poster
-  = f.text_field :poster
+  = f.text_field :poster, class:'form-control'
 .field
   = f.label :expired_at, 'Archive at:'
-  = f.datetime_select :expired_at
-.actions
-  = f.submit 'Publish'
+  = f.datetime_select :expired_at, class:'form-control'

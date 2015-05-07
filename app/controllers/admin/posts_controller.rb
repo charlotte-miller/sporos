@@ -25,12 +25,13 @@ class Admin::PostsController < Admin::BaseController
     }
     
     # inject counts here
-    @grouped_posts.values.each do |posts|
+    @grouped_posts.each do |grouped, posts|
       these_approval_requests = ApprovalRequest.where(post:posts, user:current_user).includes(:comment_threads).all
-      posts.each do |post|
+      @grouped_posts[grouped] = posts.map do |post|
         this_posts_request = these_approval_requests.find {|request| request.post_id == post.id}
         post.unread_comment_count = this_posts_request.comment_threads.select {|comment| comment.created_at > comment.commentable.last_vistited_at }.length #.unread_comments.count       
-      end
+        post
+      end.sort_by(&:unread_comment_count).reverse
     end
     
     
@@ -74,7 +75,7 @@ class Admin::PostsController < Admin::BaseController
 
   # GET /admin/posts/link_preview?url=<URL>
   def link_preview
-    @preview = LinkThumbnailer.generate params[:url]#, image_stats:'false'
+    @preview = LinkThumbnailer.generate params[:url], image_stats:'true'
     render json: @preview
   end
   
@@ -89,7 +90,7 @@ class Admin::PostsController < Admin::BaseController
     end
     
     def post_params
-      params.require(:post).permit(:type, :ministry_id, :title, :description, :display_options, :poster, :expired_at)
+      params.require(:post).permit(:type, :ministry_id, :title, :description, :poster, :expired_at, display_options:[:url])
     end
     
     def posts_links_url

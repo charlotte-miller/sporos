@@ -32,6 +32,10 @@ group :vendor, assets_path:'assets/javascripts' do
   asset "jasmine-ajax", "~2.0.1"
   asset 'pace', '~1.0.2'
   asset 'autosize'
+
+  # Admin
+  asset 'clockpicker', '~0.0.7'
+  asset 'pickadate',   '~3.5.6'
 end
 
 group :lib do  

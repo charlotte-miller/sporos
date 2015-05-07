@@ -2,7 +2,7 @@
   #status-bar
     #status-action
       = link_to '#write-comments' do
-        %button.btn CONTACT THE EDITORS
+        %button.btn.btn-flat CONTACT THE EDITORS
     #status
       %p POST STATUS:
       %strong= @post.status.upcase
@@ -15,8 +15,8 @@
     .row
       .admin_controls.col-xs-8.col-xs-offset-2
         .btn-group.btn-group-justified{html:{role:'group'}}
-          = link_to 'Edit', edit_admin_post_path(id:@post.id), html:{role:'button'}, class:'btn'
-          = link_to 'Destroy', admin_post_path(id:@post.id), :method => :delete, :data => { :confirm => "Are you sure?\nIt will really be gone." }, html:{role:'button'}, class:'btn'
+          = link_to 'Edit', edit_admin_post_path(id:@post), html:{role:'button'}, class:'btn btn-default'
+          = link_to 'Destroy',   admin_post_path(id:@post), :method => :delete, :data => { :confirm => "Are you sure?\nIt will really be gone." }, html:{role:'button'}, class:'btn btn-default'
         %hr
             
   #comments
@@ -52,17 +52,16 @@
               = f.text_area :new_comment, id:'comment-field', placeholder:"#{@post.author.first_name} would appreciate feedback", class: "form-control"
 
             .form-group.pull-right
+              = f.submit 'Only Comment', class: "btn btn-link"
               .btn-group.dropup
-                = f.submit 'Approve', class: "btn btn-success"
+                = f.submit 'Approve Post', class: "btn btn-success"
                 %button.btn.btn-success.dropdown-toggle{ data:{toggle:'dropdown'} }
                   %span.caret
                   %span.sr-only Toggle Dropdown
                 %ul.dropdown-menu.dropdown-menu-right{role:'menu'}
                   %li
-                    %a{href:'#'} Comment Only
-                  %li
-                    %a{href:'#'} Approve
+                    %a{href:'#'} Approve Post
                   %li.divider
                   %li
-                    %a{href:'#'} Reject
+                    %a{href:'#'} Reject Post
                   

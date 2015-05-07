@@ -1,5 +1,5 @@
-%h1= "Editing #{post_type_of( @post ).titlecase}"
+%h1
+  Editing Post
+  %small= "(#{post_type_of( @post ).titlecase})"
 
 = render "admin/posts/forms/form"
-
-= link_to 'Back', admin_posts_path

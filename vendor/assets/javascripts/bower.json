@@ -23,6 +23,8 @@
     "jasmine-sinon": "~0.3.2",
     "jasmine-ajax": "~2.0.1",
     "pace": "~1.0.2",
-    "autosize": "latest"
+    "autosize": "latest",
+    "clockpicker": "latest",
+    "pickadate": "latest"
   }
 }

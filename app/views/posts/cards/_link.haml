@@ -1,6 +1,6 @@
 - post && @post = post
 .card{class:ministry_class(@post)}
-  %a.thumbnail{href: post_path(id:@post.id)}
+  %a.thumbnail{href: post_path(id:@post)}
     %img.thumbnail-img{src: @post.poster.url,
         data: {src: @post.poster.url},
         alt: @post.title,

@@ -1,8 +1,11 @@
 @import "modules/bootstrap_extended";
 @import "modules/helpers";
+@import "pickadate/lib/themes/default.css";
+@import "pickadate/lib/themes/default.date.css";
 
 html,body{
   background-color:$gray-lighter;
+  padding-bottom:60px;
 }
 
 .panel.panel-default{
@@ -26,6 +29,7 @@ html,body{
   background:$gray-darker;
   height: 70px;
   line-height: 70px;
+  z-index: 2;
   
   .global_nav_item{
     text-align:center;
@@ -43,7 +47,7 @@ html,body{
   }
 }
 
-.btn{
+.btn-flat{
   font-weight: 300;
   letter-spacing: 1px;
   color:white;
@@ -57,9 +61,7 @@ html,body{
 
 
 #posts-index{
-  padding-bottom:160px;
-  background-color:$gray-lighter;
-  
+
   h1,h2,h3,h4,h5,button,.title{
     font-weight: 300;
     letter-spacing: 1px; 
@@ -143,7 +145,6 @@ html,body{
       text-align:center;
       
       .follow-up-btn{
-        @extend .btn;
         font-weight:300;
         color:white;
         background-color:$gray;
@@ -193,10 +194,7 @@ html,body{
   }
 }
 
-#posts-show{
-  padding-bottom:160px;
-  background-color:$gray-lighter;
-  
+#posts-show{  
   #status-bar{
     letter-spacing: 1px;
     @extend .row; 
@@ -245,10 +243,51 @@ html,body{
         font-size: 16px;
         margin-bottom:10px;
       }
-      
-      // Patching Bootstrap
-      .btn-success:hover, .btn-success:focus{@extend .btn-success;}
     }
   }
   
+}
+
+#post-form{
+  .field{
+    @extend .form-group;
+  }
+  
+  #instrutions{
+    @include transitionValue('all');
+    
+    #instruction-text{}
+    #show-loading{
+      display:none;
+    }
+    
+    &.loading{
+      #instruction-text{
+        display:none;
+      }
+      #show-loading{
+        display:block;
+      }
+    }
+  }
+  
+  
+  .picker--opened {
+    .picker__holder{
+      height:100%;
+    }
+    .picker__frame{
+      @extend %verticalCenter;
+    } 
+  }
+  
+  #external-url-details{
+    @include transitionValue('max-height');
+    max-height:0px;
+    overflow:hidden;
+    
+    &.populated{
+      max-height:800px;
+    }
+  }
 }

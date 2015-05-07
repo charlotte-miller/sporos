@@ -1,17 +1,21 @@
+= f.hidden_field :type, value:'Post::Event'
 .field
   = f.label :title
-  = f.text_area :title
+  = f.text_area :title, class:'form-control'
 .field
   = f.label :description
-  = f.text_area :description
+  = f.text_area :description, class:'form-control'
 .field
   = f.label :display_options
-  = f.text_field :display_options
+  = f.text_field :display_options, class:'form-control'
 .field
   = f.label :poster
-  = f.text_field :poster
+  = f.text_field :poster, class:'form-control'
 .field
   = f.label :expired_at, 'Event Time'
-  = f.datetime_select :expired_at
-.actions
-  = f.submit 'Publish'
+  .input-group
+    = f.text_field :expired_at, class:'form-control pick-a-date'
+    .input-group-btn.trigger-pick-a-date
+      %button.btn.btn-default
+        %i.glyphicon.glyphicon-calendar
+

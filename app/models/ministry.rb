@@ -49,4 +49,7 @@ class Ministry < ActiveRecord::Base
   # Methods
   # ---------------------------------------------------------------------------------
   
+  def title
+    name.titleize
+  end
 end

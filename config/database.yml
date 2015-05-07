@@ -33,10 +33,17 @@ test:
   <<: *default
   database: sporos_test
 
-# Convienently debug issues in Rails.env.production?
 production:
-  <<: *default
-  database: sporos_development
+  adapter: postgresql
+  encoding: utf8
+  reconnect: false
+  database: <%= ENV['POSTGRESQL_DATABASE']%>
+  pool: 20
+  username: <%= ENV['POSTGRESQL_USERNAME']%>
+  password: <%= ENV['POSTGRESQL_PASSWORD']%>
+  host: <%= ENV['POSTGRESQL_ADDRESS']%>
+  port: 5432
+
 
 # ===============
 # = Legacy Site =

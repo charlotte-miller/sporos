@@ -1,11 +1,12 @@
 # http://andreapavoni.com/blog/2013/4/create-recursive-openstruct-from-a-ruby-hash/
 require 'ostruct'
 
-class DeepStruct < OpenStruct  
+class DeepStruct < OpenStruct
+  
   def initialize(data=nil)
     @table = {}
     @hash_table = {}
-
+    
     if data && defined? data.each
       @hash_table = data.deep_symbolize_keys
       
@@ -14,7 +15,13 @@ class DeepStruct < OpenStruct
           when Hash
             self.class.new(v)
           when Array
-            v.map {|val| self.class.new(val)}
+            v.map do |val|
+              if defined? val.each
+                self.class.new(val)
+              else
+                val
+              end
+            end
           else
             v
         end

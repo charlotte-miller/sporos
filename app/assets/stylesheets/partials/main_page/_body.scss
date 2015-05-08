@@ -86,8 +86,13 @@
                height: auto;
                width: 100%;
               }
-    
-              .captions{
+              
+              .source-domain{
+                text-align: left;
+                font-weight:bold;
+              }
+              
+              .captions p{
                 text-align: justify;
               }
             }

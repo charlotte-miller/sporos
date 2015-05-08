@@ -29,7 +29,11 @@ class Admin::PostsController < Admin::BaseController
       these_approval_requests = ApprovalRequest.where(post:posts, user:current_user).includes(:comment_threads).all
       @grouped_posts[grouped] = posts.map do |post|
         this_posts_request = these_approval_requests.find {|request| request.post_id == post.id}
-        post.unread_comment_count = this_posts_request.comment_threads.select {|comment| comment.created_at > comment.commentable.last_vistited_at }.length #.unread_comments.count       
+        if this_posts_request
+          post.unread_comment_count = this_posts_request.comment_threads.select {|comment| comment.created_at > comment.commentable.last_vistited_at }.length #.unread_comments.count       
+        else
+          post.unread_comment_count = 0
+        end
         post
       end.sort_by(&:unread_comment_count).reverse
     end
@@ -46,25 +50,31 @@ class Admin::PostsController < Admin::BaseController
   end
 
   def new
-    @post = Post.new
     @type = params[:post_type]
-    @ministries = current_user.ministries
+    @post = "posts/#{@type}".classify.constantize.new
+    set_possible_poster_images
     
     respond_with(@post)
   end
 
   def edit
+    set_possible_poster_images
   end
 
   def create
     post_class = post_params[:type].constantize
     @post = post_class.new(post_params.merge(author:current_user) )
     @post.save
+    
+    set_possible_poster_images
     respond_with(@post)
   end
 
   def update
+    keep_poster_alternatives
     @post.update(post_params)
+    
+    set_possible_poster_images
     respond_with(@post)
   end
 
@@ -89,8 +99,12 @@ class Admin::PostsController < Admin::BaseController
       @type ||= post_type_of( @post )
     end
     
+    def set_possible_poster_images
+      @possible_poster_images ||= ([@post.poster.url] | (@post.display_options.poster_alternatives || []) ).compact
+    end
+    
     def post_params
-      params.require(:post).permit(:type, :ministry_id, :title, :description, :poster, :expired_at, display_options:[:url])
+      @post_params ||= params.require(:post).permit(:type, :ministry_id, :title, :description, :poster_remote_url, :expired_at, display_options:[:url, poster_alternatives:[]])
     end
     
     def posts_links_url
@@ -99,5 +113,11 @@ class Admin::PostsController < Admin::BaseController
     
     def posts_link_url(post)
       admin_post_url(post)
+    end
+    
+    def keep_poster_alternatives
+      if post_params[:display_options][:poster_alternatives].nil?
+        post_params[:display_options][:poster_alternatives] = @post.display_options.poster_alternatives
+      end
     end
 end

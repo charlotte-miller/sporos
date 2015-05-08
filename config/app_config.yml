@@ -52,6 +52,13 @@ development:
       secret_access_key: GET AN ACCESS KEY FROM THE CORNERSTONE DIGITAL TEAM.
 
 test:
+  s3:
+    url: s3-us-west-1.amazonaws.com
+    bucket: assets.dev.cornerstonesf.org
+    credentials:
+      access_key_id: NOT A USER?
+      secret_access_key: GET AN ACCESS KEY FROM THE CORNERSTONE DIGITAL TEAM.
+  
 
 production:  
   domains:

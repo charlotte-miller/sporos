@@ -2,6 +2,7 @@
 @import "modules/helpers";
 @import "pickadate/lib/themes/default.css";
 @import "pickadate/lib/themes/default.date.css";
+@import "image-picker/image-picker/image-picker.css";
 
 html,body{
   background-color:$gray-lighter;
@@ -271,6 +272,25 @@ html,body{
     }
   }
   
+  .image_picker_selector{
+    overflow-y: hidden;
+    overflow-x: auto;
+    height: 200px;
+    width:auto;
+    white-space:nowrap;
+    
+    &::last-child{
+      margin-right:0;
+    }
+    
+    li{
+      float:none;
+      display: inline-block;
+    }
+  }
+    .image_picker_image{
+      height:180px;
+    }
   
   .picker--opened {
     .picker__holder{

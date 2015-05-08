@@ -15,53 +15,55 @@
     .row
       .admin_controls.col-xs-8.col-xs-offset-2
         .btn-group.btn-group-justified{html:{role:'group'}}
+          = link_to 'Home', admin_posts_path, html:{role:'button'}, class:'btn btn-default'
           = link_to 'Edit', edit_admin_post_path(id:@post), html:{role:'button'}, class:'btn btn-default'
           = link_to 'Destroy',   admin_post_path(id:@post), :method => :delete, :data => { :confirm => "Are you sure?\nIt will really be gone." }, html:{role:'button'}, class:'btn btn-default'
         %hr
-            
-  #comments
-    %h3 Feedback:
-    #read-comments
-      - @comments.each do |comment|
-        - my_comment = comment.user == current_user
-        .comment.media
-          - unless my_comment
-            .user.media-left.pull-left
-              %a{href:'#'}
-                = image_tag comment.user.profile_image.url(:thumb), height:64, width:64, class:'img-circle media-object'
+  - if @comments.present?
+    #comments
+      %h3 Feedback:
+      #read-comments
+        - @comments.each do |comment|
+          - my_comment = comment.user == current_user
+          .comment.media
+            - unless my_comment
+              .user.media-left.pull-left
+                %a{href:'#'}
+                  = image_tag comment.user.profile_image.url(:thumb), height:64, width:64, class:'img-circle media-object'
 
-          .media-body
-            %h4.media-heading.user-name= comment.user.name
-            .comment-body= comment.body
+            .media-body
+              %h4.media-heading.user-name= comment.user.name
+              .comment-body= comment.body
 
-          - if my_comment
-            .user.media-right.pull-right
-              %a{href:'#'}
-                = image_tag comment.user.profile_image.url(:thumb), height:64, width:64, class:'img-circle media-object'
+            - if my_comment
+              .user.media-right.pull-right
+                %a{href:'#'}
+                  = image_tag comment.user.profile_image.url(:thumb), height:64, width:64, class:'img-circle media-object'
                           
-    %hr
-    #write-comments
-      .comment.media       
-        .user.media-right.pull-right.media-middle
-          %a{href:'#'}
-            = image_tag current_user.profile_image.url(:thumb), height:64, width:64, class:'img-circle media-object'        
-        .media-body
-          / %h4.media-heading.pull-right.user-name= current_user.name
-          = form_for [:admin, @current_users_approval_request] do |f|
-            .form-group
-              = f.text_area :new_comment, id:'comment-field', placeholder:"#{@post.author.first_name} would appreciate feedback", class: "form-control"
+      %hr
+      - if @current_users_approval_request
+        #write-comments
+          .comment.media       
+            .user.media-right.pull-right.media-middle
+              %a{href:'#'}
+                = image_tag current_user.profile_image.url(:thumb), height:64, width:64, class:'img-circle media-object'        
+            .media-body
+              / %h4.media-heading.pull-right.user-name= current_user.name
+              = form_for [:admin, @current_users_approval_request] do |f|
+                .form-group
+                  = f.text_area :new_comment, id:'comment-field', placeholder:"#{@post.author.first_name} would appreciate feedback", class: "form-control"
 
-            .form-group.pull-right
-              = f.submit 'Only Comment', class: "btn btn-link"
-              .btn-group.dropup
-                = f.submit 'Approve Post', class: "btn btn-success"
-                %button.btn.btn-success.dropdown-toggle{ data:{toggle:'dropdown'} }
-                  %span.caret
-                  %span.sr-only Toggle Dropdown
-                %ul.dropdown-menu.dropdown-menu-right{role:'menu'}
-                  %li
-                    %a{href:'#'} Approve Post
-                  %li.divider
-                  %li
-                    %a{href:'#'} Reject Post
+                .form-group.pull-right
+                  = f.submit 'Only Comment', class: "btn btn-link"
+                  .btn-group.dropup
+                    = f.submit 'Approve Post', class: "btn btn-success"
+                    %button.btn.btn-success.dropdown-toggle{ data:{toggle:'dropdown'} }
+                      %span.caret
+                      %span.sr-only Toggle Dropdown
+                    %ul.dropdown-menu.dropdown-menu-right{role:'menu'}
+                      %li
+                        %a{href:'#'} Approve Post
+                      %li.divider
+                      %li
+                        %a{href:'#'} Reject Post
                   

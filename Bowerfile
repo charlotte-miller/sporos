@@ -36,6 +36,7 @@ group :vendor, assets_path:'assets/javascripts' do
   # Admin
   asset 'clockpicker', '~0.0.7'
   asset 'pickadate',   '~3.5.6'
+  asset 'image-picker'
 end
 
 group :lib do  

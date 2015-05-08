@@ -10,11 +10,12 @@
 #  user_id             :integer          not null
 #  title               :text             not null
 #  description         :text
-#  display_options     :hstore
+#  display_options     :jsonb            default("{}"), not null
 #  poster_file_name    :string
 #  poster_content_type :string
 #  poster_file_size    :integer
 #  poster_updated_at   :datetime
+#  poster_original_url :string
 #  rejected_at         :datetime
 #  published_at        :datetime
 #  expired_at          :datetime
@@ -41,11 +42,11 @@ class Post < ActiveRecord::Base
   # default_scope ->{ order('updated_at DESC')}
   
   # Single Table Inheritance
-  scope :events,      -> { where(type: 'Post::Event')    }
-  scope :link,        -> { where(type: 'Post::Link')     }
-  scope :page,        -> { where(type: 'Post::Page')     }
-  scope :photo,       -> { where(type: 'Post::Photo')    }
-  scope :video,       -> { where(type: 'Post::Video')    }
+  scope :events,      -> { where(type: 'Posts::Event')    }
+  scope :link,        -> { where(type: 'Posts::Link')     }
+  scope :page,        -> { where(type: 'Posts::Page')     }
+  scope :photo,       -> { where(type: 'Posts::Photo')    }
+  scope :video,       -> { where(type: 'Posts::Video')    }
   scope :w_out_pages, -> { where("type != 'Posts::Page'")}
   
   scope :pre_release, -> { where( 'published_at IS NULL') }
@@ -88,15 +89,22 @@ class Post < ActiveRecord::Base
   has_attachable_file :poster, {
                       # :processors      => [:thumbnail, :pngquant],
                       :default_style => :sd,
-                      :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
+                      :default_url   => :poster_original_url,
+                      :content_type  => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
                       # production_path: 'studies/lesson_media/:study_id/:hash:quiet_style.:extension',
                       :styles => {
                         sd:     { format: 'png', convert_options: "-strip" },
                         hd:     { format: 'png', convert_options: "-strip" },
                         mobile: { format: 'png', convert_options: "-strip" }}}
 
+  process_in_background :poster, processing_image_url: :poster_original_url
+  
   def display_options
     DeepStruct.new super
+  end
+  
+  def poster_original_url
+    super || '' #FIXES PAPERCLIP BUG
   end
 
   # ---------------------------------------------------------------------------------
@@ -135,7 +143,7 @@ class Post < ActiveRecord::Base
   def status
     return 'rejected'  if rejected_at
     return 'pending'   if !published_at
-    return 'published' if published_at && expired_at > Time.now
+    return 'published' if published_at && (expired_at.nil? || expired_at > Time.now)
     return 'archived'  if expired_at < Time.now
   end
   

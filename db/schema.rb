@@ -238,23 +238,24 @@ ActiveRecord::Schema.define(version: 20150429160413) do
   add_index "podcasts", ["church_id"], name: "index_podcasts_on_church_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
-    t.text     "type",                           null: false
-    t.string   "public_id",           limit: 21, null: false
+    t.text     "type",                                        null: false
+    t.string   "public_id",           limit: 21,              null: false
     t.integer  "parent_id"
-    t.integer  "ministry_id",                    null: false
-    t.integer  "user_id",                        null: false
-    t.text     "title",                          null: false
+    t.integer  "ministry_id",                                 null: false
+    t.integer  "user_id",                                     null: false
+    t.text     "title",                                       null: false
     t.text     "description"
-    t.hstore   "display_options"
+    t.jsonb    "display_options",                default: {}, null: false
     t.string   "poster_file_name"
     t.string   "poster_content_type"
     t.integer  "poster_file_size"
     t.datetime "poster_updated_at"
+    t.string   "poster_original_url"
     t.datetime "rejected_at"
     t.datetime "published_at"
     t.datetime "expired_at"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
   end
 
   add_index "posts", ["ministry_id"], name: "index_posts_on_ministry_id", using: :btree

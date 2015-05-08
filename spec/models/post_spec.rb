@@ -10,11 +10,12 @@
 #  user_id             :integer          not null
 #  title               :text             not null
 #  description         :text
-#  display_options     :hstore
+#  display_options     :jsonb            default("{}"), not null
 #  poster_file_name    :string
 #  poster_content_type :string
 #  poster_file_size    :integer
 #  poster_updated_at   :datetime
+#  poster_original_url :string
 #  rejected_at         :datetime
 #  published_at        :datetime
 #  expired_at          :datetime

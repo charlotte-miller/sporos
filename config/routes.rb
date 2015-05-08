@@ -56,6 +56,7 @@ Rails.application.routes.draw do
     get     'logout'=> 'devise/sessions#destroy' #convenience
   end
 
+  get 'admin' => 'admin/posts#index'
   namespace :admin do
     resources :ministries, except: :show
     resources :posts do

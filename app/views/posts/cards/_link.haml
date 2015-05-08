@@ -1,6 +1,6 @@
 - post && @post = post
 .card{class:ministry_class(@post)}
-  %a.thumbnail{href: post_path(id:@post)}
+  %a.thumbnail{href: post.display_options.url, target:'_blank'}
     %img.thumbnail-img{src: @post.poster.url,
         data: {src: @post.poster.url},
         alt: @post.title,
@@ -9,5 +9,6 @@
 
     .captions
       %h3.title= @post.title
+      .source-domain= get_host_domain(post.display_options.url)
       %p.description= @post.description
-    .expires-in{ data:{expired_at:@post.expired_at.to_i}} #NOTE: Relative time inserted here. Example:  'in 11 hours'
+    .social_buttons= #post_path(id:@post)

@@ -24,7 +24,8 @@
     "jasmine-ajax": "~2.0.1",
     "pace": "~1.0.2",
     "autosize": "latest",
-    "clockpicker": "latest",
-    "pickadate": "latest"
+    "clockpicker": "~0.0.7",
+    "pickadate": "~3.5.6",
+    "image-picker": "latest"
   }
 }

@@ -1,5 +1,5 @@
 class CreatePosts < ActiveRecord::Migration
-  def change
+  def change  
     create_table :posts do |t|
       t.text       :type,         index:true,  null:false
       t.string     :public_id,    limit:21,    null:false
@@ -8,8 +8,10 @@ class CreatePosts < ActiveRecord::Migration
       t.references :user,         index:true,  null:false
       t.text       :title,                     null:false
       t.text       :description
-      t.hstore     :display_options
+      t.jsonb      :display_options, null:false, default:'{}'
       t.attachment :poster
+      t.string     :poster_original_url
+      # t.boolean    :poster_processing
       
       t.datetime :rejected_at
       t.datetime :published_at

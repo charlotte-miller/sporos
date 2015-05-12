@@ -32,6 +32,6 @@
 #
 
 class Posts::Link < Post
-  delegate :url, to: :display_options
+  delegate :url, :poster_alternatives, to: :display_options
   
 end

@@ -1,6 +1,7 @@
 .compact-post
   .unread-comments
-    %i.glyphicon.glyphicon-envelope
+    %a{href:admin_post_path(post)}
+      %i.glyphicon.glyphicon-envelope
     - if post.unread_comment_count > 0
       %span.label.label-primary.label-as-badge= post.unread_comment_count
    

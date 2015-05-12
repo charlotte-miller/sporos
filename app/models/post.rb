@@ -147,4 +147,8 @@ class Post < ActiveRecord::Base
     return 'archived'  if expired_at < Time.now
   end
   
+  def comm_arts_request
+    
+  end
+  
 end

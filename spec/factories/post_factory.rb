@@ -57,7 +57,13 @@ FactoryGirl.define do
   end
   
   factory :post_event, parent:'post', class:'Posts::Event' do
+    ignore do
+      event_time { Time.parse("10:00 AM") }
+      event_date { Date.today+2.weeks }
+    end
+    
     type       'Posts::Event'
+    display_options {{event_time:event_time.strftime('%l:%M %p'), event_date:event_date.strftime('%d %b, %Y')}}
     expired_at {Time.now + 2.weeks}
   end
 

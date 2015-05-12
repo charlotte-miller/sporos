@@ -70,4 +70,9 @@ module ApplicationHelper
     end
     # nil
   end
+  
+  def indefinitize(word, consonant = 'a', vowel = 'an')
+    result = word.to_s.dup
+    result.match(/^([aeiou])/i) ? "#{vowel} #{result}" : "#{consonant} #{result}"
+  end
 end

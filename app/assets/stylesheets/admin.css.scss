@@ -2,11 +2,16 @@
 @import "modules/helpers";
 @import "pickadate/lib/themes/default.css";
 @import "pickadate/lib/themes/default.date.css";
+@import "pickadate/lib/themes/default.time.css";
 @import "image-picker/image-picker/image-picker.css";
 
 html,body{
   background-color:$gray-lighter;
   padding-bottom:60px;
+}
+
+.pick-a-date, .pick-a-date-w-clear, .pick-a-time{
+  background:white !important;
 }
 
 .panel.panel-default{
@@ -310,4 +315,18 @@ html,body{
       max-height:800px;
     }
   }
+  
+  #advanced-features{
+  }
+     
+    #advanced-drawer{
+      @include transitionValue('max-height');
+      max-height:400px;
+      overflow:hidden;
+  
+      &.closed{
+        max-height:0px;
+        padding:0px;
+      } 
+    }
 }

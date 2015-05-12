@@ -1,5 +1,4 @@
-%h1= post_type_of( @post ).titlecase
+%h1= "Post #{indefinitize(post_type_of( @post ).titlecase)}"
 
 = render "admin/posts/forms/form"
 
-= link_to 'Back', admin_posts_path

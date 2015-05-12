@@ -32,6 +32,24 @@
 #
 
 class Posts::Event < Post
+  delegate :location, :event_time, :event_date, to: :display_options
   
+  before_validation :set_expired_at
+  validate :expires_at_or_before_the_event
+  
+  def set_expired_at
+    self.expired_at ||= combined_event_time_obj
+  end
+  
+  def combined_event_time_obj
+    Time.parse("#{event_date} #{event_time}")
+  end
+  
+  def expires_at_or_before_the_event
+    if expired_at > combined_event_time_obj
+      errors.add(:expired_at, 'cannot be AFTER the event.')
+      # self.errors.add_to_base("")
+    end
+  end
   
 end

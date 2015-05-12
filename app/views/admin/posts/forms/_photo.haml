@@ -10,7 +10,10 @@
   = f.text_field :display_options, class:'form-control'
 .field
   = f.label :poster
-  = f.text_field :poster, class:'form-control'
+  = f.file_field :poster, class:'form-control', multiple:true, accept:"image/*"
+  - if f.object.poster.present?
+    = image_tag f.object.poster.url
+
 .field
   = f.label :expired_at, 'Archive at:'
   = f.datetime_select :expired_at, class:'form-control'

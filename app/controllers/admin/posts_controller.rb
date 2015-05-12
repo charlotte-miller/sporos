@@ -67,7 +67,7 @@ class Admin::PostsController < Admin::BaseController
     @post.save
     
     set_possible_poster_images
-    respond_with(@post)
+    respond_with(@post.becomes(Post))
   end
 
   def update
@@ -75,12 +75,12 @@ class Admin::PostsController < Admin::BaseController
     @post.update(post_params)
     
     set_possible_poster_images
-    respond_with(@post)
+    respond_with(@post.becomes(Post))
   end
 
   def destroy
     @post.destroy
-    respond_with(@post)
+    respond_with(@post.becomes(Post))
   end
 
   # GET /admin/posts/link_preview?url=<URL>
@@ -98,26 +98,28 @@ class Admin::PostsController < Admin::BaseController
     def set_type
       @type ||= post_type_of( @post )
     end
-    
-    def set_possible_poster_images
-      @possible_poster_images ||= ([@post.poster.url] | (@post.display_options.poster_alternatives || []) ).compact
-    end
-    
+        
     def post_params
-      @post_params ||= params.require(:post).permit(:type, :ministry_id, :title, :description, :poster_remote_url, :expired_at, display_options:[:url, poster_alternatives:[]])
+      @post_params ||= params.require(:post).permit(:type, :ministry_id, :title, :description, :poster, :poster_remote_url, :expired_at, display_options:[:url, :event_date, :event_time, poster_alternatives:[]])
     end
     
-    def posts_links_url
+    def posts_url
       admin_posts_url
     end
-    
-    def posts_link_url(post)
+
+    def post_url(post)
       admin_post_url(post)
     end
     
+    def set_possible_poster_images
+      if set_type == 'link'
+        @possible_poster_images ||= ([@post.poster.url] | (@post.poster_alternatives || []) ).compact
+      end
+    end
+    
     def keep_poster_alternatives
-      if post_params[:display_options][:poster_alternatives].nil?
-        post_params[:display_options][:poster_alternatives] = @post.display_options.poster_alternatives
+      if set_type == 'link' && post_params[:display_options][:poster_alternatives].nil?
+        post_params[:display_options][:poster_alternatives] = @post.poster_alternatives
       end
     end
 end

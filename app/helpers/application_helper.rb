@@ -60,8 +60,7 @@ module ApplicationHelper
     capture_haml do
       flash.each do |msg_type, message|
         haml_tag(:div, class: "alert #{bootstrap_class_for(msg_type)} alert-dismissible", role: 'alert') do
-          haml_concat message
-          haml_tag :button, class: 'close', data: { dismiss: 'alert' } do
+          haml_tag :button, class: 'close fade in', data: { dismiss: 'alert' } do
             haml_tag(:span, '&times;'.html_safe, 'aria-hidden' => true)
             haml_tag(:span, 'Close', class: 'sr-only') 
           end

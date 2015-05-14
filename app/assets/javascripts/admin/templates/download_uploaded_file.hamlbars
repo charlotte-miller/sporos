@@ -6,7 +6,7 @@
     %strong.error.text-danger Error: {{error}}
   {{else}}
   .col-sm-5
-    %a{:href => "{{url}}"}
+    %a{href: "{{url}}", target:'_blank'}
       %span.preview
       {{#if thumbnail_url}}
       %img.preview-img{:src => "{{thumbnail_url}}"}/

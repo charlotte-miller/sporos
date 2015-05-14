@@ -34,3 +34,6 @@ $ ->
       previewMaxHeight:180
       previewMinHeight:179
       previewMaxWidth:300
+      disableImageResize:false
+      imageMaxWidth:800
+      imageMaxHeight:800

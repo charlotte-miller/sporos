@@ -16,6 +16,4 @@
           = f.file_field :uploaded_files, id:'upload-uploaded-file', class:'form-control', multiple:true, accept:"image/*", data:{url:'/admin/uploaded_files.json'}
       .col-xs-7
         %b Drag & Drop Images Here
-    - if f.object.poster.present?
-      = image_tag f.object.poster.url
 

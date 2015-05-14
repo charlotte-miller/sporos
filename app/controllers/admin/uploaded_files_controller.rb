@@ -1,9 +1,20 @@
 class Admin::UploadedFilesController < Admin::BaseController
   respond_to :json
   
+  def index
+    
+    @uploaded_files = if set_post
+      @post.uploaded_files
+    else
+      UploadedFile.where(session_id:session.id).all
+    end
+    
+    render json: { files: @uploaded_files.map(&:file_as_json) }
+  end
+  
   def create
      @uploaded_file = if set_post
-      UploadedFile.new(uploaded_file_params.merge(from:set_post))
+      UploadedFile.new(uploaded_file_params.merge( from:set_post ))
     else
       UploadedFile.new(uploaded_file_params.merge( session_id:session.id ))
       # Added by session_id when the post is saved
@@ -12,14 +23,7 @@ class Admin::UploadedFilesController < Admin::BaseController
     file = @uploaded_file.file
     if @uploaded_file.save
       # https://github.com/blueimp/jQuery-File-Upload/wiki/JSON-Response
-      render json: { files:[{
-        name: file.basename,
-        size: file.size,
-        url:  file.url,
-        thumbnail_url: file.url, #file.url(:thumb),
-        delete_url:  admin_uploaded_file_url(@uploaded_file),
-        delete_type: 'DELETE'
-      }]}
+      render json: { files:[ @uploaded_file.file_as_json ]}
     else
       render json: { files:[{
         name: file,
@@ -60,12 +64,14 @@ private
   end
   
   def post_params
-    @post_params ||= params.require(:post).permit(:id, :type)
+    @post_params ||= params.require(:post).permit(:id)
   end
   
   def set_post
-    @post ||= if post_params[:id]
-      Post.find_by(post_params)
+    @post ||= unless post_params[:id].blank?
+      Post.find(post_params[:id])
     end
+  rescue ActionController::ParameterMissing
+    nil
   end
 end

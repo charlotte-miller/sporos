@@ -5,6 +5,12 @@ $ ->
   if $('#upload-uploaded-file').length
     $(document).on 'drop dragover', (e)-> e.preventDefault() #prevent's browser from just opening the file
     
+    url = '/admin/uploaded_files'
+    url += "?post[id]=#{post_id}" if post_id = $('#post_id').val()
+    $.getJSON url, (data)->
+      template = HandlebarsTemplates.download_uploaded_file(data)
+      $('#dropzone').append(template)
+    
     # $('#upload-uploaded-file').attr('name','uploaded_file[file]')
     $('#upload-uploaded-file').fileupload
       # url: '/admin/uploaded_files.json'

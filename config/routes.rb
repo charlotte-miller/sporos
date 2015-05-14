@@ -65,7 +65,7 @@ Rails.application.routes.draw do
       end
     end
     
-    resources :uploaded_files, only: [:create, :destroy]
+    resources :uploaded_files, only: [:index, :create, :destroy]
     patch 'uploaded_files' => 'uploaded_files#create'
     
     resources :approval_requests, only: :update

@@ -22,6 +22,8 @@
 class UploadedFile < ActiveRecord::Base
   include AttachableFile
   
+  delegate :url_helpers, to: 'Rails.application.routes'
+  
   belongs_to :from, polymorphic:true
   
   attr_protected #none
@@ -30,7 +32,7 @@ class UploadedFile < ActiveRecord::Base
                       :processors => [:thumbnail, :paperclip_optimizer],
                       paperclip_optimizer: { pngquant: true },
                       :styles => { 
-                        original: { geometry: "4000x4000>", format: 'png', convert_options: "-strip" },
+                        # original: { geometry: "4000x4000>", format: 'png', convert_options: "-strip" },
                         large:    { geometry: "1500x1500>", format: 'png', convert_options: "-strip" },
                         medium:   { geometry: "300x300>",   format: 'png', convert_options: "-strip" },
                         small:    { geometry: "200x200>",   format: 'png', convert_options: "-strip" },
@@ -38,4 +40,13 @@ class UploadedFile < ActiveRecord::Base
                       }
 
   process_in_background :file
+  
+  def file_as_json
+    { name: file.basename,
+      size: file.size,
+      url:  file.url,
+      thumbnail_url: file.url, #file.url(:thumb),
+      delete_url:  url_helpers.admin_uploaded_file_url(self),
+      delete_type: 'DELETE' }
+  end
 end

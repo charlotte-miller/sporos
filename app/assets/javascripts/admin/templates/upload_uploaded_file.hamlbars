@@ -2,16 +2,16 @@
 .row.template-upload.fade
   .col-sm-4
     %span.preview
-  .col-sm-2
-    %p.name {{name}}
   {{#if error}}
-  .col-sm-6
+  .col-sm-8
     %strong.error.text-danger {{error}}
   {{else}}
-  .col-sm-4
-    .progress.progress-striped.active{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "0", :role => "progressbar"}
-      .progress-bar.progress-bar-success{:style => "width:0%;"}
-  .col-sm-2
+  .col-sm-6.progress-and-name
+    .wrapper
+      .progress.progress-striped.active{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "0", :role => "progressbar"}
+        .progress-bar.progress-bar-success{:style => "width:0%;"}
+      %p {{name}}
+  .col-sm-2.delete-col
     %button.btn.btn-danger.cancel
       %i.glyphicon.glyphicon-ban-circle
       %span Cancel

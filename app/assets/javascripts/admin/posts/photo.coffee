@@ -31,4 +31,6 @@ $ ->
           dropZone.removeClass 'active'
         ), 50)
       , 50)
-      
+      previewMaxHeight:180
+      previewMinHeight:179
+      previewMaxWidth:300

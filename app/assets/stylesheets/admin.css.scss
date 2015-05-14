@@ -342,6 +342,11 @@ html,body{
       &.active{
         background:white;
       }
+            
+      .template-download, .template-upload{
+        margin-top:30px;
+        margin-bottom:40px;
+      }
       
       b{
         margin-left: -15px;
@@ -349,12 +354,33 @@ html,body{
         
         @media (max-width: $screen-xs-min) {
           margin-left: 0;
-          font-size:14px;
+          font-size:13px;
         }
       }
       
-      .preview-img{
+      .preview-img, .preview{
         height:180px;
+      }
+      
+      .name{
+        @extend %truncate;
+        width: 100%;
+        float: right;
+      }
+      
+      .name, .delete-col, .progress-and-name{
+        line-height: 180px;
+        height:180px;
+        
+        .wrapper{
+          @extend %verticalCenter;
+          line-height: initial;
+        }
+        
+        @media (max-width: $screen-xs-max) {
+          line-height:inherit;
+          height:initial;
+        }
       }
     }
 }

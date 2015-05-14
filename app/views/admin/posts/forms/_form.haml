@@ -13,6 +13,7 @@
       .input-group
         %span#instrutions.input-group-addon Posting for:
         = f.collection_select :ministry_id, @ministries, :id, :title, {prompt:'Please Select a Ministry', selected: @post.try(:ministry).try(:id)}, {class:'form-control'}
+  = f.hidden_field :id, value:@post.id
   = render partial:"admin/posts/forms/#{post_type_of @post}", locals:{f:f}
   .actions
     = f.button 'SUBMIT FOR APPROVAL', class:'btn btn-primary form-control', id:'post-form-submit'

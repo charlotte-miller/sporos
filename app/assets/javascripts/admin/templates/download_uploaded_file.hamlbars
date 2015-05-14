@@ -1,0 +1,23 @@
+{{#each files}}
+.row.template-download
+  {{#if error}}
+  .col-sm-10
+    %p.name {{name}}
+    %strong.error.text-danger Error: {{error}}
+  {{else}}
+  .col-sm-4
+    %span.preview
+    {{#if thumbnail_url}}
+    %a{:href => "{{url}}"}
+      %img.preview-img{:src => "{{thumbnail_url}}"}/
+    {{/if}}
+  .col-sm-6
+    .name
+      %a{:href => "{{url}}"} {{name}}
+  {{/if}}
+  .col-sm-2
+    %button.btn.btn-danger.delete{"data-type" => "{{delete_type}}", "data-url" => "{{delete_url}}"}
+      %i.glyphicon.glyphicon-trash 
+{{/each}}
+
+/ Modified from https://gist.github.com/elmariachi111/5407282

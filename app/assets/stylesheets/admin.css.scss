@@ -4,6 +4,8 @@
 @import "pickadate/lib/themes/default.date.css";
 @import "pickadate/lib/themes/default.time.css";
 @import "image-picker/image-picker/image-picker.css";
+@import "jquery-file-upload/css/jquery.fileupload";
+@import "jquery-file-upload/css/jquery.fileupload-ui";
 
 html,body{
   background-color:$gray-lighter;
@@ -328,5 +330,31 @@ html,body{
         max-height:0px;
         padding:0px;
       } 
+    }
+    
+    #dropzone{
+      @extend .well;
+      margin-right:0;
+      margin-left:0;
+      line-height: 32px;
+      text-align:center;
+      
+      &.active{
+        background:white;
+      }
+      
+      b{
+        margin-left: -15px;
+        font-size:16px;
+        
+        @media (max-width: $screen-xs-min) {
+          margin-left: 0;
+          font-size:14px;
+        }
+      }
+      
+      .preview-img{
+        height:180px;
+      }
     }
 }

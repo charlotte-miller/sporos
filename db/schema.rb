@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150429160413) do
+ActiveRecord::Schema.define(version: 20150512195841) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -317,6 +317,21 @@ ActiveRecord::Schema.define(version: 20150429160413) do
   add_index "studies", ["last_published_at"], name: "index_studies_on_last_published_at", using: :btree
   add_index "studies", ["podcast_id", "last_published_at"], name: "index_studies_on_podcast_id_and_last_published_at", using: :btree
   add_index "studies", ["slug"], name: "index_studies_on_slug", unique: true, using: :btree
+
+  create_table "uploaded_files", force: :cascade do |t|
+    t.integer  "from_id"
+    t.text     "from_type"
+    t.text     "session_id"
+    t.string   "file_file_name"
+    t.string   "file_content_type"
+    t.integer  "file_file_size"
+    t.datetime "file_updated_at"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "uploaded_files", ["from_id", "from_type"], name: "index_uploaded_files_on_from_id_and_from_type", using: :btree
+  add_index "uploaded_files", ["session_id"], name: "index_uploaded_files_on_session_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name",                 limit: 60

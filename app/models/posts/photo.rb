@@ -32,7 +32,6 @@
 #
 
 class Posts::Photo < Post
-
-  
+  # delegate :location, :event_time, :event_date, to: :display_options
   
 end

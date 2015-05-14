@@ -69,6 +69,8 @@ class Post < ActiveRecord::Base
   has_one :draft, :class_name => "Post", :foreign_key => "parent_id"
   
   has_many :comment_threads, through: :approval_requests
+  
+  has_many :uploaded_files, as:'from', dependent: :destroy
 
   # ---------------------------------------------------------------------------------
   # Validations
@@ -85,7 +87,7 @@ class Post < ActiveRecord::Base
   def to_param; public_id ;end
   
   attr_protected #none - using strong params
-  attr_accessor :approvers, :unread_comment_count
+  attr_accessor :approvers, :unread_comment_count, :current_session
   has_attachable_file :poster, {
                       # :processors      => [:thumbnail, :pngquant],
                       :default_style => :sd,
@@ -136,6 +138,16 @@ class Post < ActiveRecord::Base
       # filter from UI
     end
   end
+  
+  after_create :find_uploaded_files_by_session
+  def find_uploaded_files_by_session
+    UploadedFile.where(session_id:current_session).each do |file|
+      file.from = self
+      file.session_id = nil
+      file.save
+    end
+  end
+  
   
   # ---------------------------------------------------------------------------------
   # Methods

@@ -37,6 +37,9 @@ group :vendor, assets_path:'assets/javascripts' do
   asset 'clockpicker', '~0.0.7'
   asset 'pickadate',   '~3.5.6'
   asset 'image-picker'
+  asset 'jquery-file-upload'
+  asset 'blueimp-load-image'
+  asset 'blueimp-canvas-to-blob'
 end
 
 group :lib do  

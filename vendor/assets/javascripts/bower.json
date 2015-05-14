@@ -26,6 +26,9 @@
     "autosize": "latest",
     "clockpicker": "~0.0.7",
     "pickadate": "~3.5.6",
-    "image-picker": "latest"
+    "image-picker": "latest",
+    "jquery-file-upload": "latest",
+    "blueimp-load-image": "latest",
+    "blueimp-canvas-to-blob": "latest"
   }
 }

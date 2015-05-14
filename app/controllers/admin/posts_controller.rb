@@ -100,7 +100,9 @@ class Admin::PostsController < Admin::BaseController
     end
         
     def post_params
-      @post_params ||= params.require(:post).permit(:type, :ministry_id, :title, :description, :poster, :poster_remote_url, :expired_at, display_options:[:url, :event_date, :event_time, poster_alternatives:[]])
+      @post_params ||= params
+      .require(:post).permit(:type, :ministry_id, :title, :description, :poster, :poster_remote_url, :expired_at, display_options:[:url, :event_date, :event_time, poster_alternatives:[]])
+      .merge({current_session:session.id})
     end
     
     def posts_url

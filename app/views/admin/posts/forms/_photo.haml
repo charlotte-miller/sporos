@@ -6,14 +6,16 @@
   = f.label :description
   = f.text_area :description, class:'form-control'
 .field
-  = f.label :display_options
-  = f.text_field :display_options, class:'form-control'
-.field
-  = f.label :poster
-  = f.file_field :poster, class:'form-control', multiple:true, accept:"image/*"
-  - if f.object.poster.present?
-    = image_tag f.object.poster.url
+  = f.label :uploaded_files
+  #dropzone
+    .row
+      .col-xs-5
+        %span.btn.btn-success.fileinput-button
+          %i.glyphicon.glyphicon-plus
+          %span Add Images...
+          = f.file_field :uploaded_files, id:'upload-uploaded-file', class:'form-control', multiple:true, accept:"image/*", data:{url:'/admin/uploaded_files.json'}
+      .col-xs-7
+        %b Drag & Drop Images Here
+    - if f.object.poster.present?
+      = image_tag f.object.poster.url
 
-.field
-  = f.label :expired_at, 'Archive at:'
-  = f.datetime_select :expired_at, class:'form-control'

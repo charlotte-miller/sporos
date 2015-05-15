@@ -6,10 +6,10 @@ class Admin::UploadedFilesController < Admin::BaseController
     @uploaded_files = if set_post
       @post.uploaded_files
     else
-      UploadedFile.where(session_id:session.id).all
+      UploadedFile.where(session_id:session.id)
     end
     
-    render json: { files: @uploaded_files.map(&:file_as_json) }
+    render json: { files: @uploaded_files.order(created_at: :desc).map(&:file_as_json) }
   end
   
   def create

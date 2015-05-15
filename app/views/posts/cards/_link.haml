@@ -1,5 +1,5 @@
 - post && @post = post
-.card{class:ministry_class(@post)}
+.card.link{class:ministry_class(@post)}
   %a.thumbnail{href: post.display_options.url, target:'_blank'}
     %img.thumbnail-img{src: @post.poster.url,
         data: {src: @post.poster.url},

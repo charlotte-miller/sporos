@@ -14,13 +14,17 @@ class PostsController < ApplicationController
   end
 
   def show
-    render template:'posts/show',  layout: !request.xhr?
+    respond_to do |format|
+      format.html { render template:'posts/show',  layout: !request.xhr?}
+      format.json { render json: @post }
+    end
+    
   end
 
 
 private
   def set_post
-    @post = Post.find_by(public_id:params[:id])
+    @post ||= Post.includes(:uploaded_files).find_by(public_id:params[:id])
   end
   
   def set_ministry

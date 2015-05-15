@@ -9,7 +9,7 @@ $ ->
     url += "?post[id]=#{post_id}" if post_id = $('#post_id').val()
     $.getJSON url, (data)->
       template = HandlebarsTemplates.download_uploaded_file(data)
-      $('#dropzone').append(template)
+      $('#dropzone-file-manager').append(template)
     
     # $('#upload-uploaded-file').attr('name','uploaded_file[file]')
     $('#upload-uploaded-file').fileupload
@@ -21,9 +21,10 @@ $ ->
       autoUpload: true
       acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i #/(\.|\/)(gif|jpe?g|png|mov|mpeg|mpeg4|avi)$/i
       maxNumberOfFiles: 10
-      filesContainer: '#dropzone'
+      filesContainer: '#dropzone-file-manager'
       uploadTemplate:   HandlebarsTemplates.upload_uploaded_file
       downloadTemplate: HandlebarsTemplates.download_uploaded_file
+      prependFiles: true
       dragover: _.throttle(->
         dropZone = $('#dropzone')
         timeout = window.dropZoneTimeout

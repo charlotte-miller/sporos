@@ -34,4 +34,9 @@
 class Posts::Photo < Post
   # delegate :location, :event_time, :event_date, to: :display_options
   
+  def poster
+    uploaded_files.last.try(:file)
+  end
+  
+  
 end

@@ -108,7 +108,11 @@ class Post < ActiveRecord::Base
   def poster_original_url
     super || '' #FIXES PAPERCLIP BUG
   end
-
+  
+  def poster_url
+    poster.try(:url)
+  end
+  
   # ---------------------------------------------------------------------------------
   # Callbacks
   # ---------------------------------------------------------------------------------
@@ -161,6 +165,17 @@ class Post < ActiveRecord::Base
   
   def comm_arts_request
     
+  end
+  
+  def as_json(options={})
+    def files
+      uploaded_files.map {|uf| uf.file.url}
+    end
+  
+    super(options.merge({
+      only: [ :type, :public_id, :ministry_id, :title, :description, :published_at, :expired_at ],
+      methods:[ :poster_url, :files]
+    }))
   end
   
 end

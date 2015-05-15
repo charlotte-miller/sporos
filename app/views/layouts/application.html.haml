@@ -25,6 +25,7 @@
     / = partial 'layouts/social'
     
   %body
+    = render :partial => 'posts/lightbox'
     = main_frame_toggle do
       = render :partial => 'layouts/backlink_tab'
       = yield

@@ -11,8 +11,8 @@ $ ->
     theImage.src = $image.attr('src')
     imgwidth = theImage.width
     imgheight = theImage.height
-    containerwidth = 460
-    containerheight = 330
+    containerwidth  = $(window).width()  * 0.8 #460
+    containerheight = $(window).height() * 0.8 #330
     if imgwidth > containerwidth
       newwidth = containerwidth
       ratio = imgwidth / containerwidth
@@ -100,7 +100,7 @@ $ ->
   * we also rotate 0 degrees the new visible picture
   ###
 
-  $('#ps_next_photo').on 'click', ->
+  $('#ps_container').on 'click', ->
     $current = $ps_container.find('img:last')
     r = Math.floor(Math.random() * 41) - 20
     currentPositions =
@@ -130,9 +130,12 @@ $ ->
   * close the images view, and go back to albums
   ###
 
-  $('#ps_close, #ps_overlay').bind 'click', ->
+  $('#ps_overlay').bind 'click', ->
     $ps_container.hide()
     $ps_close.hide()
     $ps_overlay.fadeOut 400
-    return
-  return
+  
+  $(window).resize _.debounce( ->
+    $('#ps_container img').each -> resizeCenterImage $(@) if $ps_overlay.is(':visible')
+  , 500)
+  

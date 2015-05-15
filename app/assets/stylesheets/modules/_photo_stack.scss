@@ -8,17 +8,18 @@
     left:0px;
     opacity:0.5;
     filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80);
+  	cursor:pointer;
 }
 /* Image container style */
 .ps_container{
-	width:480px;
-	height:350px;
-	position:absolute;
-	top:50%;
-	margin-top:-175px;
-	left:50%;
-	margin-left:-240px;
-	z-index:100;
+//  width:480px;
+//  height:350px;
+//  position:absolute;
+//  top:50%;
+//  margin-top:-175px;
+//  left:50%;
+//  margin-left:-240px;
+//  z-index:100;
 }
 .ps_container img{
 	border:10px solid #fff;

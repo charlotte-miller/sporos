@@ -77,7 +77,12 @@
             @extend .col-xl-2;
             display: inline-flex;
             padding:  .25rem;
-  
+            
+            @media (max-width: $screen-xs-max) {
+              width:100%;
+              .thumbnail{ width:inherit;}
+            }
+            
             .thumbnail{
               overflow:hidden;
               text-decoration:none;

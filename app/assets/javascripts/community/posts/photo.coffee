@@ -139,3 +139,8 @@ $ ->
     $('#ps_container img').each -> resizeCenterImage $(@) if $ps_overlay.is(':visible')
   , 500)
   
+    
+  $('.card.photo').hover (e)->
+    $('.stack', @).removeClass('active')
+  , (e)->
+    $('.stack', @).addClass('active')

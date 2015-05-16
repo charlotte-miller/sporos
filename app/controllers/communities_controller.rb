@@ -18,6 +18,7 @@ private
       .relevance_order
       .paginated(params[:page])
       .per(20)
+      .includes(:uploaded_files, :ministry)
       .all
     
   end

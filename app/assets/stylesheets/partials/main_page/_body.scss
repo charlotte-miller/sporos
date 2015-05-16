@@ -83,6 +83,8 @@
               .thumbnail{ width:inherit;}
             }
             
+            &.photo{  }
+            
             .thumbnail{
               overflow:hidden;
               text-decoration:none;
@@ -90,6 +92,22 @@
               .thumbnail-img{
                height: auto;
                width: 100%;
+              }
+              
+              .stack-frame{
+                overflow:hidden;
+              }
+              
+              .stack{
+                margin-bottom:-20px;
+                
+                img{
+                  border:2px solid #FFF;
+                }
+              }
+              
+              .stack-cornergrid img{
+                height:400px;
               }
               
               .source-domain{

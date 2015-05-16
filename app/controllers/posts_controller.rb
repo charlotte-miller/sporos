@@ -24,7 +24,7 @@ class PostsController < ApplicationController
 
 private
   def set_post
-    @post ||= Post.includes(:uploaded_files).find_by(public_id:params[:id])
+    @post ||= Post.includes(:uploaded_files, :ministry).find_by(public_id:params[:id])
   end
   
   def set_ministry

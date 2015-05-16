@@ -113,6 +113,10 @@ class Post < ActiveRecord::Base
     poster.try(:url)
   end
   
+  def file_urls(style=:original)
+    uploaded_files.map {|uf| uf.file.url(style) }
+  end
+  
   # ---------------------------------------------------------------------------------
   # Callbacks
   # ---------------------------------------------------------------------------------

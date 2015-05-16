@@ -34,9 +34,13 @@
 class Posts::Photo < Post
   # delegate :location, :event_time, :event_date, to: :display_options
   
-  def poster
-    uploaded_files.last.try(:file)
+  # def poster
+  #   uploaded_files.last.try(:file)
+  # end
+  
+  before_validation :assign_poster
+  
+  def assign_poster
+    self.poster= uploaded_files.last.try(:file) unless poster.present? 
   end
-  
-  
 end

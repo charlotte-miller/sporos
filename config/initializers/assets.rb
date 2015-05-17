@@ -14,5 +14,5 @@ Rails.application.config.assets.paths << Rails.root.join('app','assets','fonts')
 Rails.application.config.assets.paths << Rails.root.join('vendor', 'assets', 'javascripts', 'bower_components')
 
 
-Rails.application.config.assets.image_optim = {pngquant:true, pngout:false, svgo: false}
+Rails.application.config.assets.image_optim = {pngquant:true, pngout:false, svgo: false, pack:true, skip_missing_workers:true}
 

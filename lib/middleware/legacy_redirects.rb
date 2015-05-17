@@ -30,17 +30,22 @@ module Rack
       
     private
       def load_page_rules
-        Page.all.map do |page|
-          OpenStruct.new({
-            from: page.legacy_url,
-            to:   "/pages/#{page.to_param}" #hardcoded because url helpers aren't loaded
-          })
+        if Page.table_exists? 
+          Page.all.map do |page|
+            OpenStruct.new({
+              from: page.legacy_url,
+              to:   "/pages/#{page.to_param}" #hardcoded because url helpers aren't loaded
+            })
+          end
+        else
+          []
         end
       end
       
       def load_media_rules
         #todo 
       end
+
     end
   end
 end

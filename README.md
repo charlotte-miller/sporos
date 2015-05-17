@@ -3,6 +3,7 @@ From the Greek for 'seed', Sporos is a digital version of the Parable of the Sow
 
 ## How Can I Help?
 > The Christian shoemaker does his duty not by putting little crosses on the shoes, but by making good shoes, because God is interested in good craftsmanship. - Martin Luther  
+
 This project uses a number of popular open source frameworks includeing [Twitter Bootstrap](http://getbootstrap.com/), [Backbone.js](http://backbonejs.org), [Ruby on Rails](http://rubyonrails.org/), and [Elastic Search](http://www.elasticsearch.org/).  These projects are well documented, and make it easy to jump-in and start contirbuting!
 
 ### Local Setup

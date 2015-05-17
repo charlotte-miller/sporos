@@ -8,8 +8,6 @@ production:
         - htop
         - graphicsmagick
         - libcurl3
-        - pngout
-        - svgo
 
   redis:
     server:

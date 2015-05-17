@@ -1,0 +1,14 @@
+- post && @post = post
+.card.link{class:ministry_class(@post)}
+  %a.thumbnail{href: post.display_options.url, target:'_blank'}
+    %img.thumbnail-img{src: @post.poster.url,
+        data: {src: @post.poster.url},
+        alt: @post.title,
+        height:'360',
+        width:'640'}
+
+    .captions
+      %h3.title= @post.title
+      .source-domain= get_host_domain(post.display_options.url)
+      %p.description= @post.description
+    .social_buttons= #post_path(id:@post)

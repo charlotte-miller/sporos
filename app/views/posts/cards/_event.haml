@@ -1,0 +1,13 @@
+- post && @post = post
+- placeholder_img = placeholder_image '640x360', text:'default'
+.card.event{class:ministry_class(@post)}
+  %a.thumbnail{href: post_path(id:@post)}
+    %img.thumbnail-img{src: placeholder_img,
+        data: {src: @post.poster.url},
+        alt: @post.title,
+        height:'360',
+        width:'640'}
+    .captions
+      %h3.title= @post.title
+      %p.description= @post.description
+    .expires-in{ data:{expired_at:@post.expired_at.to_i}}= "Expires In: #{distance_of_time_in_words_to_now( @post.expired_at )}"

@@ -8,7 +8,7 @@ namespace "legacy_site" do
     open_tunnel do
       LegacyPage.db_setup "cornerstone_sf_org_#{Rails.env}", 'simple_cms_navigation'
       LegacyPage.update_or_create_recent_pages
-      Page.audit_urls
+      Page::LegacyIntegration.audit_urls
     end
 
     

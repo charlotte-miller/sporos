@@ -8,6 +8,7 @@
 #  public_id                  :string(20)
 #  email                      :string(80)       default(""), not null
 #  encrypted_password         :string           default(""), not null
+#  admin                      :boolean          default("false")
 #  password_salt              :string
 #  reset_password_token       :string
 #  reset_password_sent_at     :datetime
@@ -23,6 +24,7 @@
 #  unconfirmed_email          :string
 #  failed_attempts            :integer          default("0")
 #  locked_at                  :datetime
+#  unlock_token               :string
 #  profile_image_file_name    :string
 #  profile_image_content_type :string
 #  profile_image_file_size    :integer
@@ -38,6 +40,7 @@
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_public_id             (public_id) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_unlock_token          (unlock_token) UNIQUE
 #
 
 class User < ActiveRecord::Base
@@ -47,11 +50,28 @@ class User < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Authentication
   # ---------------------------------------------------------------------------------
-  devise  :database_authenticatable, :trackable, :validatable, :lockable,
-          :registerable, :recoverable, :confirmable, :rememberable #:omniauthable,
-          # :omniauth_providers => []
+  devise  :database_authenticatable, :trackable, :validatable, :timeoutable,
+          :registerable, :recoverable, :confirmable, :rememberable  #configuration in devise.rb
+          # :omniauthable, :omniauth_providers => []
          
+          #https://github.com/plataformatec/devise/wiki/How-To:-Add-timeout_in-value-dynamically
+          def timeout_in
+            if self.admin?
+              3.days
+            else
+              30.days
+            end
+          end
+          
+          # https://github.com/plataformatec/devise/wiki/How-To:-Add-:confirmable-to-Users#allowing-unconfirmed-access
+          # def confirmation_required?
+          #   # how do they get the request?
+          #   if highest_involvement_level = self.involvements.order('level DESC').first
+          #     highest_involvement_level[:level] > 0
+          #   end
+          # end
          
+        
 
   # ---------------------------------------------------------------------------------
   # Attributes
@@ -67,7 +87,7 @@ class User < ActiveRecord::Base
                       :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
                       :styles => { 
                         :medium => { geometry: "300x300>", format: 'jpg', convert_options: "-strip" }, 
-                        :thumb  => { geometry: "100x100>", format: 'jpg', convert_options: "-strip" }}
+                        :thumb  => { geometry: "64x64>",   format: 'jpg', convert_options: "-strip" }}
 
   process_in_background :profile_image
   
@@ -84,8 +104,25 @@ class User < ActiveRecord::Base
       group_id = group.is_a?( Group ) ? group.id : group
       where(group_id:group_id).first
     end
-  end 
+  end
   
+  has_many :involvements, class_name: "Involvement", dependent: :destroy, inverse_of: :user do
+    def in(ministry)
+      where(['ministry_id = ?', ministry.id]).first
+    end
+  end
+  
+  has_many :ministries, through: :involvements
+  has_many :approval_requests
+  has_many :posts do
+    def pending
+      where('published_at IS NULL AND rejected_at IS NULL')
+    end
+    
+    def rejected
+      where('rejected_at IS NOT NULL')
+    end
+  end
   
   # ---------------------------------------------------------------------------------
   # Validations

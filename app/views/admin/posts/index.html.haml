@@ -1,0 +1,28 @@
+#posts-index
+  #header
+    .col-xs-12
+      %h1 DASHBOARD
+  #profile
+    .picture
+      %img.img-circle{src: 'http://www.montejano.es/wp-content/uploads/2014/06/perfil1.jpg' } 
+      / current_user.profile_image.url
+    .name
+      %h3
+        = current_user.first_name.upcase
+        %br
+        %small= current_user.last_name.upcase
+    
+  #posts
+    - @grouped_posts.each do |group_name, posts|
+      - next unless posts.present?
+      %h4= group_name
+      
+      = render partial:"admin/posts/compact_post", collection:posts, as: :post
+
+  %nav#new-post
+    #new-post-types
+      = link_to 'EVENTS', new_admin_post_path( post_type:'event')
+      = link_to 'LINK',   new_admin_post_path( post_type:'link')
+      = link_to 'PHOTO',  new_admin_post_path( post_type:'photo')
+      = link_to 'VIDEO',  new_admin_post_path( post_type:'video')
+    

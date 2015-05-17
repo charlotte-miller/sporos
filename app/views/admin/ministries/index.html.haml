@@ -1,0 +1,20 @@
+%h1 Select a Ministry
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Description
+      %th
+      %th
+      
+  %tbody
+    - @ministries.each do |ministry|
+      %tr
+        %td= ministry.name.titleize
+        %td= ministry.description
+        %td= link_to 'Edit', edit_admin_ministry_path(ministry)
+
+- if current_user.admin?
+  %hr
+    = link_to 'New Ministry', new_admin_ministry_path

@@ -8,6 +8,7 @@
 #  public_id                  :string(20)
 #  email                      :string(80)       default(""), not null
 #  encrypted_password         :string           default(""), not null
+#  admin                      :boolean          default("false")
 #  password_salt              :string
 #  reset_password_token       :string
 #  reset_password_sent_at     :datetime
@@ -23,6 +24,7 @@
 #  unconfirmed_email          :string
 #  failed_attempts            :integer          default("0")
 #  locked_at                  :datetime
+#  unlock_token               :string
 #  profile_image_file_name    :string
 #  profile_image_content_type :string
 #  profile_image_file_size    :integer
@@ -38,6 +40,7 @@
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_public_id             (public_id) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_unlock_token          (unlock_token) UNIQUE
 #
 
 require 'rails_helper'
@@ -54,6 +57,10 @@ describe User do
   it { should have_many(:group_memberships) }
   it { should have_many(:groups) }
   it { should have_many(:block_requests) }
+  it { should have_many(:involvements) }
+  it { should have_many(:approval_requests) }
+  it { should have_many(:posts) }
+  it { should have_many(:ministries) }
   
   it { should validate_presence_of(:email) }
   it { should ensure_length_of(:email).is_at_most(80) }

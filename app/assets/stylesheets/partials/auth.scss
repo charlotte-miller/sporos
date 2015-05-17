@@ -1,0 +1,36 @@
+#auth{
+  background:transparent;
+}
+
+
+#auth-background{
+  height:100%;
+  width:100%;
+  background: url( image_path('background_video_start.jpg') ) no-repeat center center; //video background
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  
+  .container{
+    height:100%;
+    width:100%;
+  }
+}
+  .middle{
+    @extend %verticalCenter;
+  }
+    #logo_row{
+      margin-bottom:20px;
+      text-align:center;
+    }
+    #auth_body, #logo_row{
+      @extend .col-sm-8;
+      @extend .col-sm-offset-2;
+    }
+    #auth_body > a{
+      @extend .fadeIn;
+    }
+    #forgot-password-link{
+      margin-top:15px;
+    }

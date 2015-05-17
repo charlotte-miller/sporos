@@ -11,40 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150126225444) do
+ActiveRecord::Schema.define(version: 20150512195841) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "admin_users", force: :cascade do |t|
-    t.string   "first_name",             limit: 60
-    t.string   "last_name",              limit: 60
-    t.integer  "user_id"
-    t.string   "email",                  limit: 80, default: "", null: false
-    t.string   "encrypted_password",                default: "", null: false
-    t.string   "password_salt"
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.integer  "sign_in_count",                     default: 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
-    t.integer  "failed_attempts",                   default: 0
-    t.string   "unlock_token"
-    t.datetime "locked_at"
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
-  end
-
-  add_index "admin_users", ["confirmation_token"], name: "index_admin_users_on_confirmation_token", unique: true, using: :btree
-  add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
-  add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
-  add_index "admin_users", ["unlock_token"], name: "index_admin_users_on_unlock_token", unique: true, using: :btree
+  enable_extension "hstore"
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id"
@@ -58,6 +29,20 @@ ActiveRecord::Schema.define(version: 20150126225444) do
 
   add_index "answers", ["author_id"], name: "index_answers_on_author_id", using: :btree
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
+
+  create_table "approval_requests", force: :cascade do |t|
+    t.integer  "user_id",                      null: false
+    t.integer  "post_id",                      null: false
+    t.integer  "status",           default: 0, null: false
+    t.text     "notes"
+    t.datetime "last_vistited_at",             null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "approval_requests", ["post_id"], name: "index_approval_requests_on_post_id", using: :btree
+  add_index "approval_requests", ["user_id", "post_id"], name: "index_approval_requests_on_user_id_and_post_id", unique: true, using: :btree
+  add_index "approval_requests", ["user_id", "status"], name: "index_approval_requests_on_user_id_and_status", using: :btree
 
   create_table "block_requests", force: :cascade do |t|
     t.integer  "admin_user_id"
@@ -88,6 +73,28 @@ ActiveRecord::Schema.define(version: 20150126225444) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
+
+  create_table "comments", force: :cascade do |t|
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.string   "title"
+    t.text     "body"
+    t.integer  "user_id",                      null: false
+    t.integer  "parent_id"
+    t.integer  "lft",                          null: false
+    t.integer  "rgt",                          null: false
+    t.integer  "depth",            default: 0, null: false
+    t.integer  "children_count",   default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
+  add_index "comments", ["depth"], name: "index_comments_on_depth", using: :btree
+  add_index "comments", ["lft"], name: "index_comments_on_lft", using: :btree
+  add_index "comments", ["parent_id"], name: "index_comments_on_parent_id", using: :btree
+  add_index "comments", ["rgt"], name: "index_comments_on_rgt", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
@@ -127,6 +134,18 @@ ActiveRecord::Schema.define(version: 20150126225444) do
   end
 
   add_index "groups", ["state", "is_public"], name: "index_groups_on_state_and_is_public", using: :btree
+
+  create_table "involvements", force: :cascade do |t|
+    t.integer  "user_id",                 null: false
+    t.integer  "ministry_id",             null: false
+    t.integer  "status",      default: 0, null: false
+    t.integer  "level",       default: 0, null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "involvements", ["ministry_id", "level"], name: "index_involvements_on_ministry_id_and_level", order: {"level"=>:desc}, using: :btree
+  add_index "involvements", ["user_id", "ministry_id"], name: "index_involvements_on_user_id_and_ministry_id", unique: true, using: :btree
 
   create_table "lessons", force: :cascade do |t|
     t.integer  "study_id",                                null: false
@@ -182,6 +201,17 @@ ActiveRecord::Schema.define(version: 20150126225444) do
   add_index "meetings", ["group_id", "state"], name: "index_meetings_on_group_id_and_state", using: :btree
   add_index "meetings", ["lesson_id"], name: "index_meetings_on_lesson_id", using: :btree
 
+  create_table "ministries", force: :cascade do |t|
+    t.string   "slug",        null: false
+    t.string   "name",        null: false
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "ministries", ["name"], name: "index_ministries_on_name", unique: true, using: :btree
+  add_index "ministries", ["slug"], name: "index_ministries_on_slug", unique: true, using: :btree
+
   create_table "pages", force: :cascade do |t|
     t.integer  "parent_id"
     t.string   "slug",                         null: false
@@ -206,6 +236,33 @@ ActiveRecord::Schema.define(version: 20150126225444) do
   end
 
   add_index "podcasts", ["church_id"], name: "index_podcasts_on_church_id", using: :btree
+
+  create_table "posts", force: :cascade do |t|
+    t.text     "type",                                        null: false
+    t.string   "public_id",           limit: 21,              null: false
+    t.integer  "parent_id"
+    t.integer  "ministry_id",                                 null: false
+    t.integer  "user_id",                                     null: false
+    t.text     "title",                                       null: false
+    t.text     "description"
+    t.jsonb    "display_options",                default: {}, null: false
+    t.string   "poster_file_name"
+    t.string   "poster_content_type"
+    t.integer  "poster_file_size"
+    t.datetime "poster_updated_at"
+    t.string   "poster_original_url"
+    t.datetime "rejected_at"
+    t.datetime "published_at"
+    t.datetime "expired_at"
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+  end
+
+  add_index "posts", ["ministry_id"], name: "index_posts_on_ministry_id", using: :btree
+  add_index "posts", ["parent_id"], name: "index_posts_on_parent_id", where: "(parent_id IS NOT NULL)", using: :btree
+  add_index "posts", ["public_id"], name: "index_posts_on_public_id", unique: true, using: :btree
+  add_index "posts", ["type"], name: "index_posts_on_type", using: :btree
+  add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
   create_table "questions", force: :cascade do |t|
     t.integer  "user_id",                   null: false
@@ -261,12 +318,28 @@ ActiveRecord::Schema.define(version: 20150126225444) do
   add_index "studies", ["podcast_id", "last_published_at"], name: "index_studies_on_podcast_id_and_last_published_at", using: :btree
   add_index "studies", ["slug"], name: "index_studies_on_slug", unique: true, using: :btree
 
+  create_table "uploaded_files", force: :cascade do |t|
+    t.integer  "from_id"
+    t.text     "from_type"
+    t.text     "session_id"
+    t.string   "file_file_name"
+    t.string   "file_content_type"
+    t.integer  "file_file_size"
+    t.datetime "file_updated_at"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "uploaded_files", ["from_id", "from_type"], name: "index_uploaded_files_on_from_id_and_from_type", using: :btree
+  add_index "uploaded_files", ["session_id"], name: "index_uploaded_files_on_session_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "first_name",                 limit: 60
     t.string   "last_name",                  limit: 60
     t.string   "public_id",                  limit: 20
-    t.string   "email",                      limit: 80, default: "", null: false
-    t.string   "encrypted_password",                    default: "", null: false
+    t.string   "email",                      limit: 80, default: "",    null: false
+    t.string   "encrypted_password",                    default: "",    null: false
+    t.boolean  "admin",                                 default: false
     t.string   "password_salt"
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -282,19 +355,21 @@ ActiveRecord::Schema.define(version: 20150126225444) do
     t.string   "unconfirmed_email"
     t.integer  "failed_attempts",                       default: 0
     t.datetime "locked_at"
+    t.string   "unlock_token"
     t.string   "profile_image_file_name"
     t.string   "profile_image_content_type"
     t.integer  "profile_image_file_size"
     t.datetime "profile_image_updated_at"
     t.string   "profile_image_fingerprint"
     t.boolean  "profile_image_processing"
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["public_id"], name: "index_users_on_public_id", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
 end

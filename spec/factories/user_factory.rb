@@ -8,6 +8,7 @@
 #  public_id                  :string(20)
 #  email                      :string(80)       default(""), not null
 #  encrypted_password         :string           default(""), not null
+#  admin                      :boolean          default("false")
 #  password_salt              :string
 #  reset_password_token       :string
 #  reset_password_sent_at     :datetime
@@ -23,6 +24,7 @@
 #  unconfirmed_email          :string
 #  failed_attempts            :integer          default("0")
 #  locked_at                  :datetime
+#  unlock_token               :string
 #  profile_image_file_name    :string
 #  profile_image_content_type :string
 #  profile_image_file_size    :integer
@@ -38,6 +40,7 @@
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_public_id             (public_id) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_unlock_token          (unlock_token) UNIQUE
 #
 
 include ActionDispatch::TestProcess
@@ -48,11 +51,16 @@ FactoryGirl.define do
       AWS.stub! if Rails.env.test?
     end
     
-    first_name  'Fred'
-    last_name   'Fredrickson'
+    admin       false
+    first_name  {Faker::Name.first_name}
+    last_name   {Faker::Name.last_name}
     sequence(   :email)  {|n| "example@domain#{n}.com"}
     password    'super-secret'
     password_confirmation  {|me| me.password }
     profile_image { fixture_file_upload(Rails.root.join('spec/files/', 'user_profile_image.jpg'), 'image/jpg', true) }
+  end
+  
+  factory :admin_user, parent:'user', aliases: [:approver, :permanent_approver] do
+    admin true
   end
 end

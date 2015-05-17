@@ -17,8 +17,10 @@
 #= require Backbone.BindTo
 #= require Backbone.Handlebars
 #= require pace
-#  require moment
+#= require moment
 #  require utility/boba-0.0.2
+#= require autosize
+#= require bootstrap/alert
 #
 #  -- Community Only -----
 #= require headroom.js/dist/headroom.js

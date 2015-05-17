@@ -42,4 +42,5 @@ Rails.application.configure do
   ActiveSupport::Deprecation.silenced = true
   
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  routes.default_url_options = { host: 'localhost', port: 3000 }
 end

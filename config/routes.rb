@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   end
   
   resources :pages, only:[:show]
+  resources :posts, only:[:index, :show]
   
   # Library
   resources :studies, only: [:index, :show ], path: 'library' do
@@ -41,22 +42,34 @@ Rails.application.routes.draw do
   resources :groups do
     resources :meetings do
       resources :questions, only: [:index, :new, :create]
-      # NOTE: :block, :star, :show, :answers 
+      # NOTE: :block, :star, :show, :answers
       # already part of the previous shallow routes
     end
   end
   
   devise_for :users, :skip => [:sessions]
   as :user do
-    get     'join' => 'devise/registrations#new', :as => :new_registrations
+    get     'join'  => 'devise/registrations#new', :as => :new_registrations
     get     'login' => 'devise/sessions#new',      :as => :new_user_session
     post    'login' => 'devise/sessions#create',   :as => :user_session
-    delete  'logout' => 'devise/sessions#destroy', :as => :destroy_user_session
-    get     'logout'  => 'devise/sessions#destroy' #convenience
+    delete  'logout'=> 'devise/sessions#destroy',  :as => :destroy_user_session
+    get     'logout'=> 'devise/sessions#destroy' #convenience
   end
 
-  devise_for :admin_user # to remove
+  get 'admin' => 'admin/posts#index'
   namespace :admin do
+    resources :ministries, except: :show
+    resources :posts do
+      collection do
+        get 'link_preview'
+      end
+    end
+    
+    resources :uploaded_files, only: [:index, :create, :destroy]
+    patch 'uploaded_files' => 'uploaded_files#create'
+    
+    resources :approval_requests, only: :update
+    
     resources :studies, :lessons
     
     namespace :content do

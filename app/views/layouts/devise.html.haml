@@ -1,0 +1,47 @@
+!!!
+%html{ lang:'en'}
+  %head
+    %meta{charset: "utf-8"}
+    %meta{ name:"apple-mobile-web-app-capable", content:"yes"}
+    %meta{ name:"viewport", content:"width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1.0, user-scalable=no, minimal-ui"}
+    = csrf_meta_tags
+    
+    / DNS Prefetch
+    %meta{ 'http-equiv'=>'x-dns-prefetch-control', content:'on'}
+    %link{ rel:'dns-prefetch', href:'//media.cornerstonesf.org'}
+    %link{ rel:'dns-prefetch', href:'//direct.cornerstonesf.org'}
+    %link{ rel:'dns-prefetch', href:'//assets1.cornerstonesf.org'}
+    %link{ rel:'dns-prefetch', href:'//assets2.cornerstonesf.org'}
+    %link{ rel:'dns-prefetch', href:'//assets3.cornerstonesf.org'}
+    %link{ rel:'dns-prefetch', href:'//use.typekit.net'}
+    %link{ rel:'dns-prefetch', href:'//www.google-analytics.com'}
+    
+    %title= @title || "Login | Cornerstone SF"
+    = favicon_by_environment
+    
+    = stylesheet_link_tag "application", media:'all'
+    = yield :page_stylesheets
+    
+    / = partial 'layouts/social'
+    
+  %body#auth
+    #auth-background
+      .container
+        .middle
+          #logo_row.row
+            %a{href:'/'}
+              = image_tag 'white_cornerstone.png', class:'logo-img'
+          #auth_row.row
+            #auth_body
+              = yield
+    
+    #javascripts
+      / = partial 'layouts/ie'
+      = javascript_include_tag  "vendor", digest:'v1'
+      = javascript_include_tag  "application"
+      #page_specific_javascripts
+        #load_once
+          = yield :page_specific_js
+        #load_every_time
+          = javascript_include_tag "page_initializers/auth"
+          = yield :page_specific_js_initializers

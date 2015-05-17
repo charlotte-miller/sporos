@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe DeepStruct do
   let(:nested_hash) { {a:{b:{c:'d'}}} }
-  let(:hash_w_array) { {a:{b:[{c:'d'},{x:'y'}],m:['n']}} }
+  let(:hash_w_array) { {a:{b:[{c:'d'},{e:'f'}],m:['n','o', 'p'],x:['y',z:{zz:'zed zed'}]}} }
   subject{ DeepStruct.new(@hash_override || nested_hash) }
   
   it 'provides chainable (dot)method access' do
@@ -22,6 +22,20 @@ describe DeepStruct do
     expect(subject.a.b).to be_a Array
     expect(subject.a.b.first).to be_a DeepStruct
     expect(subject.a.b.last).to be_a DeepStruct
+  end
+  
+  it 'handles an array of strings' do
+    @hash_override = hash_w_array
+    subject.a.m.each do |val|
+      expect(val).to be_a String
+    end
+  end
+  
+  it 'handles a mixed array of values and hashes' do
+    @hash_override = hash_w_array
+    expect(subject.a.x.first).to be_a String
+    expect(subject.a.x.last).to be_a DeepStruct
+    expect(subject.a.x.last.z.zz).to eql 'zed zed'
   end
   
   describe '.from_json(json_str)' do

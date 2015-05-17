@@ -23,10 +23,11 @@ gem 'aasm', '~>4.0.1'
 gem 'acts_as_list'
 gem 'acts_as_interface'
 gem 'devise'
-# gem 'cancancan', '~> 1.9'
+gem 'cancancan', '~> 1.10.1'
 gem "friendly_id", '~> 5.0.4'
 gem 'kaminari'
 gem 'protected_attributes'
+gem 'awesome_nested_set', '~> 3.0.2'
 
 # Search
 # =======
@@ -44,9 +45,14 @@ gem 'typhoeus'
 gem 'cocaine'
 gem 'posix-spawn'
 gem 'aws-sdk'
-gem 'paperclip',          git:'https://github.com/thoughtbot/paperclip.git'
+gem 'paperclip', '>= 4.2.1' #git:'https://github.com/thoughtbot/paperclip.git'
 gem 'delayed_paperclip',  '>= 2.9.0'#,  git:'https://github.com/jrgifford/delayed_paperclip.git'
 # gem 'paperclip-optimizer'
+gem 'link_thumbnailer'
+gem 'paperclip-optimizer'
+gem 'image_optim'
+gem 'image_optim_pack'
+# gem 'jquery-fileupload-rails' #https://github.com/tors/jquery-fileupload-rails#using-the-middleware
 
 
 # Resque Queue
@@ -92,7 +98,9 @@ end
 
 gem 'gon'
 gem 'therubyracer', :platforms => :ruby, :require => false
-gem 'bootstrap-sass', '~> 3.2.0'
+gem 'bootstrap-sass', '~> 3.3.4'
+gem 'devise-bootstrap-views'
+gem 'jquery-rails'
 gem "haml-rails"
 gem 'handlebars_assets'#, '0.17.1'
 gem 'lorem_ipsum_amet' #, :group => :development
@@ -100,6 +108,7 @@ gem 'lorem_ipsum_amet' #, :group => :development
 gem 'ansi'
 
 group :development, :test do
+  gem "erb2haml"
   # gem "bullet"
   
   gem 'zeus'

@@ -1,0 +1,18 @@
+- post && @post = post
+/ - placeholder_img = placeholder_image '640x360', text:'default'
+.card.photo{class:ministry_class(@post)}
+  %a.photo-gallery.thumbnail{href: post_path(id:@post, format:'json')}
+    .stack-frame
+      - stack_effects = ['peekaboo', 'cornergrid', 'fan', 'queue']
+      %figure.stack.active{class:"stack-#{stack_effects.sample}"}
+        - @post.file_urls[0...4].each do |file_url|
+          %img.thumbnail-img{src: file_url, alt: @post.title}
+          / %img.thumbnail-img{src: placeholder_img,
+          /     data: {src: file_url},
+          /     alt: @post.title,
+          /     height:'360',
+          /     width:'640'}
+    .captions
+      %h3.title= @post.title
+      %p.description= @post.description
+    .expires-in{ data:{expired_at:@post.expired_at.to_i}}

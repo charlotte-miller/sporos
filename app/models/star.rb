@@ -27,7 +27,7 @@ class Star < ActiveRecord::Base
   # Associations
   # ---------------------------------------------------------------------------------
   belongs_to :user
-  belongs_to :source,   :polymorphic =>  true,    :counter_cache => true
+  belongs_to :source,   :polymorphic =>  true,    :counter_cache => :blocked_count
 
 
   # ---------------------------------------------------------------------------------

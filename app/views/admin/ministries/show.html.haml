@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%h3= "#{@ministry.name.titlecase.possessive} Ministry Dashboard"
+%a{href:edit_admin_ministry_path(@ministry)}
+  %p
+    %b Edit Description:
+    = @ministry.description
+
+- if @grouped_users.empty?
+  %h4#no_users 
+    (You have no members.
+    = link_to 'Invite One!', '#'
+    )
+
+- @grouped_users.each do |level, users|
+  - next if level == 'editor'
+  %h4= level.titleize
+  = users.map(&:name).join(', ')

@@ -1,0 +1,20 @@
+= f.hidden_field :type, value:'Posts::Photo'
+.field
+  = f.label :title
+  = f.text_area :title, class:'form-control'
+.field
+  = f.label :description
+  = f.text_area :description, class:'form-control'
+.field
+  = f.label :uploaded_files
+  #dropzone
+    .row
+      .col-xs-5
+        %span.btn.btn-success.fileinput-button
+          %i.glyphicon.glyphicon-plus
+          %span Add Images...
+          = f.file_field :uploaded_files, id:'upload-uploaded-file', class:'form-control', multiple:true, accept:"image/*", data:{url:'/admin/uploaded_files.json'}
+      .col-xs-7
+        %b Drag & Drop Images Here
+    #dropzone-file-manager
+

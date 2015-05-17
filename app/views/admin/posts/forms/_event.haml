@@ -1,0 +1,52 @@
+= f.hidden_field :type, value:'Posts::Event'
+.field
+  = f.label :title, 'Event Title'
+  = f.text_area :title, class:'form-control', placeholder:"What's the name of the event?"
+.field.row
+  .col-sm-6
+    = f.label :event_time, 'Event Date'
+    .input-group
+      = f.text_field :event_time, name:'post[display_options][event_time]', class:'form-control pick-a-date', placeholder:'When is the event?'
+      .input-group-btn.trigger-pick-a-date
+        %button.btn.btn-default
+          %i.glyphicon.glyphicon-calendar
+
+  .col-sm-6
+    = f.label :event_date, 'Event Time'
+    .input-group
+      = f.text_field :event_date, name:'post[display_options][event_date]', class:'form-control pick-a-time', placeholder:'What time is the event?'
+      .input-group-btn.trigger-pick-a-time
+        %button.btn.btn-default
+          %i.glyphicon.glyphicon-time
+.field
+  = f.label :location, 'Location of the event'
+  = f.text_field :location, name:'post[display_options][location]', class:'form-control', placeholder:'Where is the event?'
+
+.field
+  = f.label :description
+  = f.text_area :description, class:'form-control', placeholder:"Who should attend?\nWhat should they expect?\nWhat should they DO to 'sign up'?\n\n"
+
+.field
+  = f.label :poster, 'Event Graphic'
+  = f.file_field :poster, class:'form-control', multiple:false, accept:"image/*"
+  - if f.object.poster.present?
+    = image_tag f.object.poster.url
+
+#advanced-features.panel.panel-default
+  .panel-heading
+    %a{href:'#'} Advanced Options
+  #advanced-drawer.panel-body.closed
+    .field
+      = f.label :expired_at, 'Remove the Post Early'
+      .input-group
+        = f.text_field :expired_at, class:'form-control pick-a-date-w-clear', placeholder:'When the event starts.'
+        .input-group-btn.trigger-pick-a-date
+          %button.btn.btn-default
+            %i.glyphicon.glyphicon-calendar
+      %p.help-block 
+        %b Example: 
+        Registration ends before the event. | Leave blank to use the start-time of the event.
+
+    .field
+      = f.label :comm_arts_request, 'CommArts Request'
+      = f.text_area :comm_arts_request, class:'form-control', placeholder:"Video, graphic design, print... What's your idea?"

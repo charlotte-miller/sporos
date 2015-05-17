@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
   
   before_filter :domains_for_js
   
+  def after_sign_in_path_for(resource)
+    stored_location_for(resource) || admin_posts_url
+  end
+  
 protected
 
   def domains_for_js

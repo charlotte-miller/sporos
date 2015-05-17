@@ -1,0 +1,388 @@
+@import "modules/bootstrap_extended";
+@import "modules/helpers";
+@import "modules/photo_stack";
+@import "modules/stack_effects";
+@import "pickadate/lib/themes/default.css";
+@import "pickadate/lib/themes/default.date.css";
+@import "pickadate/lib/themes/default.time.css";
+@import "image-picker/image-picker/image-picker.css";
+@import "jquery-file-upload/css/jquery.fileupload";
+@import "jquery-file-upload/css/jquery.fileupload-ui";
+
+html,body{
+  background-color:$gray-lighter;
+  padding-bottom:60px;
+}
+
+.pick-a-date, .pick-a-date-w-clear, .pick-a-time{
+  background:white !important;
+}
+
+.panel.panel-default{
+  margin-top:10px;
+}
+
+.nav-header{
+  font-weight:bold;
+  margin-top:20px;
+  
+  &:first-child{
+    margin-top:0px;
+  }
+}
+
+#global-nav{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background:$gray-darker;
+  height: 70px;
+  line-height: 70px;
+  z-index: 2;
+  
+  .global_nav_item{
+    text-align:center;
+    font-size: 24px;
+  }
+  
+  .col-xs-6{
+    font-size: 28px;
+    border-left:2px solid $gray-lighter;
+    border-right:2px solid $gray-lighter;
+  }
+  
+  a{
+    color:$gray-lighter;
+  }
+}
+
+.btn-flat{
+  font-weight: 300;
+  letter-spacing: 1px;
+  color:white;
+  background-color:$gray;
+
+  &:focus, &:hover{
+    color: white;
+    background-color:$gray-light;
+  }
+}
+
+
+#posts-index{
+
+  h1,h2,h3,h4,h5,button,.title{
+    font-weight: 300;
+    letter-spacing: 1px; 
+  }
+  
+  #posts{
+//    margin-top:80px;
+    margin-bottom:70px;
+    
+    h4{
+      margin-top: 20px;
+    }
+  }
+  
+  #header, #profile, #header h4 {color:$gray-dark;}
+  
+  #header{
+    top: 0;
+    left: 0;
+    width:100%;
+    text-align:center;
+    height:100px;
+    line-height:100px;
+    position:fixed;
+    background-color:$gray-lighter;
+    z-index: 1;
+  }
+
+  #profile{
+    @extend .row;
+    padding-top:100px;
+    padding-bottom:100px;
+    text-align:center;
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    
+    
+    .picture{
+//      @extend .col-xs-4;
+      margin-top: 15px;
+      height: 120px;
+      line-height: 120px;
+      text-align: center;
+      align-self:center;
+      
+      img{
+        height:inherit;
+      }
+    }
+    
+    .name{
+      margin-left:20px;
+      align-self:center;
+      
+      h3{
+        font-size:36px;
+        line-height: 26px;
+      }
+    }
+  }
+  
+  .compact-post{
+    @extend .row;
+    background-color:white;
+    color:$gray-light;
+    height:70px;
+    line-height:70px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  
+    .info{
+     @extend .col-xs-7;
+     @extend %verticalCenter;
+   
+     .row{ line-height: initial; }
+    }
+    
+    .follow-up{
+      @extend .col-xs-3;
+      text-align:center;
+      
+      .follow-up-btn{
+        font-weight:300;
+        color:white;
+        background-color:$gray;
+      
+        &:focus, &:hover{
+          color: white;
+          background-color:$gray-light;
+        }
+      }
+    
+      .public-link{
+        @extend .glyphicon;
+        @extend .glyphicon-new-window;
+        font-size: 24px;
+        height:70px;
+        line-height:70px;
+        color:$gray;
+        
+        &:hover{
+          color:$gray-darker;
+        }
+      }
+    }
+  
+    .unread-comments{
+      @extend .col-xs-2;
+      text-align:center;
+      height:40px;
+      position:relative;
+      
+      .glyphicon{
+        font-size:30px;
+        top: 10px;
+      }
+      .label{
+        position:absolute;
+        top: 20px;
+        margin-left: -10px;
+      }
+    }
+  
+    .title{
+      @extend %truncate;
+      font-size:18px;
+    }
+
+  }
+}
+
+#posts-show{  
+  #status-bar{
+    letter-spacing: 1px;
+    @extend .row; 
+    border-top:10px solid $gray-dark;
+    border-bottom:5px solid $gray-dark;
+    height:80px;
+    line-height:65px;
+    background-color:$gray-lighter;
+  }
+  
+  #status{
+    line-height: 24px;
+    padding: 10px 20px;
+    
+    p { 
+      margin: 0 0 -20px;
+      font-weight:100;
+    }
+
+    strong{
+      font-size:24px;
+      font-weight:300;
+      line-height: 55px;
+    }
+  }
+  
+  #status-action{
+    @extend .pull-right;
+    padding: 0 20px;
+  }
+  
+  #comments{
+    @extend .row; 
+    
+    #read-comments{
+      .comment{
+        margin: 0;
+        padding: 20px 0;
+      }
+    }
+    #write-comments{
+      #comment-field{
+        @extend .col-xs-12;
+        min-height: 90px;
+        padding: 10px 15px;
+        font-size: 16px;
+        margin-bottom:10px;
+      }
+    }
+  }
+  
+}
+
+#post-form{
+  .field{
+    @extend .form-group;
+  }
+  
+  #instrutions{
+    @include transitionValue('all');
+    
+    #instruction-text{}
+    #show-loading{
+      display:none;
+    }
+    
+    &.loading{
+      #instruction-text{
+        display:none;
+      }
+      #show-loading{
+        display:block;
+      }
+    }
+  }
+  
+  .image_picker_selector{
+    overflow-y: hidden;
+    overflow-x: auto;
+    height: 200px;
+    width:auto;
+    white-space:nowrap;
+    
+    &::last-child{
+      margin-right:0;
+    }
+    
+    li{
+      float:none;
+      display: inline-block;
+    }
+  }
+    .image_picker_image{
+      height:180px;
+    }
+  
+  .picker--opened {
+    .picker__holder{
+      height:100%;
+    }
+    .picker__frame{
+      @extend %verticalCenter;
+    } 
+  }
+  
+  #external-url-details{
+    @include transitionValue('max-height');
+    max-height:0px;
+    overflow:hidden;
+    
+    &.populated{
+      max-height:800px;
+    }
+  }
+  
+  #advanced-features{
+  }
+     
+    #advanced-drawer{
+      @include transitionValue('max-height');
+      max-height:400px;
+      overflow:hidden;
+  
+      &.closed{
+        max-height:0px;
+        padding:0px;
+      } 
+    }
+    
+    #dropzone{
+      @extend .well;
+      margin-right:0;
+      margin-left:0;
+      line-height: 32px;
+      text-align:center;
+      
+      &.active{
+        background:white;
+      }
+            
+      .template-download, .template-upload{
+        margin-top:30px;
+        margin-bottom:40px;
+      }
+      
+      b{
+        margin-left: -15px;
+        font-size:16px;
+        
+        @media (max-width: $screen-xs-min) {
+          margin-left: 0;
+          font-size:13px;
+        }
+      }
+      
+      .preview-img, .preview{
+        height:180px;
+      }
+      
+      .name{
+        @extend %truncate;
+        width: 100%;
+        float: right;
+      }
+      
+      .name, .delete-col, .progress-and-name{
+        line-height: 180px;
+        height:180px;
+        
+        .wrapper{
+          @extend %verticalCenter;
+          line-height: initial;
+        }
+        
+        @media (max-width: $screen-xs-max) {
+          line-height:inherit;
+          height:initial;
+        }
+      }
+    }
+}

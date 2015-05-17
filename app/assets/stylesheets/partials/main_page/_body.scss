@@ -77,7 +77,14 @@
             @extend .col-xl-2;
             display: inline-flex;
             padding:  .25rem;
-  
+            
+            @media (max-width: $screen-xs-max) {
+              width:100%;
+              .thumbnail{ width:inherit;}
+            }
+            
+            &.photo{  }
+            
             .thumbnail{
               overflow:hidden;
               text-decoration:none;
@@ -86,8 +93,29 @@
                height: auto;
                width: 100%;
               }
-    
-              .captions{
+              
+              .stack-frame{
+                overflow:hidden;
+              }
+              
+              .stack{
+                margin-bottom:-20px;
+                
+                img{
+                  border:2px solid #FFF;
+                }
+              }
+              
+              .stack-cornergrid img{
+                height:400px;
+              }
+              
+              .source-domain{
+                text-align: left;
+                font-weight:bold;
+              }
+              
+              .captions p{
                 text-align: justify;
               }
             }

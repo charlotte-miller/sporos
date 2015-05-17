@@ -1,5 +1,6 @@
 #= require community/news
 #= require community/search
+#= require community/posts/all
 
 CStone.Base.Pages.init('/', ['/library'])
 CStone.Community.News.init()
@@ -25,7 +26,7 @@ $ ->
     $(@).unbind 'loadeddata'
 
 
-  $('#main-page a').not('.ministry').click (e)->
+  $('#main-page a').not('.ministry, .photo-gallery, #photo-stack a').click (e)->
     e.preventDefault()
 
     $('#headroom').removeClass('headroom--pinned')

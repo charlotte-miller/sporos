@@ -4,7 +4,6 @@
     "es6-promise": "2.0.1",
     "fastclick": "~1.0.3",
     "jquery": "~2.1.1",
-    "velocity": "~1.0.0",
     "jquery.animate-enhanced": "latest",
     "isotope": "~2.0.1",
     "typeahead.js": "~0.10.5",
@@ -14,6 +13,7 @@
     "backbone-relational": "~0.8.8",
     "Backbone.BindTo": "~1.1.0",
     "Backbone.Handlebars": "~1.0.0",
+    "moment": "~2.8.2",
     "vide": "~0.1.2",
     "jquery-resize": "latest",
     "quill": "~0.19.3",
@@ -22,6 +22,13 @@
     "jasmine-jquery": "~2.0.5",
     "jasmine-sinon": "~0.3.2",
     "jasmine-ajax": "~2.0.1",
-    "pace": "~1.0.2"
+    "pace": "~1.0.2",
+    "autosize": "latest",
+    "clockpicker": "~0.0.7",
+    "pickadate": "~3.5.6",
+    "image-picker": "latest",
+    "jquery-file-upload": "latest",
+    "blueimp-load-image": "latest",
+    "blueimp-canvas-to-blob": "latest"
   }
 }

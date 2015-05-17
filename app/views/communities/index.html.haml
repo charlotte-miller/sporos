@@ -71,18 +71,6 @@
 
     #cards
       #card-sizer
-      - placeholder_img = placeholder_image '640x360', text:'default'
-      - 25.times do |card_number|
-        - ministry_class = (m=%w{men women rendezvous teens kids outreach})[card_number%m.length]
-        .card{class:ministry_class}
-          %a.thumbnail{href: "/contents/#{card_number+1}"}
-            - if rand(1..5) != 1
-              %img.thumbnail-img{alt: card_number,
-                  src: placeholder_img,
-                  data: {src:placeholder_image('640x360', random_color:false, text: "#{ministry_class} [#{card_number+1}]" )},
-                  height:'360',
-                  width:'640'}
-            .captions
-              %h3= LoremIpsum.w rand(2..4)
-              %p= LoremIpsum.p 1
+      - @posts.each do |post|
+        = render_partial_for post
   

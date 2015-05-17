@@ -1,0 +1,19 @@
+- post_type = @post.class.name
+= form_for [:admin, @post.becomes(Post)], html: {multipart:true, id:'post-form'} do |f|
+  - f.object = @post.becomes(@post.class)
+  - if @post.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@post.errors.count, "error")} prohibited this post from being saved:"
+      %ul
+        - @post.errors.full_messages.each do |msg|
+          %li= msg
+
+  - if @ministries.length > 1
+    .field
+      .input-group
+        %span#instrutions.input-group-addon Posting for:
+        = f.collection_select :ministry_id, @ministries, :id, :title, {prompt:'Please Select a Ministry', selected: @post.try(:ministry).try(:id)}, {class:'form-control'}
+  = f.hidden_field :id, value:@post.id
+  = render partial:"admin/posts/forms/#{post_type_of @post}", locals:{f:f}
+  .actions
+    = f.button 'SUBMIT FOR APPROVAL', class:'btn btn-primary form-control', id:'post-form-submit'

@@ -8,6 +8,7 @@ production:
         - htop
         - graphicsmagick
         - libcurl3
+        - cowsay
 
   redis:
     server:

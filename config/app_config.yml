@@ -74,7 +74,7 @@ production:
     host: <%= ENV['REDIS_ADDRESS_INT'] %>
   
   s3:
-    url: s3-us-west-2.amazonaws.com #s3.amazonaws.com
+    url: s3-us-west-1.amazonaws.com #s3.amazonaws.com
     bucket: assets.cornerstonesf.org
     credentials:
       access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>

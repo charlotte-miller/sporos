@@ -128,9 +128,9 @@ class User < ActiveRecord::Base
   # Validations
   # ---------------------------------------------------------------------------------
   validates_presence_of :email, :first_name, :last_name
-  validates_length_of   :email, :within => 0..80
+  validates_length_of   :email, :maximum => 80
   validates_format_of   :email, :with => /.+@.+\..+/, :message => "looks wrong" #anything@anything.anything
-  validates_length_of   :first_name, :last_name, :within => 0..60
+  validates_length_of   :first_name, :last_name, :maximum => 60
   validates_attachment  :profile_image, :size => { :in => 0..10.megabytes }
     #, :presence => true,
     # :content_type => { :content_type => "image/jpg" }

@@ -49,8 +49,15 @@ class Study < ActiveRecord::Base
   slug_candidates :title, [:title, :year], [:title, :month, :year], [:title, :month, :date, :year]
   
   has_attachable_file :poster_img,
-                      :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
-                      # :styles => { thumb: { geometry: SD_SIZE, format: 'png', convert_options: "-strip" }}
+                      :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
+                      :processors => [:thumbnail, :paperclip_optimizer],
+                      paperclip_optimizer: { pngquant: true },
+                      :styles => {
+                        large:    { geometry: "1500x1500>", format: 'png', convert_options: "-strip" },
+                        medium:   { geometry: "300x300>",   format: 'png', convert_options: "-strip" },
+                        small:    { geometry: "200x200>",   format: 'png', convert_options: "-strip" },
+                        thumb:    { geometry: "100x100",    format: 'png', convert_options: "-strip" }
+                      }
                       # :processors => [:thumbnail, :pngquant]
 
   process_in_background :poster_img

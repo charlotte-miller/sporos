@@ -65,9 +65,9 @@ test:
 
 production:  
   domains:
-    primary: cornerstonesf.org                        # CLOUDFRONT -> ORIGIN
+    primary: sporos.cornerstonesf.org                 # CLOUDFRONT -> ORIGIN
     origin:  sporos.cornerstonesf.org                 # WEB SERVERS
-    assets:  assets.cornerstonesf.org                 # DOMAIN RANGE: CLOUDFRONT -> S3
+    assets:  assets.cornerstonesf.org                 # CLOUDFRONT -> S3
     legacy_media:  media.cornerstone-sf.org
   
   dev_user: developer

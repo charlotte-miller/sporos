@@ -85,8 +85,8 @@ production:
 
   mail:
     delivery_method: :smtp
-    smtp_user: <%= SMTP_USER %>
-    smtp_pass: <%= SMTP_PASS %>
+    smtp_user: <%= ENV['SMTP_USER'] %>
+    smtp_pass: <%= ENV['SMTP_PASS'] %>
 
   vimeo:
     # token: deddea72ddcd1b0d99e0c461ee52ba96

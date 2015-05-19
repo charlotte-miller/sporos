@@ -33,9 +33,9 @@
 
 
   # Editors
-  @chip     = User.find_by(first_name:'Chip'    ) || FactoryGirl.create(:user, first_name:'Chip',     last_name:'Miller',   email:'chip@cornerstonesf.org',     password:'Dearborn',  admin:true)
-  @rick     = User.find_by(first_name:'Rick'    ) || FactoryGirl.create(:user, first_name:'Rick',     last_name:'Narvarte', email:'rick@cornerstonesf.org',     password:'Dearborn',  admin:true)
-  @gretchen = User.find_by(first_name:'Gretchen') || FactoryGirl.create(:user, first_name:'Gretchen', last_name:'Wanger',   email:'gretchen@cornerstonesf.org', password:'Dearborn')             
+  @chip     = User.find_by(first_name:'Chip'    ) || FactoryGirl.create(:user, first_name:'Chip',     last_name:'Miller',   email:'demo-chip@cornerstonesf.org',     password:'Dearborn',  admin:true)
+  @rick     = User.find_by(first_name:'Rick'    ) || FactoryGirl.create(:user, first_name:'Rick',     last_name:'Narvarte', email:'demo-rick@cornerstonesf.org',     password:'Dearborn',  admin:true)
+  @gretchen = User.find_by(first_name:'Gretchen') || FactoryGirl.create(:user, first_name:'Gretchen', last_name:'Wanger',   email:'demo-gretchen@cornerstonesf.org', password:'Dearborn')             
   @digital_team = [@chip, @gretchen, @rick]
   @digital_team.each do |member|
     next if member.ministries.present?

@@ -16,9 +16,12 @@ common:
   domains:
     primary: cornerstonesf.org                        # CLOUDFRONT -> ORIGIN
     origin:  origin.cornerstonesf.org                 # WEB SERVERS
-    assets:  assets%d.cornerstonesf.org               # DOMAIN RANGE: CLOUDFRONT -> S3
+    assets:  assets.cornerstonesf.org                 # CLOUDFRONT -> S3
     legacy_media: media.cornerstone-sf.org
-      
+  
+  mail:
+    delivery_method: :sendmail
+   
   vimeo:
     token: deddea72ddcd1b0d99e0c461ee52ba96
   paperclip:
@@ -79,6 +82,11 @@ production:
     credentials:
       access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
       secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+
+  mail:
+    delivery_method: :smtp
+    smtp_user: <%= SMTP_USER %>
+    smtp_pass: <%= SMTP_PASS %>
 
   vimeo:
     # token: deddea72ddcd1b0d99e0c461ee52ba96

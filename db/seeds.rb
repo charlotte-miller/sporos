@@ -58,15 +58,17 @@
     ministry.volunteers << volunteer  unless ministry.volunteers.present?
     ministry.leaders    << leader     unless ministry.leaders.present?
     
-    if ministry.posts.empty?
-      post_factory_type = [:post_event, :post_link, :post_page, :post_photo, :post_video ]
-      instance_variable_set "@#{slug}_posts", posts = [
-        6.times.map { FactoryGirl.create(post_factory_type.sample, author:volunteer, ministry:ministry) },
-        6.times.map { FactoryGirl.create(post_factory_type.sample, author:leader,    ministry:ministry) },
-      ].flatten
-      posts.each do |post|
-        approver = post.approval_requests.sample
-        approver.comment_threads << rand(0..5).times.map { FactoryGirl.create(:comment, user:approver.user) }
+    if Rails.env.development?
+      if ministry.posts.empty?
+        post_factory_type = [:post_event, :post_link, :post_page, :post_photo, :post_video ]
+        instance_variable_set "@#{slug}_posts", posts = [
+          6.times.map { FactoryGirl.create(post_factory_type.sample, author:volunteer, ministry:ministry) },
+          6.times.map { FactoryGirl.create(post_factory_type.sample, author:leader,    ministry:ministry) },
+        ].flatten
+        posts.each do |post|
+          approver = post.approval_requests.sample
+          approver.comment_threads << rand(0..5).times.map { FactoryGirl.create(:comment, user:approver.user) }
+        end
       end
     end
   end

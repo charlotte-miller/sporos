@@ -51,14 +51,13 @@ class Study < ActiveRecord::Base
   has_attachable_file :poster_img,
                       :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
                       :processors => [:thumbnail, :paperclip_optimizer],
-                      paperclip_optimizer: { pngquant: true },
+                      paperclip_optimizer: { jhead:true, jpegrecompress:true, jpegtran:true },
                       :styles => {
-                        large:    { geometry: "1500x1500>", format: 'png', convert_options: "-strip" },
-                        medium:   { geometry: "300x300>",   format: 'png', convert_options: "-strip" },
-                        small:    { geometry: "200x200>",   format: 'png', convert_options: "-strip" },
-                        thumb:    { geometry: "100x100",    format: 'png', convert_options: "-strip" }
+                        large:    { geometry: "1500x1500>", format: 'jpg', convert_options: "-strip" },
+                        medium:   { geometry: "300x300>",   format: 'jpg', convert_options: "-strip" },
+                        small:    { geometry: "200x200>",   format: 'jpg', convert_options: "-strip" },
+                        thumb:    { geometry: "100x100",    format: 'jpg', convert_options: "-strip" }
                       }
-                      # :processors => [:thumbnail, :pngquant]
 
   process_in_background :poster_img
     

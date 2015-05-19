@@ -3,3 +3,8 @@
 Paperclip.interpolates(:quiet_style) { |attachment, style| ((string_style = style.to_s) == 'original' ? '' : "-#{string_style}") }
 
 Paperclip::Attachment.default_options[:use_timestamp] = false
+
+Paperclip::PaperclipOptimizer.default_options = {
+  skip_missing_workers: true,
+  pngout:false, svgo: false
+}

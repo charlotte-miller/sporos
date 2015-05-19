@@ -85,9 +85,14 @@ class User < ActiveRecord::Base
   
   has_attachable_file :profile_image,
                       :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
-                      :styles => { 
-                        :medium => { geometry: "300x300>", format: 'jpg', convert_options: "-strip" }, 
-                        :thumb  => { geometry: "64x64>",   format: 'jpg', convert_options: "-strip" }}
+                      :processors => [:thumbnail, :paperclip_optimizer],
+                      paperclip_optimizer: { jhead:true, jpegrecompress:true, jpegtran:true },
+                      :styles => {
+                        large:    { geometry: "1500x1500>", format: 'jpg', convert_options: "-strip" },
+                        medium:   { geometry: "300x300>",   format: 'jpg', convert_options: "-strip" },
+                        small:    { geometry: "200x200>",   format: 'jpg', convert_options: "-strip" },
+                        thumb:    { geometry: "64x64",      format: 'jpg', convert_options: "-strip" }
+                      }
 
   process_in_background :profile_image
   

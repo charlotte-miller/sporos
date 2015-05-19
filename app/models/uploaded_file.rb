@@ -30,13 +30,12 @@ class UploadedFile < ActiveRecord::Base
   has_attachable_file :file,
                       :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
                       :processors => [:thumbnail, :paperclip_optimizer],
-                      paperclip_optimizer: { pngquant: true },
-                      :styles => { 
-                        # original: { geometry: "4000x4000>", format: 'png', convert_options: "-strip" },
-                        large:    { geometry: "1500x1500>", format: 'png', convert_options: "-strip" },
-                        medium:   { geometry: "300x300>",   format: 'png', convert_options: "-strip" },
-                        small:    { geometry: "200x200>",   format: 'png', convert_options: "-strip" },
-                        thumb:    { geometry: "100x100",    format: 'png', convert_options: "-strip" }
+                      paperclip_optimizer: { jhead:true, jpegrecompress:true, jpegtran:true },
+                      :styles => {
+                        large:    { geometry: "1500x1500>", format: 'jpg', convert_options: "-strip" },
+                        medium:   { geometry: "300x300>",   format: 'jpg', convert_options: "-strip" },
+                        small:    { geometry: "200x200>",   format: 'jpg', convert_options: "-strip" },
+                        thumb:    { geometry: "100x100",    format: 'jpg', convert_options: "-strip" }
                       }
 
   process_in_background :file

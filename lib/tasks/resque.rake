@@ -25,3 +25,6 @@ task "resque:setup" => :environment do
   #for redistogo http://stackoverflow.com/questions/2611747/rails-resque-workers-fail-with-pgerror-server-closed-the-connection-unexpectedl
   Resque.before_fork = Proc.new { ActiveRecord::Base.establish_connection }
 end
+
+desc "Restart background jobs"
+task "resque:background:restart" => ['resque:background:stop', 'resque:background:start']

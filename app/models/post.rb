@@ -98,7 +98,7 @@ class Post < ActiveRecord::Base
                       paperclip_optimizer: { jhead:true, jpegrecompress:true, jpegtran:true },
                       :styles => {
                         large:        { geometry: "1500x1500>", format: 'jpg', convert_options: "-strip" },
-                        medium:       { geometry: "300x300>",   format: 'jpg', convert_options: "-strip" },
+                        medium:       { geometry: "500x500>",   format: 'jpg', convert_options: "-strip" },
                         small:        { geometry: "200x200>",   format: 'jpg', convert_options: "-strip" },
                         large_thumb:  { geometry: "120x120#",   format: 'jpg', convert_options: "-strip" },
                         thumb:        { geometry: "100x100#",   format: 'jpg', convert_options: "-strip" }

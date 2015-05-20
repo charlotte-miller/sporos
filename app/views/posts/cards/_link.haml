@@ -1,8 +1,8 @@
 - post && @post = post
 .card.link{class:ministry_class(@post)}
   %a.thumbnail{href: post.display_options.url, target:'_blank'}
-    %img.thumbnail-img{src: @post.poster.url,
-        data: {src: @post.poster.url},
+    %img.thumbnail-img{src: @post.poster.url(:medium),
+        data: {src: @post.poster.url(:medium)},
         alt: @post.title,
         height:'360',
         width:'640'}

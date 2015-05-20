@@ -1,6 +1,9 @@
 .panel.panel-default
   .panel-heading
-    %h4= "Editing #{@ministry.name.titleize}"
+    - if @ministry.new_record?
+      %h4 New Ministry
+    - else
+      %h4= "Editing #{@ministry.name.titleize}"
   .panel-body
 
     = form_for [:admin, @ministry], html: { role: "form" } do |f|

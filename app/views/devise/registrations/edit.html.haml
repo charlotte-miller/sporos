@@ -5,7 +5,7 @@
     .col-xs-12
       = flash_messages
       = bootstrap_devise_error_messages!
-    = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
+    = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, multipart:true }) do |f|
       .form-group.row
         .col-sm-6
           = f.label :first_name
@@ -18,7 +18,7 @@
           = f.label :profile_image
           = f.file_field :profile_image, class: "form-control"
         .col-xs-3
-          %img.img-circle{src: current_user.profile_image.url}
+          %img.img-circle{src: current_user.profile_image.url(:large_thumb), height:120, width:120}
       .form-group
         = f.label :email
         = f.email_field :email, class: "form-control"

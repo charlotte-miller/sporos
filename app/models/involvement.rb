@@ -52,4 +52,8 @@ class Involvement < ActiveRecord::Base
     .where(['involvements.ministry_id = ? AND involvements.level > ?', self.ministry_id, self[:level] ])
     .all
   end
+  
+  def level_id=(id)
+    self[:level]= id
+  end
 end

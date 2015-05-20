@@ -47,13 +47,14 @@ Rails.application.routes.draw do
     end
   end
   
-  devise_for :users, :skip => [:sessions]
+  devise_for :users, :skip => [:sessions], :controllers => { :invitations => 'admin/invitations' }
   as :user do
-    get     'join'  => 'devise/registrations#new', :as => :new_registrations
-    get     'login' => 'devise/sessions#new',      :as => :new_user_session
-    post    'login' => 'devise/sessions#create',   :as => :user_session
-    delete  'logout'=> 'devise/sessions#destroy',  :as => :destroy_user_session
-    get     'logout'=> 'devise/sessions#destroy' #convenience
+    # get     'join'    => 'devise/registrations#new', :as => :new_registrations
+    get     'invite'  => 'admin/invitations#new',    :as => :new_invitation
+    get     'login'   => 'devise/sessions#new',      :as => :new_user_session
+    post    'login'   => 'devise/sessions#create',   :as => :user_session
+    delete  'logout'  => 'devise/sessions#destroy',  :as => :destroy_user_session
+    get     'logout'  => 'devise/sessions#destroy' #convenience
   end
 
   get 'admin' => 'admin/posts#index'

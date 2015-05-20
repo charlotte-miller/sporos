@@ -4,8 +4,8 @@
       %h1 DASHBOARD
   #profile
     .picture
-      %img.img-circle{src: 'http://www.montejano.es/wp-content/uploads/2014/06/perfil1.jpg' } 
-      / current_user.profile_image.url
+      %img.img-circle{src: current_user.profile_image.url(:large_thumb), height:120, width:120 } 
+      
     .name
       %h3
         = current_user.first_name.upcase

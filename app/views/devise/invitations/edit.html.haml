@@ -1,0 +1,29 @@
+.panel.panel-default
+  .panel-heading
+    %h4= t 'devise.invitations.edit.header'
+  .panel-body
+    .col-xs-12
+      = flash_messages
+      = bootstrap_devise_error_messages!
+      = form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f|
+        = f.hidden_field :invitation_token
+        .form-group
+          = f.label :password
+          = f.password_field :password, autofocus: true, class: "form-control"
+        .form-group
+          = f.label :password_confirmation
+          = f.password_field :password_confirmation, class: "form-control"
+        .form-group
+          = f.label :profile_image
+          #dropzone
+            .row
+              .col-xs-5
+                %span.btn.btn-success.fileinput-button
+                  %i.glyphicon.glyphicon-plus
+                  %span Add Images...
+                  = f.file_field :profile_image, id:'upload-profile_image', class:'form-control', multiple:false, accept:"image/*", data:{url:user_invitation_path(format:'json')}
+              .col-xs-7
+                %b Drag & Drop Images Here
+            #dropzone-file-manager
+
+        %p= f.submit t("devise.invitations.edit.submit_button"), class: "btn btn-primary"

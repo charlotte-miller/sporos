@@ -32,8 +32,9 @@
             = link_to 'GO BACK', :back
 
         .global_nav_item.col-xs-3
+          / = link_to "Invite",  new_user_invitations_path
           / = link_to "Account", edit_user_registration_path
-          / = link_to "Logout", destroy_user_session_path
+          / = link_to "Logout",  destroy_user_session_path
           = link_to edit_current_user_path do
             %i.glyphicon.glyphicon-cog
       / /row

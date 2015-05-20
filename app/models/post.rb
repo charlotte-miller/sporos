@@ -94,10 +94,15 @@ class Post < ActiveRecord::Base
                       :default_url   => :poster_original_url,
                       :content_type  => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
                       # production_path: 'studies/lesson_media/:study_id/:hash:quiet_style.:extension',
+                      :processors => [:thumbnail, :paperclip_optimizer],
+                      paperclip_optimizer: { jhead:true, jpegrecompress:true, jpegtran:true },
                       :styles => {
-                        sd:     { format: 'png', convert_options: "-strip" },
-                        hd:     { format: 'png', convert_options: "-strip" },
-                        mobile: { format: 'png', convert_options: "-strip" }}}
+                        large:        { geometry: "1500x1500>", format: 'jpg', convert_options: "-strip" },
+                        medium:       { geometry: "300x300>",   format: 'jpg', convert_options: "-strip" },
+                        small:        { geometry: "200x200>",   format: 'jpg', convert_options: "-strip" },
+                        large_thumb:  { geometry: "120x120#",   format: 'jpg', convert_options: "-strip" },
+                        thumb:        { geometry: "100x100#",   format: 'jpg', convert_options: "-strip" }
+                      }}
 
   process_in_background :poster, processing_image_url: :poster_original_url
   

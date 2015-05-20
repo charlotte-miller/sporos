@@ -7,7 +7,7 @@
 #  last_name                  :string(60)
 #  public_id                  :string(20)
 #  email                      :string(80)       default(""), not null
-#  encrypted_password         :string           default(""), not null
+#  encrypted_password         :string           default("")
 #  admin                      :boolean          default("false")
 #  password_salt              :string
 #  reset_password_token       :string
@@ -33,11 +33,22 @@
 #  profile_image_processing   :boolean
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
+#  invitation_token           :string
+#  invitation_created_at      :datetime
+#  invitation_sent_at         :datetime
+#  invitation_accepted_at     :datetime
+#  invitation_limit           :integer
+#  invited_by_id              :integer
+#  invited_by_type            :string
+#  invitations_count          :integer          default("0")
 #
 # Indexes
 #
 #  index_users_on_confirmation_token    (confirmation_token) UNIQUE
 #  index_users_on_email                 (email) UNIQUE
+#  index_users_on_invitation_token      (invitation_token) UNIQUE
+#  index_users_on_invitations_count     (invitations_count)
+#  index_users_on_invited_by_id         (invited_by_id)
 #  index_users_on_public_id             (public_id) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #  index_users_on_unlock_token          (unlock_token) UNIQUE
@@ -46,12 +57,13 @@
 class User < ActiveRecord::Base
   include AttachableFile
   include Uuidable
+  # include DeviseInvitable::Inviter
   
   # ---------------------------------------------------------------------------------
   # Authentication
   # ---------------------------------------------------------------------------------
   devise  :database_authenticatable, :trackable, :validatable, :timeoutable,
-          :registerable, :recoverable, :confirmable, :rememberable  #configuration in devise.rb
+          :registerable, :recoverable, :confirmable, :rememberable, :invitable  #configuration in devise.rb
           # :omniauthable, :omniauth_providers => []
          
           #https://github.com/plataformatec/devise/wiki/How-To:-Add-timeout_in-value-dynamically
@@ -65,7 +77,6 @@ class User < ActiveRecord::Base
           
           # https://github.com/plataformatec/devise/wiki/How-To:-Add-:confirmable-to-Users#allowing-unconfirmed-access
           # def confirmation_required?
-          #   # how do they get the request?
           #   if highest_involvement_level = self.involvements.order('level DESC').first
           #     highest_involvement_level[:level] > 0
           #   end
@@ -88,14 +99,15 @@ class User < ActiveRecord::Base
                       :processors => [:thumbnail, :paperclip_optimizer],
                       paperclip_optimizer: { jhead:true, jpegrecompress:true, jpegtran:true },
                       :styles => {
-                        large:    { geometry: "1500x1500>", format: 'jpg', convert_options: "-strip" },
-                        medium:   { geometry: "300x300>",   format: 'jpg', convert_options: "-strip" },
-                        small:    { geometry: "200x200>",   format: 'jpg', convert_options: "-strip" },
-                        thumb:    { geometry: "64x64",      format: 'jpg', convert_options: "-strip" }
+                        large:       { geometry: "1500x1500>", format: 'jpg', convert_options: "-strip" },
+                        medium:      { geometry: "300x300>",   format: 'jpg', convert_options: "-strip" },
+                        small:       { geometry: "200x200>",   format: 'jpg', convert_options: "-strip" },
+                        large_thumb: { geometry: "120x120#",   format: 'jpg', convert_options: "-strip" },
+                        thumb:       { geometry: "64x64#",     format: 'jpg', convert_options: "-strip" }
                       }
 
   process_in_background :profile_image
-  
+    
   
   # ---------------------------------------------------------------------------------
   # Associations
@@ -129,6 +141,8 @@ class User < ActiveRecord::Base
     end
   end
   
+  has_many :invitations, :class_name => 'User', :foreign_key => :invited_by_id
+  
   # ---------------------------------------------------------------------------------
   # Validations
   # ---------------------------------------------------------------------------------
@@ -142,9 +156,16 @@ class User < ActiveRecord::Base
     
     
   # ---------------------------------------------------------------------------------
-  # Scopes
+  # Callbacks
   # ---------------------------------------------------------------------------------
-  
+  attr_accessor :involvement_ministry_id, :involvement_level
+
+  after_create :create_first_involvement
+  def create_first_involvement
+    if involvement_ministry_id
+      self.involvements.create(ministry_id:involvement_ministry_id, level_id:(involvement_level || 0))
+    end
+  end
   
   
   # ---------------------------------------------------------------------------------

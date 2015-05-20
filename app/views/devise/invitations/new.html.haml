@@ -1,0 +1,32 @@
+.panel.panel-default
+  .panel-heading
+    %h4= t "devise.invitations.new.header"
+  .panel-body
+    .col-xs-12
+      = flash_messages
+      = bootstrap_devise_error_messages!
+      = form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f|
+        - if @ministries.length > 1
+          .form-group
+            .input-group
+              %span#instrutions.input-group-addon Invite to Ministry:
+              = f.collection_select :involvement_ministry_id, @ministries, :id, :title, {prompt:'Please Select a Ministry', selected: @ministry.try(:id)}, {class:'form-control'}
+          .form-group
+            .input-group
+              %span#instrutions.input-group-addon Level of Involvement:
+              = f.collection_select :involvement_level, Involvement.levels.except('editor'), :last, lambda {|a| a.first.titlecase}, {selected:1}, {class:'form-control'}
+        
+        .form-group
+          = f.label :first_name
+          = f.text_field :first_name, class: "form-control"        
+        .form-group
+          = f.label :last_name
+          = f.text_field :last_name, class: "form-control"        
+        - resource.class.invite_key_fields.each do |field|
+          .form-group
+            = f.label field
+            = f.text_field field, class: "form-control"
+        .form-group
+          = f.submit t("devise.invitations.new.submit_button"), class: "btn btn-primary"
+          / %a{href:'#'}
+          /   .button.btn.btn-link Write a Message

@@ -18,7 +18,7 @@
             = f.check_box :remember_me, checked: true
             = f.label :remember_me
       = f.submit  "Login", class: "btn btn-primary"
-      %a{href:new_registrations_path}
+      %a{href:new_user_registration_path}
         .button.btn.btn-link Need an account?
 
 = render "devise/shared/links"

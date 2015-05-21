@@ -11,7 +11,6 @@ $ ->
       template = HandlebarsTemplates.download_uploaded_file(data)
       $('#dropzone-file-manager').append(template)
     
-    # $('#upload-uploaded-file').attr('name','uploaded_file[file]')
     $('#upload-uploaded-file').fileupload
       # url: '/admin/uploaded_files.json'
       limitConcurrentUploads: 3

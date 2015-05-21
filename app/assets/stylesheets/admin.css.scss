@@ -2,12 +2,12 @@
 @import "modules/helpers";
 @import "modules/photo_stack";
 @import "modules/stack_effects";
+@import "modules/file_uploader";
 @import "pickadate/lib/themes/default.css";
 @import "pickadate/lib/themes/default.date.css";
 @import "pickadate/lib/themes/default.time.css";
 @import "image-picker/image-picker/image-picker.css";
-@import "jquery-file-upload/css/jquery.fileupload";
-@import "jquery-file-upload/css/jquery.fileupload-ui";
+
 
 html,body{
   background-color:$gray-lighter;
@@ -332,57 +332,5 @@ html,body{
         max-height:0px;
         padding:0px;
       } 
-    }
-    
-    #dropzone{
-      @extend .well;
-      margin-right:0;
-      margin-left:0;
-      line-height: 32px;
-      text-align:center;
-      
-      &.active{
-        background:white;
-      }
-            
-      .template-download, .template-upload{
-        margin-top:30px;
-        margin-bottom:40px;
-      }
-      
-      b{
-        margin-left: -15px;
-        font-size:16px;
-        
-        @media (max-width: $screen-xs-min) {
-          margin-left: 0;
-          font-size:13px;
-        }
-      }
-      
-      .preview-img, .preview{
-        height:180px;
-      }
-      
-      .name{
-        @extend %truncate;
-        width: 100%;
-        float: right;
-      }
-      
-      .name, .delete-col, .progress-and-name{
-        line-height: 180px;
-        height:180px;
-        
-        .wrapper{
-          @extend %verticalCenter;
-          line-height: initial;
-        }
-        
-        @media (max-width: $screen-xs-max) {
-          line-height:inherit;
-          height:initial;
-        }
-      }
     }
 }

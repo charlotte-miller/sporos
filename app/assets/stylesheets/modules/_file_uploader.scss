@@ -1,0 +1,90 @@
+@import "jquery-file-upload/css/jquery.fileupload";
+@import "jquery-file-upload/css/jquery.fileupload-ui";
+
+#dropzone{
+  @extend .well;
+  margin-right:0;
+  margin-left:0;
+  line-height: 32px;
+  text-align:center;
+  
+  &.active{
+    background:white;
+  }
+  
+  &.profile{
+    margin-right:15px;
+    
+    .img-circle{
+      height:120px;
+      width:120px;
+      position:absolute;
+      top:-40px;
+      right:-20px;
+      border: 2px solid $gray-lighter;
+      background-color:$gray-lighter;
+    }
+    
+    @media (max-width: $screen-xs-min) {
+      b{
+        display:none;
+      }
+    }
+    
+    svg {
+      display: block;
+      position: absolute;
+      height: 118px;
+      width: 118px;
+      top: -39px;
+      right: -19px;
+      @include opacity(0.4);
+      
+      #loader 
+      { fill: $gray-lighter }
+
+      #border 
+      { fill: $gray-dark }
+    }
+  }
+        
+  .template-download, .template-upload{
+    margin-top:30px;
+    margin-bottom:40px;
+  }
+  
+  b{
+    margin-left: -15px;
+    font-size:16px;
+    
+    @media (max-width: $screen-xs-min) {
+      margin-left: 0;
+      font-size:13px;
+    }
+  }
+  
+  .preview-img, .preview{
+    height:180px;
+  }
+  
+  .name{
+    @extend %truncate;
+    width: 100%;
+    float: right;
+  }
+  
+  .name, .delete-col, .progress-and-name{
+    line-height: 180px;
+    height:180px;
+    
+    .wrapper{
+      @extend %verticalCenter;
+      line-height: initial;
+    }
+    
+    @media (max-width: $screen-xs-max) {
+      line-height:inherit;
+      height:initial;
+    }
+  }
+}

@@ -1,44 +1,55 @@
 .panel.panel-default
   .panel-heading
-    %h4= t('.title', :resource => resource_class.model_name.human , :default => 'Edit #{resource_name.to_s.humanize}')
+    %h4 Account Settings
   .panel-body
     .col-xs-12
       = flash_messages
       = bootstrap_devise_error_messages!
     = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, multipart:true }) do |f|
       .form-group.row
-        .col-sm-6
+        .col-xs-6
           = f.label :first_name
           = f.text_field :first_name, class: "form-control"
-        .col-sm-6
+        .col-xs-6
           = f.label :last_name
           = f.text_field :last_name, class: "form-control"
-      .form-group.row
-        .col-xs-9
-          = f.label :profile_image
-          = f.file_field :profile_image, class: "form-control"
-        .col-xs-3
-          %img.img-circle{src: current_user.profile_image.url(:large_thumb), height:120, width:120}
       .form-group
         = f.label :email
         = f.email_field :email, class: "form-control"
+      .form-group.row
+        .col-xs-12
+          = f.label :profile_image
+          #dropzone.profile
+            .row
+              .col-xs-4
+                %span.btn.btn-success.fileinput-button
+                  %i.glyphicon.glyphicon-plus
+                  %span Change Image
+                  = f.file_field :profile_image, id:'upload-profile_image', class:'form-control', multiple:false, accept:"image/*", data:{url:user_invitation_path(format:'json')}
+              .col-xs-6
+                %b Drag & Drop Here
+              .col-xs-2
+                %img.img-circle{src: current_user.profile_image.url(:large_thumb), height:120, width:120}
+                %svg{:height => "250", :viewbox => "0 0 250 250", :width => "250"}
+                  %path#border{:transform => "translate(125, 125)"}
+                  %path#loader{:transform => "translate(125, 125) scale(.84)"}
+            #dropzone-file-manager
       .form-group
-        = f.label :password
-        %i
-          (#{t('.leave_blank_if_you_don_t_want_to_change_it', :default => "leave blank if you don't want to change it")})
-        %br/
-        = f.password_field :password, autofocus: true, :autocomplete => "off", class: "form-control"
-      .form-group
-        = f.label :password_confirmation
-        %br/
-        = f.password_field :password_confirmation, class: "form-control"
-      %hr
+        .row
+          .col-xs-12
+            = f.label :password
+            %i Leave blank if you don't want to change it.
+        .row
+          .col-xs-6
+            = f.password_field :password, autofocus: true, :autocomplete => "off", class: "form-control", placeholder:'New Password'
+          .col-xs-6
+            = f.password_field :password_confirmation, class: "form-control", placeholder:'New Password (again)'
       .form-group
         = f.label :current_password, 'Current Password'
-        %i We always need your current password to confirm your changes
-        = f.password_field :current_password, class: "form-control"
+        = f.password_field :current_password, class: "form-control", placeholder:'Required to change password'
         = link_to t(".forgot_your_password", :default => "Forgot your password?"), new_password_path(resource_name), id:'forgot-password-link'
-
+      
+      %hr
       = f.submit t('.update', :default => "Update"), class: "btn btn-primary"
       = link_to :back do
         .button.btn.btn-link Cancel

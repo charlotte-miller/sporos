@@ -1,4 +1,4 @@
-class Admin::InvitationsController < Devise::InvitationsController
+class DeviseOverride::InvitationsController < Devise::InvitationsController
   before_filter :admin_only, only:[:new,:create]
   before_filter :set_ministries, only:[:new,:create]
   before_filter :set_ministry, only: [:create]

@@ -4,7 +4,8 @@
       %h1 DASHBOARD
   #profile
     .picture
-      %img.img-circle{src: current_user.profile_image.url(:large_thumb), height:120, width:120 } 
+      = link_to edit_user_registration_path do
+        %img.img-circle{src: current_user.profile_image.url(:large_thumb), height:120, width:120 } 
       
     .name
       %h3

@@ -1,6 +1,6 @@
 .panel.panel-default
   .panel-heading
-    %h4= t 'devise.invitations.edit.header'
+    %h4 Setup Your Account
   .panel-body
     .col-xs-12
       = flash_messages
@@ -13,17 +13,23 @@
         .form-group
           = f.label :password_confirmation
           = f.password_field :password_confirmation, class: "form-control"
-        .form-group
-          = f.label :profile_image
-          #dropzone
-            .row
-              .col-xs-5
-                %span.btn.btn-success.fileinput-button
-                  %i.glyphicon.glyphicon-plus
-                  %span Add Images...
-                  = f.file_field :profile_image, id:'upload-profile_image', class:'form-control', multiple:false, accept:"image/*", data:{url:user_invitation_path(format:'json')}
-              .col-xs-7
-                %b Drag & Drop Images Here
-            #dropzone-file-manager
-
+        .form-group.row
+          .col-xs-12
+            = f.label :profile_image
+            #dropzone.profile
+              .row
+                .col-xs-4
+                  %span.btn.btn-success.fileinput-button
+                    %i.glyphicon.glyphicon-plus
+                    %span Change Image
+                    = f.file_field :profile_image, id:'upload-profile_image', class:'form-control', multiple:false, accept:"image/*", data:{url:user_invitation_path(format:'json')}
+                .col-xs-6
+                  %b Drag & Drop Here
+                .col-xs-2
+                  %img.img-circle{src: @user.profile_image.url(:large_thumb), height:120, width:120}
+                  %svg{:height => "250", :viewbox => "0 0 250 250", :width => "250"}
+                    %path#border{:transform => "translate(125, 125)"}
+                    %path#loader{:transform => "translate(125, 125) scale(.84)"}
+                  
+              #dropzone-file-manager
         %p= f.submit t("devise.invitations.edit.submit_button"), class: "btn btn-primary"

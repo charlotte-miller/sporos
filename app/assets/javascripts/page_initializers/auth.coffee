@@ -35,7 +35,7 @@ $ ->
   # =====================================
   
   progress_data = {visible:0, actual:0, img_ready:false}
-  @handleProgress = (e, data)->
+  @handleProgress = (e, data, ceiling=359)->
     loader = document.getElementById('loader')
     border = document.getElementById('border')
     π = Math.PI
@@ -43,7 +43,7 @@ $ ->
   
     # Animate to Value
     (draw = ->
-      α = progress_data.visible += 1
+      α = _([progress_data.visible += 1, ceiling]).min()
       r = α * π / 180
       x = Math.sin(r) * 125
       y = Math.cos(r) * -125
@@ -53,11 +53,19 @@ $ ->
       border.setAttribute 'd', anim
       
       # Crude Animation
-      setTimeout( draw, 20 ) unless α >= _([progress_data.actual, 359]).min()
+      setTimeout( draw, 20 ) unless α >= _([progress_data.actual, ceiling]).min()
       
-      if α >= 360
+      if α >= 360 && progress_data.img_ready
         $(".img-circle").attr("src", progress_data.img_ready )
         progress_data = {visible:0, actual:0, img_ready:false}
+        α = 0
+        r = α * π / 180
+        x = Math.sin(r) * 125
+        y = Math.cos(r) * -125
+        mid = if α > 180 then 1 else 0
+        anim = 'M 0 0 v -125 A 125 125 1 ' + mid + ' 1 ' + x + ' ' + y + ' z'
+        loader.setAttribute 'd', anim
+        border.setAttribute 'd', anim
     )()
   
   if $('#edit_user').length
@@ -94,25 +102,16 @@ $ ->
       imageMaxHeight:800
       # progressInterval:100
       progress: @handleProgress
-      done: (e, data)=>      
+      done: (e, data)=>
         new_src = data.result.url
-        
-        $.ajax
-          url: new_src
-          type: 'GET'
-          tryCount: 0
-          retryLimit: 20
-          success: (json) =>
-            progress_data.img_ready = new_src
-            @handleProgress({}, {loaded:1, total:1})
-          
-          error: (xhr, textStatus, errorThrown) ->
-            if xhr.status % 400 < 100
-              @tryCount++
-              if @tryCount <= @retryLimit
-                setTimeout =>
-                  $.ajax @ #try again
-                , 1000
-      
-    
+        image = $("<img src='#{new_src}?#{+new Date()}'/>")
+        .on "load", =>
+          console.log('loaded')
+          progress_data.img_ready = "#{new_src}?#{+new Date()}"
+          @handleProgress({}, {loaded:1, total:1}, 360)
+        .on "error", (e)->
+          setTimeout ->
+            cache_busted_url = image.attr('src').replace /\?\d*$/, "?#{+new Date}"
+            image.attr('src', cache_busted_url)
+          , 1000  
   

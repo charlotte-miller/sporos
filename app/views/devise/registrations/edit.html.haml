@@ -25,7 +25,7 @@
                 %span.btn.btn-success.fileinput-button
                   %i.glyphicon.glyphicon-plus
                   %span Change Image
-                  = f.file_field :profile_image, id:'upload-profile_image', class:'form-control', multiple:false, accept:"image/*", data:{url:user_invitation_path(format:'json')}
+                  = f.file_field :profile_image, id:'upload-profile_image', class:'form-control', capture:"camera", accept:"image/*;capture=camera", data:{url:user_invitation_path(format:'json')}
               .col-xs-6
                 %b Drag & Drop Here
               .col-xs-2

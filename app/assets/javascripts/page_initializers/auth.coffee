@@ -34,8 +34,8 @@ $ ->
   # =            File Upload            =
   # =====================================
   
-  progress_data = {visible:0, actual:0}
-  handleProgress = (e, data)->
+  progress_data = {visible:0, actual:0, img_ready:false}
+  @handleProgress = (e, data)->
     loader = document.getElementById('loader')
     border = document.getElementById('border')
     π = Math.PI
@@ -53,50 +53,21 @@ $ ->
       border.setAttribute 'd', anim
       
       # Crude Animation
-      setTimeout( draw, 20 ) unless α >= _([progress_data.actual, 360]).min()
+      setTimeout( draw, 20 ) unless α >= _([progress_data.actual, 359]).min()
       
       if α >= 360
-        progress_data = {visible:0, actual:0}
-        
-        d       = new Date()
-        $img    = $(".img-circle")
-        new_src = $img.attr('src')+'?'+d.getTime()
-        
-        $.ajax
-          url: new_src
-          type: 'GET'
-          tryCount: 0
-          retryLimit: 20
-          success: (json) ->
-            d = new Date()
-            $img = $(".img-circle")
-            $img.attr("src", new_src)
-          
-          error: (xhr, textStatus, errorThrown) ->
-            if xhr.status % 400 < 100
-              @tryCount++
-              if @tryCount <= @retryLimit
-                setTimeout =>
-                  $.ajax @ #try again
-                , 1000
-                
+        $(".img-circle").attr("src", progress_data.img_ready )
+        progress_data = {visible:0, actual:0, img_ready:false}
     )()
   
   if $('#edit_user').length
     $(document).on 'drop dragover', (e)-> e.preventDefault() #prevent's browser from just opening the file
-    
-    # url = '/admin/uploaded_files'
-    # url += "?post[id]=#{post_id}" if post_id = $('#post_id').val()
-    # $.getJSON url, (data)->
-    #   template = HandlebarsTemplates.download_uploaded_file(data)
-    #   $('#dropzone-file-manager').append(template)
-    
+        
     $('#edit_user').fileupload
-      # url: '/admin/uploaded_files.json'
       limitConcurrentUploads: 3
       dataType: 'json'
       dropZone: $('#dropzone')
-      # paramName: 'uploaded_file[file]'
+      paramName: 'only_profile_image'
       autoUpload: true
       acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i #/(\.|\/)(gif|jpe?g|png|mov|mpeg|mpeg4|avi)$/i
       maxNumberOfFiles: 10
@@ -122,10 +93,26 @@ $ ->
       imageMaxWidth:800
       imageMaxHeight:800
       # progressInterval:100
-      progress: handleProgress
-      always: (e, data)->
-        data.result
-        # debugger
+      progress: @handleProgress
+      done: (e, data)=>      
+        new_src = data.result.url
+        
+        $.ajax
+          url: new_src
+          type: 'GET'
+          tryCount: 0
+          retryLimit: 20
+          success: (json) =>
+            progress_data.img_ready = new_src
+            @handleProgress({}, {loaded:1, total:1})
+          
+          error: (xhr, textStatus, errorThrown) ->
+            if xhr.status % 400 < 100
+              @tryCount++
+              if @tryCount <= @retryLimit
+                setTimeout =>
+                  $.ajax @ #try again
+                , 1000
       
     
   

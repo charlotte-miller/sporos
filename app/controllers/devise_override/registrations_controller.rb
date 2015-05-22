@@ -5,6 +5,22 @@ class DeviseOverride::RegistrationsController < Devise::RegistrationsController
       params.delete(:password)
       params.delete(:password_confirmation)
     end
+    
+    if params[:only_profile_image]
+      resource.profile_image= params[:only_profile_image]
+      if resource.save
+        resource.profile_image_processing= false
+        file = resource.profile_image
+        render json: {
+          name: file.basename,
+          url:  file.url(:large_thumb),
+          thumbnail_url: file.url(:thumb)}
+        return
+      else
+        super
+      end
+    end
+    
     super
   end
   

@@ -1,4 +1,3 @@
-# NOTE: Bump the version after ANY changes
 #
 #  -- Base -----
 #= require vendor_preload_config
@@ -21,6 +20,8 @@
 #  require utility/boba-0.0.2
 #= require autosize
 #= require bootstrap/alert
+#= require react
+#= require react_ujs
 #
 #  -- Community Only -----
 #= require headroom.js/dist/headroom.js

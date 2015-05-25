@@ -104,6 +104,7 @@ gem 'jquery-rails'
 gem "haml-rails"
 gem 'handlebars_assets'#, '0.17.1'
 gem 'lorem_ipsum_amet' #, :group => :development
+gem 'react-rails'
 
 gem 'ansi'
 

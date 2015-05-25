@@ -17,11 +17,15 @@
 #= require pickadate/lib/picker.time
 #  require clockpicker
 #= require image-picker/image-picker/image-picker
+#
+#= require application_namespace
+#= require shared
 #= require admin/posts/link
 #= require admin/posts/event
 #= require admin/posts/photo
 #= require admin/posts/video
 #= require vendor_modified/jquery.unveil-1.3.0
+#= require_tree ./admin/components
 #= require_self
 
 $ ->

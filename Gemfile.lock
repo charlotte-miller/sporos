@@ -91,6 +91,7 @@ GEM
     coffee-script-source (1.8.0)
     configy (1.2.0)
       hashie (>= 1.2, < 3.0)
+    connection_pool (2.2.0)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
     daemons (1.1.9)
@@ -333,6 +334,13 @@ GEM
       ffi (>= 0.5.0)
     rdoc (4.2.0)
       json (~> 1.4)
+    react-rails (1.0.0)
+      coffee-script-source (~> 1.8)
+      connection_pool
+      execjs
+      rails (>= 3.1)
+      react-source (~> 0.13)
+    react-source (0.13.3)
     redcarpet (3.2.2)
     redis (3.1.0)
     redis-actionpack (4.0.0)
@@ -565,6 +573,7 @@ DEPENDENCIES
   rails (~> 4.2.0)
   rails-backbone-generator
   rb-fsevent
+  react-rails
   redcarpet
   redis (~> 3.1.0)
   redis-namespace

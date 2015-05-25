@@ -333,4 +333,30 @@ html,body{
         padding:0px;
       } 
     }
+    
+  .nav{
+    border-bottom:0px solid #ddd;
+    .active a{
+      background-color:#ddd;
+    }
+  }
+  
+  #vimeo-video{
+    .help-block{
+      margin:20px 0;
+      overflow:hidden;
+      display:flex;
+      justify-content: center;
+      align-content: space-between;
+      align-items: center;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      text-align:center;
+    }
+    
+    img{
+      width:100%;
+    }
+  }
 }
+

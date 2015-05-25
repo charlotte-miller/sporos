@@ -1,10 +1,10 @@
 = f.hidden_field :type, value:'Posts::Photo'
 .field
   = f.label :title
-  = f.text_area :title, class:'form-control'
+  = f.text_area :title, class:'form-control', placeholder:"What are you sharing?"
 .field
   = f.label :description
-  = f.text_area :description, class:'form-control'
+  = f.text_area :description, class:'form-control', placeholder:'Why are you sharing it?'
 .field
   = f.label :uploaded_files
   #dropzone

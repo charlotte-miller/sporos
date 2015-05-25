@@ -32,7 +32,7 @@
 #
 
 class Posts::Video < Post
-
+  delegate :vimeo_id, to: :display_options
   
   
 end

@@ -9,10 +9,10 @@
 #external-url-details{class: f.object.title.blank? ? '' : 'populated'}
   .field
     = f.label :title
-    = f.text_area :title, class:'form-control'
+    = f.text_area :title, class:'form-control', placeholder:"What are you sharing?"
   .field
     = f.label :description, 'Description or Commentary'
-    = f.text_area :description, class:'form-control'
+    = f.text_area :description, class:'form-control', placeholder:'Why are you sharing it?'
   .field
     = f.select :poster_remote_url, options_for_select(@possible_poster_images.map{|url| ['Image Options', url, {'data-img-src'=>url}] }), {}, id:'link-poster'
     #all_image_options

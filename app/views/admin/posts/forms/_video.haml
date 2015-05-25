@@ -1,16 +1,47 @@
 = f.hidden_field :type, value:'Posts::Video'
 .field
   = f.label :title
-  = f.text_area :title, class:'form-control'
+  = f.text_field :title, class:'form-control', placeholder:"What are you sharing?"
+
 .field
-  = f.label :description
-  = f.text_area :description, class:'form-control'
-.field
-  = f.label :display_options
-  = f.text_field :display_options, class:'form-control'
-.field
-  = f.label :poster
-  = f.text_field :poster, class:'form-control'
-.field
-  = f.label :expired_at, 'Archive at:'
-  = f.datetime_select :expired_at, class:'form-control'
+  = f.label :description, 'Comments'
+  = f.text_area :description, class:'form-control', placeholder:'Why are you sharing it?'
+
+.field#video-upload-tabs
+  = f.label :uploaded_files, 'Video'
+  %ul.nav.nav-tabs{role:'tablist'}
+    %li.active{role:'presentation'}
+      %a{href:'#upload-video', data:{toggle:'tab'}} Upload Video
+    %li{role:'presentation'}
+      %a{href:'#vimeo-video', data:{toggle:'tab'}} Use Vimeo
+  .tab-content  
+    .field.tab-pane.active#upload-video{role:'tabpanel'}
+      #dropzone
+        .row
+          .col-xs-5
+            %span.btn.btn-success.fileinput-button
+              %i.glyphicon.glyphicon-plus
+              %span Add a Video...
+              = f.file_field :uploaded_files, id:'upload-uploaded-file', class:'form-control', multiple:false, accept:"video/*", capture:'camcorder', data:{url:'/admin/uploaded_files.json'}
+          .col-xs-7
+            %b Drag & Drop Images Here
+        #dropzone-file-manager
+        
+    .field.tab-pane#vimeo-video{role:'tabpanel'}
+      .well
+        .input-group
+          %span.input-group-addon https://vimeo.com/
+          = f.text_field :vimeo_id, class:'form-control', placeholder:"128558200"
+        .help-block
+          .col-xs-5
+            = link_to image_tag('vimeo-id-help.png'), '/assets/vimeo-id-help.png'
+          .col-xs-7
+            %span 
+              %b Type or paste the video's Vimeo link.
+            %span 
+              Example:
+              %a{href:'https://vimeo.com/128558200', target:'_blank'} https://vimeo.com/128558200
+  
+/ .field
+/   = f.label :expired_at, 'Archive at:'
+/   = f.datetime_select :expired_at, class:'form-control'

@@ -10,10 +10,8 @@
 #= require jquery-file-upload/js/jquery.fileupload-video
 #= require jquery-file-upload/js/jquery.fileupload-validate
 #= require jquery-file-upload/js/jquery.fileupload-ui
-#  require jquery-file-upload/js/jquery.fileupload-jquery-ui
-#  require jquery-file-upload/js/cors/jquery.postmessage-transport
-#  require jquery-file-upload/js/cors/jquery.xdr-transport
 #= require bootstrap/dropdown
+#= require bootstrap/tab
 #= require pickadate
 #= require pickadate/lib/picker.date
 #= require pickadate/lib/picker.time
@@ -22,6 +20,7 @@
 #= require admin/posts/link
 #= require admin/posts/event
 #= require admin/posts/photo
+#= require admin/posts/video
 #= require vendor_modified/jquery.unveil-1.3.0
 #= require_self
 

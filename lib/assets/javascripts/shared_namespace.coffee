@@ -1,4 +1,4 @@
-window.CStone ||= {}
+window.CStone = @CStone ||= {}
 
 CStone.Shared =
   Backbone: {}

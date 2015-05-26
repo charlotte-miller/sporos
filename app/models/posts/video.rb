@@ -34,5 +34,7 @@
 class Posts::Video < Post
   delegate :vimeo_id, to: :display_options
   
-  
+  def vimeo_id=(id)
+    self.display_options= display_options.to_h.merge({vimeo_id:id})
+  end
 end

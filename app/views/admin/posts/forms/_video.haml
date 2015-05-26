@@ -22,26 +22,14 @@
             %span.btn.btn-success.fileinput-button
               %i.glyphicon.glyphicon-plus
               %span Add a Video...
-              = f.file_field :uploaded_files, id:'upload-uploaded-file', class:'form-control', multiple:false, accept:"video/*", capture:'camcorder', data:{url:'/admin/uploaded_files.json'}
+              = f.file_field :uploaded_files, id:'upload-video', class:'form-control', multiple:false, accept:"video/*", capture:'camcorder', data:{url:'/admin/uploaded_files.json'}
           .col-xs-7
-            %b Drag & Drop Images Here
+            %b Drag & Drop Here
         #dropzone-file-manager
         
     .field.tab-pane#vimeo-video{role:'tabpanel'}
-      .well
-        .input-group
-          %span.input-group-addon https://vimeo.com/
-          = f.text_field :vimeo_id, class:'form-control', placeholder:"128558200"
-        .help-block
-          .col-xs-5
-            = link_to image_tag('vimeo-id-help.png'), '/assets/vimeo-id-help.png'
-          .col-xs-7
-            %span 
-              %b Type or paste the video's Vimeo link.
-            %span 
-              Example:
-              %a{href:'https://vimeo.com/128558200', target:'_blank'} https://vimeo.com/128558200
-  
+      = react_component('CStone.Shared.Components.VimeoUploadHelp', {vimeoId: f.object.vimeo_id}, {prerender: true})
+
 / .field
 /   = f.label :expired_at, 'Archive at:'
 /   = f.datetime_select :expired_at, class:'form-control'

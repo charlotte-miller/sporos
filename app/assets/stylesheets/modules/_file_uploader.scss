@@ -83,8 +83,18 @@
     }
     
     @media (max-width: $screen-xs-max) {
-      line-height:inherit;
-      height:initial;
+      line-height: 80px;
+      height: 50px;
+    }
+  }
+  
+  #dropzone-file-manager{
+    video{
+      width:100%;
+    }
+    
+    .progress-and-name p{
+      @extend %truncate;
     }
   }
 }

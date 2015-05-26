@@ -3,6 +3,7 @@
 @import "modules/photo_stack";
 @import "modules/stack_effects";
 @import "modules/file_uploader";
+@import "modules/vimeo_video";
 @import "pickadate/lib/themes/default.css";
 @import "pickadate/lib/themes/default.date.css";
 @import "pickadate/lib/themes/default.time.css";
@@ -255,7 +256,6 @@ html,body{
       }
     }
   }
-  
 }
 
 #post-form{
@@ -354,9 +354,12 @@ html,body{
       text-align:center;
     }
     
+    .vimeo-video{
+      margin-top:20px;
+    }
+    
     img{
       width:100%;
     }
   }
 }
-

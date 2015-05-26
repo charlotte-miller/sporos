@@ -1,6 +1,16 @@
-#= require shared_namespace
-
-@CStone.Shared.Components.VimeoPlayer = React.createClass
+CStone.Shared.Components.VimeoPlayer = React.createClass
+  propTypes:
+    vimeoId: React.PropTypes.string
+  
   render: ->
-    `<iframe src="https://player.vimeo.com/video/{@props.vimeo_id}" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>`
+    ` <div className="vimeo-video" data-vimeo-player={'https://player.vimeo.com/video/' + this.props.vimeoId}>
+        <iframe src={"https://player.vimeo.com/video/" + this.props.vimeoId } 
+                width="500" height="281" 
+                frameBorder="0" 
+                webkitallowfullscreen 
+                mozallowfullscreen 
+                allowFullScreen>
+        </iframe>
+      </div>
+    `
     

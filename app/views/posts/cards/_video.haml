@@ -1,16 +1,7 @@
 - post && @post = post
 .card.video{class:ministry_class(@post)}
   %a.thumbnail{href: post_path(id:@post)}
-    - vimeo_id = @post.vimeo_id
-    = react_component('CStone.Shared.Components.VimeoPlayer', {vimeo_id: vimeo_id}, {prerender: false})
-    / .vimeo-video{data:{vimeo_player: "https://player.vimeo.com/video/#{vimeo_id}"}}
-    /   %img{ src:"http://i.vimeocdn.com/video/#{vimeo_id}_640.webp", height:'281', width:'500' }
-    /   %iframe{ :allowfullscreen => "",                           |
-    /            :frameborder => "0",                              |
-    /            :height => "281",                                 |
-    /            :mozallowfullscreen => "",                        |
-    /            :src => "",                                       |
-    /            :webkitallowfullscreen => "", :width => "500" }
+    = react_component('CStone.Shared.Components.VimeoPlayer', {vimeoId: @post.vimeo_id}, {prerender: true})
     
     .captions
       %h3.title= @post.title

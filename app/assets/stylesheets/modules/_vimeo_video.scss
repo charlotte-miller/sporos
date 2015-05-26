@@ -1,0 +1,6 @@
+.vimeo-video{
+  @extend %flexCenter;
+  iframe{
+    width:100%;
+  }
+}

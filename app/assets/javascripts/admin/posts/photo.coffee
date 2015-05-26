@@ -2,7 +2,7 @@
 #= require admin/templates/upload_uploaded_file
 
 $ ->
-  if $('#upload-uploaded-file').length
+  if $('#upload-photo').length
     $(document).on 'drop dragover', (e)-> e.preventDefault() #prevent's browser from just opening the file
     
     url = '/admin/uploaded_files'
@@ -11,7 +11,7 @@ $ ->
       template = HandlebarsTemplates.download_uploaded_file(data)
       $('#dropzone-file-manager').append(template)
     
-    $('#upload-uploaded-file').fileupload
+    $('#upload-photo').fileupload
       # url: '/admin/uploaded_files.json'
       limitConcurrentUploads: 3
       dataType: 'json'

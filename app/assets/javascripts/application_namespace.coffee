@@ -1,4 +1,4 @@
-window.CStone ||=
+window.CStone = @CStone ||=
   Admin:     {}
   Base:      {}  # Pages
   Community: {}  # News, Search

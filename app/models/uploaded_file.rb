@@ -2,16 +2,20 @@
 #
 # Table name: uploaded_files
 #
-#  id                :integer          not null, primary key
-#  from_id           :integer
-#  from_type         :text
-#  session_id        :text
-#  file_file_name    :string
-#  file_content_type :string
-#  file_file_size    :integer
-#  file_updated_at   :datetime
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
+#  id                 :integer          not null, primary key
+#  from_id            :integer
+#  from_type          :text
+#  session_id         :text
+#  image_file_name    :string
+#  image_content_type :string
+#  image_file_size    :integer
+#  image_updated_at   :datetime
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  video_file_name    :string
+#  video_content_type :string
+#  video_file_size    :integer
+#  video_updated_at   :datetime
 #
 # Indexes
 #
@@ -27,7 +31,7 @@ class UploadedFile < ActiveRecord::Base
   belongs_to :from, polymorphic:true
   
   attr_protected #none
-  has_attachable_file :file,
+  has_attachable_file :image,
                       :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
                       :processors => [:thumbnail, :paperclip_optimizer],
                       paperclip_optimizer: { jhead:true, jpegrecompress:true, jpegtran:true },
@@ -38,15 +42,25 @@ class UploadedFile < ActiveRecord::Base
                         large_thumb:  { geometry: "120x120#",   format: 'jpg', convert_options: "-strip" },
                         thumb:        { geometry: "100x100#",   format: 'jpg', convert_options: "-strip" }
                       }
+  
+  has_attachable_file :video,
+                      :content_type => ["video/mp4", "video/quicktime", "video/x-msvideo", "video/3gpp"],
+                      :processors => [:upload_to_vimeo] # :set_image_to_video_poster #https://vimeo.com/api/v2/video/6271487.json
 
-  process_in_background :file
+  process_in_background :image
+  process_in_background :video
+  
+  def file
+    [image, video].find(&:present?)
+  end
   
   def file_as_json
     { name: file.basename,
       size: file.size,
-      url:  file.url,
-      thumbnail_url: file.url, #file.url(:thumb),
+      url:  file.present? && file.url,
+      thumbnail_url: file.present? && file.url, #file.url(:thumb),
       delete_url:  url_helpers.admin_uploaded_file_url(self),
-      delete_type: 'DELETE' }
+      delete_type: 'DELETE',
+      is_video: file.name == :video }
   end
 end

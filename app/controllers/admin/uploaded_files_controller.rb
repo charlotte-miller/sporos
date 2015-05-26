@@ -60,7 +60,7 @@ private
   end
   
   def uploaded_file_params
-    @uploaded_file_params ||= params.require(:uploaded_file).permit(:file)
+    @uploaded_file_params ||= params.require(:uploaded_file).permit(:image, :video)
   end
   
   def post_params

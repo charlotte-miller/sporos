@@ -17,7 +17,7 @@ $ ->
       limitConcurrentUploads: 3
       dataType: 'json'
       dropZone: $('#dropzone')
-      paramName: 'uploaded_file[file]'
+      paramName: 'uploaded_file[video]'
       autoUpload: true
       acceptFileTypes: /(\.|\/)(mov|mpeg|mpeg4|avi|mp4|m4v)$/i
       maxNumberOfFiles: 10

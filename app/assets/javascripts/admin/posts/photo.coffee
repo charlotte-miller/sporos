@@ -16,7 +16,7 @@ $ ->
       limitConcurrentUploads: 3
       dataType: 'json'
       dropZone: $('#dropzone')
-      paramName: 'uploaded_file[file]'
+      paramName: 'uploaded_file[image]'
       autoUpload: true
       acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i #/(\.|\/)(gif|jpe?g|png|mov|mpeg|mpeg4|avi)$/i
       maxNumberOfFiles: 10

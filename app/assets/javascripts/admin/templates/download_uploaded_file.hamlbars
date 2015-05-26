@@ -8,10 +8,14 @@
   .col-sm-5
     %a{href: "{{url}}", target:'_blank'}
       %span.preview
+      {{#if is_video}}
+      %video
+        %source{:src => "{{url}}"}/
+      {{else}}
       {{#if thumbnail_url}}
       %img.preview-img{:src => "{{thumbnail_url}}"}/
       {{/if}}
-
+      {{/if}}
   {{/if}}
   .col-sm-5
     .name {{name}}

@@ -107,7 +107,7 @@ class Admin::PostsController < Admin::BaseController
       uri:          params[:vimeo_info_uri],
     })
     
-    render json: {vimeo_id:completed_reply}
+    render json: completed_reply.to_h
   end
   
   private

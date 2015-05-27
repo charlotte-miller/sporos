@@ -16,25 +16,25 @@ $ ->
       type:'PUT'
       headers:{'Content-Type':'video/mp4'}
       autoUpload:true
-      limitConcurrentUploads: 1
+      singleFileUploads:true
       dataType: 'html'
       dropZone: $('#dropzone')
-      paramName: 'uploaded_file[video]'
       acceptFileTypes: /(\.|\/)(mov|mpeg|mpeg4|avi|mp4|m4v)$/i
-      maxNumberOfFiles: 10
       filesContainer: '#dropzone-file-manager'
       uploadTemplate:   HandlebarsTemplates.upload_uploaded_file
       downloadTemplate: HandlebarsTemplates.download_uploaded_file
-      prependFiles: true
-      formData:
-        name:         'title'
-        description:  'description'
-        license:      'by-nc-nd'
-        review_link:  false
-        # embed:{ },
-        privacy:
-          view: 'anybody'
-          embed: 'public'
+      multipart:false
+      send: (e, data)->
+        data.headers = {}
+      # formData:
+      #   name:         'title'
+      #   description:  'description'
+      #   license:      'by-nc-nd'
+      #   review_link:  false
+      #   # embed:{ },
+      #   privacy:
+      #     view: 'anybody'
+      #     embed: 'public'
       dragover: _.throttle(->
         dropZone = $('#dropzone')
         timeout = window.dropZoneTimeout
@@ -51,9 +51,6 @@ $ ->
       
       fail: (e,data)->
         debugger
-        # if xhr.status == 302
-        #   $.get xhr.getResponseHeader("Location"), (response)->
-            
         
       done: (e,data)->
         $.ajax
@@ -65,6 +62,6 @@ $ ->
             vimeo_info_uri:     CStoneData.vimeo.uri
             
           success: (result)->
-            debugger
+            alert(result.vimeo_id)
           fail: (error, data)->
             debugger

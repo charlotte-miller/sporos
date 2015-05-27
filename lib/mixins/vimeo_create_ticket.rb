@@ -34,7 +34,8 @@ class VimeoCreateTicket
     # verify_once     = contact_vimeo :put,    "https://api.vimeo.com/upload?ticket_id=#{vimeo_options[:ticket_id]}", headers:{'Content-Length'=> 0, 'Content-Range' => 'bytes */*'}
     info = contact_vimeo :get, "https://api.vimeo.com#{vimeo_options[:uri]}"
     completion_result = contact_vimeo :delete, "https://api.vimeo.com#{vimeo_options[:complete_uri]}"
-    # completion_result.headers["Location"]
+    location = completion_result.headers["Location"]
+    {location: location, vimeo_id:location.gsub(/\D/,'') }
   end
   
 private

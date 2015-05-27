@@ -54,6 +54,16 @@ class Admin::PostsController < Admin::BaseController
     @post = "posts/#{@type}".classify.constantize.new
     set_possible_poster_images
     
+    if @post.is_a? Posts::Video
+      ticket = VimeoCreateTicket.new
+      gon.vimeo = {
+        upload_link_secure: ticket.upload_link_secure,
+        complete_uri:       ticket.complete_uri,
+        ticket_id:          ticket.ticket_id,
+        uri:                ticket.uri
+      }
+    end
+    
     respond_with(@post)
   end
 
@@ -87,6 +97,17 @@ class Admin::PostsController < Admin::BaseController
   def link_preview
     @preview = LinkThumbnailer.generate params[:url], image_stats:'true'
     render json: @preview
+  end
+  
+  # DELETE?vimeo_complete_uri
+  def video_complete_upload
+    completed_reply = VimeoCreateTicket.new(:skip_ticket).complete_upload({
+      complete_uri: params[:vimeo_complete_uri],
+      ticket_id:    params[:vimeo_ticket_id],
+      uri:          params[:vimeo_info_uri],
+    })
+    
+    render json: {vimeo_id:completed_reply}
   end
   
   private

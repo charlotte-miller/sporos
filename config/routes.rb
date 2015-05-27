@@ -63,6 +63,7 @@ Rails.application.routes.draw do
     resources :posts do
       collection do
         get 'link_preview'
+        delete 'video_complete_upload'
       end
     end
     

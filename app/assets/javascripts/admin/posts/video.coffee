@@ -14,18 +14,19 @@ $ ->
     $('#upload-video').fileupload
       url: CStoneData.vimeo.upload_link_secure
       type:'PUT'
-      headers:{'Content-Type':'video/mp4'}
+      # headers:{'Content-Type':'video/mp4'}
       autoUpload:true
       singleFileUploads:true
       dataType: 'html'
       dropZone: $('#dropzone')
       acceptFileTypes: /(\.|\/)(mov|mpeg|mpeg4|avi|mp4|m4v)$/i
+      fileTypeAllowed: /video\/(.*)/i;
       filesContainer: '#dropzone-file-manager'
       uploadTemplate:   HandlebarsTemplates.upload_uploaded_file
       downloadTemplate: HandlebarsTemplates.download_uploaded_file
       multipart:false
       send: (e, data)->
-        data.headers = {}
+        data.headers = _(data.headers).omit('Content-Disposition')
       # formData:
       #   name:         'title'
       #   description:  'description'
@@ -62,6 +63,8 @@ $ ->
             vimeo_info_uri:     CStoneData.vimeo.uri
             
           success: (result)->
-            alert(result.vimeo_id)
+            # alert(result.vimeo_id)
+            $('#post_vimeo_id').val(result.vimeo_id)
+            $('.progress.progress-striped.active, .btn.btn-danger.cancel').hide()
           fail: (error, data)->
             debugger

@@ -1,8 +1,9 @@
 class Admin::PostsController < Admin::BaseController
   include PostsHelper
   
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
-  before_action :set_type, only: [:show, :edit, :update, :destroy]
+  before_action :set_post,          only: [:show, :edit, :update, :destroy]
+  before_action :set_type,          only: [:show, :edit, :update, :destroy]
+  before_action :set_vimeo_js_vars, only: [:new, :edit]
 
   # rescue_from ::LinkThumbnailer::BadUriFormat,      with: :bad_request
   # rescue_from ::ActionController::ParameterMissing, with: :bad_request
@@ -53,17 +54,7 @@ class Admin::PostsController < Admin::BaseController
     @type = params[:post_type]
     @post = "posts/#{@type}".classify.constantize.new
     set_possible_poster_images
-    
-    if @post.is_a? Posts::Video
-      ticket = VimeoCreateTicket.new
-      gon.vimeo = {
-        upload_link_secure: ticket.upload_link_secure,
-        complete_uri:       ticket.complete_uri,
-        ticket_id:          ticket.ticket_id,
-        uri:                ticket.uri
-      }
-    end
-    
+        
     respond_with(@post)
   end
 
@@ -144,6 +135,18 @@ class Admin::PostsController < Admin::BaseController
     def keep_poster_alternatives
       if set_type == 'link' && post_params[:display_options][:poster_alternatives].nil?
         post_params[:display_options][:poster_alternatives] = @post.poster_alternatives
+      end
+    end
+    
+    def set_vimeo_js_vars
+      if @post.is_a? Posts::Video
+        ticket = VimeoCreateTicket.new
+        gon.vimeo = {
+          upload_link_secure: ticket.upload_link_secure,
+          complete_uri:       ticket.complete_uri,
+          ticket_id:          ticket.ticket_id,
+          uri:                ticket.uri
+        }
       end
     end
 end

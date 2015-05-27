@@ -10,12 +10,12 @@
 .field#video-upload-tabs
   = f.label :uploaded_files, 'Video'
   %ul.nav.nav-tabs{role:'tablist'}
-    %li.active{role:'presentation'}
+    %li{role:'presentation', class:(f.object.vimeo_id.present? ? '' : 'active')}
       %a{href:'#upload-video', data:{toggle:'tab'}} Upload Video
-    %li{role:'presentation'}
+    %li{role:'presentation', class:(f.object.vimeo_id.present? ? 'active' : '')}
       %a{href:'#vimeo-video', data:{toggle:'tab'}} Use Vimeo
   .tab-content  
-    .field.tab-pane.active#upload-video{role:'tabpanel'}
+    .field.tab-pane#upload-video{role:'tabpanel', class:(f.object.vimeo_id.present? ? '' : 'active')}
       #dropzone
         .row
           .col-xs-5
@@ -27,7 +27,7 @@
             %b Drag & Drop Here
         #dropzone-file-manager
         
-    .field.tab-pane#vimeo-video{role:'tabpanel'}
+    .field.tab-pane#vimeo-video{role:'tabpanel', class:(f.object.vimeo_id.present? ? 'active' : '')}
       = react_component('CStone.Shared.Components.VimeoUploadHelp', {vimeoId: f.object.vimeo_id}, {prerender: true})
 
 / .field

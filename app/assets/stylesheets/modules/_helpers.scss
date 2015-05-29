@@ -35,6 +35,20 @@
   transition-duration: $val;
 }
 
+@mixin filter($val){
+  -webkit-filter: ($val);
+  -moz-filter: ($val);
+  -o-filter: ($val);
+  -ms-filter: ($val);
+}
+
+@mixin delay($val){
+  -webkit-animation-delay: $val;
+  -moz-animation-delay: $val;
+  -o-animation-delay: $val;
+  -ms-animation-delay: $val;
+}
+
 %verticalCenter{
   @include verticalAlign(50%);
 }
@@ -59,6 +73,16 @@
   flex-direction: row;
   flex-wrap: nowrap;
   text-align:center;
+}
+
+.blurable {
+  @include transitionValue('all');
+  @include duration(1s);
+  
+  &.blured {
+    @include opacity(0.4);
+    @include filter(blur(5px));
+  }
 }
 
 .notransition {

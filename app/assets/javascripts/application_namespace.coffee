@@ -1,5 +1,5 @@
 window.CStone = @CStone ||=
-  Admin:     {}
+  Admin:     {Components:{}}
   Base:      {}  # Pages
   Community: {}  # News, Search
   Library:   {}

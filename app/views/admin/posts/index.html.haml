@@ -20,10 +20,4 @@
       
       = render partial:"admin/posts/compact_post", collection:posts, as: :post
 
-  %nav#new-post
-    #new-post-types
-      = link_to 'EVENTS', new_admin_post_path( post_type:'event')
-      = link_to 'LINK',   new_admin_post_path( post_type:'link')
-      = link_to 'PHOTO',  new_admin_post_path( post_type:'photo')
-      = link_to 'VIDEO',  new_admin_post_path( post_type:'video')
     

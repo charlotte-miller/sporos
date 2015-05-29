@@ -28,7 +28,7 @@
         #dropzone-file-manager
         
     .field.tab-pane#vimeo-video{role:'tabpanel', class:(f.object.vimeo_id.present? ? 'active' : '')}
-      = react_component('CStone.Shared.Components.VimeoUploadHelp', {vimeoId: f.object.vimeo_id}, {prerender: true})
+      = react_component('CStone.Admin.Components.VimeoUploadHelp ', {vimeoId: f.object.vimeo_id}, {prerender: true})
 
 / .field
 /   = f.label :expired_at, 'Archive at:'

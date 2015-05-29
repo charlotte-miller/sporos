@@ -53,6 +53,7 @@ class Admin::PostsController < Admin::BaseController
   def new
     @type = params[:post_type]
     @post = "posts/#{@type}".classify.constantize.new
+    set_vimeo_js_vars
     set_possible_poster_images
         
     respond_with(@post)

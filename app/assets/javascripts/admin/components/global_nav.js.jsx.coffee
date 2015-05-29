@@ -1,37 +1,42 @@
+ReactCSSTransitionGroup = React.addons.CSSTransitionGroup
 CStone.Admin.Components.GlobalNav = React.createClass
   
   # propTypes:
-    # vimeoId: React.PropTypes.string
+    # vimeoId: React.PropTypes.boolean
     
-  # getInitialState: ->
-    # value: this.props.vimeoId
-    
-  # handleChange: (event)->
-  #   vimeo_id = event.target.value.replace /\D*(\d*)\D*/, "$1"
-  #   @setProps
-  #     vimeoId: vimeo_id
-  #   @setState
-  #     value: vimeo_id
-  #
-  # handleClick: (event)->
-  #   event.target.setSelectionRange(0, event.target.value.length)
+  getInitialState: ->
+    is_open: false
   
-  clickEdit: (e)->
-    e.preventDefault()
-    $('#admin-body').toggleClass('blured')
-    $('#new-post-types').removeClass('notransition')
-    $('#new-post-types').toggleClass('active')
+  clickEdit: ->
+    @setState(is_open: !@state.is_open)
+    
+  clickNewPostBackground:(e)->
+    unless e.target.nodeName == "A"
+      @setState(is_open: false)
+  
+  buildNewPost: ->
+    links = if @state.is_open
+      [`<span key="event" className="new-post-type pop-1" onClick={this.clickNewPostBackground}><a href="/admin/posts/new?post_type=event">EVENTS</a></span>`,
+       `<span key="link"  className="new-post-type pop-2" onClick={this.clickNewPostBackground}><a href="/admin/posts/new?post_type=link">LINK</a></span>`,
+       `<span key="photo" className="new-post-type pop-3" onClick={this.clickNewPostBackground}><a href="/admin/posts/new?post_type=photo">PHOTO</a></span>`,
+       `<span key="video" className="new-post-type pop-4" onClick={this.clickNewPostBackground}><a href="/admin/posts/new?post_type=video">VIDEO</a></span>`]
+    else
+      []
+    `<ReactCSSTransitionGroup transitionName="post-create-nav" id="new-post" className={this.state.is_open ? '' : 'inactive'} onClick={this.clickNewPostBackground}>
+       {links}
+     </ReactCSSTransitionGroup>`
+  
+  buildEdit: ->
+    if @state.is_open
+      `<div>GO BACK</div>`
+    else
+      `<i className="glyphicon glyphicon-pencil"></i>`
   
   render: ->
+    if $?
+      if @state.is_open then $('#admin-body').addClass('blured') else $('#admin-body').removeClass('blured')
     `<div id="global-nav">
-       <nav id="new-post">
-         <div id="new-post-types" className="disabled">
-           <a className="new-post-type" href="/admin/posts/new?post_type=event"><span className="pop-1">EVENTS</span></a>
-           <a className="new-post-type" href="/admin/posts/new?post_type=link"><span  className="pop-2">LINK</span></a>
-           <a className="new-post-type" href="/admin/posts/new?post_type=photo"><span className="pop-3">PHOTO</span></a>
-           <a className="new-post-type" href="/admin/posts/new?post_type=video"><span className="pop-4">VIDEO</span></a>
-         </div>
-       </nav>
+       { this.buildNewPost() }
        <div id="global-nav-bar">
         <div className="global_nav_item col-xs-3">
           <a href="/admin"><i className="glyphicon glyphicon-home"></i>
@@ -39,7 +44,7 @@ CStone.Admin.Components.GlobalNav = React.createClass
         </div>
         <div className="global_nav_item col-xs-6" onClick={ this.clickEdit }>
           <a href="#" id="new-post-link" >
-            <i className="glyphicon glyphicon-pencil"></i>
+            { this.buildEdit() }
           </a>
         </div>
         <div className="global_nav_item col-xs-3">

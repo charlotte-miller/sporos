@@ -41,6 +41,8 @@ module Sporos
     # the adapter's specific installation and deployment instructions.
     config.active_job.queue_adapter = :resque
     
+    config.react.addons = true
+    
     # Generate Controllers w/out associated styles/scripts 
     config.generators do |g|
       g.assets = false

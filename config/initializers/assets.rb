@@ -16,3 +16,5 @@ Rails.application.config.assets.paths << Rails.root.join('vendor', 'assets', 'ja
 
 Rails.application.config.assets.image_optim = {pngout:false, svgo: false, pack:true, skip_missing_workers:true}
 
+# Rails.application.config.react.variant = :production
+# Rails.application.config.react.addons = true

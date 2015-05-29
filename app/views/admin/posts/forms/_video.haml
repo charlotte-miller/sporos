@@ -22,7 +22,7 @@
             %span.btn.btn-success.fileinput-button
               %i.glyphicon.glyphicon-plus
               %span Add a Video...
-              = f.file_field :uploaded_files, id:'upload-video', class:'form-control', multiple:false, accept:"video/*", capture:'camcorder', data:{url:'/admin/uploaded_files.json'}
+              = f.file_field :uploaded_files, id:'upload-video', class:'form-control', multiple:false, accept:"video/*", data:{url:'/admin/uploaded_files.json'}
           .col-xs-7
             %b Drag & Drop Here
         #dropzone-file-manager

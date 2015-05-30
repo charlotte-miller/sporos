@@ -73,11 +73,26 @@ html,body{
       height: 100px;
       width: 100px;
       font-size:18px;
+      text-decoration:none;
       @extend %flexy-grid;
       
-      &:active, &:focus{
-        @extend .animated;
-        @extend .bounce;
+      &.opening{
+        color: $gray-lighter !important;
+        background-color:$gray-lighter;
+        
+        @extend %transitionTransform;
+        @media (max-width: $screen-lg-max) {
+          @include transform(scale(50));
+        }
+        @media (max-width: $screen-md-max) {
+          @include transform(scale(25));
+        }
+        @media (max-width: $screen-sm-max) {
+          @include transform(scale(20));
+        }
+        @media (max-width: $screen-xs-max) {
+          @include transform(scale(15));
+        }
       }
     }
   }

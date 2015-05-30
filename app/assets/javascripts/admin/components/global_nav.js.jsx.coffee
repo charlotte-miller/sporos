@@ -14,12 +14,21 @@ CStone.Admin.Components.GlobalNav = React.createClass
     unless e.target.nodeName == "A"
       @setState(is_open: false)
   
+  onNavSelect: (e)->
+    e.preventDefault()
+    $(e.target).addClass('opening')
+    is_safari = /^((?!chrome).)*safari/i.test(navigator.userAgent)
+    url = e.target.href
+    _.delay -> 
+      window.location= url
+    , (if is_safari then 500 else 0)
+  
   buildNewPost: ->
     links = if @state.is_open
-      [`<span key="event" className="new-post-type pop-1" onClick={this.clickNewPostBackground}><a href="/admin/posts/new?post_type=event">EVENTS</a></span>`,
-       `<span key="link"  className="new-post-type pop-2" onClick={this.clickNewPostBackground}><a href="/admin/posts/new?post_type=link">LINK</a></span>`,
-       `<span key="photo" className="new-post-type pop-3" onClick={this.clickNewPostBackground}><a href="/admin/posts/new?post_type=photo">PHOTO</a></span>`,
-       `<span key="video" className="new-post-type pop-4" onClick={this.clickNewPostBackground}><a href="/admin/posts/new?post_type=video">VIDEO</a></span>`]
+      [`<span key="event" className="new-post-type pop-1" onClick={this.clickNewPostBackground}><a onClick={this.onNavSelect} href="/admin/posts/new?post_type=event">EVENTS</a></span>`,
+       `<span key="link"  className="new-post-type pop-2" onClick={this.clickNewPostBackground}><a onClick={this.onNavSelect} href="/admin/posts/new?post_type=link">LINK</a></span>`,
+       `<span key="photo" className="new-post-type pop-3" onClick={this.clickNewPostBackground}><a onClick={this.onNavSelect} href="/admin/posts/new?post_type=photo">PHOTO</a></span>`,
+       `<span key="video" className="new-post-type pop-4" onClick={this.clickNewPostBackground}><a onClick={this.onNavSelect} href="/admin/posts/new?post_type=video">VIDEO</a></span>`]
     else
       []
     `<ReactCSSTransitionGroup transitionName="post-create-nav" id="new-post" className={this.state.is_open ? '' : 'inactive'} onClick={this.clickNewPostBackground}>

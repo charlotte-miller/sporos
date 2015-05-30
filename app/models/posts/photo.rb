@@ -31,16 +31,18 @@
 #  index_posts_on_user_id      (user_id)
 #
 
-class Posts::Photo < Post
-  # delegate :location, :event_time, :event_date, to: :display_options
+class Posts::Photo < Post  
+  after_validation :assign_poster
   
-  # def poster
-  #   uploaded_files.last.try(:file)
-  # end
-  
-  before_validation :assign_poster
+  validate :did_upload_images
   
   def assign_poster
     self.poster= uploaded_files.last.try(:file) unless poster.present? 
+  end
+  
+  def did_upload_images
+    unless uploaded_files.count > 0 || (current_session && UploadedFile.where(session_id:current_session).count > 0)
+      errors.add(:base, 'You must upload pictures')
+    end
   end
 end

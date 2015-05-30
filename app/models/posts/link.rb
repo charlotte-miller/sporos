@@ -34,4 +34,5 @@
 class Posts::Link < Post
   delegate :url, :poster_alternatives, to: :display_options
   
+  validates_presence_of :url
 end

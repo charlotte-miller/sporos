@@ -1,7 +1,10 @@
 = form_for [:admin, :content, @page] do |f|
   - if @page.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@page.errors.count, "error")} prohibited this page from being saved:"
+    #error_explanation.alert.alert-danger.alert-dismissible{role:'alert'}
+      %button.close.fade.in{data:{dismiss:'alert'}}
+        %span{'aria-hidden'=>true} &times;
+        %span.sr-only Close
+      %h2= "#{pluralize(@page.errors.count, "error")} prevented this post from being saved:"
       %ul
         - @page.errors.full_messages.each do |msg|
           %li= msg

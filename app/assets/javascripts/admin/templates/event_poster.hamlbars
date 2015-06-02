@@ -1,0 +1,45 @@
+.row.template-download
+  / .col-sm-4
+  /   %span.preview
+  / {{#if error}}
+  / .col-sm-8
+  /   %strong.error.text-danger {{error}}
+  / {{else}}
+  / .col-sm-6.progress-and-name
+  /   .wrapper
+  /     .progress.progress-striped.active{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "0", :role => "progressbar"}
+  /       .progress-bar.progress-bar-success{:style => "width:0%;"}
+  /     %p {{name}}
+  / .col-sm-2.delete-col
+  /   %button.btn.btn-danger.cancel
+  /     %i.glyphicon.glyphicon-ban-circle
+  /     %span Cancel
+  / {{/if}}
+  
+
+
+  {{#if error}}
+  .col-sm-5
+    %p.name {{name}}
+    %strong.error.text-danger Error: {{error}}
+  {{else}}
+  .col-sm-5
+    %a{href: "{{url}}", target:'_blank'}
+      %span.preview
+      {{#if is_video}}
+      %video
+        %source{:src => "{{url}}"}/
+      {{else}}
+      {{#if thumbnail_url}}
+      %img.preview-img{:src => "{{thumbnail_url}}"}/
+      {{/if}}
+      {{/if}}
+  {{/if}}
+  .col-sm-5
+    .name {{name}}
+  {{#unless thumbnail_url}}
+  .col-sm-2.delete-col
+    %button.btn.btn-danger.cancel
+      %i.glyphicon.glyphicon-ban-circle
+      %span Cancel
+  {{/unless}}

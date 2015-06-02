@@ -19,9 +19,11 @@
   {{/if}}
   .col-sm-5
     .name {{name}}
+  {{#if delete_url}}
   .delete-col.col-sm-2
     %button.btn.btn-danger.delete{"data-type" => "{{delete_type}}", "data-url" => "{{delete_url}}"}
       %i.glyphicon.glyphicon-trash
+  {{/if}}
       
 {{/each}}
 

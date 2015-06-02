@@ -27,15 +27,6 @@ $ ->
       multipart:false
       send: (e, data)->
         data.headers = _(data.headers).omit('Content-Disposition')
-      # formData:
-      #   name:         'title'
-      #   description:  'description'
-      #   license:      'by-nc-nd'
-      #   review_link:  false
-      #   # embed:{ },
-      #   privacy:
-      #     view: 'anybody'
-      #     embed: 'public'
       dragover: _.throttle(->
         dropZone = $('#dropzone')
         timeout = window.dropZoneTimeout

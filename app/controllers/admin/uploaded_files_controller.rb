@@ -36,13 +36,14 @@ class Admin::UploadedFilesController < Admin::BaseController
   def destroy
     # TODO
     set_uploaded_file
+    deceased_file_name = @uploaded_file.file.name
     if @uploaded_file.destroy
       render json: { files:[{
-        @uploaded_file.file.name => true
+        deceased_file_name => true
       }]}
     else
       render json: { files:[{
-        @uploaded_file.file.name => false
+        deceased_file_name => false
       }]}
     end
   end

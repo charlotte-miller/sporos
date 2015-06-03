@@ -38,6 +38,20 @@ class VimeoCreateTicket
     {location: location, vimeo_id:location.gsub(/\D/,'') }
   end
   
+  def update_video_metadata(vimeo_video_id, meta_data={})
+    contact_vimeo :patch, "https://api.vimeo.com/videos/#{vimeo_video_id}", body:{
+      #https://developer.vimeo.com/api/endpoints/videos#/{video_id}
+      name:         meta_data[:title],
+      description:  meta_data[:description],
+      license:      'by-nc-nd',
+      review_link:  false,
+      # embed:{ },
+      privacy:{
+        view: 'anybody',
+        embed: 'public', }
+    }
+  end
+  
 private
   
   def generate_vimeo_ticket!

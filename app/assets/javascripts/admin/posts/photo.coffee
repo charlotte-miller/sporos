@@ -12,7 +12,6 @@ $ ->
       $('#dropzone-file-manager').append(template)
     
     $('#upload-photo').fileupload
-      # url: '/admin/uploaded_files.json'
       limitConcurrentUploads: 3
       dataType: 'json'
       dropZone: $('#dropzone')

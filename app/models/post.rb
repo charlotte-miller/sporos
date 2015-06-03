@@ -89,11 +89,9 @@ class Post < ActiveRecord::Base
   attr_protected #none - using strong params
   attr_accessor :approvers, :unread_comment_count, :current_session
   has_attachable_file :poster, {
-                      # :processors      => [:thumbnail, :pngquant],
-                      :default_style => :sd,
                       :default_url   => :poster_original_url,
                       :content_type  => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
-                      # production_path: 'studies/lesson_media/:study_id/:hash:quiet_style.:extension',
+                      # production_path: 'posts/:post_id/poster/:hash:quiet_style.:extension',
                       :processors => [:thumbnail, :paperclip_optimizer],
                       paperclip_optimizer: { jhead:true, jpegrecompress:true, jpegtran:true },
                       :styles => {

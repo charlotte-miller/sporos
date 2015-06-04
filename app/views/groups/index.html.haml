@@ -17,6 +17,6 @@
         %td= group.description
         %td= link_to 'Show', group
         %td= link_to 'Edit', edit_group_path(group)
-        %td= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' }
+        %td= link_to 'Delete', group, method: :delete, data: { confirm: 'Are you sure?' }
 %br/
 = link_to 'New Group', new_group_path

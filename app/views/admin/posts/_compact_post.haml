@@ -2,15 +2,19 @@
   .unread-comments
     %a{href:admin_post_path(post)}
       %i.glyphicon.glyphicon-envelope
-    - if post.unread_comment_count > 0
+    - if post.unread_comment_count.try :>, 0
       %span.label.label-primary.label-as-badge= post.unread_comment_count
    
   .info
     .row
       .title= post.title
     %small.details
-      .row
-        .submitted= "SUBMITTED: #{distance_of_time_in_words_to_now post.created_at} ago"
+      - if post.published_at
+        .row
+          .submitted= "PUBLISHED: #{distance_of_time_in_words_to_now post.published_at} ago"
+      -else
+        .row
+          .submitted= "SUBMITTED: #{distance_of_time_in_words_to_now post.created_at} ago"
       - if post.expired_at
         .row  
           .expires= "EXPIRES IN: #{distance_of_time_in_words_to_now post.expired_at }"

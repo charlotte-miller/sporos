@@ -35,6 +35,7 @@ class Post < ActiveRecord::Base
   include Sanitizable
   include AttachableFile
   include Uuidable
+  # include Commentable
 
   # ---------------------------------------------------------------------------------
   # Scopes
@@ -83,8 +84,9 @@ class Post < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
+  delegate :file, to: :uploaded_files
   has_public_id :public_id, prefix:'post', length:21
-  def to_param; public_id ;end
+  def to_param; public_id || generate_missing_public_id ;end
   
   attr_protected #none - using strong params
   attr_accessor :approvers, :unread_comment_count, :current_session

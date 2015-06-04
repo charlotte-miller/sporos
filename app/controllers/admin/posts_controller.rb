@@ -23,6 +23,7 @@ class Admin::PostsController < Admin::BaseController
       "Approval Required"  => i_should_approve,
       "Rejected Posts"     => my_rejected_posts,
       "Pending Posts"      => my_pending_posts,
+      "Post History"       => i_wrote_this,
     }
     
     # inject counts here

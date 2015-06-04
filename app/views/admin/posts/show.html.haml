@@ -20,7 +20,7 @@
         .btn-group.btn-group-justified{html:{role:'group'}}
           = link_to 'Home', admin_posts_path, html:{role:'button'}, class:'btn btn-default'
           = link_to 'Edit', edit_admin_post_path(id:@post), html:{role:'button'}, class:'btn btn-default'
-          = link_to 'Destroy',   admin_post_path(id:@post), :method => :delete, :data => { :confirm => "Are you sure?\nIt will really be gone." }, html:{role:'button'}, class:'btn btn-default'
+          = link_to 'Delete',   admin_post_path(id:@post), :method => :delete, :data => { :confirm => "Are you sure?\nIt will really be gone." }, html:{role:'button'}, class:'btn btn-default'
         %hr
   - if @comments.present?
     #comments

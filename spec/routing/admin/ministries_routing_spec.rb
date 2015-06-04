@@ -11,8 +11,8 @@ RSpec.describe Admin::MinistriesController, :type => :routing do
       expect(:get => "/admin/ministries/new").to route_to("admin/ministries#new")
     end
 
-    it "routes to #show" do
-      expect(:get => "/admin/ministries/1").to route_to("admin/ministries#show", :id => "1")
+    it "DOES NOT routes to #show" do
+      expect(:get => "/admin/ministries/1").not_to route_to("admin/ministries#show", :id => "1")
     end
 
     it "routes to #edit" do

@@ -6,6 +6,8 @@ RSpec.describe "admin/ministries/edit", :type => :view do
       :name => "MyString",
       :description => "MyText",
     ))
+    
+    view.stub(:current_user) { User.new }
   end
 
   it "renders the edit ministry form" do

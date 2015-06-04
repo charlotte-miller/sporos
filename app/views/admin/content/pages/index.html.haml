@@ -20,7 +20,7 @@
         %td= page.seo_keywords.join(', ')
         %td= link_to 'Show', [:admin, :content, page]
         %td= link_to 'Edit', edit_admin_content_page_path(page)
-        %td= link_to 'Destroy', [:admin, :content, page], :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= link_to 'Delete', [:admin, :content, page], :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 

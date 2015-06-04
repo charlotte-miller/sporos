@@ -2,7 +2,6 @@ class Admin::UploadedFilesController < Admin::BaseController
   respond_to :json
   
   def index
-    
     @uploaded_files = if set_post
       @post.uploaded_files
     else
@@ -13,7 +12,7 @@ class Admin::UploadedFilesController < Admin::BaseController
   end
   
   def create
-     @uploaded_file = if set_post
+    @uploaded_file = if set_post
       UploadedFile.new(uploaded_file_params.merge( from:set_post ))
     else
       UploadedFile.new(uploaded_file_params.merge( session_id:session.id ))
@@ -27,22 +26,22 @@ class Admin::UploadedFilesController < Admin::BaseController
     else
       render json: { files:[{
         name: file,
-        size: file.size,
-        error: @uploaded_file.errors.message
+        size: file.try(:size),
+        error: @uploaded_file.errors.full_messages
       }]}
     end
   end
   
   def destroy
-    # TODO
     set_uploaded_file
+    file = @uploaded_file.file
     if @uploaded_file.destroy
       render json: { files:[{
-        @uploaded_file.file.name => true
+        file.name => true
       }]}
     else
       render json: { files:[{
-        @uploaded_file.file.name => false
+        file.name => false
       }]}
     end
   end
@@ -51,7 +50,7 @@ private
   
   def set_uploaded_file
     uploaded_file      = UploadedFile.find(params[:id])
-    this_is_my_upload  = current_user.posts.map(&:id).include?( uploaded_file.from_id ) && (uploaded_file.from_type =~ /^Posts::/)
+    this_is_my_upload  = current_user.posts.map(&:id).include?( uploaded_file.from_id ) && (uploaded_file.from_type =~ /^Post/)
     
     unless current_user.admin? || this_is_my_upload
       (redirect_to admin_posts_url and return)

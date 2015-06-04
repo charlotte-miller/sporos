@@ -36,7 +36,8 @@ class UploadedFile < ActiveRecord::Base
                       :processors => [:thumbnail, :paperclip_optimizer],
                       paperclip_optimizer: { jhead:true, jpegrecompress:true, jpegtran:true },
                       :styles => {
-                        large:        { geometry: "1500x1500>", format: 'jpg', convert_options: "-strip" },
+                        xlarge:       { geometry: "1500x1500>", format: 'jpg', convert_options: "-strip" },
+                        large:        { geometry: "800x800>",   format: 'jpg', convert_options: "-strip" },
                         medium:       { geometry: "500x500>",   format: 'jpg', convert_options: "-strip" },
                         small:        { geometry: "200x200>",   format: 'jpg', convert_options: "-strip" },
                         large_thumb:  { geometry: "120x120#",   format: 'jpg', convert_options: "-strip" },
@@ -50,15 +51,18 @@ class UploadedFile < ActiveRecord::Base
   process_in_background :image
   process_in_background :video
   
+  validates_presence_of :file
+  
   def file
     [image, video].find(&:present?)
   end
   
   def file_as_json
+    raise ArgumentError unless file.present?
     { name: file.basename,
       size: file.size,
-      url:  file.present? && file.url,
-      thumbnail_url: file.present? && file.url, #file.url(:thumb),
+      url:  file.url(:large),
+      thumbnail_url: file.url(:small),
       delete_url:  url_helpers.admin_uploaded_file_url(self),
       delete_type: 'DELETE',
       is_video: file.name == :video }

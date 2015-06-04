@@ -33,7 +33,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Posts::Event, :focus, :type => :model do
+RSpec.describe Posts::Event, :type => :model do
   subject { create :post_event }
   
   describe '[before_validate] #set_expired_at' do

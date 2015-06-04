@@ -32,11 +32,12 @@
 #
 
 FactoryGirl.define do
-  factory :post, class:'Posts::Link' do
+  factory :generic_post, class:'Post' do
     before(:create, :stub) { AWS.stub! if Rails.env.test? }
+    after(:build) {|post, context| post.generate_missing_public_id }
     # after(:build) {|post, context| post.class.skip_callback(:create, :after, :request_approval!) }
     
-    type            'Posts::Link'
+    # type            'Posts::Link'
     ministry
     author          { FactoryGirl.create(:involvement, ministry:ministry).user }
     title           { Faker::Lorem.sentence(rand(3..8))  }
@@ -52,11 +53,16 @@ FactoryGirl.define do
     # end
   end
   
-  factory :published_post, parent:'post' do
+  factory :published_post, parent:'generic_post' do
     published_at {Time.now - 1.minute}
   end
   
-  factory :post_event, parent:'post', class:'Posts::Event' do
+  factory :post_link, parent:'generic_post', class:'Posts::Link', aliases:[:post] do
+    type 'Posts::Link'
+    url { Faker::Internet.url }
+  end
+  
+  factory :post_event, parent:'generic_post', class:'Posts::Event' do
     ignore do
       event_time { Time.parse("10:00 AM") }
       event_date { Date.today+2.weeks }
@@ -64,22 +70,31 @@ FactoryGirl.define do
     
     type       'Posts::Event'
     display_options {{event_time:event_time.strftime('%l:%M %p'), event_date:event_date.strftime('%d %b, %Y')}}
-    expired_at {Time.now + 2.weeks}
   end
 
-  factory :post_link, parent:'post', class:'Posts::Link' do
-    type 'Posts::Link'
-  end
-
-  factory :post_page, parent:'post', class:'Posts::Page' do
+  factory :post_page, parent:'generic_post', class:'Posts::Page' do
     type 'Posts::Page'
   end
   
-  factory :post_photo, parent:'post', class:'Posts::Photo' do
+  factory :post_photo, parent:'generic_post', class:'Posts::Photo' do
     type 'Posts::Photo'
+    
+    ignore do
+      uploaded_file false
+      uploaded_file_image 'unset'
+      uploaded_file_video 'unset'
+    end
+    after(:create) do |post, context|
+      if context.uploaded_file
+        factory_options = {from:post}
+        factory_options.merge!({image:context.uploaded_file_image}) unless context.uploaded_file_image == 'unset'
+        factory_options.merge!({video:context.uploaded_file_video}) unless context.uploaded_file_video == 'unset'
+        post.uploaded_files << FactoryGirl.create(:uploaded_file, factory_options)
+      end
+    end
   end
   
-  factory :post_video, parent:'post', class:'Posts::Video' do
+  factory :post_video, parent:'generic_post', class:'Posts::Video' do
     ignore do
       vimeo_id '124184882'
     end

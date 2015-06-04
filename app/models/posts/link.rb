@@ -34,4 +34,10 @@
 class Posts::Link < Post
   delegate :url, :poster_alternatives, to: :display_options
   
+  validates_presence_of :url
+  
+  def url=(internet_address)
+    self.display_options= display_options.to_h.merge({url:internet_address})
+  end
+
 end

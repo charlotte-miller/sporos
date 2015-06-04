@@ -82,7 +82,8 @@ RSpec.describe ApprovalRequest, :type => :model do
         it 'archives its peers ApprovalRequest' do
           run
           expect(ApprovalRequest.archived.count).to eq(2)
-          expect(ApprovalRequest.accepted.count).to eq(2)
+          expect(ApprovalRequest.accepted.count).to eq(3) #includes user
+          @approval_requests[1..2].each {|request| expect(ApprovalRequest.accepted).to include request }
         end
       end
       
@@ -92,7 +93,8 @@ RSpec.describe ApprovalRequest, :type => :model do
         it 'archives its peers ApprovalRequest' do
           @approval_requests.first.accepted!
           expect(ApprovalRequest.archived.count).to eq(1)
-          expect(ApprovalRequest.accepted.count).to eq(1)
+          expect(ApprovalRequest.accepted.count).to eq(2) #includes user
+          expect(ApprovalRequest.accepted).to include @approval_requests.first
         end
       end
       
@@ -115,7 +117,7 @@ RSpec.describe ApprovalRequest, :type => :model do
       it 'preserves other votes' do
         @leader2.accepted!
         @leader1.rejected!
-        expect(ApprovalRequest.accepted.count).to eq(1)
+        expect(ApprovalRequest.accepted.count).to eq(2) #includes user
         expect(ApprovalRequest.archived.count).to eq(2)
       end
       
@@ -134,7 +136,7 @@ RSpec.describe ApprovalRequest, :type => :model do
       @approval_requests = @post.approval_requests
       @subject = @approval_requests.first
       # @leader1, @leader2, @editor1, @editor2 = @approval_requests
-      @comments = @post.comment_threads << 2.times.map { create(:comment)}
+      @comments = @approval_requests.first.comment_threads << 2.times.map { create(:comment)}
     end
     
     it 'returns comments that were created after last_vistited_at' do

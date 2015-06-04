@@ -34,7 +34,7 @@ FactoryGirl.define do
     end
     
     from { FactoryGirl.create(:post_photo) }
-    session_id '1234567890'
+    session_id { rand(1_000_000).to_s }
     image { !w_video ? fixture_file_upload(Rails.root.join('spec/files/', 'user_profile_image.jpg'), 'image/jpg', true) : nil }
     video { w_video  ? fixture_file_upload(Rails.root.join('spec/files/', 'video.m4v'), 'video/mp4', true) : nil }
   end

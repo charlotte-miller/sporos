@@ -5,11 +5,12 @@ describe "A class that is commentable" do
   before(:all) do
     @ministry = create(:populated_ministry)
     @user     = @ministry.leaders.first 
-    @commentable = create(:post, author:@user, ministry:@ministry)
+    @post     = create(:post, author:@user, ministry:@ministry)
+    @commentable = create(:approval_request, post:@post)
   end
   
   it "can have many root comments" do
-    expect(Post.new.comment_threads.respond_to?(:each)).to eq(true)
+    expect(ApprovalRequest.new.comment_threads.respond_to?(:each)).to eq(true)
   end
 
   describe "when is destroyed" do
@@ -35,7 +36,7 @@ describe "A class that is commentable" do
 
   describe "special class finders" do
     before :each do
-      @other_commentable = create(:post, author:@user, ministry:@ministry)
+      @other_commentable = create(:approval_request, post:@post)
     end
 
     describe "#find_comments_for" do
@@ -44,7 +45,7 @@ describe "A class that is commentable" do
 
         @other_comment = Comment.create!(:user => @user, :commentable => @other_commentable, :body => 'hello')
 
-        @comments = Post.find_comments_for(@commentable)
+        @comments = ApprovalRequest.find_comments_for(@commentable)
       end
 
       it "should return the comments for the passed commentable" do
@@ -64,7 +65,7 @@ describe "A class that is commentable" do
 
         @other_comment = Comment.create!(:user => @user2, :commentable => @other_commentable, :body => 'hello')
 
-        @comments = Post.find_comments_by_user(@user)
+        @comments = ApprovalRequest.find_comments_by_user(@user)
       end
 
       it "should return comments by the passed user" do
@@ -81,7 +82,7 @@ describe "A class that is commentable" do
   describe "instance methods" do
     describe "#comments_ordered_by_submitted" do
       before :each do
-        @commentable, @other_commentable = 2.times.map { create(:post, author:@user, ministry:@ministry) }
+        @commentable, @other_commentable = 2.times.map { create(:approval_request, post:@post) }
         @comment = Comment.create!(:user => @user, :commentable => @commentable, :body => 'sup')
         @older_comment = Comment.create!(:user => @user, :commentable => @commentable, :body => 'sup', :created_at => 1.week.ago)
         @oldest_comment = Comment.create!(:user => @user, :commentable => @commentable, :body => 'sup', :created_at => 2.years.ago)

@@ -35,7 +35,7 @@ class Post < ActiveRecord::Base
   include Sanitizable
   include AttachableFile
   include Uuidable
-  # include Commentable
+  # include Commentable - moved to ApprovalRequest
 
   # ---------------------------------------------------------------------------------
   # Scopes

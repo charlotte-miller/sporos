@@ -14,17 +14,16 @@ RSpec.describe Admin::UploadedFilesController, :type => :controller do
 
   describe 'GET index' do
     context 'NEW Post' do
-      skip
-      # it "assigns all uploaded_files as @uploaded_files" do
-      #   files = 2.times.map { create :uploaded_file }
-      #   get :index, {}
-      #   expect(assigns(:uploaded_files)).to eq(files)
-      # end
+      it "assigns all uploaded_files as @uploaded_files" do
+        files = 2.times.map { create :uploaded_file, session_id:session.id }
+        get :index, {}, valid_session
+        expect(assigns(:uploaded_files)).to eq(files)
+      end
     end
     
     context 'UPDATE Post' do
       it "assigns all uploaded_files as @uploaded_files" do
-        files = 2.times.map { create :uploaded_file, from:@post}.reverse
+        files = @post.uploaded_files | 2.times.map { create :uploaded_file, from:@post}.reverse
         get :index, {post:{type:'Posts::Link', id:@post.id}}
         expect(assigns(:uploaded_files).map(&:id)).to eq(files.map(&:id))
       end

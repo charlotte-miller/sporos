@@ -49,7 +49,8 @@ class Posts::Event < Post
   
   def expires_at_or_before_the_event
     return unless expired_at.present?
-    if expired_at >= combined_event_time_obj
+    
+    if expired_at > combined_event_time_obj
       errors.add(:expired_at, 'cannot be AFTER the event.')
       # self.errors.add_to_base("")
     end

@@ -59,8 +59,10 @@ RSpec.describe Post, :type => :model do
     let!(:expired) { create(:post, expired_at:1.days.ago, published_at:2.days.ago, ministry:@ministry, author:@ministry.members.first) }
     
     it 'filteres unpublished and expired posts' do
-      
-      expect(Post.current.pluck(:id)).to eq([published.id])
+      current_ids = Post.current.pluck(:id)
+      expect(current_ids).to include published.id
+      expect(current_ids).to_not include unpublished.id
+      expect(current_ids).to_not include expired.id
     end
   end
   

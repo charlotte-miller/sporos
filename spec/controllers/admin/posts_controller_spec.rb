@@ -12,13 +12,10 @@ RSpec.describe Admin::PostsController, :type => :controller do
   end
   before(:each) { AWS.stub! }
   
-  let(:valid_attributes) { attributes_for(:post, ministry:@ministry, author:@user, ministry_id:@ministry.id, user_id:@user.id, type:'Posts::Link') }
+  let(:valid_attributes) { attributes_for(:post_link, ministry:@ministry, author:@user, ministry_id:@ministry.id, user_id:@user.id ) }
 
   let(:invalid_attributes) { {type:'Posts::Link', title:''} }
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # PostsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
   describe "GET index" do
@@ -66,7 +63,7 @@ RSpec.describe Admin::PostsController, :type => :controller do
 
   describe "GET new" do
     it "assigns a new post as @post" do
-      get :new, {}, valid_session
+      get :new, {post_type:'link'}, valid_session
       expect(assigns(:post)).to be_a_new(Post)
     end
   end
@@ -94,7 +91,7 @@ RSpec.describe Admin::PostsController, :type => :controller do
       end
 
       it "redirects to the created post" do
-        post :create, {:post => valid_attributes}, valid_session
+        post :create, {:post => valid_attributes, format: :html}, valid_session
         expect(response).to redirect_to(admin_post_url Post.last)
       end
     end
@@ -115,14 +112,14 @@ RSpec.describe Admin::PostsController, :type => :controller do
   describe "PUT update" do
     describe "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        valid_attributes.merge( {title: "New Title of Wonders"} )
       }
 
       it "updates the requested post" do
         post = create(:post, ministry:@ministry, author:@user)
         put :update, {:id => post.to_param, :post => new_attributes}, valid_session
         post.reload
-        skip("Add assertions for updated state")
+        expect(post.title).to eq('New Title of Wonders')
       end
 
       it "assigns the requested post as @post" do
@@ -141,13 +138,13 @@ RSpec.describe Admin::PostsController, :type => :controller do
     describe "with invalid params" do
       it "assigns the post as @post" do
         post = create(:post, ministry:@ministry, author:@user)
-        put :update, {:id => post.to_param, :post => invalid_attributes}, valid_session
+        put :update, {:id => post.to_param, :post => invalid_attributes, post_type:'link', post: {display_options: {poster_alternatives:[]}}}, valid_session
         expect(assigns(:post)).to eq(post)
       end
 
       it "re-renders the 'edit' template" do
         post = create(:post, ministry:@ministry, author:@user)
-        put :update, {:id => post.to_param, :post => invalid_attributes}, valid_session
+        put :update, {:id => post.to_param, :post => invalid_attributes, post_type:'link', post: {display_options: {poster_alternatives:[]}}}, valid_session
         expect(response).to render_template("edit")
       end
     end
@@ -171,7 +168,7 @@ RSpec.describe Admin::PostsController, :type => :controller do
   describe "GET link_preview" do
     it "assigns all posts as @posts" do
       link = 'http://catalystconference.com/'
-      expect(LinkThumbnailer).to receive(:generate).with(link)
+      expect(LinkThumbnailer).to receive(:generate).with(link, {:image_stats=>"true"})
       get :link_preview, {url:link}, valid_session
     end
   end

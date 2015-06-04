@@ -25,14 +25,6 @@ RSpec.describe Admin::MinistriesController, :type => :controller do
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested ministry as @ministry" do
-      ministry = Ministry.create! valid_attributes
-      get :show, {:id => ministry.to_param}, valid_session
-      expect(assigns(:ministry)).to eq(ministry)
-    end
-  end
-
   describe "GET new" do
     it "assigns a new ministry as @ministry" do
       get :new, {}, valid_session

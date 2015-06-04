@@ -38,6 +38,7 @@ FactoryGirl.define do
     # after(:build) {|post, context| post.class.skip_callback(:create, :after, :request_approval!) }
     
     # type            'Posts::Link'
+    current_session {rand(1_000_000).to_s}
     ministry
     author          { FactoryGirl.create(:involvement, ministry:ministry).user }
     title           { Faker::Lorem.sentence(rand(3..8))  }
@@ -58,8 +59,12 @@ FactoryGirl.define do
   end
   
   factory :post_link, parent:'generic_post', class:'Posts::Link', aliases:[:post] do
+    ignore do
+      url {Faker::Internet.url}
+    end
+    
     type 'Posts::Link'
-    url { Faker::Internet.url }
+    display_options { {url: url } }
   end
   
   factory :post_event, parent:'generic_post', class:'Posts::Event' do
@@ -69,7 +74,10 @@ FactoryGirl.define do
     end
     
     type       'Posts::Event'
-    display_options {{event_time:event_time.strftime('%l:%M %p'), event_date:event_date.strftime('%d %b, %Y')}}
+    display_options {{
+      event_time:event_time.strftime('%l:%M %p'), 
+      event_date:event_date.strftime('%d %b, %Y'),
+      location:'Here... right here',}}
   end
 
   factory :post_page, parent:'generic_post', class:'Posts::Page' do
@@ -80,21 +88,22 @@ FactoryGirl.define do
     type 'Posts::Photo'
     
     ignore do
-      uploaded_file false
+      uploaded_file true
       uploaded_file_image 'unset'
       uploaded_file_video 'unset'
     end
-    after(:create) do |post, context|
+    after(:build) do |post, context|
       if context.uploaded_file
-        factory_options = {from:post}
+        factory_options = {session_id:post.current_session, from:nil}
         factory_options.merge!({image:context.uploaded_file_image}) unless context.uploaded_file_image == 'unset'
         factory_options.merge!({video:context.uploaded_file_video}) unless context.uploaded_file_video == 'unset'
-        post.uploaded_files << FactoryGirl.create(:uploaded_file, factory_options)
+        FactoryGirl.create(:uploaded_file, factory_options) #post.uploaded_files <<
       end
     end
   end
   
   factory :post_video, parent:'generic_post', class:'Posts::Video' do
+    after(:build) {|post, context| post.class.skip_callback(:save, :before, :update_vimeo_details) }
     ignore do
       vimeo_id '124184882'
     end

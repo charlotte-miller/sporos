@@ -1,12 +1,14 @@
 = form_for(@answer) do |f|
   - if @answer.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@answer.errors.count, "error")
-        prohibited this answer from being saved:
+    #error_explanation.alert.alert-danger.alert-dismissible{role:'alert'}
+      %button.close.fade.in{data:{dismiss:'alert'}}
+        %span{'aria-hidden'=>true} &times;
+        %span.sr-only Close
+      %h2= "#{pluralize(@answer.errors.count, "error")} prevented this post from being saved:"
       %ul
         - @answer.errors.full_messages.each do |msg|
           %li= msg
+  
   .field
     = f.label :text
     %br/

@@ -39,5 +39,4 @@ class Posts::Link < Post
   def url=(internet_address)
     self.display_options= display_options.to_h.merge({url:internet_address})
   end
-
 end

@@ -17,31 +17,15 @@
   %body
     = render :partial => 'posts/lightbox'
     .container
-      .row
-        = flash_messages
-      = yield
-      #global-nav
-        .global_nav_item.col-xs-3
-          = link_to admin_posts_path do
-            %i.glyphicon.glyphicon-home
-        .global_nav_item.col-xs-6
-          - if current_page?(admin_posts_url)
-            %a#new-post{href:'#'}
-              %i.glyphicon.glyphicon-pencil
-          - else
-            = link_to 'GO BACK', :back
-
-        .global_nav_item.col-xs-3
-          / = link_to "Invite",  new_user_invitations_path
-          / = link_to "Account", edit_user_registration_path
-          / = link_to "Logout",  destroy_user_session_path
-          = link_to edit_current_user_path do
-            %i.glyphicon.glyphicon-cog
-      / /row
+      / - cache do
+      = react_component('CStone.Admin.Components.GlobalNav', {is_editable: true}, {prerender: true})
+      #admin-body.blurable
+        .row
+          = flash_messages
+        = yield
+      
       %footer
         / %p &copy; Cornerstone Church of San Francisco 2015
-    / /container
-    /
 
     #javascripts
       / = partial 'layouts/ie'

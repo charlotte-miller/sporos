@@ -9,7 +9,7 @@ class Admin::PostsController < Admin::BaseController
   # rescue_from ::ActionController::ParameterMissing, with: :bad_request
   # rescue_from ::NameError,                          with: :bad_request
 
-  respond_to :html
+  respond_to :html, :json
 
   def index
     my_recently_approved_posts = current_user.posts.where(['published_at > ?', 2.days.ago]).order(published_at: :desc).limit(5)
@@ -54,6 +54,7 @@ class Admin::PostsController < Admin::BaseController
   def new
     @type = params[:post_type]
     @post = "posts/#{@type}".classify.constantize.new
+    set_vimeo_js_vars
     set_possible_poster_images
         
     respond_with(@post)
@@ -115,7 +116,7 @@ class Admin::PostsController < Admin::BaseController
     def post_params
       @post_params ||= params
       .require(:post).permit(:type, :ministry_id, :title, :description, :poster, :poster_remote_url, :expired_at, 
-                             :vimeo_id, display_options:[:url, :event_date, :event_time, poster_alternatives:[]])
+                             :vimeo_id, display_options:[:url, :event_date, :event_time, :location, poster_alternatives:[]])
       .merge({current_session:session.id})
     end
     

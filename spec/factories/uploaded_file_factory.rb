@@ -24,11 +24,19 @@
 #
 
 FactoryGirl.define do
+  before(:create, :stub) do
+    AWS.stub! if Rails.env.test?
+  end
+  
   factory :uploaded_file do
+    ignore do
+      w_video false
+    end
+    
     from { FactoryGirl.create(:post_photo) }
     session_id '1234567890'
-    image { fixture_file_upload(Rails.root.join('spec/files/', 'user_profile_image.jpg'), 'image/jpg', true) }
-    video nil #{ fixture_file_upload(Rails.root.join('spec/files/', 'video.m4v'), 'video/mp4', true) }
+    image { !w_video ? fixture_file_upload(Rails.root.join('spec/files/', 'user_profile_image.jpg'), 'image/jpg', true) : nil }
+    video { w_video  ? fixture_file_upload(Rails.root.join('spec/files/', 'video.m4v'), 'video/mp4', true) : nil }
   end
 
 end

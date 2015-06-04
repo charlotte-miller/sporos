@@ -89,7 +89,7 @@ production:
     smtp_pass: <%= ENV['SMTP_PASS'] %>
 
   vimeo:
-    # token: deddea72ddcd1b0d99e0c461ee52ba96
+    token: <%= ENV['VIMEO_TOKEN'] %>
   
   elasticsearch:
     address: <%= ENV['ELASTICSEARCH_ADDRESS_INT'] %>

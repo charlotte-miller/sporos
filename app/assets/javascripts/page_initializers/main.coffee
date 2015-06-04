@@ -14,7 +14,7 @@ $ ->
     mp4:    "http://vodkabears.github.io/vide/video/ocean.mp4"
     webm:   "http://vodkabears.github.io/vide/video/ocean.webm"
     ogv:    "http://vodkabears.github.io/vide/video/ocean.ogv"
-    poster: "/assets/background_video_start.jpg"
+    # poster: "/assets/background_video_start.jpg" # handled with CSS
   ,
     posterType:'jpg'
     autoplay:false

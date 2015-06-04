@@ -11,7 +11,7 @@
       %strong= @post.status.upcase
 
     
-  .row
+  #cards
     = render_partial_for @post
   
   - if current_user == @post.author || current_user.admin?

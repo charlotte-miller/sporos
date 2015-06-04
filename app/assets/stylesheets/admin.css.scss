@@ -1,13 +1,16 @@
+@import "bourbon";
 @import "modules/bootstrap_extended";
 @import "modules/helpers";
 @import "modules/photo_stack";
 @import "modules/stack_effects";
 @import "modules/file_uploader";
 @import "modules/vimeo_video";
-@import "pickadate/lib/themes/default.css";
-@import "pickadate/lib/themes/default.date.css";
-@import "pickadate/lib/themes/default.time.css";
-@import "image-picker/image-picker/image-picker.css";
+@import "modules/cards";
+@import "pickadate/lib/themes/default";
+@import "pickadate/lib/themes/default.date";
+@import "pickadate/lib/themes/default.time";
+@import "image-picker/image-picker/image-picker";
+@import "vendor/animate";
 
 
 html,body{
@@ -32,7 +35,88 @@ html,body{
   }
 }
 
-#global-nav{
+#new-post{  
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  padding:0 10%;
+  
+  @media (max-width: $screen-xs-max) {
+    padding: 0 10%;
+  }
+  
+  @media (min-width: $screen-md-min) {
+    padding: 0 30%;
+  }
+  
+  @extend %flexy-grid;
+  
+  &.inactive{
+    @extend %transitionHeight;
+    @include transition-delay(1s);
+    @include transition-duration(0s);
+    height:0px;
+  }
+    
+  .new-post-type{
+    width:50%;
+    height:30%;
+    @extend %flexy-grid;
+    @extend .animated;
+    
+    a{
+      background-color: white;
+      border: 3px solid $gray-light;
+      border-radius: 50%;
+      height: 100px;
+      width: 100px;
+      font-size:18px;
+      text-decoration:none;
+      @extend %flexy-grid;
+      
+      &.opening{
+        color: $gray-lighter !important;
+        background-color:$gray-lighter;
+        
+        @extend %transitionTransform;
+        @media (max-width: $screen-lg-max) {
+          @include transform(scale(50));
+        }
+        @media (max-width: $screen-md-max) {
+          @include transform(scale(25));
+        }
+        @media (max-width: $screen-sm-max) {
+          @include transform(scale(20));
+        }
+        @media (max-width: $screen-xs-max) {
+          @include transform(scale(15));
+        }
+      }
+    }
+  }
+  
+  .post-create-nav-enter{
+    @extend .bounceInUp;
+  
+    &.pop-1{ @include delay(0.1s); @include duration(0.9s);}
+    &.pop-2{ @include delay(0.2s); @include duration(0.8s);}
+    &.pop-3{ @include delay(0.3s); @include duration(0.7s);}
+    &.pop-4{ @include delay(0.4s); @include duration(0.6s);}
+  }
+  .post-create-nav-leave{
+    @extend .bounceOutDown;
+  
+    &.pop-1{ @include delay(0.1s); @include duration(1s);}
+    &.pop-2{ @include delay(0.2s); @include duration(1s);}
+    &.pop-3{ @include delay(0.1s); @include duration(0.6s);}
+    &.pop-4{ @include delay(0.2s); @include duration(0.6s);}
+  } 
+}
+
+#global-nav-bar{
   position: fixed;
   bottom: 0;
   left: 0;
@@ -40,7 +124,7 @@ html,body{
   background:$gray-darker;
   height: 70px;
   line-height: 70px;
-  z-index: 2;
+  z-index: 1000;
   
   .global_nav_item{
     text-align:center;

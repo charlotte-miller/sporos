@@ -1,4 +1,5 @@
 = f.hidden_field :type, value:'Posts::Event'
+= f.hidden_field :public_id
 .field
   = f.label :title, 'Event Title'
   = f.text_field :title, class:'form-control', placeholder:"What's the name of the event?"
@@ -24,22 +25,30 @@
 
 .field
   = f.label :description
-  = f.text_area :description, class:'form-control', placeholder:"Who should attend?\nWhat should they expect?\nWhat should they DO to 'sign up'?\n\n"
+  = f.text_area :description, class:'form-control', rows:4, placeholder:"Who should attend?\nWhat should they expect?\nWhat should they DO to 'sign up'?\n\n"
 
 .field
   = f.label :poster, 'Event Graphic'
-  = f.file_field :poster, class:'form-control', multiple:false, accept:"image/*"
-  - if f.object.poster.present?
-    = image_tag f.object.poster.url
+  #dropzone
+    .row
+      .col-xs-5
+        %span.btn.btn-success.fileinput-button
+          %i.glyphicon.glyphicon-plus
+          %span Add Event Graphic
+          = f.file_field :poster, id:'upload-event-poster', class:'form-control', multiple:false, accept:"image/*" #, data:{url:'/admin/uploaded_files.json'}
+      .col-xs-7
+        %b Drag & Drop Here
+    #dropzone-file-manager
+
 
 #advanced-features.panel.panel-default
   .panel-heading
-    %a{href:'#'} Advanced Options
+    %a.to-nowhere{href:'#'} Advanced Options
   #advanced-drawer.panel-body.closed
     .field
       = f.label :expired_at, 'Remove the Post Early'
       .input-group
-        = f.text_field :expired_at, class:'form-control pick-a-date-w-clear', placeholder:'When the event starts.'
+        = f.text_field :expired_at, class:'form-control pick-a-date-w-clear', placeholder:'When the event starts.', value:f.object.expired_at.try(:strftime, '%e %B, %Y')
         .input-group-btn.trigger-pick-a-date
           %button.btn.btn-default
             %i.glyphicon.glyphicon-calendar

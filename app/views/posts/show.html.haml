@@ -1,4 +1,5 @@
 - content_for :page_specific_js_initializers do
   = javascript_include_tag "community/posts/all"
 
-= render_partial_for @post
+#cards
+  = render_partial_for @post

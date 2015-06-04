@@ -1,4 +1,4 @@
-CStone.Shared.Components.VimeoUploadHelp = React.createClass
+CStone.Admin.Components.VimeoUploadHelp  = React.createClass
   
   propTypes:
     vimeoId: React.PropTypes.string

@@ -53,22 +53,24 @@
       "@#{slug}_leader"    => (User.find_by(email:"#{slug}_leaders@example.com"  ) || FactoryGirl.create(:user, email:"#{slug}_leaders@example.com",   password:'Dearborn'))}
     users_found_or_created.each &method(:instance_variable_set)
     
+    users_found_or_created.values.flatten.each &:confirm!
+    
     member, volunteer, leader = users_found_or_created.values
     ministry.members    << member     unless ministry.members.present?
     ministry.volunteers << volunteer  unless ministry.volunteers.present?
     ministry.leaders    << leader     unless ministry.leaders.present?
     
-    if Rails.env.development?
-      if ministry.posts.empty?
-        post_factory_type = [:post_event, :post_link, :post_page, :post_photo, :post_video ]
-        instance_variable_set "@#{slug}_posts", posts = [
-          6.times.map { FactoryGirl.create(post_factory_type.sample, author:volunteer, ministry:ministry) },
-          6.times.map { FactoryGirl.create(post_factory_type.sample, author:leader,    ministry:ministry) },
-        ].flatten
-        posts.each do |post|
-          approver = post.approval_requests.sample
-          approver.comment_threads << rand(0..5).times.map { FactoryGirl.create(:comment, user:approver.user) }
-        end
-      end
-    end
+    # if Rails.env.development?
+    #   if ministry.posts.empty?
+    #     post_factory_type = [:post_event, :post_link, :post_page, :post_photo, :post_video ]
+    #     instance_variable_set "@#{slug}_posts", posts = [
+    #       6.times.map { FactoryGirl.create(post_factory_type.sample, author:volunteer, ministry:ministry) },
+    #       6.times.map { FactoryGirl.create(post_factory_type.sample, author:leader,    ministry:ministry) },
+    #     ].flatten
+    #     posts.each do |post|
+    #       approver = post.approval_requests.sample
+    #       approver.comment_threads << rand(0..5).times.map { FactoryGirl.create(:comment, user:approver.user) }
+    #     end
+    #   end
+    # end
   end

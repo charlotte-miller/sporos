@@ -77,6 +77,35 @@ RSpec.describe Admin::PostsController, :type => :controller do
   end
 
   describe "POST create" do
+    
+    describe '#safe_ministry_id' do
+      it 'sets the ministry_id if the user has 1 ministry' do
+        post :create, {:post => valid_attributes.merge({ministry_id:'whatever'}), format: :html}, valid_session
+        expect(Post.last.ministry).to eq(@ministry)
+        expect(response).to redirect_to(admin_post_url Post.last)
+      end
+    
+      describe 'users with multiple ministries' do
+        before(:each) do
+          @other_ministry = create(:ministry)
+          @other_ministry.leaders << @user
+        end
+        
+        it 'returns params[:ministry_id] IF the current_user is involved in the ministry' do
+          post :create, {:post => valid_attributes.merge({ministry_id:@other_ministry.id}), format: :html}, valid_session
+          expect(Post.last.ministry).to eq(@other_ministry)
+          expect(response).to redirect_to(admin_post_url Post.last)
+        end
+        
+        it 'returns an error if the current_user is not involved with the ministry' do
+          post :create, {:post => valid_attributes.merge({ministry_id:@other_ministry.id+10}), format: :html}, valid_session
+          expect(assigns(:post).errors.full_messages).to eql ["Ministry can't be blank"]
+          expect(response).to render_template("new")
+        end
+        
+      end
+    end
+    
     describe "with valid params" do
       it "creates a new Post" do
         expect {

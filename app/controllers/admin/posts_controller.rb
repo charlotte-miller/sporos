@@ -66,7 +66,7 @@ class Admin::PostsController < Admin::BaseController
 
   def create
     post_class = post_params[:type].constantize
-    @post = post_class.new(post_params.merge(author:current_user) )
+    @post = post_class.new(post_params.merge(author:current_user, ministry_id:safe_ministry_id) )
     @post.save
     
     set_possible_poster_images
@@ -75,7 +75,7 @@ class Admin::PostsController < Admin::BaseController
 
   def update
     keep_poster_alternatives
-    @post.update(post_params)
+    @post.update(post_params.merge(ministry_id:safe_ministry_id))
     
     set_possible_poster_images
     respond_with(@post.becomes(Post))
@@ -138,6 +138,19 @@ class Admin::PostsController < Admin::BaseController
       post_params[:display_options] ||= {}
       if set_type == 'link' && post_params[:display_options][:poster_alternatives].nil?
         post_params[:display_options][:poster_alternatives] = @post.poster_alternatives
+      end
+    end
+    
+    def safe_ministry_id
+      ministry_ids = current_user.ministries.pluck('id')
+      if ministry_ids.length > 1
+        if ministry_ids.include? post_params[:ministry_id].to_i
+          post_params[:ministry_id] 
+        else
+          nil
+        end
+      else
+        ministry_ids.first
       end
     end
     

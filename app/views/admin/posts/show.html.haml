@@ -3,12 +3,19 @@
   
 #posts-show
   #status-bar
-    #status-action
-      = link_to '#write-comments' do
-        %button.btn.btn-flat CONTACT THE EDITORS
     #status
-      %p POST STATUS:
-      %strong= @post.status.upcase
+      .col-xs-5
+        %p POST STATUS:
+        %strong= @post.status.upcase
+        %p
+          %a#step-progress-help{href:'#'} 
+            %small What does this mean?
+      
+      .col-xs-7
+        #status-action
+          = link_to '#write-comments' do
+            / %button.btn.btn-flat CONTACT THE EDITORS
+            = render partial: 'post_progress'
 
     
   #cards
@@ -22,51 +29,53 @@
           = link_to 'Edit', edit_admin_post_path(id:@post), html:{role:'button'}, class:'btn btn-default'
           = link_to 'Delete',   admin_post_path(id:@post), :method => :delete, :data => { :confirm => "Are you sure?\nIt will really be gone." }, html:{role:'button'}, class:'btn btn-default'
         %hr
-  - if @comments.present?
-    #comments
-      %h3 Feedback:
-      #read-comments
-        - @comments.each do |comment|
-          - my_comment = comment.user == current_user
-          .comment.media
-            - unless my_comment
-              .user.media-left.pull-left
-                %a{href:'#'}
-                  = image_tag comment.user.profile_image.url(:thumb), height:64, width:64, class:'img-circle media-object'
-
-            .media-body
-              %h4.media-heading.user-name= comment.user.name
-              .comment-body= comment.body
-
-            - if my_comment
-              .user.media-right.pull-right
-                %a{href:'#'}
-                  = image_tag comment.user.profile_image.url(:thumb), height:64, width:64, class:'img-circle media-object'
-                          
-      %hr
-      - if @current_users_approval_request
-        #write-comments
-          .comment.media       
-            .user.media-right.pull-right.media-middle
+        
+  #comments
+    %h3 Feedback:
+    #read-comments
+      - @comments.each do |comment|
+        - my_comment = comment.user == current_user
+        .comment.media
+          - unless my_comment
+            .user.media-left.pull-left
               %a{href:'#'}
-                = image_tag current_user.profile_image.url(:thumb), height:64, width:64, class:'img-circle media-object'        
-            .media-body
-              / %h4.media-heading.pull-right.user-name= current_user.name
-              = form_for [:admin, @current_users_approval_request] do |f|
-                .form-group
-                  = f.text_area :new_comment, id:'comment-field', placeholder:"#{@post.author.first_name} would appreciate feedback", class: "form-control"
+                = image_tag comment.user.profile_image.url(:thumb), height:64, width:64, class:'img-circle media-object'
 
-                .form-group.pull-right
-                  = f.submit 'Only Comment', class: "btn btn-link"
-                  .btn-group.dropup
-                    = f.submit 'Approve Post', class: "btn btn-success"
-                    %button.btn.btn-success.dropdown-toggle{ data:{toggle:'dropdown'} }
-                      %span.caret
-                      %span.sr-only Toggle Dropdown
-                    %ul.dropdown-menu.dropdown-menu-right{role:'menu'}
-                      %li
-                        %a{href:'#'} Approve Post
-                      %li.divider
-                      %li
-                        %a{href:'#'} Reject Post
-                  
+          .media-body
+            %h4.media-heading.user-name= comment.user.name
+            .comment-body= comment.body
+
+          - if my_comment
+            .user.media-right.pull-right
+              %a{href:'#'}
+                = image_tag comment.user.profile_image.url(:thumb), height:64, width:64, class:'img-circle media-object'
+                        
+    - if @current_users_approval_request
+      #write-comments
+        .comment.media       
+          .user.media-right.pull-right.media-middle
+            %a{href:'#'}
+              = image_tag current_user.profile_image.url(:thumb), height:64, width:64, class:'img-circle media-object'        
+          .media-body
+            / %h4.media-heading.pull-right.user-name= current_user.name
+            = form_for [:admin, @current_users_approval_request] do |f|
+              .form-group
+                - placeholder = current_user == @post.author ? "Any additional comments for the #{@post.ministry.name.titleize.possessive} ministry team?" : "#{@post.author.first_name} would appreciate feedback"
+                = f.text_area :new_comment, id:'comment-field', placeholder:placeholder, class: "form-control"
+
+              - @approvers.each do |user|
+                = image_tag user.profile_image.url(:micro), height:32, width:32, class:'img-circle', title:user.name
+              .form-group.pull-right
+                = f.submit 'Only Comment', class: "btn btn-link"
+                .btn-group.dropup
+                  = f.submit 'Approve Post', class: "btn btn-success"
+                  %button.btn.btn-success.dropdown-toggle{ data:{toggle:'dropdown'} }
+                    %span.caret
+                    %span.sr-only Toggle Dropdown
+                  %ul.dropdown-menu.dropdown-menu-right{role:'menu'}
+                    %li
+                      %a{href:'#'} Approve Post
+                    %li.divider
+                    %li
+                      %a{href:'#'} Reject Post
+                

@@ -319,6 +319,16 @@ html,body{
   #status-action{
     @extend .pull-right;
     padding: 0 20px;
+    width:100%;
+    margin-top: -5px;
+  }
+  
+  #step-progress-help{
+    position:absolute;
+    top:-10px;
+    right:5px;
+    color:$gray-light;
+    font-size: 15px;
   }
   
   #comments{
@@ -338,6 +348,39 @@ html,body{
         font-size: 16px;
         margin-bottom:10px;
       }
+    }
+  }
+
+  //  http://bootsnipp.com/snippets/featured/form-process-steps
+  .step-progress {
+    border-bottom: solid 1px #e0e0e0; padding: 0 0 10px 0;
+  
+    .step-progress-step{
+      padding: 0; position: relative;
+      
+      .step-progress-info {color: $gray-light; font-size: 10px; margin-top:-15px;}
+      .step-progress-dot {position: absolute; width: 30px; height: 30px; display: block; background: $brand-success; top: 45px; left: 50%; margin-top: -37px; margin-left: -15px; border-radius: 50%;} 
+      .progress {
+        position: relative; border-radius: 0px; height: 8px; box-shadow: none; margin: 20px 0;
+        
+        .progress-bar {width:100%; box-shadow: none; background: $brand-success;}
+      }
+      &.disabled > .step-progress-dot {background-color: $gray-lighter; border:3px solid $brand-success;}
+      &.complete .glyphicon {
+        @extend .glyphicon-ok;
+        color:$gray-lighter;
+        left:8px;
+        top:4px;
+      }
+      &.disabled .glyphicon {
+        @extend .glyphicon-refresh;
+        color:$gray-light;
+        top:2px;
+        left:5px;
+      }
+      &:first-child  > .progress {left: 50%; width: 50%;}
+      &:last-child  > .progress {width: 50%;}
+       .step-progress-step.completed a.step-progress-dot{ pointer-events: none; }
     }
   }
 }

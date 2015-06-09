@@ -6,16 +6,15 @@
     #status
       .col-xs-5
         %p POST STATUS:
-        %strong= @post.status.upcase
-        %p
-          %a#step-progress-help{href:'#'} 
-            %small What does this mean?
+        %strong
+          = @post.status.upcase
       
       .col-xs-7
+        %a#step-progress-help{href:'#'}
+          %i.glyphicon.glyphicon-question-sign
         #status-action
           = link_to '#write-comments' do
-            / %button.btn.btn-flat CONTACT THE EDITORS
-            = render partial: 'post_progress'
+            = render partial: 'post_progress', locals:{approval_statuses:@approval_statuses}
 
     
   #cards

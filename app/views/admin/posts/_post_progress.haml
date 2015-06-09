@@ -1,22 +1,8 @@
 .row.step-progress
-  .col-xs-4.step-progress-step.complete
-    .progress
-      .progress-bar
-    .step-progress-dot
-      %i.glyphicon
-    .step-progress-info.text-center AUTHOR
-    
-  .col-xs-4.step-progress-step.disabled
-    .progress
-      .progress-bar
-    .step-progress-dot
-      %i.glyphicon
-    .step-progress-info.text-center LEADER
-    
-  .col-xs-4.step-progress-step.disabled
-    .progress
-      .progress-bar
-    .step-progress-dot
-      %i.glyphicon
-    .step-progress-info.text-center EDITOR
-
+  - approval_statuses.each do |approval_group, status|
+    .col-xs-4.step-progress-step{class:status}
+      .progress
+        .progress-bar
+      .step-progress-dot
+        %i.glyphicon
+      .step-progress-info.text-center= approval_group

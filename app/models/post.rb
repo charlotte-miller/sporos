@@ -65,7 +65,7 @@ class Post < ActiveRecord::Base
   belongs_to :author, class_name:'User', foreign_key: :user_id
   
   has_many :approval_requests, dependent: :destroy
-  has_many :approvers, class_name: "User", through:'approval_requests'
+  has_many :approvers, through:'approval_requests', source: :user
   
   has_one :draft, :class_name => "Post", :foreign_key => "parent_id"
   
@@ -89,7 +89,7 @@ class Post < ActiveRecord::Base
   def to_param; public_id || generate_missing_public_id ;end
   
   attr_protected #none - using strong params
-  attr_accessor :approvers, :unread_comment_count, :current_session
+  attr_accessor :unread_comment_count, :current_session
   has_attachable_file :poster, {
                       :default_url   => :poster_original_url,
                       :content_type  => ["image/jpg", "image/jpeg", "image/png", "image/gif"],

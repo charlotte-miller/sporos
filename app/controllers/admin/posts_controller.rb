@@ -47,7 +47,11 @@ class Admin::PostsController < Admin::BaseController
   def show
     @comments = @post.comment_threads
     @current_users_approval_request = ApprovalRequest.find_by( user:current_user, post:@post )
-    
+    @approvers = @post.approvers - [current_user]
+    @approval_statuses = @current_users_approval_request.current_concensus
+    @approval_statuses.each do |group, status|
+      @approval_statuses[group]= status=='accepted' ? 'complete' : 'disabled' #simplified for view
+    end
     respond_with(@post)
   end
 

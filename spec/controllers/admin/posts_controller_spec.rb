@@ -59,6 +59,11 @@ RSpec.describe Admin::PostsController, :type => :controller do
       get :show, {:id => post.to_param}, valid_session
       expect(assigns(:post)).to eq(post)
     end
+    
+    it 'assigns approval_statuses to @approval_statuses' do
+      skip
+      {AUTHOR:'complete', LEADER:'complete',EDITOR:'disabled'}
+    end
   end
 
   describe "GET new" do

@@ -7,6 +7,18 @@ class Admin::BaseController < ActionController::Base
   layout 'layouts/admin'
   
 protected
+  def safe_ministry_id
+    ministry_ids = current_user.ministries.pluck('id')
+    if ministry_ids.length > 1
+      if ministry_ids.include? params[:ministry_id].to_i
+        post_params[:ministry_id] 
+      else
+        nil
+      end
+    else
+      ministry_ids.first
+    end
+  end
 
   def set_ministries
     @ministries ||= if current_user.admin?

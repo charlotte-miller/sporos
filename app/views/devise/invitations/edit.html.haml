@@ -26,7 +26,7 @@
                 .col-xs-6
                   %b Drag & Drop Here
                 .col-xs-2
-                  %img.img-circle{src: @user.profile_image.url(:large_thumb), height:120, width:120}
+                  %img.img-circle{src: @user.profile_image.url(:large_thumb), height:120, width:120, title:@user.name, alt:@user.name}
                   %svg{:height => "250", :viewbox => "0 0 250 250", :width => "250"}
                     %path#border{:transform => "translate(125, 125)"}
                     %path#loader{:transform => "translate(125, 125) scale(.84)"}

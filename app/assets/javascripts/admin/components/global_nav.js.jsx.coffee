@@ -2,7 +2,7 @@ ReactCSSTransitionGroup = React.addons.CSSTransitionGroup
 CStone.Admin.Components.GlobalNav = React.createClass
   
   # propTypes:
-    # vimeoId: React.PropTypes.boolean
+    # vimeoId: React.PropTypes.string
     
   getInitialState: ->
     is_open: false

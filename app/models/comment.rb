@@ -39,6 +39,7 @@ class Comment < ActiveRecord::Base
 
   belongs_to :commentable, :polymorphic => true, touch:true
   belongs_to :user
+  alias_attribute :author, :user
 
   # Helper class method that allows you to build a comment
   # by passing a commentable object, a user_id, and comment text

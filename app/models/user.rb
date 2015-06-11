@@ -98,13 +98,14 @@ class User < ActiveRecord::Base
                       :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
                       :processors => [:thumbnail, :paperclip_optimizer],
                       paperclip_optimizer: { jhead:true, jpegrecompress:true, jpegtran:true },
-                      default_url:'/assets/img-profile-missing.png',
+                      default_url: '/assets/img-profile-missing.png',
                       :styles => {
                         large:       { geometry: "1500x1500>", format: 'jpg', convert_options: "-strip" },
                         medium:      { geometry: "300x300>",   format: 'jpg', convert_options: "-strip" },
                         small:       { geometry: "200x200>",   format: 'jpg', convert_options: "-strip" },
                         large_thumb: { geometry: "120x120#",   format: 'jpg', convert_options: "-strip" },
-                        thumb:       { geometry: "64x64#",     format: 'jpg', convert_options: "-strip" }
+                        thumb:       { geometry: "64x64#",     format: 'jpg', convert_options: "-strip" },
+                        micro:       { geometry: "32x32#",     format: 'jpg', convert_options: "-strip" },
                       }
 
   process_in_background :profile_image

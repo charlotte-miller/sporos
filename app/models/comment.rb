@@ -41,6 +41,8 @@ class Comment < ActiveRecord::Base
   belongs_to :user
   alias_attribute :author, :user
 
+  after_save :touch
+
   # Helper class method that allows you to build a comment
   # by passing a commentable object, a user_id, and comment text
   # example in readme
@@ -72,5 +74,13 @@ class Comment < ActiveRecord::Base
   # given the commentable class name and id
   def self.find_commentable(commentable_str, commentable_id)
     commentable_str.constantize.find(commentable_id)
+  end
+  
+  def text
+    [body,title].reject(&:blank?).first
+  end
+
+  def as_json(options={})
+    super({only:[:id, :user_id], methods:[:text]}.merge(options))
   end
 end

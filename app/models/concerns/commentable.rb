@@ -17,7 +17,11 @@ module Commentable
   extend ActiveSupport::Concern
 
   included do
-    has_many :comment_threads, :class_name => "Comment", :as => :commentable
+    has_many :comment_threads, ->{ order(created_at: :asc) }, :class_name => "Comment", :as => :commentable
+    accepts_nested_attributes_for :comment_threads, 
+      reject_if: proc{|attrs| attrs['body'].blank? && attrs['title'].blank? },
+      allow_destroy: true
+      
     before_destroy { |record| record.root_comments.destroy_all }
   end
   
@@ -33,7 +37,7 @@ module Commentable
 
   # Helper method that defaults the submitted time.
   def add_comment(comment)
-    comments << comment
+    comment_threads << comment
   end
 
   module ClassMethods  

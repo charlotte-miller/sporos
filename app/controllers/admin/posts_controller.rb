@@ -53,31 +53,7 @@ class Admin::PostsController < Admin::BaseController
       @approval_statuses[group]= status=='accepted' ? 'complete' : 'disabled' #simplified for view
     end
     
-    @comments_data = {
-      approval_request_id: @current_users_approval_request.id,
-      xss_token: form_authenticity_token,
-      current_user:{
-        id:current_user.id,
-        status: @current_users_approval_request.status ,
-        is_author: current_user == @post.author },
-      comments: @comments.map do |comment| 
-        { id:comment.id,
-          text:comment.body,
-          author_id: comment.author.id }
-        end,
-      approvers: @post.approvers.inject({}) do|hash, approver|
-        hash[approver.id]= {
-          first_name:approver.first_name,
-          last_name: approver.last_name,
-          profile_micro: approver.profile_image.url(:micro),
-          profile_thumb: approver.profile_image.url(:thumb),  }
-          hash
-        end,
-      post:{
-        ministry_possessive: @post.ministry.name.titleize.possessive,
-        author_first_name: @post.author.first_name
-      }
-    }
+    @comments_data ||= comments_data
     
     respond_with(@post)
   end

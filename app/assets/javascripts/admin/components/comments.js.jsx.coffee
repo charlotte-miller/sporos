@@ -2,6 +2,7 @@ CStone.Admin.Components.Comments= React.createClass
   
   propTypes:
     approval_request_id: React.PropTypes.number.isRequired
+    approval_request_path: React.PropTypes.string.isRequired
     post: React.PropTypes.shape
       ministry_possessive: React.PropTypes.string.isRequired
       author_first_name: React.PropTypes.string.isRequired
@@ -23,6 +24,20 @@ CStone.Admin.Components.Comments= React.createClass
     comment:''
     approve_default:true
     # current_users_post:
+    
+  # getDefaultProps: ->
+  
+  componentDidMount: ->
+    @setState poll_process: setInterval =>
+      if @isMounted()
+        $.getJSON "#{@props.approval_request_path}.json", (data)=>
+          @setProps(data) if @isMounted()
+    , 5000
+  
+  
+  componentWillUnmount: ->
+    clearInterval @state.poll_process
+  
   
   current_user: ->
     @props.approvers[@props.current_user.id]
@@ -37,19 +52,28 @@ CStone.Admin.Components.Comments= React.createClass
     e.preventDefault()
     @setState(comment: event.target.value)
   
+  handleSubmit: (e)->
+    e.preventDefault()
+    url       = @refs.comment_form.props.action
+    form_data = $(@refs.comment_form.getDOMNode()).serialize()
+    $.post url, form_data, (data)=> 
+      @setState(comment:'')
+      @setProps(data)
+      
+  
   buildComments: ->
     _(@props.comments).map (comment)=>
-      my_comment = comment.author.id == @props.current_user.id
+      my_comment = @author_of(comment).id == @props.current_user.id
       all_comment_parts = [
        `<div className="user media-left pull-left">
           <a href="#">
-            <img src={this.author_of(comment).profile_thumb} height='64' width='64' className='img-circle media-object' alt={this.author_of(comment).first_name+' '+this.author_of(comment).last_name} />
+            <img src={_this.author_of(comment).profile_thumb} height='64' width='64' className='img-circle media-object' alt={_this.author_of(comment).first_name+' '+_this.author_of(comment).last_name} />
           </a>
         </div>`
         ,
        `<div className="media-body">
           <h4 className="media-heading user-name">
-            {comment.author.name}
+            {_this.author_of(comment).name}
           </h4>
           <div className="comment-body">
             {comment.text}
@@ -58,7 +82,7 @@ CStone.Admin.Components.Comments= React.createClass
         ,
        `<div className="user media-right pull-right">
           <a href="#">
-            <img src={this.author_of(comment).profile_thumb} height='64' width='64' className='img-circle media-object' alt={this.author_of(comment).first_name+' '+this.author_of(comment).last_name} />
+            <img src={_this.author_of(comment).profile_thumb} height='64' width='64' className='img-circle media-object' alt={_this.author_of(comment).first_name+' '+_this.author_of(comment).last_name} />
           </a>
         </div>` ]
       rm_index= if my_comment then 0 else 2
@@ -83,12 +107,12 @@ CStone.Admin.Components.Comments= React.createClass
         </a>
       </div>
       <div className="media-body">
-        <form className="edit_approval_request" id={"edit_approval_request_"+this.props.approval_request_id} action={"/admin/approval_requests/"+this.props.approval_request_id} acceptCharset="UTF-8" method="post">
+        <form onSubmit={ this.handleSubmit } ref="comment_form" className="edit_approval_request" id={"edit_approval_request_"+this.props.approval_request_id} action={"/admin/approval_requests/"+this.props.approval_request_id+".json"} acceptCharset="UTF-8" method="post">
           <input name="utf8" type="hidden" value="&#x2713;" />
           <input type="hidden" name="_method" value="patch" />
           <input type="hidden" name="authenticity_token" value={this.xss_token} />
           <div className="form-group">           
-            <textarea id="comment-field" placeholder={this.placeholder()} value={this.state.comment} onChange={this.handleCommentChange} className="form-control" name="approval_request[new_comment]"></textarea>
+            <textarea id="comment-field" placeholder={this.placeholder()} value={this.state.comment} onChange={this.handleCommentChange} className="form-control" name="approval_request[comment_threads_attributes][][body]"></textarea>
           </div>
           
           { this.buildApprovers() }

@@ -145,4 +145,30 @@ RSpec.describe ApprovalRequest, :type => :model do
       expect(@subject.unread_comments.reload).to be_empty
     end
   end
+  
+  describe '#add_a_comment(text)' do
+    before(:each) do
+      @author ||= @ministry.volunteers.first
+      @post = create(:post, ministry:@ministry, author: @author)
+      @approval_requests = @post.approval_requests
+    end
+    subject { @approval_requests.first }
+    let(:run!) { 
+      subject.add_a_comment 'Foo and bar are wrong... Baz is right' }
+    
+    
+    it 'creates a comment' do
+      expect { run! }.to change(subject.comment_threads, :count).by(1)
+    end
+    
+    it 'associates the comment with the @approval_requests and @approval_requests.user' do
+      comment = run!
+      expect(comment.commentable).to eq(subject)
+      expect(comment.author).to eq(subject.user)
+    end
+    
+    it 'returns the created comment' do
+      expect(run!).to be_a Comment
+    end
+  end
 end

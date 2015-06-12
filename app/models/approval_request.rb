@@ -21,9 +21,13 @@
 class ApprovalRequest < ActiveRecord::Base
   include Commentable
   
-  attr_accessor :new_comment
-  attr_accessible :user, :user_id, :post, :post_id, :status
+  attr_protected #none
+  # attr_accessible :user, :user_id, :post, :post_id, :status, :comment_threads_attributes
   enum status: [ :pending, :accepted, :rejected, :archived ].freeze
+  
+  def as_json(options={})
+    super({only:[:id, :user_id, :post_id, :status], include:[comment_threads:{only:[:id, :user_id], methods:[:text]}]}.merge(options))
+  end
   
   # ---------------------------------------------------------------------------------
   # Associations
@@ -118,6 +122,7 @@ class ApprovalRequest < ActiveRecord::Base
         concensus_hash[key]= supporter.try(:status)
       end
     end
+    
     {'AUTHOR'=>'undecided', 'LEADER'=>'undecided','EDITOR'=>'undecided'}.merge( concensus_hash )
   end
   
@@ -137,5 +142,10 @@ class ApprovalRequest < ActiveRecord::Base
   
   def archive_unchecked_requests
     self.peers.where('status = 0').update_all('status = 3')
+  end
+  
+  def add_a_comment(text)
+    self.add_comment comment = Comment.create(body:text, user_id:user_id)
+    return comment
   end
 end

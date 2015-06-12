@@ -70,7 +70,7 @@ Rails.application.routes.draw do
     resources :uploaded_files, only: [:index, :create, :destroy]
     patch 'uploaded_files' => 'uploaded_files#create'
     
-    resources :approval_requests, only: :update
+    resources :approval_requests, only: [:show, :update]
     
     resources :studies, :lessons
     

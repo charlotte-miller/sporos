@@ -1,3 +1,4 @@
+ReactCSSTransitionGroup = React.addons.CSSTransitionGroup
 CStone.Admin.Components.Comments= React.createClass
   
   propTypes:
@@ -22,8 +23,8 @@ CStone.Admin.Components.Comments= React.createClass
   
   getInitialState: ->
     comment:''
-    approve_default:true
-    # current_users_post:
+    approve_default: @props.current_user.status != 'rejected'
+    already_decided: @props.current_user.status != 'pending'
     
   # getDefaultProps: ->
   
@@ -48,6 +49,11 @@ CStone.Admin.Components.Comments= React.createClass
   placeholder: ->
     if @props.is_author then "Any additional comments for the #{@props.post.ministry_possessive} ministry team?" else "#{@props.post.author_first_name} would appreciate feedback"
   
+  proposed_status: ->
+    if @state.approve_default then 'accepted' else 'rejected'
+    
+  status_title: -> if @state.approve_default then 'Approved' else 'Rejected'
+    
   handleCommentChange: (e)->
     e.preventDefault()
     @setState(comment: event.target.value)
@@ -56,10 +62,21 @@ CStone.Admin.Components.Comments= React.createClass
     e.preventDefault()
     url       = @refs.comment_form.props.action
     form_data = $(@refs.comment_form.getDOMNode()).serialize()
-    $.post url, form_data, (data)=> 
-      @setState(comment:'')
+    $.post url, form_data, (data)=>
       @setProps(data)
+      @setState
+        comment:''
+        approve_default: @props.current_user.status != 'rejected'
+        already_decided: @props.current_user.status != 'pending'
       
+      
+  
+  handleToggleStatus: (e,default_to_approve)->
+    e.preventDefault()
+    if @state.approve_default != default_to_approve
+      @setState 
+        approve_default: default_to_approve
+        already_decided: @props.current_user.status == if default_to_approve then 'accepted' else 'rejected'
   
   buildComments: ->
     _(@props.comments).map (comment)=>
@@ -99,6 +116,40 @@ CStone.Admin.Components.Comments= React.createClass
       { approver_pics }
      </div>`
   
+  buildSubmitButton: ->
+    classes = (options={})=>
+      React.addons.classSet( _({
+        'btn':true
+        'btn-success' : @state.approve_default
+        'btn-danger'  : !@state.approve_default
+        'disabled'    : @state.already_decided
+      }).extend(options))
+      
+    btn_cta = if @state.already_decided
+      "Already #{@status_title()}"
+    else if @state.approve_default
+      "Approve Post"
+    else
+      "Reject Post"
+    
+    context = @
+    `<div className="btn-group dropup">
+      <input type="submit" name="commit" value={btn_cta} className={ classes() } />
+      <button className={classes({'dropdown-toggle':true, disabled:false})} data-toggle='dropdown'>
+        <span className="caret"></span>
+        <span className="sr-only">Toggle Dropdown</span>
+      </button>
+      <ul className="dropdown-menu dropdown-menu-right" role="menu">
+        <li>
+          <a href="#" onClick={ function(e){ context.handleToggleStatus(e, true) } }>Approve Post</a>
+        </li>
+        <li className="divider"></li>
+        <li>
+          <a href="#" onClick={ function(e) { context.handleToggleStatus(e, false) }  }>Reject Post</a>
+        </li>
+      </ul>
+    </div>`
+  
   buildCommentBox: ->
     `<div className="comment media">
       <div className="user media-right pull-right media-middle">
@@ -111,6 +162,7 @@ CStone.Admin.Components.Comments= React.createClass
           <input name="utf8" type="hidden" value="&#x2713;" />
           <input type="hidden" name="_method" value="patch" />
           <input type="hidden" name="authenticity_token" value={this.xss_token} />
+          <input type="hidden" name="approval_request[status]" value={this.proposed_status()} />
           <div className="form-group">           
             <textarea id="comment-field" placeholder={this.placeholder()} value={this.state.comment} onChange={this.handleCommentChange} className="form-control" name="approval_request[comment_threads_attributes][][body]"></textarea>
           </div>
@@ -119,22 +171,7 @@ CStone.Admin.Components.Comments= React.createClass
           
           <div className="form-group pull-right">
             <input type="submit" name="commit" value="Only Comment" className="btn btn-link" />
-            <div className="btn-group dropup">
-              <input type="submit" name="commit" value="Approve Post" className="btn btn-success" />
-              <button className='btn btn-success dropdown-toggle' data-toggle='dropdown'>
-                <span className="caret"></span>
-                <span className="sr-only">Toggle Dropdown</span>
-              </button>
-              <ul className="dropdown-menu dropdown-menu-right" role="menu">
-                <li>
-                  <a href="#">Approve Post</a>
-                </li>
-                <li className="divider"></li>
-                <li>
-                  <a href="#">Reject Post</a>
-                </li>
-              </ul>
-            </div>
+            { this.buildSubmitButton() }
           </div>
         </form>
       </div>

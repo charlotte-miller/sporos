@@ -332,22 +332,122 @@ html,body{
   }
   
   #comments{
-    @extend .row; 
+    @extend .col-xs-12;
+    color:$gray-darker;
     
     #read-comments{
       .comment{
         margin: 0;
         padding: 20px 0;
+        position:relative;
       }
     }
-    #write-comments{
+    #write-comments{ }
       #comment-field{
         @extend .col-xs-12;
         min-height: 90px;
         padding: 10px 15px;
         font-size: 16px;
-        margin-bottom:10px;
+      
+        textarea{
+          background-color: transparent;
+          border: none;
+          box-shadow: none;
+          outline:none;
+          font-size:16px;
+          resize:none;
+          min-height:50px;
+          @extend %transitionMinHeight;
+          
+          &:focus{ min-height:100px; }
+        }
       }
+      #comment-submit-row{
+        margin-right:64px;
+        margin-top:10px;
+      }
+
+    
+    .user{
+      position:relative;
+      
+      .tri-left:before, .tri-left:after,
+      .tri-right:before, .tri-right:after{
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-color: transparent;
+        margin-top: 5px;
+        
+        z-index: 1;
+      }
+
+      /* Stroke */
+      .tri-left:before {
+        top:0;
+        bottom: -16px;
+        right: 0px;
+        border-right-color: $gray-light;
+        border-width: 0px 17px 17px 0;
+        margin-right: -1px;
+      }
+
+      /* Fill */
+      .tri-left:after {
+        right: 0px;
+        top:1px;
+        border-right-color: #FFF;
+        border-width: 0px 15px 15px 0;
+        margin-right: -1px;
+      }
+      
+      .tri-right:before {
+        bottom: 0px;
+        left: 0px;
+        border-bottom-color: $gray-light;
+        border-width: 0 17px 17px 0;
+        margin-left: -1px;
+      }
+
+      /* Fill */
+      .tri-right:after {
+        left: 0px;
+        bottom:1px;
+        border-bottom-color: $gray-lighter;
+        border-width: 0 15px 15px 0;
+        margin-left: -1px;
+      }
+    }
+    
+    .word-bubble{
+      position:relative;
+      margin-left:0;
+      margin-right:0;
+      min-height:70px;
+      padding:15px;
+      @include gradient-vertical(#FFF, $gray-lighter, 70%, 100%);
+      border:1px solid $gray-light;
+      border-radius:5px;
+      border-top-left-radius:0px;
+      border-bottom-right-radius:0px;
+    }
+    
+    .my-comment{
+      .word-bubble{
+        border-bottom-right-radius:0px;
+        border-top-left-radius:5px;
+        @include gradient-vertical(#FFF, $gray-lighter, 70%, 90%);
+      }
+    }
+    
+    #approvers{
+      @extend .col-xs-7;
+    }
+    #comment-buttons{
+      @extend .col-xs-5;
+      text-align:right;
     }
   }
 

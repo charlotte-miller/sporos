@@ -65,12 +65,17 @@
   @include animation( none !important);
 }
 
-%transitionHeight   { @include transitionValue(height);        }
-%transitionOpacity  { @include transitionValue(opacity);       }
-%transitionWidth    { @include transitionValue(width);         }
-%transitionMargin   { @include transitionValue(margin);        }
-%transitionTop      { @include transitionValue(top);           }
-%transitionTransform{ @include transitionValue(transform);     }
+.instant-animation{
+  @include animation-duration(0s !important);
+}
+
+%transitionHeight     { @include transitionValue(height);        }
+%transitionMinHeight  { @include transitionValue(min-height);    }
+%transitionOpacity    { @include transitionValue(opacity);       }
+%transitionWidth      { @include transitionValue(width);         }
+%transitionMargin     { @include transitionValue(margin);        }
+%transitionTop        { @include transitionValue(top);           }
+%transitionTransform  { @include transitionValue(transform);     }
 
 .fadeIn{ @include animation(fadein 1s); }
 @include keyframes(fadein) {

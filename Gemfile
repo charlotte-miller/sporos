@@ -26,7 +26,7 @@ gem 'devise', '>= 2.0.0'
 gem 'devise_invitable', '~> 1.3.4'
 gem 'cancancan', '~> 1.10.1'
 gem "friendly_id", '~> 5.0.4'
-gem 'kaminari'
+gem 'kaminari'  #see config/initializers/kaminari_config.rb
 gem 'protected_attributes'
 gem 'awesome_nested_set', '~> 3.0.2'
 

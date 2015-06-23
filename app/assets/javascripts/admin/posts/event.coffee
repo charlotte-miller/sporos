@@ -3,6 +3,16 @@
 $ ->
   $('.to-nowhere').click (e)-> e.preventDefault()
   
+  $('.well.checkbox').click (e)->
+    e.preventDefault()
+    # $('#comm-arts-request-design-checkbox').prop('checked', toggle)
+  
+  $('#comm-arts-request-design-checkbox').on 'change', ->
+    if $(@).prop('checked')
+      $('#comm_arts_design_questions').addClass 'open-drawer'
+    else
+      $('#comm_arts_design_questions').removeClass 'open-drawer'
+  
   # Date Picker
   if $('.pick-a-date, pick-a-date-w-clear').length
     min_date = new Date

@@ -55,7 +55,31 @@
       %p.help-block 
         %b Example: 
         Registration ends before the event. | Leave blank to use the start-time of the event.
-
+        
     .field
-      = f.label :comm_arts_request, 'CommArts Request'
-      = f.text_area :comm_arts_request, class:'form-control', placeholder:"Video, graphic design, print... What's your idea?"
+      %ul.nav.nav-tabs
+        %li.active{role:'presentation'}
+          %a{href:'#comm-arts-design', data:{toggle:'tab'}} Design
+        %li{role:'presentation'}
+          %a{href:'#comm-arts-print', data:{toggle:'tab'}} Print
+      .well.tab-content
+        #comm-arts-design.tab-pane.fade.in.active
+          %p Whether it’s getting people to take part in an event or just try out Cornerstone for the very first time, communication can help you reach your goals. These values, best practices, and guidelines are here to help you remove as many obstacles as possible that might get in the way of people taking their next steps with Christ.
+        
+          .field
+            .well.checkbox
+              = f.label :comm_arts_request do
+                = f.check_box :comm_arts_request, id:'comm-arts-request-design-checkbox'
+                I need a design created for this event.
+            #comm_arts_design_questions
+              .field
+                = f.label :comm_arts_request, 'Purpose'
+                = f.text_area :comm_arts_request, class:'form-control', placeholder:"A brief statement of what you want the design to accomplish."
+              .field
+                = f.label :comm_arts_request, 'Tone'
+                = f.text_area :comm_arts_request, class:'form-control', placeholder:"How do you want people to feel after seeing the design?"
+              .field
+                = f.label :comm_arts_request, 'Call to Action'
+                = f.text_area :comm_arts_request, class:'form-control', placeholder:"What do you want people to DO after seeing the design?"
+        #comm-arts-print.tab-pane.fade.in
+          Print Requests are Great

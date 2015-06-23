@@ -358,6 +358,7 @@ html,body{
           resize:none;
           min-height:50px;
           @extend %transitionMinHeight;
+          padding:5px;
           
           &:focus{ min-height:100px; }
         }
@@ -485,11 +486,17 @@ html,body{
   }
 }
 
+#onboarding_messages{
+  h3{
+    margin-top:0 !important;
+  }
+}
+
 #post-form{
   .field{
     @extend .form-group;
   }
-  
+    
   #instrutions{
     @include transitionValue('all');
     
@@ -552,13 +559,24 @@ html,body{
      
     #advanced-drawer{
       @include transitionValue('max-height');
-      max-height:400px;
+//      max-height:400px;
       overflow:hidden;
   
       &.closed{
         max-height:0px;
         padding:0px;
       } 
+    }
+      
+    #comm_arts_design_questions{
+      overflow:hidden;
+      height:0px;
+      min-height:0px;
+      @include transitionValue(min-height);
+      
+      &.open-drawer{
+        min-height:270px;
+      }
     }
     
   .nav{

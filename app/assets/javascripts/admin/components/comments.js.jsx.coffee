@@ -31,12 +31,15 @@ CStone.Admin.Components.Comments= React.createClass
   
   componentDidMount: ->
     @setState
-      animate_comments:true
       poll_process: setInterval =>
         if @isMounted()
           $.getJSON "#{@props.approval_request_path}.json", (data)=>
             @setProps(data) if @isMounted()
       , 5000
+    
+    setTimeout =>
+      @setState( animate_comments:true ) if @isMounted()
+    , 1000
   
   
   componentWillUnmount: ->
@@ -206,7 +209,7 @@ CStone.Admin.Components.Comments= React.createClass
   
   render:->
     `<div id="comments">
-      <h3>Feedback:</h3>
+      <h3>Discussion:</h3>
       <div id="read-comments">
         { this.buildComments() }
       </div>

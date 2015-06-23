@@ -15,10 +15,9 @@ class Admin::ApprovalRequestsController < Admin::BaseController
   end
   
   def update
-    comment_text = approval_request_params[:new_comment]
-    @approval_request.add_a_comment( comment_text ) if comment_text.present?
     @approval_request.update(approval_request_params)
     
+    # comments_data
     @comments = @approval_request.comment_threads
     @current_users_approval_request =  @approval_request
     @post = @approval_request.post
@@ -44,12 +43,4 @@ private
     normalized_status = params[:commit] =~ /Approve/ ? 'accepted' : 'rejected'
     params[:approval_request][:status] = normalized_status
   end
-  
-  # def approval_requests_links_url
-  #   admin_approval_requests_url
-  # end
-  #
-  # def approval_requests_link_url(approval_request)
-  #   admin_approval_request_url(approval_request)
-  # end
 end

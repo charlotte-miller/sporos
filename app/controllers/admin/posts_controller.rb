@@ -59,6 +59,7 @@ class Admin::PostsController < Admin::BaseController
   end
 
   def new
+    @current_users_post_count = current_user.posts.count
     @type = params[:post_type]
     @post = "posts/#{@type}".classify.constantize.new
     set_vimeo_js_vars

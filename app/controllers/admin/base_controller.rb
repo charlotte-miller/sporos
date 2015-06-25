@@ -10,7 +10,7 @@ protected
   def safe_ministry_id
     ministry_ids = current_user.ministries.pluck('id')
     if ministry_ids.length > 1
-      if ministry_ids.include? params[:ministry_id].to_i
+      if ministry_ids.include? post_params[:ministry_id].to_i
         post_params[:ministry_id] 
       else
         nil

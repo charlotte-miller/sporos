@@ -22,7 +22,10 @@ require 'rails_helper'
 
 RSpec.describe ApprovalRequest, :type => :model do
   before(:all) do
-    @ministry = create(:populated_ministry)
+    @ministry  = create(:populated_ministry)
+    @leader    = @ministry.leaders.first
+    @volunteer = @ministry.volunteers.first
+    @editor    = @ministry.editors.first
   end
   
   subject { build(:approval_request) }
@@ -136,10 +139,11 @@ RSpec.describe ApprovalRequest, :type => :model do
       @approval_requests = @post.approval_requests
       @subject = @approval_requests.first
       # @leader1, @leader2, @editor1, @editor2 = @approval_requests
-      @comments = @approval_requests.first.comment_threads << 2.times.map { create(:comment)}
+      @comments = @subject.add_comment create(:comment, commentable:@subject, user:@author)
     end
     
     it 'returns comments that were created after last_vistited_at' do
+      expect(@subject.unread_comments).to_not be_empty
       expect(@subject.unread_comments).to eq(@comments)
       @subject.touch(:last_vistited_at)
       expect(@subject.unread_comments.reload).to be_empty
@@ -169,6 +173,46 @@ RSpec.describe ApprovalRequest, :type => :model do
     
     it 'returns the created comment' do
       expect(run!).to be_a Comment
+    end
+  end
+
+  describe '#current_concensus' do
+    before(:each) do
+      @post = create(:post, author:@volunteer, ministry:@ministry)
+      @subject = ApprovalRequest.where(post:@post, user:@volunteer).first
+    end
+    
+    it "returns each included group as the key" do
+      expect(@subject.current_concensus.keys).to eq(%w{VOLUNTEER LEADER EDITOR})
+    end
+    
+    it 'does not include empty groups (less involved)' do
+      post    = create(:post, author:@leader, ministry:@ministry)
+      subject = ApprovalRequest.where(post:post, user:@leader).first
+      expect(subject.current_concensus.keys).not_to include('VOLUNTEER')
+      expect(subject.current_concensus.keys).to     include('LEADER')
+      expect(subject.current_concensus.keys).to     include('EDITOR')
+    end
+    
+    it 'takes only 1 vote to decide for a group' do
+      leader = @ministry.leaders.sample
+      editor = @ministry.editors.sample
+      
+      expect(@subject.current_concensus['LEADER']).to eql 'undecided'
+      ApprovalRequest.where(post:@post, user:leader).first.accepted!
+      expect(@subject.reload.current_concensus['LEADER']).to eql 'accepted'
+      
+      expect(@subject.current_concensus['EDITOR']).to eql 'undecided'
+      ApprovalRequest.where(post:@post, user:editor).first.rejected!
+      expect(@subject.reload.current_concensus['EDITOR']).to eql 'rejected'
+    end
+    
+    it '[optionally] marks the current_user as "AUTHOR"' do
+      expect(@subject.current_concensus(:mark_author).keys).to eq(%w{AUTHOR LEADER EDITOR})
+      
+      post    = create(:post, author:@leader, ministry:@ministry)
+      subject = ApprovalRequest.where(post:post, user:@leader).first
+      expect(subject.current_concensus(:mark_author).keys).to eq(%w{AUTHOR EDITOR})
     end
   end
 end

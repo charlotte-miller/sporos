@@ -28,7 +28,7 @@ module PostsHelper
     
     @comments_data ||= {
       approval_request_id: @current_users_approval_request.id,
-      approval_request_path: admin_approval_request_path(@current_users_approval_request),
+      approval_request_path: Rails.application.routes.url_helpers.admin_approval_request_path(@current_users_approval_request),
       xss_token: form_authenticity_token,
       current_user:{
         id:current_user.id,

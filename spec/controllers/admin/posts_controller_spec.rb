@@ -54,16 +54,38 @@ RSpec.describe Admin::PostsController, :type => :controller do
   end
 
   describe "GET show" do
-    it "assigns the requested post as @post" do
-      post = create(:post, ministry:@ministry, author:@user)
-      get :show, {:id => post.to_param}, valid_session
-      expect(assigns(:post)).to eq(post)
+    let(:post) { create(:post, ministry:@ministry, author:@user) }
+    
+    describe 'assigns' do
+      before(:each) do
+        get :show, {:id => post.to_param}, valid_session
+      end
+      
+      it "@post" do
+        expect(assigns(:post)).to eq(post)
+      end
+    
+      it '@approval_statuses' do
+        expect(assigns(:approval_statuses)).to eq(assigns(:current_users_approval_request).current_concensus(:mark_author))
+      end
+    
+      it '@comments' do
+        expect(assigns(:comments)).to eq(post.comment_threads)
+      end
+    
+      it '@current_users_approval_request' do
+        expect(assigns(:current_users_approval_request)).to eq(ApprovalRequest.find_by( user:@user, post:post ))
+      end
+    
+      it '@approvers' do
+        expect(assigns(:approvers)).to eq(post.approvers - [@user])
+      end
+    
+      it '@comments_data' do
+        expect(assigns(:comments_data)).to eq(controller.comments_data)
+      end
     end
     
-    it 'assigns approval_statuses to @approval_statuses' do
-      skip
-      {AUTHOR:'complete', LEADER:'complete',EDITOR:'disabled'}
-    end
   end
 
   describe "GET new" do

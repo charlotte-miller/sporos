@@ -36,6 +36,7 @@ html,body{
 }
 
 #new-post{  
+  @extend %newCSSLayer;
   height: 100%;
   width: 100%;
   position: fixed;
@@ -300,6 +301,10 @@ html,body{
     background-color:$gray-lighter;
   }
   
+  .col-xs-7{
+    padding-right:0px;
+  }
+  
   #status{
     line-height: 24px;
     padding: 10px 20px;
@@ -318,7 +323,7 @@ html,body{
   
   #status-action{
     @extend .pull-right;
-    padding: 0 20px;
+    padding: 0 0 0 20px;
     width:100%;
     margin-top: -5px;
   }
@@ -466,22 +471,29 @@ html,body{
         
         .progress-bar {width:100%; box-shadow: none; background: $brand-success;}
       }
-      &.disabled > .step-progress-dot {background-color: $gray-lighter; border:3px solid $brand-success;}
-      &.complete .glyphicon {
+      &.undecided > .step-progress-dot{background-color: $gray-lighter; border:3px solid $brand-success;}
+      &.rejected > .step-progress-dot {background-color: darken($brand-danger, 5%); border:2px solid $gray-lighter;}
+      &.accepted .glyphicon {
         @extend .glyphicon-ok;
         color:$gray-lighter;
         left:8px;
         top:4px;
       }
-      &.disabled .glyphicon {
+      &.undecided .glyphicon {
         @extend .glyphicon-refresh;
         color:$gray-light;
         top:2px;
         left:5px;
       }
+      &.rejected .glyphicon {
+        @extend .glyphicon-remove;
+        color:$gray-lighter;
+        top:3px;
+        left:6px;
+      }
       &:first-child  > .progress {left: 50%; width: 50%;}
       &:last-child  > .progress {width: 50%;}
-       .step-progress-step.completed a.step-progress-dot{ pointer-events: none; }
+       .step-progress-step.accepted a.step-progress-dot{ pointer-events: none; }
     }
   }
 }

@@ -2,27 +2,34 @@ require 'rails_helper'
 
 RSpec.describe "admin/posts/show", :type => :view do
   include PostsHelper
-  
-  before(:each) do
-    @post = assign(:post, build_stubbed(:post,
+    
+  before(:all) do
+    @ministry = create(:populated_ministry)
+    @post     = assign(:post, create(:post,
+      :ministry => @ministry, 
+      :author => @ministry.volunteers.first, 
       :title => "MyText",
       :description => "MyText",
       :poster => "",
       :url => 'http://www.thevillagechurch.net/resources/sermons/series/james/',
     ))
-    @approval_statuses = assign(:approval_statuses, {AUTHOR:'complete', LEADER:'complete',EDITOR:'disabled'})
-    @comments = []
-    # @type = assign(:type, post_type_of(@post))
+    def form_authenticity_token; 'adsfads' ;end
+    def current_user; @post.author ;end
     
-    view.stub(:current_user) { User.new }
+    @current_users_approval_request = assign(:current_users_approval_request, ApprovalRequest.find_by( user:@post.author, post:@post ))
+    @approval_statuses = assign(:approval_statuses, {AUTHOR:'complete', LEADER:'complete',EDITOR:'disabled'})
+    @comments = assign(:comments, [])
+    @comments_data = assign(:comments_data, comments_data)
   end
 
   it "renders attributes" do
+    view.stub(:current_user) {  @post.author }
     render
     expect(rendered).to match(%r{http://www.thevillagechurch.net/resources/sermons/series/james/})
   end
   
   it 'renders approval_statuses' do
+    view.stub(:current_user) {  @post.author }
     render
     assert_select '.step-progress-step.complete', count:2
     assert_select '.step-progress-step.disabled', count:1

@@ -1,6 +1,6 @@
 .row.step-progress
   - approval_statuses.each do |approval_group, status|
-    .col-xs-4.step-progress-step{class:status}
+    .step-progress-step{class:[status, "col-xs-#{12 / approval_statuses.length}"].join(' ')}
       .progress
         .progress-bar
       .step-progress-dot

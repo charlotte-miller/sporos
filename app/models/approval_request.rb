@@ -107,23 +107,25 @@ class ApprovalRequest < ActiveRecord::Base
     end
   end
   
-  def current_concensus
-    votes = [self] | peers.decided
+  def current_concensus(mark_author=false)
+    votes = [self] | peers
     concensus_hash = votes.group_by do |vote|
       voters_involvement = Involvement.where(ministry: post.ministry, user:vote.user)
       group_name = voters_involvement.first.level.upcase
-      group_name == 'VOLUNTEER' ? 'AUTHOR' : group_name
+      (mark_author && (vote.user_id == post.user_id))  ? 'AUTHOR' : group_name
     end
+
     concensus_hash.each do |key, votes| 
-      if votes.include?('rejected')
+      if votes.find(&:rejected?)
         concensus_hash[key]= 'rejected'
+      elsif supporter = votes.find(&:accepted?)
+        concensus_hash[key]= 'accepted'
       else
-        supporter = votes.find {|v|v.status == 'accepted'}
-        concensus_hash[key]= supporter.try(:status)
+        concensus_hash[key]= 'undecided'
       end
     end
-    
-    {'AUTHOR'=>'undecided', 'LEADER'=>'undecided','EDITOR'=>'undecided'}.merge( concensus_hash )
+
+    concensus_hash
   end
   
   def reject_post!

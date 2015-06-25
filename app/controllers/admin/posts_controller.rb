@@ -48,11 +48,7 @@ class Admin::PostsController < Admin::BaseController
     @comments = @post.comment_threads
     @current_users_approval_request = ApprovalRequest.find_by( user:current_user, post:@post )
     @approvers = @post.approvers - [current_user]
-    @approval_statuses = @current_users_approval_request.current_concensus
-    @approval_statuses.each do |group, status|
-      @approval_statuses[group]= status=='accepted' ? 'complete' : 'disabled' #simplified for view
-    end
-    
+    @approval_statuses = @current_users_approval_request.current_concensus(:mark_author)
     @comments_data ||= comments_data
     
     respond_with(@post)
@@ -111,53 +107,53 @@ class Admin::PostsController < Admin::BaseController
     render json: completed_reply.to_h
   end
   
-  private
-    def set_post
-      @post ||= current_user.posts.includes(:ministry).find_by(public_id:params[:id])
-      @post ||= current_user.approval_requests.action_required.includes(:post).map(&:post).find {|post| post.public_id == params[:id]}
-    end
-    
-    def set_type
-      @type ||= post_type_of( @post )
-    end
-        
-    def post_params
-      @post_params ||= params
-      .require(:post).permit(:type, :ministry_id, :title, :description, :poster, :poster_remote_url, :expired_at, 
-                             :vimeo_id, display_options:[:url, :event_date, :event_time, :location, poster_alternatives:[]])
-      .merge({current_session:session.id})
-    end
-    
-    def posts_url
-      admin_posts_url
-    end
+private
+  def set_post
+    @post ||= current_user.posts.includes(:ministry).find_by(public_id:params[:id])
+    @post ||= current_user.approval_requests.action_required.includes(:post).map(&:post).find {|post| post.public_id == params[:id]}
+  end
+  
+  def set_type
+    @type ||= post_type_of( @post )
+  end
+      
+  def post_params
+    @post_params ||= params
+    .require(:post).permit(:type, :ministry_id, :title, :description, :poster, :poster_remote_url, :expired_at, 
+                           :vimeo_id, display_options:[:url, :event_date, :event_time, :location, poster_alternatives:[]])
+    .merge({current_session:session.id})
+  end
+  
+  def posts_url
+    admin_posts_url
+  end
 
-    def post_url(post)
-      admin_post_url(post)
+  def post_url(post)
+    admin_post_url(post)
+  end
+  
+  def set_possible_poster_images
+    if set_type == 'link'
+      @possible_poster_images ||= ([@post.poster.url] | (@post.poster_alternatives || []) ).compact
     end
-    
-    def set_possible_poster_images
-      if set_type == 'link'
-        @possible_poster_images ||= ([@post.poster.url] | (@post.poster_alternatives || []) ).compact
-      end
+  end
+  
+  def keep_poster_alternatives
+    post_params[:display_options] ||= {}
+    if set_type == 'link' && post_params[:display_options][:poster_alternatives].nil?
+      post_params[:display_options][:poster_alternatives] = @post.poster_alternatives
     end
-    
-    def keep_poster_alternatives
-      post_params[:display_options] ||= {}
-      if set_type == 'link' && post_params[:display_options][:poster_alternatives].nil?
-        post_params[:display_options][:poster_alternatives] = @post.poster_alternatives
-      end
+  end
+  
+  def set_vimeo_js_vars
+    if @post.is_a? Posts::Video
+      ticket = VimeoCreateTicket.new
+      gon.vimeo = {
+        upload_link_secure: ticket.upload_link_secure,
+        complete_uri:       ticket.complete_uri,
+        ticket_id:          ticket.ticket_id,
+        uri:                ticket.uri
+      }
     end
-    
-    def set_vimeo_js_vars
-      if @post.is_a? Posts::Video
-        ticket = VimeoCreateTicket.new
-        gon.vimeo = {
-          upload_link_secure: ticket.upload_link_secure,
-          complete_uri:       ticket.complete_uri,
-          ticket_id:          ticket.ticket_id,
-          uri:                ticket.uri
-        }
-      end
-    end
+  end
 end

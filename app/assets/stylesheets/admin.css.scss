@@ -523,7 +523,7 @@ html,body{
   }
     
   #instrutions{
-    @include transitionValue('all');
+    @include transitionValue(all);
     
     #instruction-text{}
     #show-loading{
@@ -583,8 +583,6 @@ html,body{
   }
      
     #advanced-drawer{
-      @include transitionValue('max-height');
-//      max-height:400px;
       overflow:hidden;
   
       &.closed{
@@ -597,10 +595,15 @@ html,body{
       overflow:hidden;
       height:0px;
       min-height:0px;
-      @include transitionValue(min-height);
       
       &.open-drawer{
         min-height:270px;
+        height:inherit;
+      }
+      
+      .description{
+        display:inline-block;
+        color:$gray;
       }
     }
     

@@ -74,13 +74,16 @@
               #comm_arts_design_questions
                 .field
                   = ff.label :design_purpose, 'Purpose'
-                  = ff.text_area :design_purpose, class:'form-control', placeholder:"A brief statement of what you want the design to accomplish."
+                  .description A brief statement of what you want the design to accomplish.
+                  = ff.text_area :design_purpose, class:'form-control', placeholder:"Example: To help more Cornerstone members attend the Global Leadership Summit"
                 .field
                   = ff.label :design_tone, 'Tone'
-                  = ff.text_area :design_tone, class:'form-control', placeholder:"How do you want people to feel after seeing the design?"
+                  .description How do you want people to feel after seeing the design?
+                  = ff.text_area :design_tone, class:'form-control', placeholder:"Examples: Excited, Inspired, Encouraged, Challaned, etc."
                 .field
                   = ff.label :desing_cta, 'Call to Action'
-                  = ff.text_area :desing_cta, class:'form-control', placeholder:"What do you want people to DO after seeing the design?" #\nExample: Join a Small Group before Friday
+                  .description What do you want people to DO after seeing the design?
+                  = ff.text_area :desing_cta, class:'form-control', placeholder:"Example: Join a Small Group before Friday"
           
           
           #comm-arts-print.tab-pane.fade.in

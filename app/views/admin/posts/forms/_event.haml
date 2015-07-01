@@ -57,29 +57,54 @@
         Registration ends before the event. | Leave blank to use the start-time of the event.
         
     .field
-      %ul.nav.nav-tabs
-        %li.active{role:'presentation'}
-          %a{href:'#comm-arts-design', data:{toggle:'tab'}} Design
-        %li{role:'presentation'}
-          %a{href:'#comm-arts-print', data:{toggle:'tab'}} Print
-      .well.tab-content
-        #comm-arts-design.tab-pane.fade.in.active
-          %p Whether it’s getting people to take part in an event or just try out Cornerstone for the very first time, communication can help you reach your goals. These values, best practices, and guidelines are here to help you remove as many obstacles as possible that might get in the way of people taking their next steps with Christ.
-        
-          .field
-            .well.checkbox
-              = f.label :comm_arts_request do
-                = f.check_box :comm_arts_request, id:'comm-arts-request-design-checkbox'
-                I need a design created for this event.
-            #comm_arts_design_questions
+      = fields_for :comm_arts_request do |ff|
+        %ul.nav.nav-tabs
+          %li.active{role:'presentation'}
+            %a{href:'#comm-arts-design', data:{toggle:'tab'}} Design
+          %li{role:'presentation'}
+            %a{href:'#comm-arts-print', data:{toggle:'tab'}} Print
+        .well.tab-content
+          #comm-arts-design.tab-pane.fade.in.active
+            %p Whether it’s getting people to take part in an event or just try out Cornerstone for the very first time, communication can help you reach your goals. These values, best practices, and guidelines are here to help you remove as many obstacles as possible that might get in the way of people taking their next steps with Christ.
+            .field
+              .well.checkbox
+                = ff.label :design_requested do
+                  = ff.check_box :comm_arts_request, id:'comm-arts-request-design-checkbox'
+                  I need a design created for this event.
+              #comm_arts_design_questions
+                .field
+                  = ff.label :design_purpose, 'Purpose'
+                  = ff.text_area :design_purpose, class:'form-control', placeholder:"A brief statement of what you want the design to accomplish."
+                .field
+                  = ff.label :design_tone, 'Tone'
+                  = ff.text_area :design_tone, class:'form-control', placeholder:"How do you want people to feel after seeing the design?"
+                .field
+                  = ff.label :desing_cta, 'Call to Action'
+                  = ff.text_area :desing_cta, class:'form-control', placeholder:"What do you want people to DO after seeing the design?" #\nExample: Join a Small Group before Friday
+          
+          
+          #comm-arts-print.tab-pane.fade.in
+            %p  Do you need anything printed for this event?
+            .row
               .field
-                = f.label :comm_arts_request, 'Purpose'
-                = f.text_area :comm_arts_request, class:'form-control', placeholder:"A brief statement of what you want the design to accomplish."
+                = ff.label :print_postcard do
+                  = ff.check_box :print_postcard, id:'comm-arts-request-design-checkbox'
+                  Postcard
+                  %br
+                  (5 &times; 7)
               .field
-                = f.label :comm_arts_request, 'Tone'
-                = f.text_area :comm_arts_request, class:'form-control', placeholder:"How do you want people to feel after seeing the design?"
+                = ff.label :print_poster do
+                  = ff.check_box :print_poster, id:'comm-arts-request-design-checkbox'
+                  Poster
+                  %br
+                  (12 &times; 18)
               .field
-                = f.label :comm_arts_request, 'Call to Action'
-                = f.text_area :comm_arts_request, class:'form-control', placeholder:"What do you want people to DO after seeing the design?"
-        #comm-arts-print.tab-pane.fade.in
-          Print Requests are Great
+                = ff.label :print_booklet do
+                  = ff.check_box :print_booklet, id:'comm-arts-request-design-checkbox'
+                  Booklet
+                  %br
+                  (8.5 &times; 5.5)
+              .field
+                = ff.label :print_badges do
+                  = ff.check_box :print_badges, id:'comm-arts-request-design-checkbox'
+                  Badges

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150526004620) do
+ActiveRecord::Schema.define(version: 20150629225338) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,22 @@ ActiveRecord::Schema.define(version: 20150526004620) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
+
+  create_table "comm_arts_requests", force: :cascade do |t|
+    t.integer  "post_id"
+    t.boolean  "print"
+    t.boolean  "design"
+    t.boolean  "design_requested"
+    t.jsonb    "design_creative_brief", default: {}, null: false
+    t.boolean  "print_postcard"
+    t.boolean  "print_poster"
+    t.boolean  "print_booklet"
+    t.boolean  "print_badges"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+  end
+
+  add_index "comm_arts_requests", ["post_id"], name: "index_comm_arts_requests_on_post_id", using: :btree
 
   create_table "comments", force: :cascade do |t|
     t.integer  "commentable_id"
@@ -387,4 +403,5 @@ ActiveRecord::Schema.define(version: 20150526004620) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
+  add_foreign_key "comm_arts_requests", "posts"
 end

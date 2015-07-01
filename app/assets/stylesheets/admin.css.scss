@@ -457,7 +457,6 @@ html,body{
     }
   }
 
-  //  http://bootsnipp.com/snippets/featured/form-process-steps
   .step-progress {
     border-bottom: solid 1px #e0e0e0; padding: 0 0 10px 0;
   
@@ -505,6 +504,20 @@ html,body{
 }
 
 #post-form{
+  #comm-arts-print{
+    .field{
+      @extend .col-md-3;
+      @extend .col-xs-6;
+      text-align:center;
+
+      @media (min-width: 450px) {
+        br{
+          display:none;
+        }
+      }
+    }
+  }
+
   .field{
     @extend .form-group;
   }

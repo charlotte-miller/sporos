@@ -5,7 +5,9 @@ $ ->
   
   $('.well.checkbox').click (e)->
     e.preventDefault()
-    # $('#comm-arts-request-design-checkbox').prop('checked', toggle)
+    $checkbox = $('#comm-arts-request-design-checkbox')
+    $checkbox.prop('checked', !$checkbox.prop('checked'))
+    $checkbox.trigger('change')
   
   $('#comm-arts-request-design-checkbox').on 'change', ->
     if $(@).prop('checked')

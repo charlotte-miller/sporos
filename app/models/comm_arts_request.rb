@@ -4,8 +4,6 @@
 #
 #  id                    :integer          not null, primary key
 #  post_id               :integer
-#  print                 :boolean
-#  design                :boolean
 #  design_requested      :boolean
 #  design_creative_brief :jsonb            default("{}"), not null
 #  print_postcard        :boolean

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150629225338) do
+ActiveRecord::Schema.define(version: 20150706204350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(version: 20150629225338) do
     t.integer  "user_id",                      null: false
     t.integer  "post_id",                      null: false
     t.integer  "status",           default: 0, null: false
-    t.text     "notes"
     t.datetime "last_vistited_at",             null: false
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
@@ -76,8 +75,6 @@ ActiveRecord::Schema.define(version: 20150629225338) do
 
   create_table "comm_arts_requests", force: :cascade do |t|
     t.integer  "post_id"
-    t.boolean  "print"
-    t.boolean  "design"
     t.boolean  "design_requested"
     t.jsonb    "design_creative_brief", default: {}, null: false
     t.boolean  "print_postcard"

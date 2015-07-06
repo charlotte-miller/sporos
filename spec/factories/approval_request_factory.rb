@@ -6,7 +6,6 @@
 #  user_id          :integer          not null
 #  post_id          :integer          not null
 #  status           :integer          default("0"), not null
-#  notes            :text
 #  last_vistited_at :datetime         not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null

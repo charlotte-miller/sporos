@@ -39,9 +39,9 @@ class Post < ActiveRecord::Base
 
   # ---------------------------------------------------------------------------------
   # Scopes
-  # ---------------------------------------------------------------------------------  
+  # ---------------------------------------------------------------------------------
   # default_scope ->{ order('updated_at DESC')}
-  
+
   # Single Table Inheritance
   scope :events,      -> { where(type: 'Posts::Event')    }
   scope :link,        -> { where(type: 'Posts::Link')     }
@@ -49,54 +49,48 @@ class Post < ActiveRecord::Base
   scope :photo,       -> { where(type: 'Posts::Photo')    }
   scope :video,       -> { where(type: 'Posts::Video')    }
   scope :w_out_pages, -> { where("type != 'Posts::Page'")}
-  
+
   scope :pre_release, -> { where( 'published_at IS NULL') }
   scope :published,   -> { where( 'published_at IS NOT NULL') }
   scope :current,     -> { published.where('(NOW() <= COALESCE(expired_at, NOW()))')} #'(NOW() BETWEEN published_at AND expired_at)'
   scope :expired,     -> { where( 'expired_at IS NOT NULL AND NOW() > expired_at') }
   scope :evergreen,   -> { where( 'expired_at IS NULL') }
-  
+
   scope :relevance_order, ->{ order('ABS(EXTRACT(EPOCH FROM (NOW() - COALESCE(expired_at, published_at)))) ASC')}
-  
+
   # ---------------------------------------------------------------------------------
   # Associations
-  # ---------------------------------------------------------------------------------  
+  # ---------------------------------------------------------------------------------
   belongs_to :ministry
   belongs_to :author, class_name:'User', foreign_key: :user_id
-  
+
   has_many :approval_requests, dependent: :destroy
   has_many :approvers, through:'approval_requests', source: :user
-  
+
   has_one :draft, :class_name => "Post", :foreign_key => "parent_id"
-  
+
   has_many :comment_threads, through: :approval_requests
-  
+
   has_many :uploaded_files, as:'from', dependent: :destroy
-  
-  has_one :comm_arts_request
-    accepts_nested_attributes_for :comm_arts_request# , reject_if: lambda {!(attributes[:comm_arts_request_attributes].try_these(
-#       [:[], :design_requested],
-#       [:[], :print_postcard],
-#       [:[], :print_poster],
-#       [:[], :print_booklet],
-#       [:[], :print_badges],
-#     )) }
+
+  has_one :comm_arts_request 
+    accepts_nested_attributes_for :comm_arts_request, reject_if: :attributes_absent
 
   # ---------------------------------------------------------------------------------
   # Validations
-  # ---------------------------------------------------------------------------------  
+  # ---------------------------------------------------------------------------------
   validates_presence_of :type, :user_id, :ministry_id, :title
   validates_presence_of :expired_at, if: -> (obj){obj.type=='Post::Event'}
   validates_associated :ministry, :author, on:'create'
-  
-  
+
+
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
   delegate :file, to: :uploaded_files
   has_public_id :public_id, prefix:'post', length:21
   def to_param; public_id || generate_missing_public_id ;end
-  
+
   attr_protected #none - using strong params
   attr_accessor :unread_comment_count, :current_session
   has_attachable_file :poster, {
@@ -114,27 +108,27 @@ class Post < ActiveRecord::Base
                       }}
 
   process_in_background :poster, processing_image_url: :poster_original_url
-  
+
   def display_options
     DeepStruct.new super
   end
-  
+
   def poster_original_url
     super || '' #FIXES PAPERCLIP BUG
   end
-  
+
   def poster_url
     poster.try(:url)
   end
-  
+
   def file_urls(style=:original)
     uploaded_files.map {|uf| uf.file.url(style) }
   end
-  
+
   # ---------------------------------------------------------------------------------
   # Callbacks
   # ---------------------------------------------------------------------------------
-  
+
   after_create :request_approval!
 
   def request_approval!
@@ -150,17 +144,17 @@ class Post < ActiveRecord::Base
       end
     end
   end
-  
-  
+
+
   def find_approvers #=> Users
     @find_approvers ||= begin
       involvement = Involvement.where(user_id:user_id, ministry_id:ministry_id).first
       involvement.more_involved_in_this_ministry
-    
+
       # filter from UI
     end
   end
-  
+
   after_create :find_uploaded_files_by_session
   def find_uploaded_files_by_session
     UploadedFile.where(session_id:current_session).each do |file|
@@ -169,8 +163,8 @@ class Post < ActiveRecord::Base
       file.save
     end
   end
-  
-  
+
+
   # ---------------------------------------------------------------------------------
   # Methods
   # ---------------------------------------------------------------------------------
@@ -180,17 +174,26 @@ class Post < ActiveRecord::Base
     return 'published' if published_at && (expired_at.nil? || expired_at > Time.now)
     return 'archived'  if expired_at < Time.now
   end
-  
-  
+
+
   def as_json(options={})
     def files
       uploaded_files.map {|uf| uf.file.url}
     end
-  
+
     super(options.merge({
       only: [ :type, :public_id, :ministry_id, :title, :description, :published_at, :expired_at ],
       methods:[ :poster_url, :files]
     }))
   end
-  
+
+  private
+
+  def attributes_absent(attributed)
+    requested_work = %w{design_requested print_postcard print_badges print_booklet print_poster}.find do |attr|
+      attributed[attr] == "1"
+    end
+    !requested_work
+  end
+
 end

@@ -53,6 +53,17 @@ RSpec.describe Post, :type => :model do
     end
   end
   
+  describe 'accepts_nested_attributes_for :comm_arts_request' do
+    it 'creates an associated comm_arts_request' do
+      expect(target).to eq(value)
+      subject.comm_arts_request_attributes = { design_requested:true }
+    end
+    
+    it 'rejects_if design && print are blank' do
+      
+    end
+  end
+  
   describe '[scope]current' do
     let!(:unpublished) { create(:post, ministry:@ministry, author:@ministry.members.first) }
     let!(:published) { create(:post, published_at:2.days.ago, ministry:@ministry, author:@ministry.members.first) }

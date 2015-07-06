@@ -14,6 +14,8 @@ $ ->
       $('#comm_arts_design_questions').addClass 'open-drawer'
     else
       $('#comm_arts_design_questions').removeClass 'open-drawer'
+
+  $('#comm-arts-request-design-checkbox').trigger('change')
   
   # Date Picker
   if $('.pick-a-date, pick-a-date-w-clear').length

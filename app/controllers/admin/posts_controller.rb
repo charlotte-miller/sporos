@@ -58,6 +58,7 @@ class Admin::PostsController < Admin::BaseController
     @current_users_post_count = current_user.posts.count
     @type = params[:post_type]
     @post = "posts/#{@type}".classify.constantize.new
+    set_comm_arts_request
     set_vimeo_js_vars
     set_possible_poster_images
         
@@ -119,8 +120,9 @@ private
       
   def post_params
     @post_params ||= params
-    .require(:post).permit(:type, :ministry_id, :title, :description, :poster, :poster_remote_url, :expired_at, 
-                           :vimeo_id, display_options:[:url, :event_date, :event_time, :location, poster_alternatives:[]])
+    .require(:post).permit(:type, :ministry_id, :title, :description, :poster, :poster_remote_url, :expired_at, :vimeo_id,
+                           display_options:[:url, :event_date, :event_time, :location, poster_alternatives:[]],
+                           comm_arts_request_attributes:[:design_requested, :design_purpose, :design_tone, :design_cta, :print_postcard, :print_poster, :print_booklet, :print_badges])
     .merge({current_session:session.id})
   end
   
@@ -155,5 +157,9 @@ private
         uri:                ticket.uri
       }
     end
+  end
+
+  def set_comm_arts_request
+    @post.comm_arts_request || @post.build_comm_arts_request
   end
 end

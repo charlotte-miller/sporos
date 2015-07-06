@@ -1,6 +1,6 @@
 - post_type = @post.class.name
 = form_for [:admin, @post.becomes(Post)], html: {multipart:true, id:'post-form'} do |f|
-  - f.object = @post.becomes(@post.class)
+  - f.object = @post
   - if @post.errors.any?
     #error_explanation.alert.alert-danger.alert-dismissible{role:'alert'}
       %button.close.fade.in{data:{dismiss:'alert'}}

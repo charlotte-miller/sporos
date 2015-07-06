@@ -57,7 +57,7 @@
         Registration ends before the event. | Leave blank to use the start-time of the event.
         
     .field
-      = fields_for :comm_arts_request do |ff|
+      = f.fields_for :comm_arts_request do |ff|
         %ul.nav.nav-tabs
           %li.active{role:'presentation'}
             %a{href:'#comm-arts-design', data:{toggle:'tab'}} Design
@@ -69,7 +69,7 @@
             .field
               .well.checkbox
                 = ff.label :design_requested do
-                  = ff.check_box :comm_arts_request, id:'comm-arts-request-design-checkbox'
+                  = ff.check_box :design_requested, id:'comm-arts-request-design-checkbox'
                   I need a design created for this event.
               #comm_arts_design_questions
                 .field
@@ -81,9 +81,9 @@
                   .description How do you want people to feel after seeing the design?
                   = ff.text_area :design_tone, class:'form-control', placeholder:"Examples: Excited, Inspired, Encouraged, Challaned, etc."
                 .field
-                  = ff.label :desing_cta, 'Call to Action'
+                  = ff.label :design_cta, 'Call to Action'
                   .description What do you want people to DO after seeing the design?
-                  = ff.text_area :desing_cta, class:'form-control', placeholder:"Example: Join a Small Group before Friday"
+                  = ff.text_area :design_cta, class:'form-control', placeholder:"Example: Join a Small Group before Friday"
           
           
           #comm-arts-print.tab-pane.fade.in

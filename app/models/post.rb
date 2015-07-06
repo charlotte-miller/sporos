@@ -74,7 +74,13 @@ class Post < ActiveRecord::Base
   has_many :uploaded_files, as:'from', dependent: :destroy
   
   has_one :comm_arts_request
-    accepts_nested_attributes_for :comm_arts_request
+    accepts_nested_attributes_for :comm_arts_request# , reject_if: lambda {!(attributes[:comm_arts_request_attributes].try_these(
+#       [:[], :design_requested],
+#       [:[], :print_postcard],
+#       [:[], :print_poster],
+#       [:[], :print_booklet],
+#       [:[], :print_badges],
+#     )) }
 
   # ---------------------------------------------------------------------------------
   # Validations
@@ -175,9 +181,6 @@ class Post < ActiveRecord::Base
     return 'archived'  if expired_at < Time.now
   end
   
-  def comm_arts_request
-    
-  end
   
   def as_json(options={})
     def files

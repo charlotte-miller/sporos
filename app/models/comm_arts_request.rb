@@ -25,6 +25,6 @@ class CommArtsRequest < ActiveRecord::Base
   has_one :ministry, through: :post
   
   delegate_attrs_to_jsonb :design_purpose, :design_tone, :design_cta, to: :design_creative_brief
-  
+  attr_protected #none
 
 end

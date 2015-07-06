@@ -45,30 +45,36 @@ RSpec.describe Post, :type => :model do
   before(:all) do
     @ministry = create(:populated_ministry)
   end
-  subject { create(:post, ministry:@ministry, author:@ministry.members.first) }
+
+  subject { build_stubbed(:post, ministry:@ministry, author:@ministry.members.first) }
 
   it "builds from factory", :internal do
     [:post, :post_event, :post_link, :post_page, :post_photo, :post_video].each do |factory|
       expect { create(factory) }.to_not raise_error
     end
   end
-  
+
   describe 'accepts_nested_attributes_for :comm_arts_request' do
-    it 'creates an associated comm_arts_request' do
-      expect(target).to eq(value)
-      subject.comm_arts_request_attributes = { design_requested:true }
+    it 'rejects_if design_requested && print_[attrs] are zero' do
+      expect(subject.comm_arts_request).to be_nil
     end
-    
-    it 'rejects_if design && print are blank' do
-      
+
+    [:design_requested, :print_postcard, :print_badges, :print_booklet, :print_poster].each do |attr|
+      it "creates if #{attr} is true" do
+        hash = {design_requested:"0", print_postcard:"0", print_badges: "0", print_booklet: "0", print_poster: "0"}
+        hash[attr] = "1"
+
+        subject.comm_arts_request_attributes = hash
+        expect(subject.comm_arts_request).not_to be_nil
+      end
     end
   end
-  
+
   describe '[scope]current' do
     let!(:unpublished) { create(:post, ministry:@ministry, author:@ministry.members.first) }
     let!(:published) { create(:post, published_at:2.days.ago, ministry:@ministry, author:@ministry.members.first) }
     let!(:expired) { create(:post, expired_at:1.days.ago, published_at:2.days.ago, ministry:@ministry, author:@ministry.members.first) }
-    
+
     it 'filteres unpublished and expired posts' do
       current_ids = Post.current.pluck(:id)
       expect(current_ids).to include published.id
@@ -76,16 +82,16 @@ RSpec.describe Post, :type => :model do
       expect(current_ids).to_not include expired.id
     end
   end
-  
-  describe '[scope]relevance_order' do  
+
+  describe '[scope]relevance_order' do
     before(:all) do
       @post_a, @post_b, @post_c = @posts = 3.times.map {|i| create(:post, expired_at:nil, published_at:(Time.now - (i+1).days), ministry:@ministry, author:@ministry.members.first)}
     end
-    
+
     it 'content posts sort downward with age' do
       expect( Post.relevance_order.pluck(:id) ).to eq(@posts.map(&:id))
     end
-    
+
     it 'expireing posts are sorted by the time until the post expires' do
       @post_b.update_attribute :expired_at, Time.now
       expect(Post.relevance_order.first.id).to eq(@post_b.id)
@@ -93,22 +99,22 @@ RSpec.describe Post, :type => :model do
       expect(Post.relevance_order.pluck(:id).last).to eq(@post_b.id)
     end
   end
-  
+
   describe '#find_approvers ' do
     it 'returns an array of Users' do
       expect(subject.find_approvers.first).to be_a User
       expect(subject.find_approvers.count).to eq(6)
     end
-    
+
   end
-  
+
   describe '#request_approval!' do
     subject { create(:post, ministry:@ministry, author:@ministry.members.sample) }
-    
+
     it 'is creates ApprovalRequests on create callback' do
       expect(subject.approval_requests.where(status: 0).count).to eq(6)
     end
-    
+
     it 'creates an approved ApprovalRequest for the author' do
       approved = subject.approval_requests.where(status: 1).all
       expect(approved.length).to eq(1)

@@ -38,7 +38,7 @@ class ApprovalRequest < ActiveRecord::Base
   
   has_one :author, :class_name => "User", through: :post, source: :author
   
-  has_many :peers, class_name:'ApprovalRequest', foreign_key:'post_id', primary_key:'post_id'
+  has_many :peers, -> (obj) { where("id != ?", obj.id) },class_name:'ApprovalRequest', foreign_key:'post_id', primary_key:'post_id'
   
   # FROM Commentable
   # has_many :comment_threads, :class_name => "Comment", :as => :commentable
@@ -77,8 +77,7 @@ class ApprovalRequest < ActiveRecord::Base
   # --------------------------------------------------------------------------------- 
   
   def send_notification
-    # Mailer.ApprovalRequest.deliver(user)
-    # 
+    NewApprovalRequestMailer.request_approval(self.to_findable_hash).deliver_later
   end
   
   def check_for_concensus

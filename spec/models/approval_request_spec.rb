@@ -55,6 +55,10 @@ RSpec.describe ApprovalRequest, :type => :model do
       @peers.each {|peer| expect(@subject.peers).to include peer}
       expect(@subject.peers).to_not include @not_peer
     end
+
+    it 'should not include self' do
+      expect(@subject.peers).to_not include @subject
+    end
   end
   
   describe '#check_for_concensus' do

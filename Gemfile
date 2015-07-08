@@ -144,6 +144,7 @@ group :development, :test do
   # gem 'capybara-screenshot', git:'git@github.com:mattheworiordan/capybara-screenshot.git'
   
   # Debugger
+  gem 'awesome_print'
   gem 'pry-rails'
   gem 'progress_bar'
   # gem 'web-console', '~> 2.0'

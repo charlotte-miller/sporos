@@ -28,7 +28,7 @@
 
 FactoryGirl.define do
   factory :comment do
-    commentable { FactoryGirl.create(:post)          }
+    commentable { FactoryGirl.create(:approval_request)          }
     title       { Faker::Lorem.sentence(rand(3..8))  }
     body        { Faker::Lorem.paragraph(rand(2..5)) }
     user

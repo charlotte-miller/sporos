@@ -29,8 +29,8 @@ describe AttachmentDownloader do
     end
     
     it "skips attachments specified in :skip_processing_urls" do
-      # Assumes Lesson#video skips YouTube
-      picky_model = create(:lesson, video:nil, video_original_url:'https://www.youtube.com/watch?v=0JR6xt9S02o&t=3')
+      # Assumes Lesson#video skips Vimeo videos
+      picky_model = create(:lesson, video:nil, video_original_url:'https://vimeo.com/132895789')
       subject.perform( picky_model.to_findable_hash, :video )
       expect(picky_model.reload.video).not_to be_present
     end

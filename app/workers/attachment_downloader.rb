@@ -49,10 +49,10 @@ private
   # This can be updated when Curb/Typhoeus supports the --output option 
   def curl_to(from_url, to_file_path)
     curl = Cocaine::CommandLine.new('curl', ":from_url -o :to_file_path -L --silent")
-    curl.run(from_url:from_url, to_file_path:to_file_path)
+    curl.run(from_url:URI.unescape(from_url), to_file_path:to_file_path)
   end
   
   def upload_to_vimeo(tempfile)
-    Paperclip::UploadToVimeo.new(tempfile, {}, @obj_instance.video)
+    Paperclip::UploadToVimeo.new(tempfile, {}, @obj_instance.video).make
   end
 end

@@ -254,4 +254,424 @@ http_interactions:
         Chruch SF","uri":"/apps/49619"},"status":"uploading"}'
     http_version: 
   recorded_at: Thu, 19 Feb 2015 23:53:46 GMT
+- request:
+    method: get
+    uri: https://api.vimeo.com/me
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
+      Authorization:
+      - bearer deddea72ddcd1b0d99e0c461ee52ba96
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Content-Type:
+      - application/vnd.vimeo.user+json
+      Cache-Control:
+      - no-cache, max-age=315360000
+      Strict-Transport-Security:
+      - max-age=900; includeSubDomains
+      Expires:
+      - Fri, 04 Jul 2025 21:22:56 GMT
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '484'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 07 Jul 2015 21:22:56 GMT
+      Via:
+      - 1.1 varnish
+      Age:
+      - '0'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - clip_v=1; expires=Sat, 05 Sep 2015 21:22:56 GMT; path=/;
+      X-Served-By:
+      - cache-sjc3134-SJC
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1436304176.217734,VS0,VE133
+      Vary:
+      - Accept,Vimeo-Client-Id,Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: '{"uri":"/users/37127388","name":"Chip Miller","link":"https://vimeo.com/user37127388","location":null,"bio":null,"created_time":"2015-02-05T21:41:16+00:00","account":"basic","pictures":null,"websites":[],"metadata":{"connections":{"activities":{"uri":"/users/37127388/activities","options":["GET"]},"albums":{"uri":"/users/37127388/albums","options":["GET"],"total":0},"channels":{"uri":"/users/37127388/channels","options":["GET"],"total":0},"feed":{"uri":"/users/37127388/feed","options":["GET"]},"followers":{"uri":"/users/37127388/followers","options":["GET"],"total":0},"following":{"uri":"/users/37127388/following","options":["GET"],"total":0},"groups":{"uri":"/users/37127388/groups","options":["GET"],"total":0},"likes":{"uri":"/users/37127388/likes","options":["GET"],"total":0},"portfolios":{"uri":"/users/37127388/portfolios","options":["GET"],"total":0},"videos":{"uri":"/users/37127388/videos","options":["GET"],"total":4},"watchlater":{"uri":"/users/37127388/watchlater","options":["GET"],"total":0},"shared":{"uri":"/users/37127388/shared/videos","options":["GET"],"total":0},"pictures":{"uri":"/users/37127388/pictures","options":["GET","POST"],"total":0}}},"preferences":{"videos":{"privacy":"anybody"}},"content_filter":["language","drugs","violence","nudity","safe","unrated"],"upload_quota":{"space":{"free":524288000,"max":524288000,"used":0},"quota":{"hd":true,"sd":true}}}'
+    http_version: 
+  recorded_at: Tue, 07 Jul 2015 21:22:56 GMT
+- request:
+    method: post
+    uri: https://api.vimeo.com/me/videos
+    body:
+      encoding: UTF-8
+      string: redirect_url=http%3A%2F%2Fcornerstone-sf.org&type=POST
+    headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
+      Authorization:
+      - bearer deddea72ddcd1b0d99e0c461ee52ba96
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - nginx
+      Content-Type:
+      - application/vnd.vimeo.uploadticket+json
+      Cache-Control:
+      - no-cache, max-age=315360000
+      Strict-Transport-Security:
+      - max-age=900; includeSubDomains
+      Expires:
+      - Fri, 04 Jul 2025 23:23:09 GMT
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '888'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 07 Jul 2015 23:23:09 GMT
+      Via:
+      - 1.1 varnish
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - clip_v=3; expires=Sat, 05 Sep 2015 23:23:09 GMT; path=/;
+      X-Served-By:
+      - cache-sjc3124-SJC
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1436311389.639138,VS0,VE152
+      Vary:
+      - Accept,Vimeo-Client-Id,Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: '{"uri":"/users/user37127388/tickets/05ca220057845a962ff01d1697b1cc56","ticket_id":"05ca220057845a962ff01d1697b1cc56","user":{"uri":"/users/37127388","name":"Chip
+        Miller","link":"https://vimeo.com/user37127388","location":null,"bio":null,"created_time":"2015-02-05T21:41:16+00:00","account":"basic","pictures":null,"websites":[],"metadata":{"connections":{"activities":{"uri":"/users/37127388/activities","options":["GET"]},"albums":{"uri":"/users/37127388/albums","options":["GET"],"total":0},"channels":{"uri":"/users/37127388/channels","options":["GET"],"total":0},"feed":{"uri":"/users/37127388/feed","options":["GET"]},"followers":{"uri":"/users/37127388/followers","options":["GET"],"total":0},"following":{"uri":"/users/37127388/following","options":["GET"],"total":0},"groups":{"uri":"/users/37127388/groups","options":["GET"],"total":0},"likes":{"uri":"/users/37127388/likes","options":["GET"],"total":0},"portfolios":{"uri":"/users/37127388/portfolios","options":["GET"],"total":0},"videos":{"uri":"/users/37127388/videos","options":["GET"],"total":4},"watchlater":{"uri":"/users/37127388/watchlater","options":["GET"],"total":0},"shared":{"uri":"/users/37127388/shared/videos","options":["GET"],"total":0},"pictures":{"uri":"/users/37127388/pictures","options":["GET","POST"],"total":0}}},"preferences":{"videos":{"privacy":"anybody"}},"content_filter":["language","drugs","violence","nudity","safe","unrated"],"upload_quota":{"space":{"free":524288000,"max":524288000,"used":0},"quota":{"hd":true,"sd":true}}},"upload_link":"http://1511655338.cloud.vimeo.com/upload?ticket_id=05ca220057845a962ff01d1697b1cc56&video_file_id=389687267&signature=ea78591ba7bb5387f09a40f3bcb124d5&v6=1&full_hd=0&redirect_url=https%3A%2F%2Fvimeo.com%2Fupload%2Fapi%3Fvideo_file_id%3D389687267%26app_id%3D49619%26ticket_id%3D05ca220057845a962ff01d1697b1cc56%26signature%3D76010491ea815b9c29626967c7333b5e99da8ed9%26redirect%3Dhttp%253A%252F%252Fcornerstone-sf.org","upload_link_secure":"https://1511655338.cloud.vimeo.com/upload?ticket_id=05ca220057845a962ff01d1697b1cc56&video_file_id=389687267&signature=ea78591ba7bb5387f09a40f3bcb124d5&v6=1&full_hd=0&redirect_url=https%3A%2F%2Fvimeo.com%2Fupload%2Fapi%3Fvideo_file_id%3D389687267%26app_id%3D49619%26ticket_id%3D05ca220057845a962ff01d1697b1cc56%26signature%3D76010491ea815b9c29626967c7333b5e99da8ed9%26redirect%3Dhttp%253A%252F%252Fcornerstone-sf.org","form":"<form
+        method=\"POST\" action=\"http://1511655338.cloud.vimeo.com/upload?ticket_id=05ca220057845a962ff01d1697b1cc56&video_file_id=389687267&signature=ea78591ba7bb5387f09a40f3bcb124d5&v6=1&full_hd=0&redirect_url=https%3A%2F%2Fvimeo.com%2Fupload%2Fapi%3Fvideo_file_id%3D389687267%26app_id%3D49619%26ticket_id%3D05ca220057845a962ff01d1697b1cc56%26signature%3D76010491ea815b9c29626967c7333b5e99da8ed9%26redirect%3Dhttp%253A%252F%252Fcornerstone-sf.org\"
+        enctype=\"multipart/form-data\">\n<label for=\"file\">File:</label>\n<input
+        type=\"file\" name=\"file_data\" id=\"file\"><br>\n<input type=\"submit\"
+        name=\"submit\" value=\"Submit\">\n</form>"}'
+    http_version: 
+  recorded_at: Tue, 07 Jul 2015 23:23:09 GMT
+- request:
+    method: post
+    uri: https://1511655338.cloud.vimeo.com/upload?full_hd=0&redirect_url=https://vimeo.com/upload/api?video_file_id=389687267%26app_id=49619%26ticket_id=05ca220057845a962ff01d1697b1cc56%26signature=76010491ea815b9c29626967c7333b5e99da8ed9%26redirect=http%253A%252F%252Fcornerstone-sf.org&signature=ea78591ba7bb5387f09a40f3bcb124d5&ticket_id=05ca220057845a962ff01d1697b1cc56&v6=1&video_file_id=389687267
+    body:
+      encoding: UTF-8
+      string: file_data=%23%3CFile%3A0x007fa2f505e548%3E
+    headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
+      Authorization:
+      - bearer deddea72ddcd1b0d99e0c461ee52ba96
+  response:
+    status:
+      code: 302
+      message: Moved Temporarily
+    headers:
+      Server:
+      - Vimeo/1.0
+      Location:
+      - https://vimeo.com/upload/api?video_file_id=389687267&app_id=49619&ticket_id=05ca220057845a962ff01d1697b1cc56&signature=76010491ea815b9c29626967c7333b5e99da8ed9&redirect=http%3A%2F%2Fcornerstone-sf.org
+      Date:
+      - Tue, 07 Jul 2015 23:24:05 GMT
+      Connection:
+      - keep-alive
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Tue, 07 Jul 2015 23:23:10 GMT
+- request:
+    method: get
+    uri: https://vimeo.com/upload/api?app_id=49619&redirect=http://cornerstone-sf.org&signature=76010491ea815b9c29626967c7333b5e99da8ed9&ticket_id=05ca220057845a962ff01d1697b1cc56&video_file_id=389687267
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
+      Authorization:
+      - bearer deddea72ddcd1b0d99e0c461ee52ba96
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Server:
+      - nginx
+      Content-Type:
+      - text/html; charset=UTF-8
+      Expires:
+      - Tue, 07 Jul 2015 11:23:10 GMT
+      Location:
+      - http://cornerstone-sf.org?error=uploading_error&error_description=An+error+has+occurred+when+finalizing+the+video.+Let+us+know+and+please+try+again.
+      Content-Encoding:
+      - gzip
+      Via:
+      - 1.1 varnish
+      - 1.1 varnish
+      Cache-Control:
+      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+      X-Varnish-Cache:
+      - '0'
+      X-Vserver:
+      - dfvimeowebproxy4
+      Content-Length:
+      - '20'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 07 Jul 2015 23:23:11 GMT
+      Age:
+      - '0'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - clip_v=1; expires=Sat, 05 Sep 2015 23:23:11 GMT; path=/;
+      X-Served-By:
+      - cache-sjc3135-SJC
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1436311390.846342,VS0,VE909
+      Vary:
+      - User-Agent,Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Tue, 07 Jul 2015 23:23:11 GMT
+- request:
+    method: get
+    uri: https://api.vimeo.com/me
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
+      Authorization:
+      - bearer deddea72ddcd1b0d99e0c461ee52ba96
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Content-Type:
+      - application/vnd.vimeo.user+json
+      Cache-Control:
+      - no-cache, max-age=315360000
+      Strict-Transport-Security:
+      - max-age=900; includeSubDomains
+      Expires:
+      - Fri, 04 Jul 2025 23:23:27 GMT
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '484'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 07 Jul 2015 23:23:27 GMT
+      Via:
+      - 1.1 varnish
+      Age:
+      - '0'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - clip_v=1; expires=Sat, 05 Sep 2015 23:23:27 GMT; path=/;
+      X-Served-By:
+      - cache-sjc3124-SJC
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1436311407.153314,VS0,VE128
+      Vary:
+      - Accept,Vimeo-Client-Id,Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: '{"uri":"/users/37127388","name":"Chip Miller","link":"https://vimeo.com/user37127388","location":null,"bio":null,"created_time":"2015-02-05T21:41:16+00:00","account":"basic","pictures":null,"websites":[],"metadata":{"connections":{"activities":{"uri":"/users/37127388/activities","options":["GET"]},"albums":{"uri":"/users/37127388/albums","options":["GET"],"total":0},"channels":{"uri":"/users/37127388/channels","options":["GET"],"total":0},"feed":{"uri":"/users/37127388/feed","options":["GET"]},"followers":{"uri":"/users/37127388/followers","options":["GET"],"total":0},"following":{"uri":"/users/37127388/following","options":["GET"],"total":0},"groups":{"uri":"/users/37127388/groups","options":["GET"],"total":0},"likes":{"uri":"/users/37127388/likes","options":["GET"],"total":0},"portfolios":{"uri":"/users/37127388/portfolios","options":["GET"],"total":0},"videos":{"uri":"/users/37127388/videos","options":["GET"],"total":5},"watchlater":{"uri":"/users/37127388/watchlater","options":["GET"],"total":0},"shared":{"uri":"/users/37127388/shared/videos","options":["GET"],"total":0},"pictures":{"uri":"/users/37127388/pictures","options":["GET","POST"],"total":0}}},"preferences":{"videos":{"privacy":"anybody"}},"content_filter":["language","drugs","violence","nudity","safe","unrated"],"upload_quota":{"space":{"free":524288000,"max":524288000,"used":0},"quota":{"hd":true,"sd":true}}}'
+    http_version: 
+  recorded_at: Tue, 07 Jul 2015 23:23:27 GMT
+- request:
+    method: post
+    uri: https://api.vimeo.com/me/videos
+    body:
+      encoding: UTF-8
+      string: redirect_url=http%3A%2F%2Fcornerstone-sf.org&type=POST
+    headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
+      Authorization:
+      - bearer deddea72ddcd1b0d99e0c461ee52ba96
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - nginx
+      Content-Type:
+      - application/vnd.vimeo.uploadticket+json
+      Cache-Control:
+      - no-cache, max-age=315360000
+      Strict-Transport-Security:
+      - max-age=900; includeSubDomains
+      Expires:
+      - Fri, 04 Jul 2025 23:23:27 GMT
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '889'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 07 Jul 2015 23:23:27 GMT
+      Via:
+      - 1.1 varnish
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - clip_v=1; expires=Sat, 05 Sep 2015 23:23:27 GMT; path=/;
+      X-Served-By:
+      - cache-sjc3124-SJC
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1436311407.305023,VS0,VE133
+      Vary:
+      - Accept,Vimeo-Client-Id,Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: '{"uri":"/users/user37127388/tickets/732d671b0d8a5d5d39d3d81b3291ec8f","ticket_id":"732d671b0d8a5d5d39d3d81b3291ec8f","user":{"uri":"/users/37127388","name":"Chip
+        Miller","link":"https://vimeo.com/user37127388","location":null,"bio":null,"created_time":"2015-02-05T21:41:16+00:00","account":"basic","pictures":null,"websites":[],"metadata":{"connections":{"activities":{"uri":"/users/37127388/activities","options":["GET"]},"albums":{"uri":"/users/37127388/albums","options":["GET"],"total":0},"channels":{"uri":"/users/37127388/channels","options":["GET"],"total":0},"feed":{"uri":"/users/37127388/feed","options":["GET"]},"followers":{"uri":"/users/37127388/followers","options":["GET"],"total":0},"following":{"uri":"/users/37127388/following","options":["GET"],"total":0},"groups":{"uri":"/users/37127388/groups","options":["GET"],"total":0},"likes":{"uri":"/users/37127388/likes","options":["GET"],"total":0},"portfolios":{"uri":"/users/37127388/portfolios","options":["GET"],"total":0},"videos":{"uri":"/users/37127388/videos","options":["GET"],"total":5},"watchlater":{"uri":"/users/37127388/watchlater","options":["GET"],"total":0},"shared":{"uri":"/users/37127388/shared/videos","options":["GET"],"total":0},"pictures":{"uri":"/users/37127388/pictures","options":["GET","POST"],"total":0}}},"preferences":{"videos":{"privacy":"anybody"}},"content_filter":["language","drugs","violence","nudity","safe","unrated"],"upload_quota":{"space":{"free":524288000,"max":524288000,"used":0},"quota":{"hd":true,"sd":true}}},"upload_link":"http://1511623453.cloud.vimeo.com/upload?ticket_id=732d671b0d8a5d5d39d3d81b3291ec8f&video_file_id=389687364&signature=9a1dc43b2001692c472e8c603193c595&v6=1&full_hd=0&redirect_url=https%3A%2F%2Fvimeo.com%2Fupload%2Fapi%3Fvideo_file_id%3D389687364%26app_id%3D49619%26ticket_id%3D732d671b0d8a5d5d39d3d81b3291ec8f%26signature%3D51e14d78ca2a8365e50b0c6f49f81e7f699a1723%26redirect%3Dhttp%253A%252F%252Fcornerstone-sf.org","upload_link_secure":"https://1511623453.cloud.vimeo.com/upload?ticket_id=732d671b0d8a5d5d39d3d81b3291ec8f&video_file_id=389687364&signature=9a1dc43b2001692c472e8c603193c595&v6=1&full_hd=0&redirect_url=https%3A%2F%2Fvimeo.com%2Fupload%2Fapi%3Fvideo_file_id%3D389687364%26app_id%3D49619%26ticket_id%3D732d671b0d8a5d5d39d3d81b3291ec8f%26signature%3D51e14d78ca2a8365e50b0c6f49f81e7f699a1723%26redirect%3Dhttp%253A%252F%252Fcornerstone-sf.org","form":"<form
+        method=\"POST\" action=\"http://1511623453.cloud.vimeo.com/upload?ticket_id=732d671b0d8a5d5d39d3d81b3291ec8f&video_file_id=389687364&signature=9a1dc43b2001692c472e8c603193c595&v6=1&full_hd=0&redirect_url=https%3A%2F%2Fvimeo.com%2Fupload%2Fapi%3Fvideo_file_id%3D389687364%26app_id%3D49619%26ticket_id%3D732d671b0d8a5d5d39d3d81b3291ec8f%26signature%3D51e14d78ca2a8365e50b0c6f49f81e7f699a1723%26redirect%3Dhttp%253A%252F%252Fcornerstone-sf.org\"
+        enctype=\"multipart/form-data\">\n<label for=\"file\">File:</label>\n<input
+        type=\"file\" name=\"file_data\" id=\"file\"><br>\n<input type=\"submit\"
+        name=\"submit\" value=\"Submit\">\n</form>"}'
+    http_version: 
+  recorded_at: Tue, 07 Jul 2015 23:23:27 GMT
+- request:
+    method: post
+    uri: https://1511623453.cloud.vimeo.com/upload?full_hd=0&redirect_url=https://vimeo.com/upload/api?video_file_id=389687364%26app_id=49619%26ticket_id=732d671b0d8a5d5d39d3d81b3291ec8f%26signature=51e14d78ca2a8365e50b0c6f49f81e7f699a1723%26redirect=http%253A%252F%252Fcornerstone-sf.org&signature=9a1dc43b2001692c472e8c603193c595&ticket_id=732d671b0d8a5d5d39d3d81b3291ec8f&v6=1&video_file_id=389687364
+    body:
+      encoding: UTF-8
+      string: file_data=%23%3CFile%3A0x007fa2f62c4ed0%3E
+    headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
+      Authorization:
+      - bearer deddea72ddcd1b0d99e0c461ee52ba96
+  response:
+    status:
+      code: 302
+      message: Moved Temporarily
+    headers:
+      Server:
+      - Vimeo/1.0
+      Location:
+      - https://vimeo.com/upload/api?video_file_id=389687364&app_id=49619&ticket_id=732d671b0d8a5d5d39d3d81b3291ec8f&signature=51e14d78ca2a8365e50b0c6f49f81e7f699a1723&redirect=http%3A%2F%2Fcornerstone-sf.org
+      Date:
+      - Tue, 07 Jul 2015 23:24:31 GMT
+      Connection:
+      - keep-alive
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Tue, 07 Jul 2015 23:23:28 GMT
+- request:
+    method: get
+    uri: https://vimeo.com/upload/api?app_id=49619&redirect=http://cornerstone-sf.org&signature=51e14d78ca2a8365e50b0c6f49f81e7f699a1723&ticket_id=732d671b0d8a5d5d39d3d81b3291ec8f&video_file_id=389687364
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
+      Authorization:
+      - bearer deddea72ddcd1b0d99e0c461ee52ba96
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Server:
+      - nginx
+      Content-Type:
+      - text/html; charset=UTF-8
+      Expires:
+      - Tue, 07 Jul 2015 11:23:28 GMT
+      Location:
+      - http://cornerstone-sf.org?error=uploading_error&error_description=An+error+has+occurred+when+finalizing+the+video.+Let+us+know+and+please+try+again.
+      Content-Encoding:
+      - gzip
+      Via:
+      - 1.1 varnish
+      - 1.1 varnish
+      Cache-Control:
+      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+      X-Varnish-Cache:
+      - '0'
+      X-Vserver:
+      - dfvimeowebproxy4
+      Content-Length:
+      - '20'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 07 Jul 2015 23:23:28 GMT
+      Age:
+      - '0'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - clip_v=1; expires=Sat, 05 Sep 2015 23:23:28 GMT; path=/;
+      X-Served-By:
+      - cache-sjc3135-SJC
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1436311408.213094,VS0,VE784
+      Vary:
+      - User-Agent,Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Tue, 07 Jul 2015 23:23:29 GMT
 recorded_with: VCR 2.9.3

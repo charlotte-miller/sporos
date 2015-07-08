@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe Paperclip::Attachment do
   let(:normal) { create(:lesson) }
-  let(:trusted_third_party) { create(:lesson, video:nil, video_remote_url:'https://www.youtube.com/watch?v=0JR6xt9S02o&t=3') }
-  let(:non_trusted_third_party) { create(:lesson, video:nil, video_remote_url:'https://www.foo.com/watch?v=0JR6xt9S02o&t=3') }
+  let(:trusted_third_party) { create(:lesson, video:nil, video_remote_url:'https://vimeo.com/132895789') }
+  let(:non_trusted_third_party) { create(:lesson, video:nil, video_remote_url:'https://site.com/1328957893') }
   let(:empty) { create(:lesson, video:nil, video_original_url:nil) }
   
   describe '#url' do
@@ -14,7 +14,7 @@ describe Paperclip::Attachment do
     end
     
     it "returns the instance.original_url if trusted_third_party?" do
-      expect(trusted_third_party.video.url(:foo)).to eq 'https://www.youtube.com/watch?v=0JR6xt9S02o&t=3'
+      expect(trusted_third_party.video.url(:foo)).to eq 'https://vimeo.com/132895789'
     end
     
     it "returns the 'missing' url otherwise" do

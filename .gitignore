@@ -20,3 +20,6 @@ spec/coverage
 
 public/assets
 config/legacy_access
+
+# Ignore idea files
+.idea/

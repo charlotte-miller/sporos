@@ -2,6 +2,7 @@
 #
 module Paperclip
   class UploadToVimeo < Processor
+    COMM_ARTS_BUFFER = Rails.env.production? ? 5.gigabytes : 0 # Total 20gb / week
     attr_reader :vimeo_video_id
     
     def initialize(file, options = {}, attachment = nil)
@@ -10,7 +11,7 @@ module Paperclip
     end
     
     def make
-      return file if already_a_vimeo_video? || already_uploaded? || over_vimeo_upload_quota?
+      return file if already_a_vimeo_video? || already_uploaded? || over_vimeo_upload_quota? || file_too_small?
       upload_to_vimeo!(file)
       attachment.instance.update_attribute :video_vimeo_id, @vimeo_video_id
       
@@ -26,11 +27,17 @@ module Paperclip
     def already_uploaded?
       !!@lesson.video_vimeo_id
     end
+    
+    def file_too_small?
+      file.size < 5000 #NOT media (probably a 404.html)
+    end
 
     def over_vimeo_upload_quota?
-      account_info = contact_vimeo(:get, "https://api.vimeo.com/me")
-      free_space = account_info.upload_quota.space.free
-      file.size > free_space
+      account_info  = contact_vimeo(:get, "https://api.vimeo.com/me")
+      free_space    = account_info.upload_quota.space.free
+      is_over_quota = COMM_ARTS_BUFFER + file.size > free_space
+      Rails.logger.info("[[OVER WEEKLY VIMEO QUOTA]] #{free_space} remaining") if is_over_quota
+      return is_over_quota
     end
     
   private

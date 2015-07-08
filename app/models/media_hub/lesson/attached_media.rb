@@ -23,8 +23,7 @@ module Lesson::AttachedMedia
     
     has_attachable_file :video, {
                         :s3_host_alias => AppConfig.domains.assets,  #archive only - hosting through Vimeo
-                        :processors => [:upload_to_vimeo],
-                        :skip_processing_urls => ['youtube.com', 'vimeo.com'],
+                        :skip_processing_urls => ['vimeo.com'],
                         :content_type => ['video/mp4'] }.merge(common_config)
 
     

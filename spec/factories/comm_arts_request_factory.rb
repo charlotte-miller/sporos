@@ -21,8 +21,6 @@
 FactoryGirl.define do
   factory :comm_arts_request do
     post
-    print false
-    design false
     design_requested false
     design_creative_brief "{}"
     print_postcard false

@@ -9,6 +9,29 @@ describe Lesson::AttachedMedia do
   it { is_expected.to respond_to :video }
   it { is_expected.to respond_to :poster_img }
   
+  describe 'video_remote_url=' do
+    # describe 'vimeo url' do
+    # end
+
+    describe 'downloadable file' do
+      vcr_vimeo_upload
+      subject { create(:lesson) }
+      
+      # EXTERNAL DEPENDENCY 
+      # it 'uploads the file to Vimeo', resque:'inline' do
+      #   Cocaine::CommandLine.unfake!  #[NOTE: uncomment this to VCR record]
+      #   subject.video_remote_url= "http://vodkabears.github.io/vide/video/ocean.mp4"
+      #   subject.save
+      #   subject.reload
+      #   expect(subject.video_original_url).to eql "http://vodkabears.github.io/vide/video/ocean.mp4"
+      #   expect(subject.video_vimeo_id ).not_to be_nil
+      #   Cocaine::CommandLine.fake!
+      # end
+    end
+  end
+  
+  
+  
   describe 'attached poster_img -' do
     it "runs the :thumbnail processor", pending:'Future video processing' do
       expect_any_instance_of(Paperclip::Thumbnail).to receive(:make).at_least(:once).and_return(img_file)

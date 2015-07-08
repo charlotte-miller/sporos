@@ -17,11 +17,13 @@ RSpec.configure do |config|
     if example.metadata[:resque].try(:to_sym)    == :fake
       ResqueSpec.disable_ext = false
     elsif example.metadata[:resque].try(:to_sym) == :inline
-      ResqueSpec.disable_ext = true
+      # ResqueSpec.disable_ext = true
+      ResqueSpec.inline = true
     elsif example.metadata[:type].try(:to_sym)   == :acceptance
       ResqueSpec.disable_ext = true
     else
       ResqueSpec.disable_ext = false
+      ResqueSpec.inline = false
     end
   end
 end

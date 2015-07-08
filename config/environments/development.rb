@@ -48,5 +48,6 @@ Rails.application.configure do
 
   # Devise Mailers
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.preview_path = Rails.root.join('spec/mailers/previews')
   routes.default_url_options = { host: 'localhost', port: 3000 }
 end

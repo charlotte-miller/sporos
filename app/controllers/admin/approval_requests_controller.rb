@@ -15,7 +15,10 @@ class Admin::ApprovalRequestsController < Admin::BaseController
   end
   
   def update
-    @approval_request.update(approval_request_params)
+    if @approval_request.update(approval_request_params)
+      comment_body = approval_request_params[:comment_threads_attributes].first["body"]
+      ApprovalRequestCommentMailer.notify_all(@approval_request.to_findable_hash, comment_body).deliver_later if comment_body.present?
+    end
     
     # comments_data
     @comments = @approval_request.comment_threads

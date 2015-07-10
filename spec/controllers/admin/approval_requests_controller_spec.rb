@@ -1,10 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe Admin::ApprovalRequestsController, :type => :controller do
+  before(:all) do
+    @ministry = create(:populated_ministry)
+    @user = @ministry.members.first
+    @post = create(:post, ministry:@ministry, author: @user)
+  end
+
   login_user
 
   before(:each) do
-    @approval_request = create(:approval_request, user:@user)
+    @approval_request = @post.approval_requests.where(user_id: @user.id).first
   end
 
   let(:comment_threads_attributes) { [attributes_for(:comment, commentable: @approval_request)] }
@@ -21,6 +27,31 @@ RSpec.describe Admin::ApprovalRequestsController, :type => :controller do
       params = { id: @approval_request.id, approval_request: {comment_threads_attributes: comment_threads_attributes} }
       expect(ApprovalRequestCommentMailer).to_not receive(:notify_all)
       put :update, params
+    end
+  end
+
+  describe 'update status from link' do
+    before(:each) do
+      @approval_request.pending!
+    end
+
+    it 'should update the status based on the link params' do
+      get :update_status_from_link, { id: @approval_request.id, commit: 'Approve' }
+      expect(assigns(:approval_request)).to be_accepted
+
+      get :update_status_from_link, { id: @approval_request.id, commit: 'Reject' }
+      expect(assigns(:approval_request)).to be_rejected
+    end
+
+    it 'should raise an argument error if there are no commit params' do
+      expect {
+        get :update_status_from_link, { id: @approval_request.id }
+      }.to raise_error(ArgumentError)
+    end
+
+    it 'should redirect to the admin/post/show' do
+      get :update_status_from_link, { id: @approval_request.id, commit: 'Approve' }
+      expect(response).to redirect_to(admin_post_url(@post))
     end
   end
 

@@ -1,14 +1,14 @@
 - content_for :page_specific_js_initializers do
   = javascript_include_tag "community/posts/all"
-  
+
 #posts-show
   #status-bar
     #status
       .col-xs-5
         %p POST STATUS:
         %strong
-          = @post.status.upcase
-      
+          = @current_users_approval_request.status.upcase
+
       .col-xs-7
         %a#step-progress-help{href:'#'}
           %i.glyphicon.glyphicon-question-sign
@@ -16,10 +16,10 @@
           = link_to '#write-comments' do
             = render partial: 'post_progress', locals:{approval_statuses:@approval_statuses}
 
-    
+
   #cards
     = render_partial_for @post
-  
+
   - if current_user == @post.author || current_user.admin?
     .row
       .admin_controls.col-xs-8.col-xs-offset-2
@@ -28,5 +28,5 @@
           = link_to 'Edit', edit_admin_post_path(id:@post), html:{role:'button'}, class:'btn btn-default'
           = link_to 'Delete',   admin_post_path(id:@post), :method => :delete, :data => { :confirm => "Are you sure?\nIt will really be gone." }, html:{role:'button'}, class:'btn btn-default'
         %hr
-        
+
   = react_component('CStone.Admin.Components.Comments ', @comments_data, {prerender: true})

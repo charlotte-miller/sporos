@@ -12,7 +12,7 @@ RSpec.describe Admin::ApprovalRequestsController, :type => :controller do
   describe "PUT update" do
     it 'should notify all people involve when a new comment is made' do
       params = { id: @approval_request.id, approval_request: {comment_threads_attributes: comment_threads_attributes} }
-      expect(ApprovalRequestCommentMailer).to receive(:notify_all)
+      expect(ApprovalRequestCommentMailer).to receive(:notify_all).and_call_original
       put :update, params
     end
 
@@ -25,7 +25,7 @@ RSpec.describe Admin::ApprovalRequestsController, :type => :controller do
   end
 
   # skip 'TODO'
-  
+
   # before(:all) do
   #   AWS.stub!
   #   @valid_attributes = attributes_for(:ministry)
@@ -77,6 +77,6 @@ RSpec.describe Admin::ApprovalRequestsController, :type => :controller do
   #     end
   #   end
   # end
-  
-  
+
+
 end

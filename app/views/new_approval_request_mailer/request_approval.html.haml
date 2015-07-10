@@ -1,11 +1,40 @@
-!!!
-%html
-  %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-  %body
-    %h1
-      Go here young man:
-      = Rails.application.routes.url_helpers.post_url(@approval_request.post)
+%h1
+  Go here young man:
+=link_to "Approve post", Rails.application.routes.url_helpers.post_url(@approval_request.post)
 
-    =link_to("Approve", update_status_from_link_admin_approval_request_url(@approval_request, { commit: 'Approve' }))
-    =link_to("Reject", update_status_from_link_admin_approval_request_url(@approval_request, { commit: 'Reject' }))
+%p
+  Ministry Name:
+  =@ministry.name
+
+%p
+  Title:
+  =@post.title
+
+%p
+  Description:
+  =@post.description
+
+/ Post::Event section
+-if @post.is_a? Posts::Event
+  %p
+    Event time:
+    =@post.combined_event_time_obj.to_s
+
+  %p
+    Event location:
+    =@post.location
+
+/ Post::Link section
+-if @post.is_a? Posts::Link
+  %p
+    Link URL:
+    =link_to @post.url, @post.url
+
+/ Post::Photo section
+-if @post.is_a? Posts::Photo
+  %p
+    Photo Count:
+    =@post.uploaded_files.count
+
+=link_to("Approve", update_status_from_link_admin_approval_request_url(@approval_request, { commit: 'Approve' }))
+=link_to("Reject", update_status_from_link_admin_approval_request_url(@approval_request, { commit: 'Reject' }))

@@ -4,20 +4,20 @@ Rails.application.routes.draw do
   root                     to: 'communities#index'
   get 'new'                 => 'special_pages#new_to_cornerstone'
   get 'times-and-locations' => 'special_pages#times_and_locations'
-  get 'invest'              => 'special_pages#invest_in_cornerstone' 
+  get 'invest'              => 'special_pages#invest_in_cornerstone'
 
   # Search
   get  'search' => 'search#index'
   get  'search/preload'     => 'search#preload'
   post 'search/conversion'  => 'search#conversion'
   post 'search/abandonment' => 'search#abandonment'
-  
+
   resources :media do
   end
-  
+
   resources :pages, only:[:show]
   resources :posts, only:[:index, :show]
-  
+
   # Library
   resources :studies, only: [:index, :show ], path: 'library' do
     resources :lessons, only: [:index, :show ] do
@@ -29,10 +29,10 @@ Rails.application.routes.draw do
       end
     end
   end
-  
+
   # Ministry
   get '/:id'  => 'communities#show', constraints: {id: /men|women|rendezvous|teens|kids|outreach/}
-  
+
   # # Questions
   # resources :questions do
   #   resources :answers
@@ -46,7 +46,7 @@ Rails.application.routes.draw do
       # already part of the previous shallow routes
     end
   end
-  
+
   devise_for :users, :skip => [:sessions], :controllers => { invitations: 'devise_override/invitations', registrations:'devise_override/registrations' }
   as :user do
     # get     'join'    => 'devise_override/registrations#new', :as => :new_registrations
@@ -66,20 +66,24 @@ Rails.application.routes.draw do
         delete 'video_complete_upload'
       end
     end
-    
+
     resources :uploaded_files, only: [:index, :create, :destroy]
     patch 'uploaded_files' => 'uploaded_files#create'
-    
-    resources :approval_requests, only: [:show, :update]
-    
+
+    resources :approval_requests, only: [:show, :update] do
+      member do
+        get 'update_status_from_link'
+      end
+    end
+
     resources :studies, :lessons
-    
+
     namespace :content do
       resources :pages
     end
-    
+
   end
-  
+
   # Example resource route with sub-resources:
   #   resources :products do
   #     resources :comments, :sales

@@ -67,6 +67,8 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :comm_arts_requests, only: [:index, :create, :update, :destroy]
+
     resources :uploaded_files, only: [:index, :create, :destroy]
     patch 'uploaded_files' => 'uploaded_files#create'
 

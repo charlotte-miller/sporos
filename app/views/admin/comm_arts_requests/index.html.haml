@@ -3,13 +3,13 @@
     .col-xs-2
       Design Requested?
     .col-xs-2
-      Print Postcard?
+      Print Postcard? (quantity)
     .col-xs-2
-      Print Poster?
+      Print Poster? (quantity)
     .col-xs-2
-      Print Flyer?
+      Print Flyer? (quantity)
     .col-xs-2
-      Print Badges?
+      Print Badges? (quantity)
     .col-xs-2
       Actions
 - @requests.each do |request|
@@ -19,13 +19,13 @@
         = "Yes"
         %span.caret
     .col-xs-2
-      = "Yes" if request.print_postcard
+      = "Yes (#{request.postcard_quantity})" if request.print_postcard
     .col-xs-2
-      = "Yes" if request.print_poster
+      = "Yes (#{request.poster_quantity})" if request.print_poster
     .col-xs-2
-      = "Yes" if request.print_booklet
+      = "Yes (#{request.booklet_quantity})" if request.print_booklet
     .col-xs-2
-      = "Yes" if request.print_badges
+      = "Yes (#{request.badges_quantity})" if request.print_badges
     .col-xs-2
       = link_to "delete", admin_comm_arts_request_path(request), method: :delete, data: { confirm: "Are you sure?" }
     .col-xs-12

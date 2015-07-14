@@ -52,10 +52,10 @@
         .input-group-btn.trigger-pick-a-date
           %button.btn.btn-default
             %i.glyphicon.glyphicon-calendar
-      %p.help-block 
-        %b Example: 
+      %p.help-block
+        %b Example:
         Registration ends before the event. | Leave blank to use the start-time of the event.
-        
+
     .field
       = f.fields_for :comm_arts_request do |ff|
         %ul.nav.nav-tabs
@@ -84,8 +84,8 @@
                   = ff.label :design_cta, 'Call to Action'
                   .description What do you want people to DO after seeing the design?
                   = ff.text_area :design_cta, class:'form-control', placeholder:"Example: Join a Small Group before Friday"
-          
-          
+
+
           #comm-arts-print.tab-pane.fade.in
             %p  Do you need anything printed for this event?
             .row
@@ -111,3 +111,20 @@
                 = ff.label :print_badges do
                   = ff.check_box :print_badges, id:'comm-arts-request-design-checkbox'
                   Badges
+            .row
+              .field
+                = ff.label :postcard_quantity do
+                  Quantity:
+                  = ff.text_field :postcard_quantity
+              .field
+                = ff.label :poster_quantity do
+                  Quantity:
+                  = ff.text_field :poster_quantity
+              .field
+                = ff.label :booklet_quantity do
+                  Quantity:
+                  = ff.text_field :booklet_quantity
+              .field
+                = ff.label :badges_quantity do
+                  Quantity:
+                  = ff.text_field :badges_quantity

@@ -68,9 +68,14 @@
             %p Whether it’s getting people to take part in an event or just try out Cornerstone for the very first time, communication can help you reach your goals. These values, best practices, and guidelines are here to help you remove as many obstacles as possible that might get in the way of people taking their next steps with Christ.
             .field
               .well.checkbox
-                = ff.label :design_requested do
-                  = ff.check_box :design_requested, id:'comm-arts-request-design-checkbox'
-                  I need a design created for this event.
+                .row
+                  = ff.label :item_name do
+                    Item Name:
+                    = ff.text_field :item_name
+                .row
+                  = ff.label :design_requested do
+                    = ff.check_box :design_requested, id:'comm-arts-request-design-checkbox'
+                    I need a design created for this event.
               #comm_arts_design_questions
                 .field
                   = ff.label :design_purpose, 'Purpose'

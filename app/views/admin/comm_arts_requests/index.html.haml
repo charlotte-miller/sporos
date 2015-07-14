@@ -1,20 +1,24 @@
 #comm-arts-requests-index
   .row
     .col-xs-2
+      Item Name
+    .col-xs-1
       Design Requested?
     .col-xs-2
-      Print Postcard? (quantity)
+      Postcard? (quantity)
     .col-xs-2
-      Print Poster? (quantity)
+      Poster? (quantity)
     .col-xs-2
-      Print Flyer? (quantity)
+      Flyer? (quantity)
     .col-xs-2
-      Print Badges? (quantity)
-    .col-xs-2
+      Badges? (quantity)
+    .col-xs-1
       Actions
 - @requests.each do |request|
   .row
-    .col-xs-2{data: {toggle: "collapse", target: "#info-collapse-#{request.id}"}}
+    .col-xs-2
+      = request.item_name
+    .col-xs-1{data: {toggle: "collapse", target: "#info-collapse-#{request.id}"}}
       - if request.design_requested
         = "Yes"
         %span.caret
@@ -26,7 +30,7 @@
       = "Yes (#{request.booklet_quantity})" if request.print_booklet
     .col-xs-2
       = "Yes (#{request.badges_quantity})" if request.print_badges
-    .col-xs-2
+    .col-xs-1
       = link_to "delete", admin_comm_arts_request_path(request), method: :delete, data: { confirm: "Are you sure?" }
     .col-xs-12
       .collapse{id: "info-collapse-#{request.id}"}

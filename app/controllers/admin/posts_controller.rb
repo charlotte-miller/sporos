@@ -126,6 +126,7 @@ private
                                                          :design_purpose,
                                                          :design_tone,
                                                          :design_cta,
+                                                         :item_name,
                                                          :print_postcard,
                                                          :postcard_quantity,
                                                          :print_poster,

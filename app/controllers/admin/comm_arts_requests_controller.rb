@@ -1,6 +1,6 @@
 class Admin::CommArtsRequestsController < Admin::BaseController
   def index
-    @requests = CommArtsRequest.all
+    @requests = CommArtsRequest.all.includes(:ministry)
   end
 
   def create

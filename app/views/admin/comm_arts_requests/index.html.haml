@@ -1,7 +1,9 @@
 #comm-arts-requests-index
   .row
-    .col-xs-2
-      Item Name
+    .col-xs-1
+      Name
+    .col-xs-1
+      Ministry
     .col-xs-1
       Design Requested?
     .col-xs-2
@@ -16,8 +18,10 @@
       Actions
 - @requests.each do |request|
   .row
-    .col-xs-2
+    .col-xs-1
       = request.item_name
+    .col-xs-1
+      = request.ministry.name if request.ministry.present? # nil check because some data does not have it. Will ministry ever be nil?
     .col-xs-1{data: {toggle: "collapse", target: "#info-collapse-#{request.id}"}}
       - if request.design_requested
         = "Yes"

@@ -10,5 +10,10 @@ class Admin::CommArtsRequestsController < Admin::BaseController
   end
 
   def destroy
+    @request = CommArtsRequest.find(params[:id])
+    if @request.destroy
+      flash[:notice] = "Request successfully deleted"
+      redirect_to admin_comm_arts_requests_path
+    end
   end
 end

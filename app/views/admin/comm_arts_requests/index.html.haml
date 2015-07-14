@@ -1,36 +1,38 @@
 #comm-arts-requests-index
-  %table{class: "table table-striped"}
-    %tr
-      %th
-        Design Requested?
-      %th
-      %th
-        Print Postcard?
-      %th
-        Print Poster?
-      %th
-        Print Booklet?
-      %th
-        Print Badges?
-      %th
-    - @requests.each do |request|
-      %tr
-        %td
-          = "Yes" if request.design_requested
-        %td
-          .row
-            = "Purpose: #{request.design_purpose}" if request.design_purpose.present?
-          .row
-            = "Tone: #{request.design_tone}" if request.design_tone.present?
-          .row
-            = "Call To Action: #{request.design_cta}" if request.design_cta.present?
-        %td
-          = "Yes" if request.print_postcard
-        %td
-          = "Yes" if request.print_poster
-        %td
-          = "Yes" if request.print_booklet
-        %td
-          = "Yes" if request.print_badges
-        %td
-          = link_to "delete", admin_comm_arts_request_path(request), method: :delete, data: { confirm: "Are you sure?" }
+  .row
+    .col-xs-2
+      Design Requested?
+    .col-xs-2
+      Print Postcard?
+    .col-xs-2
+      Print Poster?
+    .col-xs-2
+      Print Flyer?
+    .col-xs-2
+      Print Badges?
+    .col-xs-2
+      Actions
+- @requests.each do |request|
+  .row
+    .col-xs-2{data: {toggle: "collapse", target: "#info-collapse-#{request.id}"}}
+      - if request.design_requested
+        = "Yes"
+        %span.caret
+    .col-xs-2
+      = "Yes" if request.print_postcard
+    .col-xs-2
+      = "Yes" if request.print_poster
+    .col-xs-2
+      = "Yes" if request.print_booklet
+    .col-xs-2
+      = "Yes" if request.print_badges
+    .col-xs-2
+      = link_to "delete", admin_comm_arts_request_path(request), method: :delete, data: { confirm: "Are you sure?" }
+    .col-xs-12
+      .collapse{id: "info-collapse-#{request.id}"}
+        %p
+          = "Purpose: #{request.design_purpose}" if request.design_purpose.present?
+        %p
+          = "Tone: #{request.design_tone}" if request.design_tone.present?
+        %p
+          = "Call To Action: #{request.design_cta}" if request.design_cta.present?

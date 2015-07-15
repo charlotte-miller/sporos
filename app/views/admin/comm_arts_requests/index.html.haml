@@ -7,10 +7,12 @@
     .col-xs-1
       User Name
     .col-xs-1
+      Post Title
+    .col-xs-1
       Design Requested?
     .col-xs-1
       Postcard? (quantity)
-    .col-xs-2
+    .col-xs-1
       Poster? (quantity)
     .col-xs-2
       Flyer? (quantity)
@@ -26,13 +28,15 @@
       = request.ministry.name if request.ministry.present? # TODO: nil check because some data does not have it. Will ministry ever be nil?
     .col-xs-1
       = request.post.author.first_name if request.post.present? # TODO: nil check because some data does not have it. Will post ever be nil?
+    .col-xs-1
+      = request.post.title if request.post.present? # TODO: nil check because some data does not have it. Will post ever be nil?
     .col-xs-1{data: {toggle: "collapse", target: "#info-collapse-#{request.id}"}}
       - if request.design_requested
         = "Yes"
         %span.caret
     .col-xs-1
       = "Yes (#{request.postcard_quantity})" if request.print_postcard
-    .col-xs-2
+    .col-xs-1
       = "Yes (#{request.poster_quantity})" if request.print_poster
     .col-xs-2
       = "Yes (#{request.booklet_quantity})" if request.print_booklet
@@ -48,3 +52,5 @@
           = "Tone: #{request.design_tone}" if request.design_tone.present?
         %p
           = "Call To Action: #{request.design_cta}" if request.design_cta.present?
+        %p
+          = "Notes: #{request.notes}" if request.notes.present?

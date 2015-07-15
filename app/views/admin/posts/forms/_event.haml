@@ -89,7 +89,10 @@
                   = ff.label :design_cta, 'Call to Action'
                   .description What do you want people to DO after seeing the design?
                   = ff.text_area :design_cta, class:'form-control', placeholder:"Example: Join a Small Group before Friday"
-
+                .field
+                  = ff.label :notes, 'Notes'
+                  .description Any additional notes that are not captured on the form
+                  = ff.text_area :notes, class:'form-control', placeholder:"Example: I need something specific that is not provided by this form..."
 
           #comm-arts-print.tab-pane.fade.in
             %p  Do you need anything printed for this event?

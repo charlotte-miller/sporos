@@ -30,6 +30,7 @@ class CommArtsRequest < ActiveRecord::Base
     :booklet_quantity,
     :badges_quantity,
     :item_name,
+    :notes,
     to: :design_creative_brief
   attr_protected #none
 

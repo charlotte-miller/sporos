@@ -25,11 +25,11 @@
     .col-xs-1
       = request.item_name
     .col-xs-1
-      = request.ministry.name if request.ministry.present? # TODO: nil check because some data does not have it. Will ministry ever be nil?
+      = request.ministry.name if request.ministry.present?
     .col-xs-1
-      = request.post.author.first_name if request.post.present? # TODO: nil check because some data does not have it. Will post ever be nil?
+      = request.post.author.first_name if request.post.present?
     .col-xs-1
-      = request.post.title if request.post.present? # TODO: nil check because some data does not have it. Will post ever be nil?
+      = truncate(request.post.present? ? request.post.title : request.notes, length: 15)
     .col-xs-1{data: {toggle: "collapse", target: "#info-collapse-#{request.id}"}}
       - if request.design_requested
         = "Yes"

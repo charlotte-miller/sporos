@@ -137,6 +137,7 @@ private
                                                          :print_badges,
                                                          :badges_quantity])
     .merge({current_session:session.id})
+    .deep_merge({ comm_arts_request_attributes: { id: @post.comm_arts_request.id } })
   end
 
   def posts_url

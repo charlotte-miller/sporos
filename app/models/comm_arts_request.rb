@@ -21,6 +21,8 @@
 class CommArtsRequest < ActiveRecord::Base
   belongs_to :post
   has_one :ministry, through: :post
+  has_one :author, through: :post
+
 
   delegate_attrs_to_jsonb :design_purpose,
     :design_tone,

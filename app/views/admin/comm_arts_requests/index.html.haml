@@ -1,33 +1,36 @@
 #comm-arts-requests-index
   .row
     .col-xs-1
-      Ministry
-    .col-xs-1
+    %h4.col-xs-2
+      Title
+    %h4.col-xs-1
       Name
-    .col-xs-1
-      Post Title
-    .col-xs-1
+    %h4.col-xs-1
+      Ministry
+    %h4.col-xs-1
       Design
-    .col-xs-1
+    %h4.col-xs-1
       Postcard
-    .col-xs-1
+    %h4.col-xs-1
       Poster
-    .col-xs-1
-      Flyer
-    .col-xs-1
+    %h4.col-xs-1
+      Flier
+    %h4.col-xs-1
       Badges
-    .col-xs-2
-      Due Date
-    .col-xs-1
-      Actions
+    %h4.col-xs-2
+      Due
 - @requests.each do |request|
   .row
     .col-xs-1
-      = request.ministry.name if request.ministry.present?
+      .checkbox
+        %label
+          %input{type:"checkbox"}
+    .col-xs-2
+      = truncate(request.post.present? ? request.post.title : request.notes, length: 15)
     .col-xs-1
       = request.post.author.first_name if request.post.present?
     .col-xs-1
-      = truncate(request.post.present? ? request.post.title : request.notes, length: 15)
+      = request.ministry.name if request.ministry.present?
     .col-xs-1{data: {toggle: "collapse", target: "#info-collapse-#{request.id}"}}
       - if request.design_requested
         <span class="label label-info">Info</span>
@@ -41,15 +44,14 @@
       = request.badges_quantity if request.print_badges
     .col-xs-2
       = request.due_date.try(:strftime, '%e %B, %Y')
-    .col-xs-1
-      = link_to "delete", admin_comm_arts_request_path(request), method: :delete, data: { confirm: "Are you sure?" }
     .col-xs-12
       .collapse{id: "info-collapse-#{request.id}"}
-        %p
-          = "Purpose: #{request.design_purpose}" if request.design_purpose.present?
-        %p
-          = "Tone: #{request.design_tone}" if request.design_tone.present?
-        %p
-          = "Call To Action: #{request.design_cta}" if request.design_cta.present?
-        %p
-          = "Notes: #{request.notes}" if request.notes.present?
+        .bg-info
+          %p
+            = "Purpose: #{request.design_purpose}" if request.design_purpose.present?
+          %p
+            = "Tone: #{request.design_tone}" if request.design_tone.present?
+          %p
+            = "Call To Action: #{request.design_cta}" if request.design_cta.present?
+          %p
+            = "Notes: #{request.notes}" if request.notes.present?

@@ -44,7 +44,7 @@
 
 require 'rails_helper'
 require 'cocaine'
-require 'spec/models/media_hub/lesson/adapters/web_sites/dummy_klass'
+require Rails.root.join('spec/models/media_hub/lesson/adapters/web_sites/dummy_klass')
 
 describe Lesson do
   it { is_expected.to belong_to( :study )}
@@ -53,19 +53,19 @@ describe Lesson do
   it { is_expected.to validate_presence_of :study }
   it { is_expected.to validate_presence_of :title }
   it { is_expected.to validate_presence_of :author }
-  
+
   it "builds from factory", :internal do
     lambda { create(:lesson) }.should_not raise_error
   end
-  
+
   it_behaves_like 'it is Sortable', scoped_to:'study'
-  
+
   it "touches the associated Study on update", :internal do
     study = create(:study_w_lesson)
     expect_any_instance_of(Study).to receive(:touch).once
     study.lessons.first.touch
   end
-    
+
   describe '[scopes]'do
     describe 'for_study(:study_id)' do
       it "adds WHERE(study_id=n)" do
@@ -73,7 +73,7 @@ describe Lesson do
       end
     end
   end
-  
+
   describe '[callbacks]' do
     describe '#video_vimeo_id_from_original_url' do
       it 'is a no-op if video_original_url is not from vimeo.com' do
@@ -86,7 +86,7 @@ describe Lesson do
         expect(create(:lesson, video_original_url:'http://vimeo.com/3456788/').video_vimeo_id).to eq('3456788')
         expect(create(:lesson, video_original_url:'http://vimeo.com/3456787?foo=bar').video_vimeo_id).to eq('3456787')
       end
-      
+
       it 'can be feed by self.video_remote_url' do
         expect(create(:lesson, video_remote_url:'http://vimeo.com/3456789').video_vimeo_id).to eq('3456789')
       end
@@ -95,12 +95,12 @@ describe Lesson do
 
   describe '.new_from_adapter(lesson_adapter)' do
     subject { Lesson.new_from_adapter(adapter) }
-    
+
     context "w/ Lesson::Adapters::Podcast -" do
       let(:podcast_xml) { File.read(File.join(Rails.root, 'spec/files/podcast_xml', 'itunes.xml')) }
       let(:podcast_item) { Podcast::RssChannel.new(podcast_xml).items.first }
       let(:adapter) { Lesson::Adapters::Podcast.new(podcast_item) }
-      
+
       it "builds a @lesson from an adapter" do
         should be_a Lesson
         subject.study = Study.new
@@ -112,13 +112,13 @@ describe Lesson do
         subject.errors.messages.should eq( :study => ["can't be blank"] )
       end
     end
-    
+
     context "w/ Lesson::Adapters::Web -" do
       vcr_lesson_web
       let(:url) { @url || 'http://www.something.com' }
       let(:nokogiri_doc) { Nokogiri::HTML(open url) }
       let(:adapter) { Lesson::Adapters::Web.new(url, nokogiri_doc) }
-      
+
       it "builds a @lesson from an adapter" do
         should be_a Lesson
         subject.study = Study.new
@@ -131,24 +131,24 @@ describe Lesson do
       end
     end
   end
-  
+
   describe '#belongs_with?( other_lesson )' do
     subject { build_stubbed(:lesson) }
     let(:other_lesson) { build_stubbed(:lesson) }
     before(:each) do
       Lesson::SimilarityHeuristic::Base::STRATEGIES.each {|strategy| strategy.any_instance.stub(matches?:false) } #all stragegies 'off'
     end
-    
+
     it "returns TRUE if any of the Lesson::SimilarityHeuristic#matches?" do
       Lesson::SimilarityHeuristic::Base::STRATEGIES.last.any_instance.stub(matches?:true)
       expect( subject.belongs_with?( other_lesson ) ).to be true
     end
-    
+
     it "returns FALSE if NONE of the Lesson::SimilarityHeuristic#matches?" do
       expect( subject.belongs_with?( other_lesson ) ).to be false
     end
   end
-  
+
   describe '#duplicate?' do
     it "matches on backlink" do
       a, b = 2.times.map { build(:lesson, backlink:'foo') }

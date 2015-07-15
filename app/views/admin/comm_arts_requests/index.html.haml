@@ -1,31 +1,27 @@
 #comm-arts-requests-index
   .row
     .col-xs-1
-      Item Name
-    .col-xs-1
       Ministry
     .col-xs-1
-      User Name
+      Name
     .col-xs-1
       Post Title
     .col-xs-1
-      Design Requested?
+      Design
     .col-xs-1
-      Postcard? (quantity)
+      Postcard
     .col-xs-1
-      Poster? (quantity)
+      Poster
     .col-xs-1
-      Flyer? (quantity)
+      Flyer
     .col-xs-1
-      Badges? (quantity)
+      Badges
     .col-xs-2
       Due Date
     .col-xs-1
       Actions
 - @requests.each do |request|
   .row
-    .col-xs-1
-      = request.item_name
     .col-xs-1
       = request.ministry.name if request.ministry.present?
     .col-xs-1
@@ -34,16 +30,15 @@
       = truncate(request.post.present? ? request.post.title : request.notes, length: 15)
     .col-xs-1{data: {toggle: "collapse", target: "#info-collapse-#{request.id}"}}
       - if request.design_requested
-        = "Yes"
-        %span.caret
+        <span class="label label-info">Info</span>
     .col-xs-1
-      = "Yes (#{request.postcard_quantity})" if request.print_postcard
+      = request.postcard_quantity if request.print_postcard
     .col-xs-1
-      = "Yes (#{request.poster_quantity})" if request.print_poster
+      = request.poster_quantity if request.print_poster
     .col-xs-1
-      = "Yes (#{request.booklet_quantity})" if request.print_booklet
+      = request.booklet_quantity if request.print_booklet
     .col-xs-1
-      = "Yes (#{request.badges_quantity})" if request.print_badges
+      = request.badges_quantity if request.print_badges
     .col-xs-2
       = request.due_date.try(:strftime, '%e %B, %Y')
     .col-xs-1

@@ -12,6 +12,7 @@
 #  print_badges          :boolean
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#  due_date              :datetime
 #
 # Indexes
 #
@@ -33,7 +34,6 @@ class CommArtsRequest < ActiveRecord::Base
     :badges_quantity,
     :item_name,
     :notes,
-    :due_date,
     to: :design_creative_brief
   attr_protected #none
 

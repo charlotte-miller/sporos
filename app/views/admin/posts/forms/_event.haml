@@ -96,7 +96,7 @@
                   = ff.label :due_date, 'Due Date' do
                     Due Date:
                     .input-group
-                      = ff.text_field :due_date, id: 'comm-arts-due-pickadate', class:'form-control', placeholder:'When the design is due'
+                      = ff.text_field :due_date, id: 'comm-arts-due-pickadate', class:'form-control', placeholder:'When the design is due', value:ff.object.due_date.try(:strftime, '%e %B, %Y')
                       .input-group-btn.trigger-pick-a-date
                         %button.btn.btn-default
                           %i.glyphicon.glyphicon-calendar

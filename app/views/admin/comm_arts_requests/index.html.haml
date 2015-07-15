@@ -14,10 +14,12 @@
       Postcard? (quantity)
     .col-xs-1
       Poster? (quantity)
-    .col-xs-2
+    .col-xs-1
       Flyer? (quantity)
-    .col-xs-2
+    .col-xs-1
       Badges? (quantity)
+    .col-xs-2
+      Due Date
     .col-xs-1
       Actions
 - @requests.each do |request|
@@ -38,10 +40,12 @@
       = "Yes (#{request.postcard_quantity})" if request.print_postcard
     .col-xs-1
       = "Yes (#{request.poster_quantity})" if request.print_poster
-    .col-xs-2
+    .col-xs-1
       = "Yes (#{request.booklet_quantity})" if request.print_booklet
-    .col-xs-2
+    .col-xs-1
       = "Yes (#{request.badges_quantity})" if request.print_badges
+    .col-xs-2
+      = request.due_date.try(:strftime, '%e %B, %Y')
     .col-xs-1
       = link_to "delete", admin_comm_arts_request_path(request), method: :delete, data: { confirm: "Are you sure?" }
     .col-xs-12

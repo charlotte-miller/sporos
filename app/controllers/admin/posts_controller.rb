@@ -126,6 +126,7 @@ private
                                                          :design_purpose,
                                                          :design_tone,
                                                          :design_cta,
+                                                         :due_date,
                                                          :item_name,
                                                          :notes,
                                                          :print_postcard,

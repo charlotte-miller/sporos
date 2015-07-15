@@ -1,6 +1,6 @@
 class Admin::CommArtsRequestsController < Admin::BaseController
   def index
-    @requests = CommArtsRequest.all.includes(:ministry)
+    @requests = CommArtsRequest.all.includes(:ministry, :post) # TODO: Need to eager load :user or :author
   end
 
   def create

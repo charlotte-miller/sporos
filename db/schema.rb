@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715203203) do
+ActiveRecord::Schema.define(version: 20150715223309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,8 +84,10 @@ ActiveRecord::Schema.define(version: 20150715203203) do
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.datetime "due_date"
+    t.datetime "archived_at"
   end
 
+  add_index "comm_arts_requests", ["archived_at"], name: "index_comm_arts_requests_on_archived_at", using: :btree
   add_index "comm_arts_requests", ["post_id"], name: "index_comm_arts_requests_on_post_id", using: :btree
 
   create_table "comments", force: :cascade do |t|

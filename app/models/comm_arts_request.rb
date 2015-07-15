@@ -13,10 +13,12 @@
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  due_date              :datetime
+#  archived_at           :datetime
 #
 # Indexes
 #
-#  index_comm_arts_requests_on_post_id  (post_id)
+#  index_comm_arts_requests_on_archived_at  (archived_at)
+#  index_comm_arts_requests_on_post_id      (post_id)
 #
 
 class CommArtsRequest < ActiveRecord::Base

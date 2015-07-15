@@ -24,7 +24,7 @@
     .col-xs-1
       .checkbox
         %label
-          %input{type:"checkbox"}
+          %input.done-checkbox{type:"checkbox", data: {id: "#{request.id}"}}
     .col-xs-2
       = truncate(request.post.present? ? request.post.title : request.notes, length: 15)
     .col-xs-1

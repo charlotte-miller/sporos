@@ -26,6 +26,7 @@
 #= require admin/posts/event
 #= require admin/posts/photo
 #= require admin/posts/video
+#= require admin/comm_arts_request
 #= require vendor_modified/jquery.unveil-1.3.0
 #= require_tree ./admin/components
 #= require_self

@@ -7,7 +7,7 @@
   .col-sm-6
     = f.label :event_time, 'Event Date'
     .input-group
-      = f.text_field :event_time, name:'post[display_options][event_time]', class:'form-control pick-a-date', placeholder:'When is the event?'
+      = f.text_field :event_time, name:'post[display_options][event_time]', id: 'event-pickadate', class:'form-control', placeholder:'When is the event?'
       .input-group-btn.trigger-pick-a-date
         %button.btn.btn-default
           %i.glyphicon.glyphicon-calendar
@@ -48,7 +48,7 @@
     .field
       = f.label :expired_at, 'Remove the Post Early'
       .input-group
-        = f.text_field :expired_at, class:'form-control pick-a-date-w-clear', placeholder:'When the event starts.', value:f.object.expired_at.try(:strftime, '%e %B, %Y')
+        = f.text_field :expired_at, id: 'expired-at-pickadate', class:'form-control', placeholder:'When the event starts.', value:f.object.expired_at.try(:strftime, '%e %B, %Y')
         .input-group-btn.trigger-pick-a-date
           %button.btn.btn-default
             %i.glyphicon.glyphicon-calendar
@@ -62,14 +62,6 @@
             %a{href:'#comm-arts-design', data:{toggle:'tab'}} Design
           %li{role:'presentation'}
             %a{href:'#comm-arts-print', data:{toggle:'tab'}} Print
-        .field
-          = ff.label :due_date, 'Due Date' do
-            Due Date:
-            .input-group
-              = ff.text_field :due_date, class:'form-control pick-a-date-w-clear', placeholder:'When the design is due'
-              .input-group-btn.trigger-pick-a-date
-                %button.btn.btn-default
-                  %i.glyphicon.glyphicon-calendar
         .well.tab-content
           #comm-arts-design.tab-pane.fade.in.active
             %p Whether it’s getting people to take part in an event or just try out Cornerstone for the very first time, communication can help you reach your goals. These values, best practices, and guidelines are here to help you remove as many obstacles as possible that might get in the way of people taking their next steps with Christ.
@@ -100,6 +92,14 @@
                   = ff.label :notes, 'Notes'
                   .description Any additional notes that are not captured on the form
                   = ff.text_area :notes, class:'form-control', placeholder:"Example: I need something specific that is not provided by this form..."
+                .field
+                  = ff.label :due_date, 'Due Date' do
+                    Due Date:
+                    .input-group
+                      = ff.text_field :due_date, id: 'comm-arts-due-pickadate', class:'form-control', placeholder:'When the design is due'
+                      .input-group-btn.trigger-pick-a-date
+                        %button.btn.btn-default
+                          %i.glyphicon.glyphicon-calendar
 
           #comm-arts-print.tab-pane.fade.in
             %p  Do you need anything printed for this event?

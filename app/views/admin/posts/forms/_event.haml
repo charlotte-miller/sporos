@@ -55,7 +55,6 @@
       %p.help-block
         %b Example:
         Registration ends before the event. | Leave blank to use the start-time of the event.
-
     .field
       = f.fields_for :comm_arts_request do |ff|
         %ul.nav.nav-tabs
@@ -63,19 +62,27 @@
             %a{href:'#comm-arts-design', data:{toggle:'tab'}} Design
           %li{role:'presentation'}
             %a{href:'#comm-arts-print', data:{toggle:'tab'}} Print
+        .field
+          = ff.label :due_date, 'Due Date' do
+            Due Date:
+            .input-group
+              = ff.text_field :due_date, class:'form-control pick-a-date-w-clear', placeholder:'When the design is due'
+              .input-group-btn.trigger-pick-a-date
+                %button.btn.btn-default
+                  %i.glyphicon.glyphicon-calendar
         .well.tab-content
           #comm-arts-design.tab-pane.fade.in.active
             %p Whether it’s getting people to take part in an event or just try out Cornerstone for the very first time, communication can help you reach your goals. These values, best practices, and guidelines are here to help you remove as many obstacles as possible that might get in the way of people taking their next steps with Christ.
             .field
               .well.checkbox
                 .row
-                  = ff.label :item_name do
-                    Item Name:
-                    = ff.text_field :item_name
-                .row
                   = ff.label :design_requested do
                     = ff.check_box :design_requested, id:'comm-arts-request-design-checkbox'
                     I need a design created for this event.
+                .row
+                  = ff.label :item_name do
+                    Item Name:
+                    = ff.text_field :item_name
               #comm_arts_design_questions
                 .field
                   = ff.label :design_purpose, 'Purpose'

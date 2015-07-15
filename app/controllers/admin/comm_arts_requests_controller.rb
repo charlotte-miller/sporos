@@ -1,8 +1,10 @@
 class Admin::CommArtsRequestsController < Admin::BaseController
-  before_action :set_comm_arts_request, only: [:show, :edit, :update, :archive, :destroy]
+  before_action :set_comm_arts_request, only: [:show, :edit, :update, :toggle_archive, :destroy]
 
   def index
-    @requests = CommArtsRequest.includes(:post, :ministry, :author)
+    requests = CommArtsRequest.includes(:post, :ministry, :author)
+    @unarchived_requests = requests.where(archived_at: nil)
+    @archived_requests = requests.where('archived_at is not null')
   end
 
   def create
@@ -11,11 +13,14 @@ class Admin::CommArtsRequestsController < Admin::BaseController
   def update
   end
 
-  def archive
-    @request.archived_at = DateTime.now
-    if @request.save
-      render nothing: true
+  def toggle_archive
+    if @request.archived_at.present?
+      @request.update_attribute(:archived_at, nil)
+    else
+      @request.touch :archived_at
     end
+
+    render nothing: true
   end
 
   def destroy

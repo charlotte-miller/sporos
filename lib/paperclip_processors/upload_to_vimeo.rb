@@ -5,6 +5,10 @@ module Paperclip
     COMM_ARTS_BUFFER = Rails.env.production? ? 5.gigabytes : 0 # Total 20gb / week
     attr_reader :vimeo_video_id
     
+    def self.over_limit?
+      Rails.cache.read(:over_vimeo_upload_quota)
+    end
+
     def initialize(file, options = {}, attachment = nil)
       super
       @lesson = attachment.instance
@@ -36,8 +40,12 @@ module Paperclip
       account_info  = contact_vimeo(:get, "https://api.vimeo.com/me")
       free_space    = account_info.upload_quota.space.free
       is_over_quota = COMM_ARTS_BUFFER + file.size > free_space
-      Rails.logger.info("[[OVER WEEKLY VIMEO QUOTA]] #{free_space} remaining") if is_over_quota
-      return is_over_quota
+      if is_over_quota
+        Rails.cache.write(:over_vimeo_upload_quota, true, expires_in:1.week)
+        Rails.logger.info("[[OVER WEEKLY VIMEO QUOTA]] #{free_space} remaining")
+      end
+
+      is_over_quota
     end
     
   private

@@ -34,6 +34,8 @@ private
     # Paperclip options[:skip_processing_urls]
     return if @obj_instance.send(attachment_name).trusted_third_party?
     
+    return if Paperclip::UploadToVimeo.over_limit?
+
     # tempfile = Tempfile.new([self.basename, self.extname]).binmode)
     Tempfile.open([file_name, extention]) do |tempfile|
       tempfile.binmode

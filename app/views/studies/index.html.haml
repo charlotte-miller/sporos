@@ -4,6 +4,8 @@
 - content_for :page_specific_js_initializers do
   = javascript_include_tag "page_initializers/library"
 
+
+
 #search-box.row
   #library-search
     %form{role:'form'}
@@ -17,6 +19,17 @@
             /   %li= link_to channel.title, "##{channel.slug}"
         %input{type:'text', placeholder:'What do you want to learn?'}
       
+  .col-xs-12
+    %ul.nav.nav-pills
+      %li.active{role:'presentation'}
+        %a All
+      %li{role:'presentation'}
+        %a Teaching
+      %li{role:'presentation'}
+        %a Arts
+      %li{role:'presentation'}
+        %a Music
+
 #study-library
   - grid_layout_for(@studies).each do |col_hash|
     .study-row

@@ -6,8 +6,7 @@ class Admin::CommArtsRequestsController < Admin::BaseController
     @ministries = Ministry.all
     @new_request = CommArtsRequest.new
     @unarchived_requests = requests.where(archived_at: nil)
-    @archived_requests = requests.where('archived_at is not null')
-      .order(archived_at: :desc)
+    @archived_requests = requests.where('archived_at is not null').order(archived_at: :desc)
   end
 
   def create

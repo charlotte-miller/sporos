@@ -29,8 +29,10 @@ class CommArtsRequest < ActiveRecord::Base
     :design_cta,
     :notes,
     to: :design_creative_brief
+
   delegate_attrs_to_jsonb :title, :ministry_id, :author_id,
     to: :todo
+
   delegate_attrs_to_jsonb(
     :postcard_quantity,
     :poster_quantity,
@@ -57,11 +59,7 @@ class CommArtsRequest < ActiveRecord::Base
   end
 
   def title_with_fallback
-    if post.present?
-      post.title
-    elsif title.present?
-      title
-    end
+    post.present? ? post.title : title
   end
 
 end

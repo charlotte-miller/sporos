@@ -18,6 +18,7 @@ common:
     origin:  origin.cornerstonesf.org                 # WEB SERVERS
     assets:  assets.cornerstonesf.org                 # CLOUDFRONT -> S3
     legacy_media: media.cornerstone-sf.org
+    live:    live.cornerstonesf.org                   # CHURCH ONLINE PLATFORM
   
   mail:
     delivery_method: :sendmail
@@ -39,6 +40,8 @@ common:
   elasticsearch:
     index_name: sporos_<%= Rails.env %>
     address: localhost
+  church_online_platform:
+    sso_key: key_only_used_in_production
     
 
 development:
@@ -103,5 +106,8 @@ production:
   
   paperclip:
     hash_secret: <%= ENV['PAPERCLIP_HASH_SECRET'] %>
+
+  church_online_platform:
+    sso_key: <%= ENV['CHURCH_ONLINE_PLATFORM_SSO_KEY'] %>
     
 #custom_environment:

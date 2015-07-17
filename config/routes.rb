@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'sso/authenticate'
+
   # See how all your routes lay out with "rake routes".
 
   root                     to: 'communities#index'

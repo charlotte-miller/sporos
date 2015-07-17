@@ -22,6 +22,7 @@ FactoryGirl.define do
   factory :comm_arts_request do
     post
     design_creative_brief "{}"
+    todo "{}"
+    print_quantity "{}"
   end
-
 end

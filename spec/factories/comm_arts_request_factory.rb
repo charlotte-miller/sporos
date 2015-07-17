@@ -24,10 +24,6 @@ FactoryGirl.define do
     post
     design_requested false
     design_creative_brief "{}"
-    print_postcard false
-    print_poster false
-    print_booklet false
-    print_badges false
   end
 
 end

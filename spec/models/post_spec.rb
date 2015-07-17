@@ -59,9 +59,9 @@ RSpec.describe Post, :type => :model do
       expect(subject.comm_arts_request).to be_nil
     end
 
-    [:design_requested, :print_postcard, :print_badges, :print_booklet, :print_poster].each do |attr|
+    [:design_purpose, :design_tone, :design_cta, :notes, :postcard_quantity, :badges_quantity, :booklet_quantity, :poster_quantity].each do |attr|
       it "creates if #{attr} is true" do
-        hash = {design_requested:"0", print_postcard:"0", print_badges: "0", print_booklet: "0", print_poster: "0"}
+        hash = {design_purpose:"", design_tone:"", design_cta:"", notes:"", postcard_quantity:"", badges_quantity: "", booklet_quantity: "", poster_quantity: ""}
         hash[attr] = "1"
 
         subject.comm_arts_request_attributes = hash

@@ -122,8 +122,7 @@ private
     @post_params ||= params
     .require(:post).permit(:type, :ministry_id, :title, :description, :poster, :poster_remote_url, :expired_at, :vimeo_id,
                            display_options:[:url, :event_date, :event_time, :location, poster_alternatives:[]],
-                           comm_arts_request_attributes:[:design_requested,
-                                                         :design_purpose,
+                           comm_arts_request_attributes:[:design_purpose,
                                                          :design_tone,
                                                          :design_cta,
                                                          :due_date,

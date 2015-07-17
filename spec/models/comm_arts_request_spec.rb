@@ -4,7 +4,6 @@
 #
 #  id                    :integer          not null, primary key
 #  post_id               :integer
-#  design_requested      :boolean
 #  design_creative_brief :jsonb            default("{}"), not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null

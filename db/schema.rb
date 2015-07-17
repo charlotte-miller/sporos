@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715223309) do
+ActiveRecord::Schema.define(version: 20150717214430) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,14 +77,12 @@ ActiveRecord::Schema.define(version: 20150715223309) do
     t.integer  "post_id"
     t.boolean  "design_requested"
     t.jsonb    "design_creative_brief", default: {}, null: false
-    t.boolean  "print_postcard"
-    t.boolean  "print_poster"
-    t.boolean  "print_booklet"
-    t.boolean  "print_badges"
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.datetime "due_date"
     t.datetime "archived_at"
+    t.jsonb    "todo"
+    t.jsonb    "print_quantity"
   end
 
   add_index "comm_arts_requests", ["archived_at"], name: "index_comm_arts_requests_on_archived_at", using: :btree

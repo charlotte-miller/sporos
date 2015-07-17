@@ -4,22 +4,23 @@
       %label
         %input.done-checkbox{type:"checkbox", data: {id: "#{request.id}"}}
   .col-xs-2
-    = truncate(request.post.present? ? request.post.title : request.notes, length: 15)
+    = #truncate(request.post.present? ? request.post.title : request.notes, length: 15)
+    = truncate(request.title_with_fallback.present? ? request.title_with_fallback : request.notes, length: 15)
   .col-xs-1
-    = request.post.author.first_name if request.post.present?
+    = request.user_with_fallback.first_name if request.user_with_fallback.present?
   .col-xs-1
-    = request.ministry.name if request.ministry.present?
+    = request.ministry_with_fallback.name if request.ministry_with_fallback.present?
   .col-xs-1{data: {toggle: "collapse", target: "#info-collapse-#{request.id}"}}
-    - if request.design_requested
+    - if request.design_purpose.present? || request.design_tone.present? || request.design_cta.present? || request.notes.present?
       <span class="label label-info">Info</span>
   .col-xs-1
-    = request.postcard_quantity if request.print_postcard
+    = request.postcard_quantity if request.postcard_quantity.present?
   .col-xs-1
-    = request.poster_quantity if request.print_poster
+    = request.poster_quantity if request.poster_quantity.present?
   .col-xs-1
-    = request.booklet_quantity if request.print_booklet
+    = request.booklet_quantity if request.booklet_quantity.present?
   .col-xs-1
-    = request.badges_quantity if request.print_badges
+    = request.badges_quantity if request.badges_quantity.present?
   .col-xs-2
     = request.due_date.try(:strftime, '%e %B, %Y')
   .col-xs-12

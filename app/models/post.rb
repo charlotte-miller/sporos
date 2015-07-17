@@ -73,7 +73,7 @@ class Post < ActiveRecord::Base
 
   has_many :uploaded_files, as:'from', dependent: :destroy
 
-  has_one :comm_arts_request 
+  has_one :comm_arts_request
     accepts_nested_attributes_for :comm_arts_request, reject_if: :attributes_absent
 
   # ---------------------------------------------------------------------------------
@@ -190,8 +190,8 @@ class Post < ActiveRecord::Base
   private
 
   def attributes_absent(attributed)
-    requested_work = %w{design_requested print_postcard print_badges print_booklet print_poster}.find do |attr|
-      attributed[attr] == "1"
+    requested_work = %w{design_purpose design_tone design_cta notes postcard_quantity poster_quantity booklet_quantity badges_quantity}.find do |attr|
+      attributed[attr].present?
     end
     !requested_work
   end

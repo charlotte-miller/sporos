@@ -26,3 +26,42 @@
 
 - @archived_requests.each do |request|
   =render partial: "request_row", locals: { request: request }
+
+%h2 New Comm Arts Request
+
+= form_for [:admin, @new_request] do |f|
+  .field
+    = f.label :title
+    = f.text_field :title
+  .field
+    - if @ministries.length > 1
+      .input-group
+        %span#instrutions.input-group-addon Ministry:
+        = f.collection_select :ministry_id, @ministries, :id, :title, {prompt:'Please Select a Ministry'}, {class:'form-control'}
+  .field
+    = f.label :design_purpose
+    = f.text_field :design_purpose
+  .field
+    = f.label :design_tone
+    = f.text_field :design_tone
+  .field
+    = f.label :design_cta
+    = f.text_field :design_cta
+  .field
+    = f.label :postcard_quantity
+    = f.text_field :postcard_quantity
+  .field
+    = f.label :poster_quantity
+    = f.text_field :poster_quantity
+  .field
+    = f.label :booklet_quantity
+    = f.text_field :booklet_quantity
+  .field
+    = f.label :badges_quantity
+    = f.text_field :badges_quantity
+  .field
+    = f.label :due_date
+    = f.datetime_select :due_date
+  .field
+    = f.submit
+

@@ -128,16 +128,12 @@ private
                                                          :design_cta,
                                                          :due_date,
                                                          :notes,
-                                                         :print_postcard,
                                                          :postcard_quantity,
-                                                         :print_poster,
                                                          :poster_quantity,
-                                                         :print_booklet,
                                                          :booklet_quantity,
-                                                         :print_badges,
                                                          :badges_quantity])
     .merge({current_session:session.id})
-    .deep_merge({ comm_arts_request_attributes: { id: @post.comm_arts_request.id } })
+    .deep_merge({ comm_arts_request_attributes: { id: @post.try(:comm_arts_request).try(:id) } })
   end
 
   def posts_url

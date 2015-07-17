@@ -6,14 +6,12 @@
 #  post_id               :integer
 #  design_requested      :boolean
 #  design_creative_brief :jsonb            default("{}"), not null
-#  print_postcard        :boolean
-#  print_poster          :boolean
-#  print_booklet         :boolean
-#  print_badges          :boolean
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  due_date              :datetime
 #  archived_at           :datetime
+#  todo                  :jsonb
+#  print_quantity        :jsonb
 #
 # Indexes
 #

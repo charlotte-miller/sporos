@@ -101,26 +101,22 @@
             %p  Do you need anything printed for this event?
             .row
               .field
-                = ff.label :print_postcard do
-                  = ff.check_box :print_postcard, id:'comm-arts-request-design-checkbox'
+                = ff.label :postcard_quantity do
                   Postcard
                   %br
                   (5 &times; 7)
               .field
-                = ff.label :print_poster do
-                  = ff.check_box :print_poster, id:'comm-arts-request-design-checkbox'
+                = ff.label :poster_quantity do
                   Poster
                   %br
                   (12 &times; 18)
               .field
-                = ff.label :print_booklet do
-                  = ff.check_box :print_booklet, id:'comm-arts-request-design-checkbox'
+                = ff.label :booklet_quantity do
                   Booklet
                   %br
                   (8.5 &times; 5.5)
               .field
-                = ff.label :print_badges do
-                  = ff.check_box :print_badges, id:'comm-arts-request-design-checkbox'
+                = ff.label :badges_quantity do
                   Badges
             .row
               .field

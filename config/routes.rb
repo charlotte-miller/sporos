@@ -69,7 +69,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :comm_arts_requests, only: [:index, :create, :update, :destroy] do
+    resources :comm_arts_requests, only: [:index, :create] do
       member do
         get 'toggle_archive'
       end

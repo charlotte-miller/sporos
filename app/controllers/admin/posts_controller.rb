@@ -120,7 +120,7 @@ private
 
   def post_params
     @post_params ||= params
-    .require(:post).permit(:type, :ministry_id, :title, :description, :poster, :poster_remote_url, :expired_at, :vimeo_id,
+    .require(:post).permit(:type, :ministry_id, :title, :description, :poster, :poster_remote_url, :expired_at, :vimeo_id, :featured_at,
                            display_options:[:url, :event_date, :event_time, :location, poster_alternatives:[]],
                            comm_arts_request_attributes:[:design_purpose,
                                                          :design_tone,
@@ -133,6 +133,8 @@ private
                                                          :badges_quantity])
     .merge({current_session:session.id})
     .deep_merge({ comm_arts_request_attributes: { id: @post.try(:comm_arts_request).try(:id) } })
+    @post_params[:featured_at] == "1" ? @post_params[:featured_at] = Time.now : nil
+    @post_params
   end
 
   def posts_url

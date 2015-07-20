@@ -55,6 +55,10 @@
       %p.help-block
         %b Example:
         Registration ends before the event. | Leave blank to use the start-time of the event.
+    .checkbox
+      = f.label :featured_at do
+        = f.check_box(:featured_at, checked: @post.featured_at.present?)
+        Featured
     .field
       = f.fields_for :comm_arts_request do |ff|
         %ul.nav.nav-tabs

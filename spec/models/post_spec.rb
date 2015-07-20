@@ -21,6 +21,7 @@
 #  expired_at          :datetime
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  featured_at         :datetime
 #
 # Indexes
 #
@@ -55,7 +56,7 @@ RSpec.describe Post, :type => :model do
   end
 
   describe 'accepts_nested_attributes_for :comm_arts_request' do
-    it 'rejects_if design_requested && print_[attrs] are zero' do
+    it 'rejects_if print_[attrs] are zero' do
       expect(subject.comm_arts_request).to be_nil
     end
 
@@ -83,8 +84,29 @@ RSpec.describe Post, :type => :model do
     end
   end
 
+  describe '[scope]featured_order' do
+    before(:each) do
+      @featured_posts = FactoryGirl.create_list(:post_event, 2, event_date: Date.today + 1.month, expired_at: Time.now + 1.day, published_at: Time.now - 1.day, featured_at: Time.now)
+      @other_post = FactoryGirl.create(:post_event, published_at: Time.now - 1.day)
+      @first_post = @featured_posts.first
+      @second_post = @featured_posts.last
+    end
+
+    it 'should order the featured posts ahead of the others' do
+      expect(Post.featured_order.map(&:id)).to eq([@first_post.id, @second_post.id, @other_post.id])
+    end
+
+    it 'should order the featured at by the relevance order' do
+      expect(Post.featured_order.map(&:id)).to eq([@first_post.id, @second_post.id, @other_post.id])
+      @first_post.expired_at = @second_post.expired_at + 1.minute
+      @first_post.save!
+      expect(Post.featured_order.map(&:id)).to eq([@second_post.id, @first_post.id, @other_post.id])
+    end
+
+  end
+
   describe '[scope]relevance_order' do
-    before(:all) do
+    before(:each) do
       @post_a, @post_b, @post_c = @posts = 3.times.map {|i| create(:post, expired_at:nil, published_at:(Time.now - (i+1).days), ministry:@ministry, author:@ministry.members.first)}
     end
 

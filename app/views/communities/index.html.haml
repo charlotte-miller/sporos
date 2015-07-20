@@ -8,7 +8,7 @@
   #headroom-content
     %a#headroom-logo{href:'#'}
       = image_tag 'white_cornerstone.png', class:'logo-img'
-    
+
     = render partial:'search', locals: {namespace_id:'headroom-search'}
 
 
@@ -17,7 +17,7 @@
     #main-header-content
       %a#logo{href:'#'}
         = image_tag 'white_cornerstone.png', class:'logo-img'
-      
+
       = render partial:'search', locals: {namespace_id:'global-search', show_examples:true}
 
 #main-body
@@ -31,14 +31,14 @@
       %a{href:'/times-and-locations'}
         .panel.panel-default
           .panel-body Service Times, Locations & Parking
-      
+
     #invest-in-cornerstone.evergreen-link
       %a{href:'/invest'}
         .panel.panel-default
           .panel-body Invest in Cornerstone
-    
+
   %hr
-  
+
   %ul#current-content-nav
     %li#comming-up-link.active
       %a.current-content-nav{href:'/'}
@@ -46,7 +46,7 @@
     %li#media-library-link
       %a.current-content-nav{href:'/library'}
         %h3 Media Library
-  
+
   #comming-up.active
     .row
       %nav#community-feed
@@ -69,8 +69,9 @@
           %li#outreach-link
             %a.ministry{href:'#outreach'} Outreach
 
+
     #cards.social-grid
       #card-sizer
       - @posts.each do |post|
         = render_partial_for post
-  
+

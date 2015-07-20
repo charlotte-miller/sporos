@@ -21,6 +21,7 @@
 #  expired_at          :datetime
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  featured_at         :datetime
 #
 # Indexes
 #

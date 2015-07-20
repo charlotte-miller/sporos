@@ -21,6 +21,7 @@
 #  expired_at          :datetime
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  featured_at         :datetime
 #
 # Indexes
 #
@@ -56,6 +57,7 @@ class Post < ActiveRecord::Base
   scope :expired,     -> { where( 'expired_at IS NOT NULL AND NOW() > expired_at') }
   scope :evergreen,   -> { where( 'expired_at IS NULL') }
 
+  scope :featured_order, ->{ order('featured_at is null') }
   scope :relevance_order, ->{ order('ABS(EXTRACT(EPOCH FROM (NOW() - COALESCE(expired_at, published_at)))) ASC')}
 
   # ---------------------------------------------------------------------------------

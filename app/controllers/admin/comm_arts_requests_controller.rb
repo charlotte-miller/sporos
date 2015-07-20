@@ -17,9 +17,6 @@ class Admin::CommArtsRequestsController < Admin::BaseController
     end
   end
 
-  def update
-  end
-
   def toggle_archive
     if @request.archived_at.present?
       @request.update_attribute(:archived_at, nil)
@@ -28,13 +25,6 @@ class Admin::CommArtsRequestsController < Admin::BaseController
     end
 
     render nothing: true
-  end
-
-  def destroy
-    if @request.destroy
-      flash[:notice] = "Request successfully deleted"
-      redirect_to admin_comm_arts_requests_path
-    end
   end
 
   private

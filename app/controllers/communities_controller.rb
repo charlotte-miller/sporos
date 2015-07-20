@@ -15,13 +15,12 @@ private
 
   def set_posts
     @posts ||= Post.current
+      .featured_order
       .relevance_order
       .paginated(params[:page])
       .per(20)
       .includes(:uploaded_files, :ministry)
       .all
-
-    @featured_posts = @posts.where('featured_at is not null')
   end
 
   def get_ministry

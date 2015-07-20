@@ -22,7 +22,9 @@ RSpec.describe CommunitiesController, :type => :controller do
       it 'expects featured published posts to be assigned' do
         expect(assigns(:featured_posts).to_a).to eq(featured_posts)
       end
+
     end
+
   end
 
   describe "GET 'show'" do

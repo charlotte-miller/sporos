@@ -56,7 +56,7 @@ RSpec.describe Post, :type => :model do
   end
 
   describe 'accepts_nested_attributes_for :comm_arts_request' do
-    it 'rejects_if design_requested && print_[attrs] are zero' do
+    it 'rejects_if print_[attrs] are zero' do
       expect(subject.comm_arts_request).to be_nil
     end
 

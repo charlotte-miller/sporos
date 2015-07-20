@@ -17,6 +17,7 @@ class Admin::CommArtsRequestsController < Admin::BaseController
     end
   end
 
+  # TODO: Remove
   def update
   end
 
@@ -30,6 +31,7 @@ class Admin::CommArtsRequestsController < Admin::BaseController
     render nothing: true
   end
 
+  # TODO: Remove
   def destroy
     if @request.destroy
       flash[:notice] = "Request successfully deleted"

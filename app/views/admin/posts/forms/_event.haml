@@ -58,7 +58,7 @@
     .checkbox
       = f.label :featured_at do
         = f.check_box(:featured_at, checked: @post.featured_at.present?)
-        Featured
+        This is a featured event
     .field
       = f.fields_for :comm_arts_request do |ff|
         %ul.nav.nav-tabs

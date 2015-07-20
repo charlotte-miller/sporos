@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150706204350) do
+ActiveRecord::Schema.define(version: 20150717222442) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id"
@@ -74,16 +75,16 @@ ActiveRecord::Schema.define(version: 20150706204350) do
 
   create_table "comm_arts_requests", force: :cascade do |t|
     t.integer  "post_id"
-    t.boolean  "design_requested"
     t.jsonb    "design_creative_brief", default: {}, null: false
-    t.boolean  "print_postcard"
-    t.boolean  "print_poster"
-    t.boolean  "print_booklet"
-    t.boolean  "print_badges"
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
+    t.datetime "due_date"
+    t.datetime "archived_at"
+    t.jsonb    "todo"
+    t.jsonb    "print_quantity"
   end
 
+  add_index "comm_arts_requests", ["archived_at"], name: "index_comm_arts_requests_on_archived_at", using: :btree
   add_index "comm_arts_requests", ["post_id"], name: "index_comm_arts_requests_on_post_id", using: :btree
 
   create_table "comments", force: :cascade do |t|

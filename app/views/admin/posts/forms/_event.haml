@@ -7,7 +7,7 @@
   .col-sm-6
     = f.label :event_time, 'Event Date'
     .input-group
-      = f.text_field :event_time, name:'post[display_options][event_time]', class:'form-control pick-a-date', placeholder:'When is the event?'
+      = f.text_field :event_time, name:'post[display_options][event_time]', id: 'event-pickadate', class:'form-control', placeholder:'When is the event?'
       .input-group-btn.trigger-pick-a-date
         %button.btn.btn-default
           %i.glyphicon.glyphicon-calendar
@@ -48,14 +48,13 @@
     .field
       = f.label :expired_at, 'Remove the Post Early'
       .input-group
-        = f.text_field :expired_at, class:'form-control pick-a-date-w-clear', placeholder:'When the event starts.', value:f.object.expired_at.try(:strftime, '%e %B, %Y')
+        = f.text_field :expired_at, id: 'expired-at-pickadate', class:'form-control', placeholder:'When the event starts.', value:f.object.expired_at.try(:strftime, '%e %B, %Y')
         .input-group-btn.trigger-pick-a-date
           %button.btn.btn-default
             %i.glyphicon.glyphicon-calendar
-      %p.help-block 
-        %b Example: 
+      %p.help-block
+        %b Example:
         Registration ends before the event. | Leave blank to use the start-time of the event.
-        
     .field
       = f.fields_for :comm_arts_request do |ff|
         %ul.nav.nav-tabs
@@ -68,9 +67,10 @@
             %p Whether it’s getting people to take part in an event or just try out Cornerstone for the very first time, communication can help you reach your goals. These values, best practices, and guidelines are here to help you remove as many obstacles as possible that might get in the way of people taking their next steps with Christ.
             .field
               .well.checkbox
-                = ff.label :design_requested do
-                  = ff.check_box :design_requested, id:'comm-arts-request-design-checkbox'
-                  I need a design created for this event.
+                .row
+                  = label_tag :design_requested do
+                    = check_box_tag 'comm-arts-request-design-checkbox'
+                    I need a design created for this event.
               #comm_arts_design_questions
                 .field
                   = ff.label :design_purpose, 'Purpose'
@@ -84,30 +84,54 @@
                   = ff.label :design_cta, 'Call to Action'
                   .description What do you want people to DO after seeing the design?
                   = ff.text_area :design_cta, class:'form-control', placeholder:"Example: Join a Small Group before Friday"
-          
-          
+                .field
+                  = ff.label :notes, 'Notes'
+                  .description Any additional notes that are not captured on the form
+                  = ff.text_area :notes, class:'form-control', placeholder:"Example: I need something specific that is not provided by this form..."
+                .field
+                  = ff.label :due_date, 'Due Date' do
+                    Due Date:
+                    .input-group
+                      = ff.text_field :due_date, id: 'comm-arts-due-pickadate', class:'form-control', placeholder:'When the design is due', value:ff.object.due_date.try(:strftime, '%e %B, %Y')
+                      .input-group-btn.trigger-pick-a-date
+                        %button.btn.btn-default
+                          %i.glyphicon.glyphicon-calendar
+
           #comm-arts-print.tab-pane.fade.in
             %p  Do you need anything printed for this event?
             .row
               .field
-                = ff.label :print_postcard do
-                  = ff.check_box :print_postcard, id:'comm-arts-request-design-checkbox'
+                = ff.label :postcard_quantity do
                   Postcard
                   %br
                   (5 &times; 7)
               .field
-                = ff.label :print_poster do
-                  = ff.check_box :print_poster, id:'comm-arts-request-design-checkbox'
+                = ff.label :poster_quantity do
                   Poster
                   %br
                   (12 &times; 18)
               .field
-                = ff.label :print_booklet do
-                  = ff.check_box :print_booklet, id:'comm-arts-request-design-checkbox'
+                = ff.label :booklet_quantity do
                   Booklet
                   %br
                   (8.5 &times; 5.5)
               .field
-                = ff.label :print_badges do
-                  = ff.check_box :print_badges, id:'comm-arts-request-design-checkbox'
+                = ff.label :badges_quantity do
                   Badges
+            .row
+              .field
+                = ff.label :postcard_quantity do
+                  Quantity:
+                  = ff.text_field :postcard_quantity
+              .field
+                = ff.label :poster_quantity do
+                  Quantity:
+                  = ff.text_field :poster_quantity
+              .field
+                = ff.label :booklet_quantity do
+                  Quantity:
+                  = ff.text_field :booklet_quantity
+              .field
+                = ff.label :badges_quantity do
+                  Quantity:
+                  = ff.text_field :badges_quantity

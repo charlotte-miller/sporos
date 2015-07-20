@@ -12,6 +12,8 @@
 #= require jquery-file-upload/js/jquery.fileupload-ui
 #= require bootstrap/dropdown
 #= require bootstrap/tab
+#= require bootstrap/transition
+#= require bootstrap/collapse
 #= require pickadate
 #= require pickadate/lib/picker.date
 #= require pickadate/lib/picker.time
@@ -24,6 +26,7 @@
 #= require admin/posts/event
 #= require admin/posts/photo
 #= require admin/posts/video
+#= require admin/comm_arts_request
 #= require vendor_modified/jquery.unveil-1.3.0
 #= require_tree ./admin/components
 #= require_self
@@ -31,5 +34,5 @@
 $ ->
   autosize($('textarea'))
   $('img').unveil()
-  
+
 

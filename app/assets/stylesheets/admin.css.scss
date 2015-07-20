@@ -18,7 +18,7 @@ html,body{
   padding-bottom:60px;
 }
 
-.pick-a-date, .pick-a-date-w-clear, .pick-a-time{
+#event-pickadate, #expired-at-pickadate, #comm-arts-due-pickadate {
   background:white !important;
 }
 
@@ -29,13 +29,13 @@ html,body{
 .nav-header{
   font-weight:bold;
   margin-top:20px;
-  
+
   &:first-child{
     margin-top:0px;
   }
 }
 
-#new-post{  
+#new-post{
   @extend %newCSSLayer;
   height: 100%;
   width: 100%;
@@ -44,30 +44,30 @@ html,body{
   top: 0;
   left: 0;
   padding:0 10%;
-  
+
   @media (max-width: $screen-xs-max) {
     padding: 0 10%;
   }
-  
+
   @media (min-width: $screen-md-min) {
     padding: 0 30%;
   }
-  
+
   @extend %flexy-grid;
-  
+
   &.inactive{
     @extend %transitionHeight;
     @include transition-delay(1s);
     @include transition-duration(0s);
     height:0px;
   }
-    
+
   .new-post-type{
     width:50%;
     height:30%;
     @extend %flexy-grid;
     @extend .animated;
-    
+
     a{
       background-color: white;
       border: 3px solid $gray-light;
@@ -77,11 +77,11 @@ html,body{
       font-size:18px;
       text-decoration:none;
       @extend %flexy-grid;
-      
+
       &.opening{
         color: $gray-lighter !important;
         background-color:$gray-lighter;
-        
+
         @extend %transitionTransform;
         @media (max-width: $screen-lg-max) {
           @include transform(scale(50));
@@ -98,10 +98,10 @@ html,body{
       }
     }
   }
-  
+
   .post-create-nav-enter{
     @extend .bounceInUp;
-  
+
     &.pop-1{ @include delay(0.1s); @include duration(0.9s);}
     &.pop-2{ @include delay(0.2s); @include duration(0.8s);}
     &.pop-3{ @include delay(0.3s); @include duration(0.7s);}
@@ -109,12 +109,12 @@ html,body{
   }
   .post-create-nav-leave{
     @extend .bounceOutDown;
-  
+
     &.pop-1{ @include delay(0.1s); @include duration(1s);}
     &.pop-2{ @include delay(0.2s); @include duration(1s);}
     &.pop-3{ @include delay(0.1s); @include duration(0.6s);}
     &.pop-4{ @include delay(0.2s); @include duration(0.6s);}
-  } 
+  }
 }
 
 #global-nav-bar{
@@ -126,18 +126,18 @@ html,body{
   height: 70px;
   line-height: 70px;
   z-index: 1000;
-  
+
   .global_nav_item{
     text-align:center;
     font-size: 24px;
   }
-  
+
   .col-xs-6{
     font-size: 28px;
     border-left:2px solid $gray-lighter;
     border-right:2px solid $gray-lighter;
   }
-  
+
   a{
     color:$gray-lighter;
   }
@@ -155,25 +155,27 @@ html,body{
   }
 }
 
+#comm-arts-requests-index{
+}
 
 #posts-index{
 
   h1,h2,h3,h4,h5,button,.title{
     font-weight: 300;
-    letter-spacing: 1px; 
+    letter-spacing: 1px;
   }
-  
+
   #posts{
 //    margin-top:80px;
     margin-bottom:70px;
-    
+
     h4{
       margin-top: 20px;
     }
   }
-  
+
   #header, #profile, #header h4 {color:$gray-dark;}
-  
+
   #header{
     top: 0;
     left: 0;
@@ -194,8 +196,8 @@ html,body{
     display:flex;
     flex-direction:row;
     justify-content:center;
-    
-    
+
+
     .picture{
 //      @extend .col-xs-4;
       margin-top: 15px;
@@ -203,23 +205,23 @@ html,body{
       line-height: 120px;
       text-align: center;
       align-self:center;
-      
+
       img{
         height:inherit;
       }
     }
-    
+
     .name{
       margin-left:20px;
       align-self:center;
-      
+
       h3{
         font-size:36px;
         line-height: 26px;
       }
     }
   }
-  
+
   .compact-post{
     @extend .row;
     background-color:white;
@@ -228,29 +230,29 @@ html,body{
     line-height:70px;
     margin-top: 10px;
     margin-bottom: 10px;
-  
+
     .info{
      @extend .col-xs-7;
      @extend %verticalCenter;
-   
+
      .row{ line-height: initial; }
     }
-    
+
     .follow-up{
       @extend .col-xs-3;
       text-align:center;
-      
+
       .follow-up-btn{
         font-weight:300;
         color:white;
         background-color:$gray;
-      
+
         &:focus, &:hover{
           color: white;
           background-color:$gray-light;
         }
       }
-    
+
       .public-link{
         @extend .glyphicon;
         @extend .glyphicon-new-window;
@@ -258,19 +260,19 @@ html,body{
         height:70px;
         line-height:70px;
         color:$gray;
-        
+
         &:hover{
           color:$gray-darker;
         }
       }
     }
-  
+
     .unread-comments{
       @extend .col-xs-2;
       text-align:center;
       height:40px;
       position:relative;
-      
+
       .glyphicon{
         font-size:30px;
         top: 10px;
@@ -281,7 +283,7 @@ html,body{
         margin-left: -10px;
       }
     }
-  
+
     .title{
       @extend %truncate;
       font-size:18px;
@@ -290,26 +292,26 @@ html,body{
   }
 }
 
-#posts-show{  
+#posts-show{
   #status-bar{
     letter-spacing: 1px;
-    @extend .row; 
+    @extend .row;
     border-top:10px solid $gray-dark;
     border-bottom:5px solid $gray-dark;
     height:80px;
     line-height:65px;
     background-color:$gray-lighter;
   }
-  
+
   .col-xs-7{
     padding-right:0px;
   }
-  
+
   #status{
     line-height: 24px;
     padding: 10px 20px;
-    
-    p { 
+
+    p {
       margin: 0 0 -20px;
       font-weight:100;
     }
@@ -320,14 +322,14 @@ html,body{
       line-height: 55px;
     }
   }
-  
+
   #status-action{
     @extend .pull-right;
     padding: 0 0 0 20px;
     width:100%;
     margin-top: -5px;
   }
-  
+
   #step-progress-help{
     position:absolute;
     top:-10px;
@@ -335,11 +337,11 @@ html,body{
     color:$gray-light;
     font-size: 15px;
   }
-  
+
   #comments{
     @extend .col-xs-12;
     color:$gray-darker;
-    
+
     #read-comments{
       .comment{
         margin: 0;
@@ -353,7 +355,7 @@ html,body{
         min-height: 90px;
         padding: 10px 15px;
         font-size: 16px;
-      
+
         textarea{
           background-color: transparent;
           border: none;
@@ -364,7 +366,7 @@ html,body{
           min-height:50px;
           @extend %transitionMinHeight;
           padding:5px;
-          
+
           &:focus{ min-height:100px; }
         }
       }
@@ -373,10 +375,10 @@ html,body{
         margin-top:10px;
       }
 
-    
+
     .user{
       position:relative;
-      
+
       .tri-left:before, .tri-left:after,
       .tri-right:before, .tri-right:after{
         content: "";
@@ -386,7 +388,7 @@ html,body{
         border-style: solid;
         border-color: transparent;
         margin-top: 5px;
-        
+
         z-index: 1;
       }
 
@@ -408,7 +410,7 @@ html,body{
         border-width: 0px 15px 15px 0;
         margin-right: -1px;
       }
-      
+
       .tri-right:before {
         bottom: 0px;
         left: 0px;
@@ -426,7 +428,7 @@ html,body{
         margin-left: -1px;
       }
     }
-    
+
     .word-bubble{
       position:relative;
       margin-left:0;
@@ -439,7 +441,7 @@ html,body{
       border-top-left-radius:0px;
       border-bottom-right-radius:0px;
     }
-    
+
     .my-comment{
       .word-bubble{
         border-bottom-right-radius:0px;
@@ -447,7 +449,7 @@ html,body{
         @include gradient-vertical(#FFF, $gray-lighter, 70%, 90%);
       }
     }
-    
+
     #approvers{
       @extend .col-xs-7;
     }
@@ -459,15 +461,15 @@ html,body{
 
   .step-progress {
     border-bottom: solid 1px #e0e0e0; padding: 0 0 10px 0;
-  
+
     .step-progress-step{
       padding: 0; position: relative;
-      
+
       .step-progress-info {color: $gray-light; font-size: 10px; margin-top:-15px;}
-      .step-progress-dot {position: absolute; width: 30px; height: 30px; display: block; background: $brand-success; top: 45px; left: 50%; margin-top: -37px; margin-left: -15px; border-radius: 50%;} 
+      .step-progress-dot {position: absolute; width: 30px; height: 30px; display: block; background: $brand-success; top: 45px; left: 50%; margin-top: -37px; margin-left: -15px; border-radius: 50%;}
       .progress {
         position: relative; border-radius: 0px; height: 8px; box-shadow: none; margin: 20px 0;
-        
+
         .progress-bar {width:100%; box-shadow: none; background: $brand-success;}
       }
       &.undecided > .step-progress-dot{background-color: $gray-lighter; border:3px solid $brand-success;}
@@ -521,15 +523,15 @@ html,body{
   .field{
     @extend .form-group;
   }
-    
+
   #instrutions{
     @include transitionValue(all);
-    
+
     #instruction-text{}
     #show-loading{
       display:none;
     }
-    
+
     &.loading{
       #instruction-text{
         display:none;
@@ -539,18 +541,18 @@ html,body{
       }
     }
   }
-  
+
   .image_picker_selector{
     overflow-y: hidden;
     overflow-x: auto;
     height: 200px;
     width:auto;
     white-space:nowrap;
-    
+
     &::last-child{
       margin-right:0;
     }
-    
+
     li{
       float:none;
       display: inline-block;
@@ -559,61 +561,61 @@ html,body{
     .image_picker_image{
       height:180px;
     }
-  
+
   .picker--opened {
     .picker__holder{
       height:100%;
     }
     .picker__frame{
       @extend %verticalCenter;
-    } 
+    }
   }
-  
+
   #external-url-details{
     @include transitionValue('max-height');
     max-height:0px;
     overflow:hidden;
-    
+
     &.populated{
       max-height:800px;
     }
   }
-  
+
   #advanced-features{
   }
-     
+
     #advanced-drawer{
       overflow:hidden;
-  
+
       &.closed{
         max-height:0px;
         padding:0px;
-      } 
+      }
     }
-      
+
     #comm_arts_design_questions{
       overflow:hidden;
       height:0px;
       min-height:0px;
-      
+
       &.open-drawer{
         min-height:270px;
         height:inherit;
       }
-      
+
       .description{
         display:inline-block;
         color:$gray;
       }
     }
-    
+
   .nav{
     border-bottom:0px solid #ddd;
     .active a{
       background-color:#ddd;
     }
   }
-  
+
   #vimeo-video{
     .help-block{
       margin:20px 0;
@@ -626,11 +628,11 @@ html,body{
       flex-wrap: nowrap;
       text-align:center;
     }
-    
+
     .vimeo-video{
       margin-top:20px;
     }
-    
+
     img{
       width:100%;
     }

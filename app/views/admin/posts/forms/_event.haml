@@ -68,8 +68,8 @@
             .field
               .well.checkbox
                 .row
-                  = ff.label :design_requested do
-                    = ff.check_box :design_requested, id:'comm-arts-request-design-checkbox'
+                  = label_tag :design_requested do
+                    = check_box_tag 'comm-arts-request-design-checkbox'
                     I need a design created for this event.
               #comm_arts_design_questions
                 .field

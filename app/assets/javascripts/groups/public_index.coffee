@@ -10,5 +10,5 @@ $ ->
 
   go_to_sign_up = ()->
     email_val = $('#email_field').val()
-    window.location.href = "/users/sign_up?email=#{email_val}"
+    window.location.href = "/users/sign_up?email=#{email_val}&location=#{window.location.pathname}"
 

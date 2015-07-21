@@ -9,7 +9,7 @@ Rails.application.config.assets.paths << Rails.root.join('vendor', 'assets', 'ja
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 Rails.application.config.assets.precompile += %w{ vendor.js admin.js admin.css}
-Rails.application.config.assets.precompile += ['page_initializers/*.js','community/posts/all.js']
+Rails.application.config.assets.precompile += ['groups/*.js', 'page_initializers/*.js','community/posts/all.js']
 Rails.application.config.assets.precompile += ['library/*.js']
 # Rails.application.config.assets.precompile += ['community/**/*.js']
 

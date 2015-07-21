@@ -1,7 +1,6 @@
 $ ->
   $('#email_field').keypress (e) ->
     if (e.which == 13)
-      console.log("blah enter")
       go_to_sign_up()
       return false
 

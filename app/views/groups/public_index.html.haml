@@ -1,4 +1,8 @@
 = (render partial: 'sidebar')
+
+- content_for(:page_specific_js) do
+  = javascript_include_tag 'groups/public_index'
+
 .row
   .well{style: 'margin-top: 50px' }
     = form_tag do

@@ -3,11 +3,15 @@
 - content_for(:page_specific_js) do
   = javascript_include_tag 'groups/public_index'
 
-.row
-  .well
-    = form_tag do
+.row{ style: 'margin-top: 50px' }
+  .col-xs-6
+    .well
       = text_field_tag('email', nil, id: 'email_field', placeholder: 'Enter email...')
       = label_tag(:join, 'join', id: 'join_button', class: 'button')
+  .col-xs-6
+    .well{ id: 'login_button' }
+      = label_tag(:login, 'Log In To Your Groups', class: 'button')
+
 %h1 Public Listing groups
 %table
   %tr

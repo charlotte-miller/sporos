@@ -7,6 +7,9 @@ $ ->
   $('#join_button').click ->
     go_to_sign_up()
 
+  $('#login_button').click ->
+    window.location.href = "/login"
+
   go_to_sign_up = ()->
     email_val = $('#email_field').val()
     window.location.href = "/users/sign_up?email=#{email_val}&location=#{window.location.pathname}"

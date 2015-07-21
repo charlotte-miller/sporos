@@ -1,4 +1,9 @@
 = (render partial: 'sidebar')
+.row
+  .well{style: 'margin-top: 50px' }
+    = form_tag do
+      = text_field_tag('email', nil, id: 'email_field', placeholder: 'Enter email...')
+      = label_tag(:join, 'join', id: 'join_button', class: 'button')
 %h1 Public Listing groups
 %table
   %tr

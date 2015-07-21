@@ -2,7 +2,7 @@ class GroupsController < ApplicationController
   before_filter :authenticate_user!,  except:[:index, :show]
   before_filter :safe_select_group,   only: [:show, :edit, :update, :destroy]
   before_filter :safe_select_groups,  only: [:index]
-  
+
   # GET /groups
   # GET /groups.json
   def index
@@ -33,7 +33,7 @@ class GroupsController < ApplicationController
       format.html { render template: "groups/#{template}" }
       format.json { render json: @group }
     end
-    
+
   rescue ActiveRecord::RecordNotFound
     redirect_to user_signed_in? ? groups_url : new_user_session_url
   end
@@ -94,20 +94,20 @@ class GroupsController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
 private
-  
+
   # scopes SELECT to current user
   def safe_select_groups
     return unless user_signed_in?
     @groups = current_user.groups
   end
-  
+
   # scopes SELECT to current user
   def safe_select_group
     return unless user_signed_in? && params[:id]
     @membership = current_user.membership_in(params[:id])
     @group      = @membership.group
   end
-  
+
 end

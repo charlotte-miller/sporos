@@ -1,11 +1,11 @@
 class DeviseOverride::RegistrationsController < Devise::RegistrationsController
-  
+
   def update
     if params[:password].blank? && params[:password_confirmation].blank?
       params.delete(:password)
       params.delete(:password_confirmation)
     end
-    
+
     if params[:only_profile_image]
       resource.profile_image= params[:only_profile_image]
       if resource.save
@@ -20,10 +20,10 @@ class DeviseOverride::RegistrationsController < Devise::RegistrationsController
         super
       end
     end
-    
+
     super
   end
-  
+
   protected
 
   def update_resource(resource, params)
@@ -35,6 +35,6 @@ class DeviseOverride::RegistrationsController < Devise::RegistrationsController
     else
       super
     end
-    
+
   end
 end

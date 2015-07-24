@@ -36,18 +36,18 @@ class Study < ActiveRecord::Base
   include Sanitizable
   include AttachableFile
   include Study::Search
-  
+
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
   attr_accessible :title, :description, :ref_link,  :poster_img, :poster_img_remote_url, :podcast, :podcast_id
   attr_accessible *column_names, *reflections.keys, :poster_img, :poster_img_remote_url, :podcast, :podcast_id, as: 'sudo'
   delegate :church_name, to: :podcast
-  
+
   acts_as_listable scope: :channel
-  
+
   slug_candidates :title, [:title, :year], [:title, :month, :year], [:title, :month, :date, :year]
-  
+
   has_attachable_file :poster_img,
                       :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
                       :processors => [:thumbnail, :paperclip_optimizer],
@@ -61,8 +61,8 @@ class Study < ActiveRecord::Base
                       }
 
   process_in_background :poster_img
-    
-  
+
+
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------
@@ -75,27 +75,28 @@ class Study < ActiveRecord::Base
       where(position:n).first
     end
   end
-    
-  
+  has_many :groups
+
+
   # ---------------------------------------------------------------------------------
   # Validations
   # ---------------------------------------------------------------------------------
   validates_presence_of :slug, :title, :channel
   # validates_uniqueness_of :title, :scope => :podcast_id
-  
-  
+
+
   # ---------------------------------------------------------------------------------
   # Callbacks
   # ---------------------------------------------------------------------------------
   before_validation :add_default_values
-  
-  
+
+
   # ---------------------------------------------------------------------------------
   # Scopes
   # ---------------------------------------------------------------------------------
   scope :w_lessons, -> {includes(:lessons)}
-  
-  
+
+
   # ---------------------------------------------------------------------------------
   # Methods
   # ---------------------------------------------------------------------------------
@@ -110,26 +111,26 @@ class Study < ActiveRecord::Base
       }.merge(attribute_overrides), as: 'sudo')
     end
   end
-  
-  
+
+
   # Answers "Is this lesson part of this study?"
   def include?(lesson)
     raise ArgumentError.new('Study#include? requires a @lesson') unless lesson.is_a? Lesson
     lessons.include? lesson
   end
-  
+
   # Determins if a lesson SHOULD part of this study
   # => false if lessons.empty?
   def should_include?(lesson)
     raise ArgumentError.new('Study#include? requires a @lesson') unless lesson.is_a? Lesson
     !!(lessons.last.try :belongs_with?, lesson)
   end
-  
+
   # Single lesson study
   def stand_alone?
     lessons.size == 1 #lessons_count
   end
-  
+
   # Replace original http://apidock.com/rails/ActiveRecord/Persistence/touch
   def touch(*names)
     self.lessons_count     = lessons.length
@@ -137,7 +138,7 @@ class Study < ActiveRecord::Base
     self.updated_at        = Time.now
     self.save!
   end
-    
+
   def organization
     # future association
   end
@@ -145,7 +146,7 @@ class Study < ActiveRecord::Base
   def tags
     # future association
   end
-  
+
   def authors
     if lessons.loaded?
       lessons.map(&:author)
@@ -153,7 +154,7 @@ class Study < ActiveRecord::Base
       lessons.pluck(:author)
     end.uniq.join(', ')
   end
-  
+
   private #--------------------------------------------------------------------------------
 
   def add_default_values

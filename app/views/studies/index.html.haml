@@ -16,7 +16,7 @@
             / - @channels.each do |channel|
             /   %li= link_to channel.title, "##{channel.slug}"
         %input{type:'text', placeholder:'What do you want to learn?'}
-      
+
 #study-library
   - grid_layout_for(@studies).each do |col_hash|
     .study-row
@@ -35,4 +35,4 @@
               %ol.lessons.hidden-xs
                 - study.lessons.each do |lesson|
                   %li= link_to lesson.title, study_lesson_path(study, lesson)
-            
+

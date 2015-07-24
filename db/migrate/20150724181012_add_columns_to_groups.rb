@@ -4,9 +4,9 @@ class AddColumnsToGroups < ActiveRecord::Migration
     add_reference :groups, :study, index: true
     add_foreign_key :groups, :studies
     add_column :groups, :approved_at, :datetime
-    add_attachment :groups, :poster_image
-    add_column :groups, :poster_image_fingerprint, :string
-    add_column :groups, :poster_image_processing, :boolean
+    add_attachment :groups, :poster_img
+    add_column :groups, :poster_img_fingerprint, :string
+    add_column :groups, :poster_img_processing, :boolean
     add_column :groups, :study_group_data, :jsonb, default: '{}', null: false
     add_column :groups, :book_group_data, :jsonb, default: '{}', null: false
     add_column :groups, :affinity_group_data, :jsonb, default: '{}', null: false

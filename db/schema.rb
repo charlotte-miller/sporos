@@ -136,26 +136,26 @@ ActiveRecord::Schema.define(version: 20150724181012) do
   add_index "group_memberships", ["user_id", "is_public"], name: "index_group_memberships_on_user_id_and_is_public", using: :btree
 
   create_table "groups", force: :cascade do |t|
-    t.string   "state",                     limit: 50,                null: false
-    t.string   "name",                                                null: false
-    t.text     "description",                                         null: false
-    t.boolean  "is_public",                            default: true
-    t.integer  "meets_every_days",                     default: 7
-    t.integer  "meetings_count",                       default: 0
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
-    t.text     "type",                                                null: false
+    t.string   "state",                   limit: 50,                null: false
+    t.string   "name",                                              null: false
+    t.text     "description",                                       null: false
+    t.boolean  "is_public",                          default: true
+    t.integer  "meets_every_days",                   default: 7
+    t.integer  "meetings_count",                     default: 0
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.text     "type",                                              null: false
     t.integer  "study_id"
     t.datetime "approved_at"
-    t.string   "poster_image_file_name"
-    t.string   "poster_image_content_type"
-    t.integer  "poster_image_file_size"
-    t.datetime "poster_image_updated_at"
-    t.string   "poster_image_fingerprint"
-    t.boolean  "poster_image_processing"
-    t.jsonb    "study_group_data",                     default: {},   null: false
-    t.jsonb    "book_group_data",                      default: {},   null: false
-    t.jsonb    "affinity_group_data",                  default: {},   null: false
+    t.string   "poster_img_file_name"
+    t.string   "poster_img_content_type"
+    t.integer  "poster_img_file_size"
+    t.datetime "poster_img_updated_at"
+    t.string   "poster_img_fingerprint"
+    t.boolean  "poster_img_processing"
+    t.jsonb    "study_group_data",                   default: {},   null: false
+    t.jsonb    "book_group_data",                    default: {},   null: false
+    t.jsonb    "affinity_group_data",                default: {},   null: false
   end
 
   add_index "groups", ["state", "is_public"], name: "index_groups_on_state_and_is_public", using: :btree

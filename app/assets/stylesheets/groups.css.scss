@@ -10,3 +10,12 @@
     text-align: center;
   }
 }
+
+#groups-study-list {
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: stretch;
+  align-items: stretch;
+}

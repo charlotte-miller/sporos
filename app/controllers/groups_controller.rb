@@ -6,10 +6,10 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
+    @groups = Group.publicly_searchable.all
     if user_signed_in?
       template= 'index'
     else
-      @groups = Group.publicly_searchable.all
       template= 'public_index'
     end
 

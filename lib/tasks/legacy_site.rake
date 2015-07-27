@@ -28,12 +28,16 @@ namespace "legacy_site" do
 end
 
 def open_tunnel
-  auth_key = ENV['LEGACY_ACCESS_KEY'] || File.read(Rails.root.join('config/legacy_access/sporos'))
-  gateway = Net::SSH::Gateway.new( '173.230.153.98', 'cornerstonesf', key_data: auth_key)
-  gateway.open('127.0.0.1', 5432, 9000)
-  fork do
+  if Rails.env.production?
+    auth_key = ENV['LEGACY_ACCESS_KEY'] || File.read(Rails.root.join('config/legacy_access/sporos'))
+    gateway = Net::SSH::Gateway.new( '173.230.153.98', 'cornerstonesf', key_data: auth_key)
+    gateway.open('127.0.0.1', 5432, 9000)
+    fork do
+      yield
+    end
+    Process.wait
+    gateway.shutdown!
+  else
     yield
   end
-  Process.wait
-  gateway.shutdown!
 end

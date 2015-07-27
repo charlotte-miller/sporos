@@ -8,34 +8,47 @@ class LegacyMedia < ActiveRecord::Base
   has_one :channel, :through => :series, :class_name => "LegacyChannel"
   
   def self.update_all
-    legacy_media = LegacyMedia.order('date ASC').all  #.where(active:true)
+    legacy_media = LegacyMedia.order('date DESC').all  #.where(active:true)
     puts "### Updating Lessons from LegacyMedia"
     puts legacy_media.all.map(&:find_create_or_update_media_lesson).length
   end
   
   def find_create_or_update_media_lesson    
-    lesson = Lesson.find_by_title(title) || raise( ActiveRecord::RecordNotFound )
+    lesson = Lesson.find_by_backlink(backlink) || raise( ActiveRecord::RecordNotFound )
+    
     lesson.study_id         = series.find_create_or_update_media_study.id
     lesson.description      = best_description
     lesson.author           = best_author
-    lesson.video_remote_url = video_remote_url  unless lesson.video_original_url == video_remote_url
-    # lesson.audio_remote_url = audio_remote_url  unless lesson.audio_original_url == audio_remote_url
-    lesson.save!                                if lesson.changed?
+    lesson.backlink         = backlink
+    lesson.video_vimeo_id   ||= existing_vimeo_id
+    lesson.video_remote_url = video_remote_url      unless existing_vimeo_id || (lesson.video_original_url == clean_media_url)
+    lesson.audio_remote_url = audio_remote_url      unless lesson.audio_original_url == clean_media_url
+    
+    lesson.save!                                    if lesson.changed?
     lesson
     
-  rescue ActiveRecord::RecordNotFound
-    lesson = Lesson.create!({
+  rescue ActiveRecord::RecordNotFound  
+    attrs = {
       study_id:         series.find_create_or_update_media_study.id,
       title:            title,
       description:      best_description,
       author:           best_author,
-      #audio_remote_url: audio_remote_url,
-      video_remote_url: video_remote_url,
-    })
+      backlink:         backlink, }
+      
+    attrs.merge!(audio_remote_url: audio_remote_url)   if audio_remote_url
+    attrs.merge!(video_remote_url: video_remote_url)   if video_remote_url && !existing_vimeo_id
+    attrs.merge!(video_vimeo_id:   existing_vimeo_id)  if existing_vimeo_id
+    
+    lesson = Lesson.create!(attrs)
     lesson
   end
   
 private
+  def existing_vimeo_id
+    return nil if media_embed.blank?
+    media_embed.match(/player.vimeo.com\/video\/(\d+)\??/)[1]
+  end
+  
   def video_remote_url
     return nil if media_url.blank? && media_embed.blank?
     
@@ -44,8 +57,7 @@ private
         media_url
       end
     else
-      vimeo_id = media_embed.match(/src="\/\/player.vimeo.com\/video\/(\d+)\?/)[1] rescue binding.pry
-      "https://vimeo.com/#{vimeo_id}"
+      existing_vimeo_id ? "https://vimeo.com/#{existing_vimeo_id}" : nil
     end
   end
   
@@ -65,6 +77,19 @@ private
   def image_url
     return nil if image.blank?
     "http://media.cornerstone-sf.org/#{image}"
+  end
+  
+  def clean_media_url
+    clean_url_str = 3.times.inject(media_url) {|memo,i| memo = URI.unescape(memo).strip }
+    URI.escape(clean_url_str)
+  end
+  
+  def backlink
+    "http://cornerstone-sf.org/tv/detail/#{slug}/"
+  end
+  
+  def handout_url
+    
   end
 end
 

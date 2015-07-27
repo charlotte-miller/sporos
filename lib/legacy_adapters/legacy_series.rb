@@ -6,7 +6,7 @@ class LegacySeries < ActiveRecord::Base
   belongs_to :channel, :class_name => "LegacyChannel"
 
   def self.update_all
-    legacy_series = LegacySeries.order('"order" ASC').where(active:true)
+    legacy_series = LegacySeries.order('"order" DESC').where(active:true)
     puts "### Updating Studies from LegacySeries"
     puts legacy_series.map(&:find_create_or_update_media_study).length
   end
@@ -17,7 +17,7 @@ class LegacySeries < ActiveRecord::Base
     study = Study.friendly.find(slug)
     study.title                 = title
     study.description           = best_description
-    study.poster_img_remote_url = image_url
+    study.poster_img_remote_url = image_url  unless study.poster_img_original_url == image_url
     study.channel_id            = channel.find_create_or_update_media_channel.id
     study.save!                 if study.changed?
     study.insert_at(adjusted_order) unless adjusted_order == study.position

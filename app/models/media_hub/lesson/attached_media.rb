@@ -18,13 +18,15 @@ module Lesson::AttachedMedia
 
     has_attachable_file :audio, {
                         :s3_host_alias => AppConfig.domains.assets,
-                        :content_type => ['audio/mp4', 'audio/mpeg'] }.merge(common_config)
+                        :content_type => [ 'audio/mpeg', 'audio/x-mpeg', 'audio/mp3', 'audio/x-mp3', 'audio/mpeg3', 'audio/x-mpeg3', 'audio/mpg', 'audio/x-mpg', 'audio/x-mpegaudio' ] 
+                        }.merge(common_config)
 
     
     has_attachable_file :video, {
                         :s3_host_alias => AppConfig.domains.assets,  #archive only - hosting through Vimeo
                         :skip_processing_urls => ['vimeo.com'],
-                        :content_type => ['video/mp4'] }.merge(common_config)
+                        :content_type => ['video/mp4'] 
+                        }.merge(common_config)
 
     
     has_attachable_file :poster_img, {

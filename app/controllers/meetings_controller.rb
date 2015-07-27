@@ -1,7 +1,7 @@
 class MeetingsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :safe_select_group_and_meeting
-  
+
   # GET /meetings
   # GET /meetings.json
   def index
@@ -45,8 +45,8 @@ class MeetingsController < ApplicationController
 
     respond_to do |format|
       if @meeting.save
-        format.html { redirect_to [@group, @meeting], notice: 'Meeting was successfully created.' }
-        format.json { render json: @meeting, status: :created, location: [@group, @meeting] }
+        format.html { redirect_to [@group.becomes(Group), @meeting], notice: 'Meeting was successfully created.' }
+        format.json { render json: @meeting, status: :created, location: [@group.becomes(Group), @meeting] }
       else
         format.html { render action: "new" }
         format.json { render json: @meeting.errors, status: :unprocessable_entity }
@@ -60,7 +60,7 @@ class MeetingsController < ApplicationController
 
     respond_to do |format|
       if @meeting.update_attributes(params[:meeting])
-        format.html { redirect_to [@group, @meeting], notice: 'Meeting was successfully updated.' }
+        format.html { redirect_to [@group.becomes(Group), @meeting], notice: 'Meeting was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -75,18 +75,18 @@ class MeetingsController < ApplicationController
     @meeting.destroy
 
     respond_to do |format|
-      format.html { redirect_to group_meetings_url(@group) }
+      format.html { redirect_to group_meetings_url(@group.becomes(Group)) }
       format.json { head :no_content }
     end
   end
-  
+
 private
-  
+
   def safe_select_group_and_meeting
     return unless user_signed_in?
     @group = current_user.groups.find(params[:group_id])
     @meetings = @group.meetings
     @meeting = @group.meetings.find(params[:id])  if params[:id]
   end
-  
+
 end

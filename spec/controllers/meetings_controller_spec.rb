@@ -2,33 +2,33 @@ require 'rails_helper'
 
 describe MeetingsController do
   login_user
-  
+
   before(:all) do
     @group = create(:group)
     @lesson = create(:lesson)
     @meeting = create(:meeting, group:@group, lesson:@lesson)
     @valid_attributes = attributes_for(:meeting, group:@group, lesson:@lesson).merge(group_id: @group.id, lesson_id: @lesson.id)
   end
-  
+
   let!(:group)  { @group }
   let!(:meeting){ @meeting }
   let(:lesson)  { @lesson }
   let(:valid_attributes) { @valid_attributes }
-  
+
   before(:each) do
     group.members << current_user
   end
-  
+
   describe "trying to access logged_in content (while logged out)" do
     before do
       sign_out current_user
     end
-    
+
     it ":index redirects to :index" do
       get :index, {:group_id => group.id}
       should redirect_to(new_user_session_url)
     end
-    
+
     it ":show redirects to :index" do
       get :show, {:group_id => group.id, :id => meeting.to_param}
       should redirect_to(new_user_session_url)
@@ -38,22 +38,22 @@ describe MeetingsController do
       get :new, {:group_id => group.id}
       should redirect_to(new_user_session_url)
     end
-    
+
     it ":edit redirects to :index" do
       get :edit, {:group_id => group.id, :id => meeting.to_param}
       should redirect_to(new_user_session_url)
     end
-    
+
     it ":create redirects to :index" do
       post :create, {:group_id => group.id, :meeting => valid_attributes}
       should redirect_to(new_user_session_url)
     end
-    
+
     it ":update redirects to :index" do
       put :update, {:group_id => group.id, :id => meeting.to_param, :meeting => { "these" => "params" }}
       should redirect_to(new_user_session_url)
     end
-    
+
     it ":destroy redirects to :index" do
       delete :destroy, {:group_id => group.id, :id => meeting.to_param}
       should redirect_to(new_user_session_url)
@@ -65,7 +65,7 @@ describe MeetingsController do
       get :index, {:group_id => group.id}
       should respond_with(:success)
     end
-    
+
     it "assigns all meetings as @meetings" do
       get :index, {:group_id => group.id}
       assigns(:meetings).should eq([meeting])
@@ -77,7 +77,7 @@ describe MeetingsController do
       get :show, {:group_id => group.id, :id => meeting.to_param}
       should respond_with(:success)
     end
-    
+
     it "assigns the requested meeting as @meeting" do
       get :show, {:group_id => group.id, :id => meeting.to_param}
       assigns(:meeting).should eq(meeting)
@@ -89,7 +89,7 @@ describe MeetingsController do
       get :new, {:group_id => group.id}
       should respond_with(:success)
     end
-    
+
     it "assigns a new meeting as @meeting" do
       get :new, {:group_id => group.id}
       assigns(:meeting).should be_a_new(Meeting)
@@ -119,7 +119,7 @@ describe MeetingsController do
 
       it "redirects to the created meeting" do
         post :create, {:group_id => group.id, :meeting => valid_attributes}
-        response.should redirect_to([group, Meeting.last])
+        response.should redirect_to([group.becomes(Group), Meeting.last])
       end
     end
 
@@ -158,7 +158,7 @@ describe MeetingsController do
 
       it "redirects to the meeting" do
         put :update, {:group_id => group.id, :id => meeting.to_param, :meeting => valid_attributes}
-        response.should redirect_to([group, meeting])
+        response.should redirect_to([group.becomes(Group), meeting])
       end
     end
 
@@ -195,7 +195,7 @@ describe MeetingsController do
   describe '[private methods]' do
 
     describe '.safe_select_group' do
-      
+
       it "rejects new or logged out users" do
         controller.stub('user_signed_in?'=>false  )
         controller.send( :safe_select_group_and_meeting  )
@@ -213,12 +213,12 @@ describe MeetingsController do
           controller.params[:group_id] = @user_group.id
         end
 
-        it "scopes @group & @meetings to the current user" do      
+        it "scopes @group & @meetings to the current user" do
           controller.send( :safe_select_group_and_meeting )
 
           expect(assigns(:group)).to        eql @user_group
           expect(assigns(:meetings)).to     include(@user_meeting)
-          expect(assigns(:meetings)).not_to include(@not_user_meeting) 
+          expect(assigns(:meetings)).not_to include(@not_user_meeting)
         end
 
         it "prevents horizontal privilage escilation from params[:id]" do
@@ -233,7 +233,7 @@ describe MeetingsController do
 
 
     end
-    
+
   end
-  
+
 end

@@ -38,6 +38,7 @@ FactoryGirl.define do
     description { Faker::Lorem.paragraph(rand(2..5)) }
     meets_every_days { rand(1..7) }
     is_public true
+    poster_img  { fixture_file_upload(Rails.root.join('spec/files/', 'poster_image.jpg'), 'image/jpg', true) }
   end
 
   factory :study_group, parent: :generic_group, class: 'Groups::StudyGroup', aliases: [:group] do

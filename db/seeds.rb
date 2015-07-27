@@ -35,31 +35,31 @@
   # Editors
   @chip     = User.find_by(first_name:'Chip'    ) || FactoryGirl.create(:user, first_name:'Chip',     last_name:'Miller',   email:'demo-chip@cornerstonesf.org',     password:'Dearborn',  admin:true)
   @rick     = User.find_by(first_name:'Rick'    ) || FactoryGirl.create(:user, first_name:'Rick',     last_name:'Narvarte', email:'demo-rick@cornerstonesf.org',     password:'Dearborn',  admin:true)
-  @gretchen = User.find_by(first_name:'Gretchen') || FactoryGirl.create(:user, first_name:'Gretchen', last_name:'Wanger',   email:'demo-gretchen@cornerstonesf.org', password:'Dearborn')             
+  @gretchen = User.find_by(first_name:'Gretchen') || FactoryGirl.create(:user, first_name:'Gretchen', last_name:'Wanger',   email:'demo-gretchen@cornerstonesf.org', password:'Dearborn')
   @digital_team = [@chip, @gretchen, @rick]
   @digital_team.each do |member|
     next if member.ministries.present?
     member.ministries << @ministries
     member.involvements.each(&:editor!)
   end
-  
-  
+
+
   # Ministry Users and Posts
   @ministries.each do |ministry|
     slug = ministry.slug
-    users_found_or_created = { 
+    users_found_or_created = {
       "@#{slug}_member"    => (User.find_by(email:"#{slug}_member@example.com"   ) || FactoryGirl.create(:user, email:"#{slug}_member@example.com",    password:'Dearborn')),
       "@#{slug}_volunteer" => (User.find_by(email:"#{slug}_volunteer@example.com") || FactoryGirl.create(:user, email:"#{slug}_volunteer@example.com", password:'Dearborn')),
       "@#{slug}_leader"    => (User.find_by(email:"#{slug}_leaders@example.com"  ) || FactoryGirl.create(:user, email:"#{slug}_leaders@example.com",   password:'Dearborn'))}
-    users_found_or_created.each &method(:instance_variable_set)
-    
-    users_found_or_created.values.flatten.each &:confirm!
-    
+    users_found_or_created.each(&method(:instance_variable_set))
+
+    users_found_or_created.values.flatten.each(&:confirm!)
+
     member, volunteer, leader = users_found_or_created.values
     ministry.members    << member     unless ministry.members.present?
     ministry.volunteers << volunteer  unless ministry.volunteers.present?
     ministry.leaders    << leader     unless ministry.leaders.present?
-    
+
     # if Rails.env.development?
     #   if ministry.posts.empty?
     #     post_factory_type = [:post_event, :post_link, :post_page, :post_photo, :post_video ]
@@ -74,3 +74,7 @@
     #   end
     # end
   end
+
+# Study groups
+FactoryGirl.create_list(:study_group, 5)
+

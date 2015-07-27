@@ -69,6 +69,7 @@ class Group < ActiveRecord::Base
                                 allow_destroy: true,
                                 reject_if: lambda { !(attributes[:members_attributes].try(:[], :user_id)) }
 
+  belongs_to :study
 
   def leaders; members.where('group_memberships.role_level > 1') ;end
 

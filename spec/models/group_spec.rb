@@ -39,6 +39,7 @@ describe Group do
   it { should have_many( :group_memberships )}
   it { should have_many( :members ).through( :group_memberships ) } #users
   it { should have_many( :questions ) }
+  it { should belong_to( :study ) }
   # it { should delegate_method(:meetings=).to(:group_memberships) }
 
   [:group, :study_group, :book_group, :affinity_group, :group_w_member, :group_w_member_and_meeting].each do |factory|

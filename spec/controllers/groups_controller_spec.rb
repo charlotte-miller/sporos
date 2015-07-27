@@ -157,6 +157,8 @@ describe GroupsController do
     end
 
     describe "POST create" do
+      let(:valid_attributes) { build(:study_group).attributes }
+
       it "sets current_user as 'leader'" do
         skip
         # assigns(:group).leader.should eql current_user
@@ -165,18 +167,18 @@ describe GroupsController do
       describe "with valid params" do
         it "creates a new Group" do
           expect {
-            post :create, {:group => valid_attributes}
+            post :create, { group: valid_attributes }
           }.to change(Group, :count).by(1)
         end
 
         it "assigns a newly created group as @group" do
-          post :create, {:group => valid_attributes}
+          post :create, { group: valid_attributes }
           assigns(:group).should be_a(Group)
           assigns(:group).should be_persisted
         end
 
         it "redirects to the created group" do
-          post :create, {:group => valid_attributes}
+          post :create, { group: valid_attributes }
           response.should redirect_to(Group.last.becomes(Group))
         end
       end

@@ -101,7 +101,8 @@ private
   def group_params
     raise ArgumentError unless ['Groups::StudyGroup'].include? params[:group][:type]
     @group_params ||= params.require(:group).permit(
-      :description, :name, :is_public, :state, :meets_every_days, :poster_img, :poster_img_remote_url, :type
+      :description, :name, :is_public, :state, :meets_every_days, :poster_img, :poster_img_remote_url, :type,
+      :study_id
     )
   end
 

@@ -43,6 +43,7 @@ FactoryGirl.define do
 
   factory :study_group, parent: :generic_group, class: 'Groups::StudyGroup', aliases: [:group] do
     type 'Groups::StudyGroup'
+    study
   end
 
   factory :book_group, parent: :generic_group, class: 'Groups::BookGroup' do

@@ -33,4 +33,6 @@
 
 class Groups::StudyGroup < Group
   delegate_attrs_to_jsonb to: :study_group_data
+
+  validates_presence_of :study
 end

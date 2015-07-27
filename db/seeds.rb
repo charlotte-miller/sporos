@@ -78,3 +78,6 @@
 # Study groups
 FactoryGirl.create_list(:study_group, 5)
 
+# Lessons
+FactoryGirl.create_list(:lesson, 5)
+

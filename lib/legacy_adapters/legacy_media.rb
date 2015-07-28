@@ -20,7 +20,7 @@ class LegacyMedia < ActiveRecord::Base
     lesson.description      = best_description
     lesson.author           = best_author
     lesson.backlink         = backlink
-    lesson.video_vimeo_id   ||= existing_vimeo_id
+    lesson.video_vimeo_id   = existing_vimeo_id
     lesson.video_remote_url = video_remote_url      unless existing_vimeo_id || (lesson.video_original_url == clean_media_url)
     lesson.audio_remote_url = audio_remote_url      unless lesson.audio_original_url == clean_media_url
     lesson.handout_remote_url = handout_url         if handout_url && lesson.handout_original_url != handout_url

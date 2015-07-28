@@ -58,11 +58,34 @@ module Paperclip
         description:  @lesson.description,
         license:      'by-nc-nd',
         review_link:  false,
-        # embed:{ },
+        embed:{
+          buttons:{
+            like:false,
+            share:false,
+            embed:false,
+            watchlater:false,
+            
+            hd:true,
+            fullscreen:true,
+            scaling:true,
+          },
+          logos:{custom:{
+            active:true,
+            sticky:false,
+            link: @lesson.show_url,
+          }},
+          playbar:true,
+          volume:true,
+          
+        },
         privacy:{
-          view: 'anybody',
-          embed: 'public', }
+          view: (Rails.env.production? ? 'disable' : 'anybody'),
+          embed: 'public',
+          add: false,
+          comments:'nobody',
+        }
       }
+      # source: https://developer.vimeo.com/api/endpoints/videos#PATCH/videos/%7Bvideo_id%7D
     end
     
     def generate_vimeo_ticket!

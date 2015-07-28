@@ -62,6 +62,20 @@ module Lesson::AttachedMedia
     study.poster_img
   end
   
+  def retry_media_download
+    missing_video = video_original_url.present? && video_vimeo_id.blank?
+    missing_audio = audio_original_url.present? && audio_file_name.blank?
+    
+    return unless missing_audio || missing_video
+    Rails.cache.delete(:over_vimeo_upload_quota)
+    if missing_video
+      self.video_remote_url = video_original_url
+    elsif missing_audio
+      self.audio_remote_url = audio_original_url
+    end
+    self.save!
+  end
+  
 private
 
   # DEPRECATED

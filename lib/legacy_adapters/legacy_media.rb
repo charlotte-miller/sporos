@@ -23,6 +23,7 @@ class LegacyMedia < ActiveRecord::Base
     lesson.video_vimeo_id   ||= existing_vimeo_id
     lesson.video_remote_url = video_remote_url      unless existing_vimeo_id || (lesson.video_original_url == clean_media_url)
     lesson.audio_remote_url = audio_remote_url      unless lesson.audio_original_url == clean_media_url
+    lesson.handout_remote_url = handout_url         if handout_url && lesson.handout_original_url != handout_url
     
     lesson.save!                                    if lesson.changed?
     lesson
@@ -35,9 +36,10 @@ class LegacyMedia < ActiveRecord::Base
       author:           best_author,
       backlink:         backlink, }
       
-    attrs.merge!(audio_remote_url: audio_remote_url)   if audio_remote_url
-    attrs.merge!(video_remote_url: video_remote_url)   if video_remote_url && !existing_vimeo_id
-    attrs.merge!(video_vimeo_id:   existing_vimeo_id)  if existing_vimeo_id
+    attrs.merge!(audio_remote_url:  audio_remote_url)   if audio_remote_url
+    attrs.merge!(video_remote_url:  video_remote_url)   if video_remote_url && !existing_vimeo_id
+    attrs.merge!(video_vimeo_id:    existing_vimeo_id)  if existing_vimeo_id
+    attrs.merge!(handout_remote_url:handout_url)        if handout_url
     
     lesson = Lesson.create!(attrs)
     lesson
@@ -89,7 +91,9 @@ private
   end
   
   def handout_url
-    
+    regx = /http\S*\.pdf/
+    return nil unless description =~ regx
+    description.match(regx)[0]
   end
 end
 

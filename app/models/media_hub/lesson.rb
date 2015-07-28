@@ -16,11 +16,11 @@
 #  poster_img_original_url :string
 #  poster_img_fingerprint  :string
 #  poster_img_processing   :boolean
+#  video_vimeo_id          :string
 #  video_file_name         :string
 #  video_content_type      :string
 #  video_file_size         :integer
 #  video_updated_at        :datetime
-#  video_vimeo_id          :string
 #  video_original_url      :string
 #  video_fingerprint       :string
 #  video_processing        :boolean
@@ -36,6 +36,13 @@
 #  published_at            :datetime
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
+#  handout_file_name       :string
+#  handout_content_type    :string
+#  handout_file_size       :integer
+#  handout_updated_at      :datetime
+#  handout_original_url    :text
+#  handout_fingerprint     :text
+#  handout_processing      :boolean
 #
 # Indexes
 #
@@ -124,6 +131,10 @@ class Lesson < ActiveRecord::Base
   
   def duplicate?
     Lesson.where(backlink: backlink).exists?
+  end
+
+  def show_url
+    url_helpers.study_lesson_url(study, self)
   end
 
 private

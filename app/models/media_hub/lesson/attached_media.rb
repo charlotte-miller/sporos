@@ -39,9 +39,16 @@ module Lesson::AttachedMedia
                           mobile: { geometry: MOBILE_SIZE, format: 'png', convert_options: "-strip" }}}.merge(common_config)
 
   
+    has_attachable_file :handout, {
+                        :s3_host_alias => AppConfig.domains.assets,
+                        :content_type => [ 'application/pdf' ] 
+                        }.merge(common_config)
+
+    
     process_in_background :audio
     process_in_background :video
     process_in_background :poster_img
+    process_in_background :handout
 
   end #included
 

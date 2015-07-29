@@ -33,6 +33,7 @@ common:
     timeout: 2
     pool: 5
     namespace: sporos:resque
+    url: redis://localhost:6379
   crawler_user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36' #http://www.useragentstring.com/pages/All/
   devise:
     secret_key: '0082e339f557aa3bd6bf6574779ad8c01ae5e70493b94895a5340b815926a09ebc7d319f7b0518ffdddd1e9dd8361af6e2bceb442446918bbeb95802564c92dd'
@@ -81,6 +82,7 @@ production:
   
   redis:
     host: <%= ENV['REDIS_ADDRESS_INT'] %>
+    url:  <%= ENV['REDIS_URL_INT'] %>
   
   s3:
     url: s3-us-west-1.amazonaws.com #s3.amazonaws.com

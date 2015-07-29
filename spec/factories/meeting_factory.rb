@@ -19,10 +19,8 @@ FactoryGirl.define do
     ignore do
       position nil
     end
-    
+
     group
-    lesson
-    state   'current'
     date_of { Time.now + 1.week }
   end
 end

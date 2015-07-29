@@ -4,12 +4,17 @@
 
 #member-groups
   - @groups.each do |group|
+    - current_lesson = group.meetings.detect { |m| m.date_of > Time.now }
     .row
       = link_to(image_tag(group.poster_img.url), group_path(group))
+    .row
+      = "The group is at lesson #{current_lesson.position}"
+    - @lesson_states.each do |state|
+      .row
+        = "You are at #{state.media_progress} seconds on lesson #{truncate(state.lesson.title)}"
     .row.step-progress
-      - lessons = group.study.lessons
-      - lessons.each do |lesson|
-        .step-progress-step{class:["accepted", "col-xs-#{12/lessons.length}"].join(' ')}
+      - group.meetings.each do |meeting|
+        .step-progress-step{class:["accepted", "col-xs-#{12/group.meetings.length}"].join(' ')}
           .progress
             .progress-bar
           .step-progress-dot

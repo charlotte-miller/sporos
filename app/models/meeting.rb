@@ -20,32 +20,31 @@ class Meeting < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
-  attr_accessible :date_of, :group_id, :lesson_id, :state
+  attr_accessible :date_of, :group_id, :state
   acts_as_listable scope: :group
-  
+
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------
   belongs_to :group, counter_cache: true
-  belongs_to :lesson, class_name:'Lesson'
   has_many :questions, as: 'source', inverse_of: :source  #:dependent => :nullify  # really repoint at question if public
-  
+
   # ---------------------------------------------------------------------------------
   # Validations
   # ---------------------------------------------------------------------------------
-  validates_presence_of :group, :lesson
-  
-  
+  validates_presence_of :group
+
+
   # ---------------------------------------------------------------------------------
   # Scopes
   # ---------------------------------------------------------------------------------
-  
-  
-  
+
+
+
   # ---------------------------------------------------------------------------------
   # Methods
   # ---------------------------------------------------------------------------------
-  
-  
+
+
   # def to_param; group.is_public ? position : id  ;end
 end

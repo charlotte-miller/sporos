@@ -76,8 +76,12 @@
   end
 
 # Study groups
-FactoryGirl.create_list(:study_group, 5)
-
-# Lessons
-FactoryGirl.create_list(:lesson, 5)
-
+oky = FactoryGirl.create(:user, email: 'oky@oky.com', password: 'password')
+study_group = FactoryGirl.create(:study_group)
+FactoryGirl.create(:group_membership, group: study_group, member: oky)
+study_group_lessons = study_group.study.lessons
+study_group_lessons.each_with_index do |lesson, index|
+  index = index + 1
+  FactoryGirl.create(:meeting, group: study_group, date_of: Time.now + index.week)
+  FactoryGirl.create(:user_lesson_state, user: oky, lesson: lesson)
+end

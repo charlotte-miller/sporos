@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150724181012) do
+ActiveRecord::Schema.define(version: 20150729204608) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -215,18 +215,14 @@ ActiveRecord::Schema.define(version: 20150724181012) do
   add_index "lessons", ["video_vimeo_id"], name: "index_lessons_on_video_vimeo_id", unique: true, using: :btree
 
   create_table "meetings", force: :cascade do |t|
-    t.integer  "group_id",                          null: false
-    t.integer  "lesson_id",                         null: false
-    t.integer  "position",              default: 0, null: false
-    t.string   "state",      limit: 50,             null: false
+    t.integer  "group_id",               null: false
+    t.integer  "position",   default: 0, null: false
     t.datetime "date_of"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   add_index "meetings", ["group_id", "position"], name: "index_meetings_on_group_id_and_position", using: :btree
-  add_index "meetings", ["group_id", "state"], name: "index_meetings_on_group_id_and_state", using: :btree
-  add_index "meetings", ["lesson_id"], name: "index_meetings_on_lesson_id", using: :btree
 
   create_table "ministries", force: :cascade do |t|
     t.string   "slug",        null: false
@@ -365,6 +361,25 @@ ActiveRecord::Schema.define(version: 20150724181012) do
   add_index "uploaded_files", ["from_id", "from_type"], name: "index_uploaded_files_on_from_id_and_from_type", using: :btree
   add_index "uploaded_files", ["session_id"], name: "index_uploaded_files_on_session_id", using: :btree
 
+  create_table "user_lesson_states", force: :cascade do |t|
+    t.datetime "started_at"
+    t.datetime "last_visited_at"
+    t.datetime "complete_at"
+    t.integer  "media_progress"
+    t.integer  "user_id"
+    t.integer  "lesson_id"
+  end
+
+  add_index "user_lesson_states", ["lesson_id"], name: "index_user_lesson_states_on_lesson_id", using: :btree
+  add_index "user_lesson_states", ["user_id"], name: "index_user_lesson_states_on_user_id", using: :btree
+
+  create_table "user_study_group_lessons", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.datetime "completed_at"
+    t.datetime "started_at"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "first_name",                 limit: 60
     t.string   "last_name",                  limit: 60
@@ -417,4 +432,6 @@ ActiveRecord::Schema.define(version: 20150724181012) do
 
   add_foreign_key "comm_arts_requests", "posts"
   add_foreign_key "groups", "studies"
+  add_foreign_key "user_lesson_states", "lessons"
+  add_foreign_key "user_lesson_states", "users"
 end

@@ -67,6 +67,7 @@ gem "redis", "~> 3.1.0", :require => ["redis"]
 gem 'hiredis'
 gem 'redis-rails'
 gem "redis-namespace"
+gem "redis-rack-cache"
 # gem 'redis-sentinel'
 # gem "newrelic-redis"
 

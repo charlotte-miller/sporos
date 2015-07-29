@@ -17,6 +17,8 @@ Bundler.require(*Rails.groups(:assets => %w(development test)))
 
 module Sporos
   class Application < Rails::Application
+    require File.expand_path('../initializers/_configy', __FILE__)
+    
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -50,6 +52,8 @@ module Sporos
       # g.template_engine false
     end
     
+    config.cache_store = :redis_store, "#{AppConfig.redis.url}/0/cache", { expires_in: 1.week }
+    
     # String should use VARCHAR not VARCHAR(255)
     initializer "postgresql.no_default_string_limit" do
       ActiveSupport.on_load(:active_record) do
@@ -58,6 +62,3 @@ module Sporos
     end
   end
 end
-
-# Use AppConfig in ./environments
-require File.expand_path('../initializers/_configy', __FILE__)

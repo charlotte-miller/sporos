@@ -23,3 +23,6 @@ config/legacy_access
 
 # Ignore idea files
 .idea/
+
+# Ignore ctags file?
+tags

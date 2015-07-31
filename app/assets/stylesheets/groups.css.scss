@@ -26,6 +26,22 @@
     margin-left: 20px;
   }
 
+  .group-progress.past {
+    @extend .fa;
+    @extend .fa-circle;
+  }
+
+  .group-progress.current {
+    @extend .fa;
+    @extend .fa-play-circle;
+  }
+
+  .group-progress.future {
+    @extend .fa;
+    @extend .fa-circle-thin;
+  }
+
+
   .step-progress {
     border-bottom: solid 1px #e0e0e0; padding: 0 0 10px 0;
 

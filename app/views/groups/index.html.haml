@@ -3,15 +3,26 @@
 %h3 Study groups
 
 #member-groups
-  - @groups.each do |group|
+  - @groups.each_with_index do |group|
     - current_lesson = group.meetings.detect { |m| m.date_of > Time.now }
     .row
       = link_to(image_tag(group.poster_img.url), group_path(group))
     .row
       = "The group is at lesson #{current_lesson.position}"
-    - @lesson_states.each do |state|
-      .row
-        = "You are at #{state.media_progress} seconds on lesson #{truncate(state.lesson.title)}"
+    .row
+      - group.meetings.each_with_index do |meeting, index|
+        - numbered_list = index + 1
+        .row
+          - lesson = Lesson.where(position: meeting.position, study_id: meeting.group.study_id).first
+          .col-xs-1
+            - current_lesson_position = current_meeting_status(meeting, current_lesson)
+            .group-progress{class: "#{current_lesson_position}"}
+          .col-xs-6
+            = "#{numbered_list}. #{lesson.title}"
+          .col-xs-5
+            - user_lesson_state = UserLessonState.where(lesson_id: lesson.id).first
+            = "#{user_lesson_state.media_progress}/X completed"
+
     .row.step-progress
       - group.meetings.each do |meeting|
         .step-progress-step{class:["accepted", "col-xs-#{12/group.meetings.length}"].join(' ')}

@@ -7,8 +7,7 @@ class GroupsController < ApplicationController
   # GET /groups.json
   def index
     # TODO: Only show groups associated with current_user for members
-    @groups = Group.publicly_searchable.all
-    @lesson_states = UserLessonState.where(user: current_user)
+    @groups = Group.includes(:meetings).publicly_searchable.all
 
     if user_signed_in?
       template= 'index'

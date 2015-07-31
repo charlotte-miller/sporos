@@ -8,4 +8,12 @@ module MeetingsHelper
       "future"
     end
   end
+
+  def percent_completed(user_lesson_state, lesson)
+    if lesson.duration.present?
+      user_lesson_state.media_progress.to_f/lesson.duration.to_f * 100.0
+    else
+      0.0
+    end
+  end
 end

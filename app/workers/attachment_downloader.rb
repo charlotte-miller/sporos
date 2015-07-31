@@ -31,7 +31,7 @@ private
     file_name = File.basename( URI(url_str).path )
     extention = File.extname(URI(url_str).path )
     
-    if attachment_name=='video'
+    if attachment_name.to_sym == :video
       # Paperclip options[:skip_processing_urls]
       return if @obj_instance.send(attachment_name).trusted_third_party? || Paperclip::UploadToVimeo.over_limit?
     end

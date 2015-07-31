@@ -72,7 +72,8 @@ describe User do
   it { should have_many(:approval_requests) }
   it { should have_many(:posts) }
   it { should have_many(:ministries) }
-  
+  it { should have_many(:user_lesson_states) }
+
   it { should validate_presence_of(:email) }
   it { should ensure_length_of(:email).is_at_most(80) }
   it { should ensure_length_of(:first_name).is_at_most(60) }
@@ -83,7 +84,7 @@ describe User do
       should_not allow_value(bad_value).for(:email)
     end
   end
-  
+
   describe 'mass_assignment' do
     describe 'blocks protected attributes' do
       [:id, :encrypted_password, :password_salt, :reset_password_token, :reset_password_sent_at, :remember_created_at, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, :last_sign_in_ip, :confirmation_token, :confirmed_at, :confirmation_sent_at, :unconfirmed_email, :failed_attempts, :locked_at, :encrypted_password].each do |attr|
@@ -92,7 +93,7 @@ describe User do
         end
       end
     end
-    
+
     describe 'allows public attributes' do
       [:email, :first_name, :last_name, :password, :password_confirmation, :remember_me, :profile_image].each do |attr|
         it "- #{attr}" do
@@ -101,28 +102,28 @@ describe User do
       end
     end
   end
-  
+
   describe '#name' do
     it "should combine first_name and last_name" do
       build_stubbed(:user, first_name:'Billy', last_name:'Bob').name.should eql 'Billy Bob'
     end
   end
-  
+
   describe '#membership_in(group)' do
     before(:each) do
       @membership_1, @membership_2 = memberships = 2.times.map { create(:group_membership, member:subject ) }
       @group_1, @group_2 = memberships.map(&:group)
     end
-    
+
     it "finds a single group " do
       membership = subject.membership_in(@group_1)
       membership.should be_a GroupMembership
     end
-    
+
     it "finds the correct GroupMembership" do
       subject.membership_in(@group_1).should eql @membership_1
       subject.membership_in(@group_2).should eql @membership_2
     end
   end
 end
-    
+

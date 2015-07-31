@@ -8,10 +8,12 @@
 #  date_of    :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  lesson_id  :integer
 #
 # Indexes
 #
 #  index_meetings_on_group_id_and_position  (group_id,position)
+#  index_meetings_on_lesson_id              (lesson_id)
 #
 
 class Meeting < ActiveRecord::Base
@@ -28,6 +30,7 @@ class Meeting < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   belongs_to :group, counter_cache: true
   has_many :questions, as: 'source', inverse_of: :source  #:dependent => :nullify  # really repoint at question if public
+  belongs_to :lesson
 
   # ---------------------------------------------------------------------------------
   # Validations

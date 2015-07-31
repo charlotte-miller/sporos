@@ -13,14 +13,15 @@
       - group.meetings.each_with_index do |meeting, index|
         - numbered_list = index + 1
         .row
-          - lesson = Lesson.where(position: meeting.position, study_id: meeting.group.study_id).first
+          - lesson = meeting.lesson
           .col-xs-1
             - current_meeting_position = current_meeting_status(meeting, current_meeting)
             .group-progress{class: "#{current_meeting_position}"}
           .col-xs-6
             = "#{numbered_list}. #{lesson.title}"
           .col-xs-5
-            - user_lesson_state = UserLessonState.where(lesson_id: lesson.id, user_id: current_user.id).first
+            - user_lesson_state = meeting.group.user_lesson_states.where(lesson_id: lesson.id, user_id: current_user.id).first
+            - #user_lesson_state = UserLessonState.where(lesson_id: lesson.id, user_id: current_user.id).first
             .progress
               .progress-bar.progress-bar-striped{style: "width: #{percent_completed(user_lesson_state, lesson)}%"}
                 = "#{percent_completed(user_lesson_state, lesson).round(1)}%"

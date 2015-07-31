@@ -7,7 +7,7 @@ class GroupsController < ApplicationController
   # GET /groups.json
   def index
     if user_signed_in?
-      @groups = current_user.groups
+      @groups = current_user.groups.includes(:meetings, :lessons, :user_lesson_states)
       template= 'index'
     else
       @groups = Group.includes(:meetings).publicly_searchable.all

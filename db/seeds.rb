@@ -82,6 +82,6 @@ FactoryGirl.create(:group_membership, group: study_group, member: oky)
 study_group_lessons = study_group.study.lessons
 study_group_lessons.each_with_index do |lesson, index|
   index = index - 1
-  FactoryGirl.create(:meeting, group: study_group, date_of: Time.now + index.week)
+  FactoryGirl.create(:meeting, group: study_group, date_of: Time.now + index.week, lesson: lesson)
   FactoryGirl.create(:user_lesson_state, user: oky, lesson: lesson)
 end

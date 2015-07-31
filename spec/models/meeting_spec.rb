@@ -8,10 +8,12 @@
 #  date_of    :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  lesson_id  :integer
 #
 # Indexes
 #
 #  index_meetings_on_group_id_and_position  (group_id,position)
+#  index_meetings_on_lesson_id              (lesson_id)
 #
 
 require 'rails_helper'

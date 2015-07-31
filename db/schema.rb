@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150729204608) do
+ActiveRecord::Schema.define(version: 20150731210949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -220,9 +220,11 @@ ActiveRecord::Schema.define(version: 20150729204608) do
     t.datetime "date_of"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.integer  "lesson_id"
   end
 
   add_index "meetings", ["group_id", "position"], name: "index_meetings_on_group_id_and_position", using: :btree
+  add_index "meetings", ["lesson_id"], name: "index_meetings_on_lesson_id", using: :btree
 
   create_table "ministries", force: :cascade do |t|
     t.string   "slug",        null: false
@@ -432,6 +434,7 @@ ActiveRecord::Schema.define(version: 20150729204608) do
 
   add_foreign_key "comm_arts_requests", "posts"
   add_foreign_key "groups", "studies"
+  add_foreign_key "meetings", "lessons"
   add_foreign_key "user_lesson_states", "lessons"
   add_foreign_key "user_lesson_states", "users"
 end

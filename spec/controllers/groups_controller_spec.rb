@@ -20,11 +20,20 @@ describe GroupsController do
         should respond_with(:success)
       end
 
-
       it "assigns all groups as @groups" do
         load_page!
         should assign_to(:groups)
         assigns(:groups).should eq([group])
+      end
+
+      describe 'logged in' do
+        login_user
+
+        it 'assigns groups associated with member when logged in' do
+          load_page!
+          should assign_to(:groups)
+          assigns(:groups).should eq(current_user.groups)
+        end
       end
     end
 

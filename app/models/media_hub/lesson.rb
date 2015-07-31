@@ -84,6 +84,11 @@ class Lesson < ActiveRecord::Base
   belongs_to :study, touch:true, class_name:'Study'  # counter_cache rolled into Study#touch
   # has_one :poster_maker, :class_name => "Lesson::PosterMaker", :dependent => :destroy
   
+  def vimeo_api
+    require Rails.root.join('lib/paperclip_processors/upload_to_vimeo')
+    Paperclip::UploadToVimeo.for_lesson(self)
+  end
+  
   # ---------------------------------------------------------------------------------
   # Validations
   # ---------------------------------------------------------------------------------

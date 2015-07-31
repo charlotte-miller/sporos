@@ -6,12 +6,11 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    # TODO: Only show groups associated with current_user for members
-    @groups = Group.includes(:meetings).publicly_searchable.all
-
     if user_signed_in?
+      @groups = current_user.groups
       template= 'index'
     else
+      @groups = Group.includes(:meetings).publicly_searchable.all
       template= 'public_index'
     end
 

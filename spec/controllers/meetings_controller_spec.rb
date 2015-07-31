@@ -6,8 +6,8 @@ describe MeetingsController do
   before(:all) do
     @group = create(:group)
     @lesson = create(:lesson)
-    @meeting = create(:meeting, group:@group, lesson:@lesson)
-    @valid_attributes = attributes_for(:meeting, group:@group, lesson:@lesson).merge(group_id: @group.id, lesson_id: @lesson.id)
+    @meeting = create(:meeting, group:@group)
+    @valid_attributes = attributes_for(:meeting, group:@group).merge(group_id: @group.id, lesson_id: @lesson.id)
   end
 
   let!(:group)  { @group }
@@ -207,7 +207,7 @@ describe MeetingsController do
         login_user
         before(:each) do
           @not_user_group    = group
-          @user_group        = create(:group_w_member_and_meeting, new_member:current_user, new_meeting:create(:meeting, lesson:@lesson))
+          @user_group        = create(:group_w_member_and_meeting, new_member:current_user, new_meeting:create(:meeting))
           @not_user_meeting  = meeting
           @user_meeting      = @user_group.meetings.first
           controller.params[:group_id] = @user_group.id

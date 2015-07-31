@@ -18,11 +18,10 @@ require 'rails_helper'
 
 describe Meeting do
   it { should belong_to :group  }
-  it { should belong_to :lesson }
-  
+
   it "builds from factory", :internal do
     lambda { create(:meeting) }.should_not raise_error
   end
-  
+
   it_behaves_like 'it is Sortable', scoped_to:'group'
 end

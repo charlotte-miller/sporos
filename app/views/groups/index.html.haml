@@ -4,19 +4,19 @@
 
 #member-groups
   - @groups.each_with_index do |group|
-    - current_lesson = group.meetings.detect { |m| m.date_of > Time.now }
+    - current_meeting = group.meetings.detect { |m| m.date_of > Time.now }
     .row
       = link_to(image_tag(group.poster_img.url), group_path(group))
     .row
-      = "The group is at lesson #{current_lesson.position}"
+      = "The group is at lesson #{current_meeting.position}"
     .row
       - group.meetings.each_with_index do |meeting, index|
         - numbered_list = index + 1
         .row
           - lesson = Lesson.where(position: meeting.position, study_id: meeting.group.study_id).first
           .col-xs-1
-            - current_lesson_position = current_meeting_status(meeting, current_lesson)
-            .group-progress{class: "#{current_lesson_position}"}
+            - current_meeting_position = current_meeting_status(meeting, current_meeting)
+            .group-progress{class: "#{current_meeting_position}"}
           .col-xs-6
             = "#{numbered_list}. #{lesson.title}"
           .col-xs-5

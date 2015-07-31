@@ -58,14 +58,14 @@ class User < ActiveRecord::Base
   include AttachableFile
   include Uuidable
   # include DeviseInvitable::Inviter
-  
+
   # ---------------------------------------------------------------------------------
   # Authentication
   # ---------------------------------------------------------------------------------
   devise  :database_authenticatable, :trackable, :validatable, :timeoutable,
           :registerable, :recoverable, :confirmable, :rememberable, :invitable  #configuration in devise.rb
           # :omniauthable, :omniauth_providers => []
-         
+
           #https://github.com/plataformatec/devise/wiki/How-To:-Add-timeout_in-value-dynamically
           def timeout_in
             if self.admin?
@@ -74,26 +74,26 @@ class User < ActiveRecord::Base
               30.days
             end
           end
-          
+
           # https://github.com/plataformatec/devise/wiki/How-To:-Add-:confirmable-to-Users#allowing-unconfirmed-access
           # def confirmation_required?
           #   if highest_involvement_level = self.involvements.order('level DESC').first
           #     highest_involvement_level[:level] > 0
           #   end
           # end
-         
-        
+
+
 
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
-  attr_protected :id, :encrypted_password, :password_salt, :reset_password_token, :reset_password_sent_at, 
-                 :remember_created_at, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, 
-                 :last_sign_in_ip, :confirmation_token, :confirmed_at, :confirmation_sent_at, :unconfirmed_email, 
+  attr_protected :id, :encrypted_password, :password_salt, :reset_password_token, :reset_password_sent_at,
+                 :remember_created_at, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip,
+                 :last_sign_in_ip, :confirmation_token, :confirmed_at, :confirmation_sent_at, :unconfirmed_email,
                  :failed_attempts, :locked_at, :encrypted_password
-  
+
   has_public_id :public_id, prefix:'MEM', length:20
-  
+
   has_attachable_file :profile_image,
                       :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
                       :processors => [:thumbnail, :paperclip_optimizer],
@@ -109,42 +109,42 @@ class User < ActiveRecord::Base
                       }
 
   process_in_background :profile_image
-    
-  
+
+
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------
   has_many :block_requests,                                     inverse_of: :requester
   has_many :groups,            :through => :group_memberships
   has_many :group_memberships, :dependent => :destroy,          inverse_of: :member do
-    
     # association wrapped in #membership_in(group)
     def for_group(group)
       group_id = group.is_a?( Group ) ? group.id : group
       where(group_id:group_id).first
     end
   end
-  
+
   has_many :involvements, class_name: "Involvement", dependent: :destroy, inverse_of: :user do
     def in(ministry)
       where(['ministry_id = ?', ministry.id]).first
     end
   end
-  
+
   has_many :ministries, through: :involvements
   has_many :approval_requests
   has_many :posts do
     def pending
       where('published_at IS NULL AND rejected_at IS NULL')
     end
-    
+
     def rejected
       where('rejected_at IS NOT NULL')
     end
   end
-  
+
   has_many :invitations, :class_name => 'User', :foreign_key => :invited_by_id
-  
+  has_many :user_lesson_states
+
   # ---------------------------------------------------------------------------------
   # Validations
   # ---------------------------------------------------------------------------------
@@ -155,8 +155,8 @@ class User < ActiveRecord::Base
   validates_attachment  :profile_image, :size => { :in => 0..10.megabytes }
     #, :presence => true,
     # :content_type => { :content_type => "image/jpg" }
-    
-    
+
+
   # ---------------------------------------------------------------------------------
   # Callbacks
   # ---------------------------------------------------------------------------------
@@ -168,16 +168,16 @@ class User < ActiveRecord::Base
       self.involvements.create(ministry_id:involvement_ministry_id, level_id:(involvement_level || 0))
     end
   end
-  
-  
+
+
   # ---------------------------------------------------------------------------------
   # Methods
   # ---------------------------------------------------------------------------------
-  
+
   def name
     "#{first_name} #{last_name}"
   end
-  
+
   # returns a GroupMembership
   def membership_in(group)
     group_memberships.for_group(group)

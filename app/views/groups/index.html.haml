@@ -20,7 +20,7 @@
           .col-xs-6
             = "#{numbered_list}. #{lesson.title}"
           .col-xs-5
-            - user_lesson_state = UserLessonState.where(lesson_id: lesson.id).first
+            - user_lesson_state = UserLessonState.where(lesson_id: lesson.id, user_id: current_user.id).first
             .progress
               - percent_completed = user_lesson_state.media_progress.to_f/lesson.duration.to_f * 100.0
               .progress-bar.progress-bar-striped{style: "width: #{percent_completed}%"}

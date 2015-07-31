@@ -49,7 +49,7 @@ include ActionDispatch::TestProcess
 FactoryGirl.define do
   factory :lesson do
     before(:create, :stub) { AWS.stub! if Rails.env.test? }
-    
+
     study
     # position 1
     title       { Faker::Lorem.sentence(rand(3..6))  }
@@ -62,5 +62,6 @@ FactoryGirl.define do
     video_original_url 'http://example.com/video.m4v'
     audio_original_url 'http://example.com/audio.m4a'
     published_at Time.now
+    duration    { Faker::Number.between(300, 750) }
   end
 end

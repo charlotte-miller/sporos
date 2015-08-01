@@ -58,13 +58,11 @@ class Group < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------
+  belongs_to :study
   has_one  :current_meeting,    -> { where state: 'current'},  :class_name => "Meeting", foreign_key: 'group_id'
   has_many :meetings,           :dependent => :destroy,        :class_name => "Meeting", foreign_key: 'group_id'
   has_many :questions,          as: 'source'
-
-  # TODO: Evaluate this as it may not reduce N+1 query
-  has_many :lessons, through: :meetings
-  has_many :user_lesson_states, through: :members
+  has_many :lessons,            through: :study
 
   has_many :members,            :through => :group_memberships
   # has_many :leaders,            :through => :group_memberships, source: 'member', conditions: 'group_memberships.role_level > 1'
@@ -72,8 +70,6 @@ class Group < ActiveRecord::Base
   accepts_nested_attributes_for :group_memberships,
                                 allow_destroy: true,
                                 reject_if: lambda { !(attributes[:members_attributes].try(:[], :user_id)) }
-
-  belongs_to :study
 
   def leaders; members.where('group_memberships.role_level > 1') ;end
 

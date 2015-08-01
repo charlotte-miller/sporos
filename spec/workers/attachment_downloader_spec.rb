@@ -5,7 +5,7 @@ describe AttachmentDownloader do
   describe 'Resque worker' do
     it 'processes in the "attachments" queue' do
       Resque.enqueue(AttachmentDownloader)
-      expect(AttachmentDownloader).to have_queued.in(:attachments)
+      expect(AttachmentDownloader).to have_queued.in(:downloader)
     end
 
     it 'retries after failure' do

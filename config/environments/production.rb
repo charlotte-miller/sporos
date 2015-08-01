@@ -51,11 +51,11 @@ Rails.application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
+  # config.cache_store = :redis_store, "#{AppConfig.redis.url}/0/cache", { expires_in: 1.week }
 
   config.action_dispatch.rack_cache = {
-    metastore:   "#{AppConfig.redis.host}/1/metastore",
-    entitystore: "#{AppConfig.redis.host}/1/entitystore"
+    metastore:   "#{AppConfig.redis.url}/1/metastore",
+    entitystore: "#{AppConfig.redis.url}/1/entitystore"
   }
   
   config.action_controller.action_on_unpermitted_parameters = :log #:raise

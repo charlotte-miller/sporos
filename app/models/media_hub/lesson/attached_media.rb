@@ -18,13 +18,15 @@ module Lesson::AttachedMedia
 
     has_attachable_file :audio, {
                         :s3_host_alias => AppConfig.domains.assets,
-                        :content_type => ['audio/mp4', 'audio/mpeg'] }.merge(common_config)
+                        :content_type => [ 'audio/mpeg', 'audio/x-mpeg', 'audio/mp3', 'audio/x-mp3', 'audio/mpeg3', 'audio/x-mpeg3', 'audio/mpg', 'audio/x-mpg', 'audio/x-mpegaudio' ] 
+                        }.merge(common_config)
 
     
     has_attachable_file :video, {
                         :s3_host_alias => AppConfig.domains.assets,  #archive only - hosting through Vimeo
                         :skip_processing_urls => ['vimeo.com'],
-                        :content_type => ['video/mp4'] }.merge(common_config)
+                        :content_type => ['video/mp4'] 
+                        }.merge(common_config)
 
     
     has_attachable_file :poster_img, {
@@ -37,9 +39,16 @@ module Lesson::AttachedMedia
                           mobile: { geometry: MOBILE_SIZE, format: 'png', convert_options: "-strip" }}}.merge(common_config)
 
   
+    has_attachable_file :handout, {
+                        :s3_host_alias => AppConfig.domains.assets,
+                        :content_type => [ 'application/pdf' ] 
+                        }.merge(common_config)
+
+    
     process_in_background :audio
     process_in_background :video
     process_in_background :poster_img
+    process_in_background :handout
 
   end #included
 
@@ -51,6 +60,20 @@ module Lesson::AttachedMedia
   def poster_img_w_study_backfill
     return poster_img if self.poster_img.present?
     study.poster_img
+  end
+  
+  def retry_media_download
+    missing_video = video_original_url.present? && video_vimeo_id.blank?
+    missing_audio = audio_original_url.present? && audio_file_name.blank?
+    
+    return unless missing_audio || missing_video
+    Rails.cache.delete(:over_vimeo_upload_quota)
+    if missing_video
+      self.video_remote_url = video_original_url
+    elsif missing_audio
+      self.audio_remote_url = audio_original_url
+    end
+    self.save!
   end
   
 private

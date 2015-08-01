@@ -16,11 +16,11 @@
 #  poster_img_original_url :string
 #  poster_img_fingerprint  :string
 #  poster_img_processing   :boolean
+#  video_vimeo_id          :string
 #  video_file_name         :string
 #  video_content_type      :string
 #  video_file_size         :integer
 #  video_updated_at        :datetime
-#  video_vimeo_id          :string
 #  video_original_url      :string
 #  video_fingerprint       :string
 #  video_processing        :boolean
@@ -36,6 +36,13 @@
 #  published_at            :datetime
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
+#  handout_file_name       :string
+#  handout_content_type    :string
+#  handout_file_size       :integer
+#  handout_updated_at      :datetime
+#  handout_original_url    :text
+#  handout_fingerprint     :text
+#  handout_processing      :boolean
 #
 # Indexes
 #
@@ -66,7 +73,9 @@ class Lesson < ActiveRecord::Base
 
   # Public
   attr_accessible :study, :study_id, :position, :title, :author, :description, :backlink, :published_at, :machine_sorted,
-                  :audio, :video, :poster_img, :audio_remote_url, :video_remote_url, :poster_img_remote_url
+                  :audio, :video, :poster_img, :audio_remote_url, :video_remote_url, :poster_img_remote_url, :handout_remote_url,
+                  :video_vimeo_id
+                  
 
 
   # ---------------------------------------------------------------------------------
@@ -74,7 +83,6 @@ class Lesson < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   belongs_to :study, touch:true, class_name:'Study'  # counter_cache rolled into Study#touch
   # has_one :poster_maker, :class_name => "Lesson::PosterMaker", :dependent => :destroy
-
   has_many :user_lesson_states
 
   # ---------------------------------------------------------------------------------
@@ -128,6 +136,14 @@ class Lesson < ActiveRecord::Base
     Lesson.where(backlink: backlink).exists?
   end
 
+  def show_url
+    url_helpers.study_lesson_url(study, self)
+  end
+
+  def vimeo_api
+    require Rails.root.join('lib/paperclip_processors/upload_to_vimeo')
+    Paperclip::UploadToVimeo.for_lesson(self)
+  end
 private
 
   def video_vimeo_id_from_original_url

@@ -15,7 +15,6 @@ ActiveRecord::Schema.define(version: 20150731210949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "hstore"
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id"
@@ -208,6 +207,13 @@ ActiveRecord::Schema.define(version: 20150731210949) do
     t.datetime "published_at"
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
+    t.string   "handout_file_name"
+    t.string   "handout_content_type"
+    t.integer  "handout_file_size"
+    t.datetime "handout_updated_at"
+    t.text     "handout_original_url"
+    t.text     "handout_fingerprint"
+    t.boolean  "handout_processing"
   end
 
   add_index "lessons", ["backlink"], name: "index_lessons_on_backlink", using: :btree

@@ -5,9 +5,20 @@ module Paperclip
     COMM_ARTS_BUFFER = Rails.env.production? ? 5.gigabytes : 0 # Total 20gb / week
     attr_reader :vimeo_video_id
     
+    class << self
+      def over_limit?
+        Rails.cache.read(:over_vimeo_upload_quota)
+      end
+
+      def for_lesson(lesson)
+        new(Tempfile.new(lesson.title), {}, OpenStruct.new(instance:lesson))
+      end
+    end
+
     def initialize(file, options = {}, attachment = nil)
       super
       @lesson = attachment.instance
+      @vimeo_video_id = @lesson.video_vimeo_id if already_uploaded?
     end
     
     def make
@@ -18,16 +29,20 @@ module Paperclip
       return file
     end
   
-  protected
-  
+    def get_info
+      contact_vimeo :get, "https://api.vimeo.com/videos/#{@vimeo_video_id}"
+    end
+       
+  private
+
     def already_a_vimeo_video?
       @lesson.video_original_url =~ /vimeo\.com/
     end
-    
+  
     def already_uploaded?
       !!@lesson.video_vimeo_id
     end
-    
+  
     def file_too_small?
       file.size < 5000 #NOT media (probably a 404.html)
     end
@@ -36,33 +51,65 @@ module Paperclip
       account_info  = contact_vimeo(:get, "https://api.vimeo.com/me")
       free_space    = account_info.upload_quota.space.free
       is_over_quota = COMM_ARTS_BUFFER + file.size > free_space
-      Rails.logger.info("[[OVER WEEKLY VIMEO QUOTA]] #{free_space} remaining") if is_over_quota
-      return is_over_quota
+      if is_over_quota
+        Rails.cache.write(:over_vimeo_upload_quota, true, expires_in:1.week)
+        Rails.logger.info("[[OVER WEEKLY VIMEO QUOTA]] #{free_space} remaining")
+      end
+
+      is_over_quota
     end
-    
-  private
-      
+
     def upload_to_vimeo!(video_file)
       generate_vimeo_ticket!
       @vimeo_video_id = contact_vimeo :post, @ticket.upload_link_secure, body:{ file_data:video_file }
-      contact_vimeo :patch, "https://api.vimeo.com/videos/#{@vimeo_video_id}", body:{
+      update_video_metadata
+    end
+    
+    def update_video_metadata(overrides={})
+      contact_vimeo :patch, "https://api.vimeo.com/videos/#{@vimeo_video_id}", headers: {'Content-Type' => "application/json"}, body: MultiJson.dump({
         name:         @lesson.title,
         description:  @lesson.description,
         license:      'by-nc-nd',
         review_link:  false,
-        # embed:{ },
         privacy:{
-          view: 'anybody',
-          embed: 'public', }
-      }
+          view: 'disable', #(Rails.env.production? ? 'disable' : 'anybody'),
+          embed: 'public',
+          add: false,
+          comments:'nobody',
+          download:false,
+        },
+        embed:{
+          buttons:{
+            like:false,
+            share:false,
+            embed:false,
+            watchlater:false,
+            scaling:false,
+            
+            hd:true,
+            fullscreen:true,
+          },
+          logos:{custom:{
+            active:false,
+            sticky:false,
+            link: @lesson.show_url,
+          }},
+          playbar:true,
+          volume:true,
+          
+        },
+      }.deep_merge(overrides), mode: :compat)
+      # source: https://developer.vimeo.com/api/endpoints/videos#PATCH/videos/%7Bvideo_id%7D
     end
     
+# super private
+
     def generate_vimeo_ticket!
       @ticket = contact_vimeo :post, 'https://api.vimeo.com/me/videos', body:{
-        type:'POST',  # upgrade_to_1080:true, #pro account
+        type:'POST',  upgrade_to_1080:false, #requires pro account
         redirect_url:'http://cornerstone-sf.org'}
     end
-    
+
     def contact_vimeo(method, url, options={})      
       request = Typhoeus::Request.new(url, {
         method: method,

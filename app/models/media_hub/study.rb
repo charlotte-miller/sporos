@@ -36,7 +36,11 @@ class Study < ActiveRecord::Base
   include Sanitizable
   include AttachableFile
   include Study::Search
-
+  
+  TEACHING_CHANNELS = %w{ messages studies resources mens-retreat coffeetalk }
+  MUSIC_CHANNELS    = %w{ music }
+  ARTS_CHANNELS     = %w{ dramavideo }
+  
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
@@ -94,6 +98,9 @@ class Study < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Scopes
   # ---------------------------------------------------------------------------------
+  scope :teaching, -> { where(channel_id: Channel.where(slug:TEACHING_CHANNELS).pluck(:id)) }
+  scope :music,    -> { where(channel_id: Channel.where(slug:MUSIC_CHANNELS).pluck(:id)) }
+  scope :arts,     -> { where(channel_id: Channel.where(slug:ARTS_CHANNELS).pluck(:id)) }
   scope :w_lessons, -> {includes(:lessons)}
 
 

@@ -15,6 +15,10 @@ module ExternalTable
       self.table_name = table_name
     end
     
+    def update_all
+      raise ActiveRecord::ReadOnlyRecord
+    end
+
     def delete_all
       raise ActiveRecord::ReadOnlyRecord
     end

@@ -381,13 +381,6 @@ ActiveRecord::Schema.define(version: 20150731210949) do
   add_index "user_lesson_states", ["lesson_id"], name: "index_user_lesson_states_on_lesson_id", using: :btree
   add_index "user_lesson_states", ["user_id"], name: "index_user_lesson_states_on_user_id", using: :btree
 
-  create_table "user_study_group_lessons", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "group_id"
-    t.datetime "completed_at"
-    t.datetime "started_at"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string   "first_name",                 limit: 60
     t.string   "last_name",                  limit: 60

@@ -7,9 +7,9 @@ class GroupsController < ApplicationController
   # GET /groups.json
   def index
     if user_signed_in?
-      @groups = current_user.groups.includes(:meetings, :lessons)
+      @groups = current_user.groups.includes(:meetings, :lessons_through_meetings)
       @user_lesson_states = current_user.user_lesson_states
-      .where(['lesson_id IN(?)', @groups.map {|group| group.lessons.map(&:id) }.flatten.uniq])
+      .where(['lesson_id IN(?)', @groups.map {|group| group.lessons_through_meetings.map(&:id) }.flatten.uniq])
 
       template= 'index'
     else

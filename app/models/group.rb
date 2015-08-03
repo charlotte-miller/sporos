@@ -63,6 +63,7 @@ class Group < ActiveRecord::Base
   has_many :meetings,           :dependent => :destroy,        :class_name => "Meeting", foreign_key: 'group_id'
   has_many :questions,          as: 'source'
   has_many :lessons,            through: :study
+  has_many :lessons_through_meetings,            through: :meetings, source: :lesson
 
   has_many :members,            :through => :group_memberships
   # has_many :leaders,            :through => :group_memberships, source: 'member', conditions: 'group_memberships.role_level > 1'

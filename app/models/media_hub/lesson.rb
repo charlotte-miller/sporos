@@ -86,7 +86,7 @@ class Lesson < ActiveRecord::Base
   
   def vimeo_api
     require Rails.root.join('lib/paperclip_processors/upload_to_vimeo')
-    Paperclip::UploadToVimeo.for_lesson(self)
+    @vimeo_api ||= Paperclip::UploadToVimeo.for_lesson(self)
   end
   
   # ---------------------------------------------------------------------------------

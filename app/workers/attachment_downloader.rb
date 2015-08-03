@@ -44,7 +44,11 @@ private
 
       # Use the downloaded video file
       upload_to_vimeo(tempfile) if attachment_name.to_s == 'video'
+      
+      # Kill all the tempfiles!
+      tempfile.truncate(0)
       tempfile.unlink
+      tempfile.close
     end
   end
 

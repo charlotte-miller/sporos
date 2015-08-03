@@ -76,6 +76,13 @@ module Lesson::AttachedMedia
     self.save!
   end
   
+  def reload_videos_if_vimeo_error
+    if video_vimeo_id && vimeo_api.get_info.duration == 0
+      self.video_remote_url = video_original_url
+      save!
+    end
+  end
+
 private
 
   # DEPRECATED

@@ -1,10 +1,15 @@
+- content_for :page_specific_js_initializers do
+  = javascript_include_tag "groups/"
+
 = (render partial: 'sidebar')
 
 %h3 Study groups
 
 #member-groups
   - @groups.each do |group|
-    .row.step-progress
+    .row
+      = link_to(image_tag(group.poster_img.url), group_path(group))
+    %a.row.step-progress{"data-toggle" => "collapse", "href" => "#collapseExample"}
       - group.meetings.each do |meeting|
         - current_meeting_position = current_meeting_position(meeting, current_meeting_from(group))
         .step-progress-step{class:["#{current_meeting_position}", "col-xs-#{12/group.meetings.length}"].join(' ')}
@@ -12,23 +17,20 @@
             .progress-bar
           .step-progress-dot
             %i.glyphicon
-    .row
-      = link_to(image_tag(group.poster_img.url), group_path(group))
-    .row
-      = "The group is at lesson #{current_meeting_from(group).position}"
-    .row
-      - group.meetings.each_with_index do |meeting, index|
-        - numbered_list = index + 1
-        .row
-          - lesson = meeting.lesson
-          .col-xs-1
-            - current_meeting_position = current_meeting_position(meeting, current_meeting_from(group))
-            .group-progress{class: "#{current_meeting_position}"}
-          .col-xs-6
-            = "#{numbered_list}. #{lesson.title}"
-          .col-xs-5
-            - user_lesson_state = @user_lesson_states.find {|state| state.lesson_id == lesson.id}
-            .progress
-              .progress-bar.progress-bar-striped{style: "width: #{percent_completed(user_lesson_state, lesson)}%"}
-                = "#{percent_completed(user_lesson_state, lesson).round(1)}%"
+    .collapse#collapseExample
+      .row
+        - group.meetings.each_with_index do |meeting, index|
+          - numbered_list = index + 1
+          .row
+            - lesson = meeting.lesson
+            .col-xs-1
+              - current_meeting_position = current_meeting_position(meeting, current_meeting_from(group))
+              .group-progress{class: "#{current_meeting_position}"}
+            .col-xs-6
+              = "#{numbered_list}. #{lesson.title}"
+            .col-xs-5
+              - user_lesson_state = @user_lesson_states.find {|state| state.lesson_id == lesson.id}
+              .progress
+                .progress-bar.progress-bar-striped{style: "width: #{percent_completed(user_lesson_state, lesson)}%"}
+                  = "#{percent_completed(user_lesson_state, lesson).round(1)}%"
 

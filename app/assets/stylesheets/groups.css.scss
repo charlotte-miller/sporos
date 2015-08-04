@@ -94,6 +94,10 @@
         top:4px;
       }
 
+      &.finished > .step-progress-dot {
+        border:2px solid $brand-success;
+      }
+
       &:first-child  > .progress {left: 50%; width: 50%;}
       &:last-child  > .progress {width: 50%;}
        .step-progress-step.accepted a.step-progress-dot{ pointer-events: none; }

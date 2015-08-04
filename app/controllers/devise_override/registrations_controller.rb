@@ -1,5 +1,10 @@
 class DeviseOverride::RegistrationsController < Devise::RegistrationsController
 
+  def new
+    store_location_for(:user, params[:location])
+    super
+  end
+
   def update
     if params[:password].blank? && params[:password_confirmation].blank?
       params.delete(:password)

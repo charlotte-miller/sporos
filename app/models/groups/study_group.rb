@@ -31,40 +31,8 @@
 #  index_groups_on_type_and_id          (type,id)
 #
 
-FactoryGirl.define do
-  factory :generic_group, class: 'Group' do
-    state 'is_open'
-    name        { Faker::Lorem.sentence(rand(3..8))  }
-    description { Faker::Lorem.paragraph(rand(2..5)) }
-    meets_every_days { rand(1..7) }
-    is_public true
-    poster_img  { fixture_file_upload(Rails.root.join('spec/files/', 'poster_image.jpg'), 'image/jpg', true) }
-  end
+class Groups::StudyGroup < Group
+  delegate_attrs_to_jsonb to: :study_group_data
 
-  factory :study_group, parent: :generic_group, class: 'Groups::StudyGroup', aliases: [:group] do
-    type 'Groups::StudyGroup'
-    association :study, factory: [:study_w_lessons]
-  end
-
-  factory :book_group, parent: :generic_group, class: 'Groups::BookGroup' do
-    type 'Groups::BookGroup'
-  end
-
-  factory :affinity_group, parent: :generic_group, class: 'Groups::AffinityGroup' do
-    type 'Groups::AffinityGroup'
-  end
-
-  factory :group_w_member, parent: :study_group do
-    ignore do
-      new_member {FactoryGirl.create(:member)}
-    end
-    group_memberships { [FactoryGirl.create(:group_membership, member:new_member)] }
-  end
-
-  factory :group_w_member_and_meeting, :parent => :group_w_member do
-    ignore do
-      new_meeting {FactoryGirl.create(:meeting)}
-    end
-    meetings { [new_meeting] }
-  end
+  validates_presence_of :study
 end

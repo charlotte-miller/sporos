@@ -51,9 +51,9 @@
       "@#{slug}_member"    => (User.find_by(email:"#{slug}_member@example.com"   ) || FactoryGirl.create(:user, email:"#{slug}_member@example.com",    password:'Dearborn')),
       "@#{slug}_volunteer" => (User.find_by(email:"#{slug}_volunteer@example.com") || FactoryGirl.create(:user, email:"#{slug}_volunteer@example.com", password:'Dearborn')),
       "@#{slug}_leader"    => (User.find_by(email:"#{slug}_leaders@example.com"  ) || FactoryGirl.create(:user, email:"#{slug}_leaders@example.com",   password:'Dearborn'))}
-    users_found_or_created.each &method(:instance_variable_set)
+    users_found_or_created.each(&method(:instance_variable_set))
 
-    users_found_or_created.values.flatten.each &:confirm!
+    users_found_or_created.values.flatten.each(&:confirm!)
 
     member, volunteer, leader = users_found_or_created.values
     ministry.members    << member     unless ministry.members.present?
@@ -74,3 +74,34 @@
     #   end
     # end
   end
+
+# Study groups
+oky = FactoryGirl.create(:user, email: 'oky@sabeni.com', password: 'password')
+study_group = FactoryGirl.create(:study_group)
+FactoryGirl.create(:group_membership, group: study_group, member: oky)
+study_group_lessons = study_group.study.lessons
+study_group_lessons.each_with_index do |lesson, index|
+  index = index - 1
+  FactoryGirl.create(:meeting, group: study_group, date_of: Time.now + index.week, lesson: lesson)
+  FactoryGirl.create(:user_lesson_state, user: oky, lesson: lesson)
+end
+
+# A finished study group
+finished_group = FactoryGirl.create(:study_group, state: 'is_finished')
+FactoryGirl.create(:group_membership, group: finished_group, member: oky)
+lessons = finished_group.study.lessons
+lessons.each_with_index do |lesson, index|
+  FactoryGirl.create(:meeting, group: finished_group, date_of: Time.now - index.week, lesson: lesson)
+  FactoryGirl.create(:user_lesson_state, user: oky, lesson: lesson)
+end
+
+# Another study group
+another_study_group = FactoryGirl.create(:study_group)
+FactoryGirl.create(:group_membership, group: another_study_group, member: oky)
+study_group_lessons = another_study_group.study.lessons
+study_group_lessons.each_with_index do |lesson, index|
+  index = index - 1
+  FactoryGirl.create(:meeting, group: another_study_group, date_of: Time.now + index.week, lesson: lesson)
+  FactoryGirl.create(:user_lesson_state, user: oky, lesson: lesson)
+end
+

@@ -4,7 +4,8 @@ module QuestionsHelper
     raise ArgumentError.new('requires @lesson or @meeting') unless @lesson || @meeting
 
     question = question_or_action.is_a?( Question ) ? question_or_action : 'questions'
-    obj_array = [@study, @lesson, @group, @meeting, question].compact
+
+    obj_array = [@study, @lesson, @group.try(:becomes, Group), @meeting, question].compact
 
     case question_or_action
       when 'new'

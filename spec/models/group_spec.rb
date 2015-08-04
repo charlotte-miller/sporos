@@ -2,19 +2,33 @@
 #
 # Table name: groups
 #
-#  id               :integer          not null, primary key
-#  state            :string(50)       not null
-#  name             :string           not null
-#  description      :text             not null
-#  is_public        :boolean          default("true")
-#  meets_every_days :integer          default("7")
-#  meetings_count   :integer          default("0")
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
+#  id                      :integer          not null, primary key
+#  state                   :string(50)       not null
+#  name                    :string           not null
+#  description             :text             not null
+#  is_public               :boolean          default("true")
+#  meets_every_days        :integer          default("7")
+#  meetings_count          :integer          default("0")
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  type                    :text             not null
+#  study_id                :integer
+#  approved_at             :datetime
+#  poster_img_file_name    :string
+#  poster_img_content_type :string
+#  poster_img_file_size    :integer
+#  poster_img_updated_at   :datetime
+#  poster_img_fingerprint  :string
+#  poster_img_processing   :boolean
+#  study_group_data        :jsonb            default("{}"), not null
+#  book_group_data         :jsonb            default("{}"), not null
+#  affinity_group_data     :jsonb            default("{}"), not null
 #
 # Indexes
 #
 #  index_groups_on_state_and_is_public  (state,is_public)
+#  index_groups_on_study_id             (study_id)
+#  index_groups_on_type_and_id          (type,id)
 #
 
 require 'rails_helper'
@@ -25,10 +39,13 @@ describe Group do
   it { should have_many( :group_memberships )}
   it { should have_many( :members ).through( :group_memberships ) } #users
   it { should have_many( :questions ) }
+  it { should belong_to( :study ) }
   # it { should delegate_method(:meetings=).to(:group_memberships) }
-  it "builds from factory", :internal do
-    lambda { create(:group) }.should_not raise_error
-    lambda { create(:group_w_member) }.should_not raise_error
+
+  [:group, :study_group, :book_group, :affinity_group, :group_w_member, :group_w_member_and_meeting].each do |factory|
+    it "builds from factory #{factory}", :internal do
+      expect { create(factory) }.to_not raise_error
+    end
   end
 
   describe 'a public group' do

@@ -65,9 +65,10 @@ FactoryGirl.define do
     backlink    "http://link.com/salt-and-light"
     poster_img  { fixture_file_upload(Rails.root.join('spec/files/', 'poster_image.jpg'), 'image/jpg', true) }
     video       { fixture_file_upload(Rails.root.join('spec/files/', 'video.m4v'       ), 'video/mp4', true) }
-    audio       { fixture_file_upload(Rails.root.join('spec/files/', 'audio.m4a'       ), 'audio/mp4', true) }
+    audio       { fixture_file_upload(Rails.root.join('spec/files/', 'audio.mp3'       ), 'audio/mp3', true) }
     video_original_url 'http://example.com/video.m4v'
     audio_original_url 'http://example.com/audio.m4a'
     published_at Time.now
+    duration    { Faker::Number.between(300, 750) }
   end
 end

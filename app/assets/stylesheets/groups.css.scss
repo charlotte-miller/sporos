@@ -1,0 +1,106 @@
+#groups-public {
+  margin-top: 50px;
+
+  .row {
+    margin-left: 25px;
+    margin-right: 25px;
+  }
+
+  .well#login_button {
+    text-align: center;
+  }
+}
+
+#groups-study-list {
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: stretch;
+  align-items: stretch;
+}
+
+.member-groups {
+  .row {
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .group-progress.past {
+    @extend .fa;
+    @extend .fa-circle;
+  }
+
+  .group-progress.current {
+    @extend .fa;
+    @extend .fa-play-circle;
+  }
+
+  .group-progress.future {
+    @extend .fa;
+    @extend .fa-circle-thin;
+  }
+
+
+  .step-progress {
+    .step-progress-step {
+      padding: 0;
+
+      .step-progress-dot {
+        position: absolute;
+        top: 45px;
+        left: 50%;
+
+        width: 30px;
+        height: 30px;
+        display: block;
+        background: $brand-success;
+
+        margin-top: -37px;
+        margin-left: -15px;
+
+        border-radius: 50%;
+      }
+
+      .progress {
+        position: relative;
+
+        border-radius: 0px;
+        height: 8px;
+        box-shadow: none;
+        margin: 20px 0;
+
+        .progress-bar {
+          width:100%;
+          box-shadow: none;
+          background: $brand-success;
+        }
+      }
+
+      &.past > .step-progress-dot {
+        border:3px solid $brand-success;
+      }
+
+      &.future > .step-progress-dot {
+        background-color: #FFF;
+        border:2px solid $brand-success;
+      }
+
+      &.current .glyphicon {
+        @extend .glyphicon-play;
+        color:$gray-lighter;
+        left:8px;
+        top:4px;
+      }
+
+      &.finished > .step-progress-dot {
+        border:2px solid $brand-success;
+      }
+
+      &:first-child  > .progress {left: 50%; width: 50%;}
+      &:last-child  > .progress {width: 50%;}
+       .step-progress-step.accepted a.step-progress-dot{ pointer-events: none; }
+    }
+  }
+}

@@ -84,6 +84,10 @@ gem 'rack-rewrite', '~> 1.5.0'#, require:'rack/rewrite'
 gem 'newrelic_rpm'
 gem 'airbrake'
 
+# Design
+# ==========
+gem 'font-awesome-sass'
+
 group :production do
   gem 'unicorn'
   gem 'unicorn-worker-killer'

@@ -77,17 +77,13 @@ class Lesson < ActiveRecord::Base
                   :video_vimeo_id
 
 
-
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------
   belongs_to :study, touch:true, class_name:'Study'  # counter_cache rolled into Study#touch
   # has_one :poster_maker, :class_name => "Lesson::PosterMaker", :dependent => :destroy
+  has_many :user_lesson_states
 
-  def vimeo_api
-    require Rails.root.join('lib/paperclip_processors/upload_to_vimeo')
-    @vimeo_api ||= Paperclip::UploadToVimeo.for_lesson(self)
-  end
 
   # ---------------------------------------------------------------------------------
   # Validations
@@ -144,6 +140,10 @@ class Lesson < ActiveRecord::Base
     url_helpers.study_lesson_url(study, self)
   end
 
+  def vimeo_api
+    require Rails.root.join('lib/paperclip_processors/upload_to_vimeo')
+    @vimeo_api ||= Paperclip::UploadToVimeo.for_lesson(self)
+  end
 private
 
   def video_vimeo_id_from_original_url

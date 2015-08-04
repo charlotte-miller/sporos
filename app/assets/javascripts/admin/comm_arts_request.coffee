@@ -4,7 +4,7 @@ $ ->
     in_queue += 1
     id = $(e.target).data('id')
     $.ajax
-      url: "http://localhost:3000/admin/comm_arts_requests/#{id}/toggle_archive",
+      url: "/admin/comm_arts_requests/#{id}/toggle_archive",
       method: "GET",
       success: (response)->
         console.log(in_queue)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150724220608) do
+ActiveRecord::Schema.define(version: 20150731210949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,17 +135,31 @@ ActiveRecord::Schema.define(version: 20150724220608) do
   add_index "group_memberships", ["user_id", "is_public"], name: "index_group_memberships_on_user_id_and_is_public", using: :btree
 
   create_table "groups", force: :cascade do |t|
-    t.string   "state",            limit: 50,                null: false
-    t.string   "name",                                       null: false
-    t.text     "description",                                null: false
-    t.boolean  "is_public",                   default: true
-    t.integer  "meets_every_days",            default: 7
-    t.integer  "meetings_count",              default: 0
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.string   "state",                   limit: 50,                null: false
+    t.string   "name",                                              null: false
+    t.text     "description",                                       null: false
+    t.boolean  "is_public",                          default: true
+    t.integer  "meets_every_days",                   default: 7
+    t.integer  "meetings_count",                     default: 0
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.text     "type",                                              null: false
+    t.integer  "study_id"
+    t.datetime "approved_at"
+    t.string   "poster_img_file_name"
+    t.string   "poster_img_content_type"
+    t.integer  "poster_img_file_size"
+    t.datetime "poster_img_updated_at"
+    t.string   "poster_img_fingerprint"
+    t.boolean  "poster_img_processing"
+    t.jsonb    "study_group_data",                   default: {},   null: false
+    t.jsonb    "book_group_data",                    default: {},   null: false
+    t.jsonb    "affinity_group_data",                default: {},   null: false
   end
 
   add_index "groups", ["state", "is_public"], name: "index_groups_on_state_and_is_public", using: :btree
+  add_index "groups", ["study_id"], name: "index_groups_on_study_id", using: :btree
+  add_index "groups", ["type", "id"], name: "index_groups_on_type_and_id", using: :btree
 
   create_table "involvements", force: :cascade do |t|
     t.integer  "user_id",                 null: false
@@ -207,17 +221,15 @@ ActiveRecord::Schema.define(version: 20150724220608) do
   add_index "lessons", ["video_vimeo_id"], name: "index_lessons_on_video_vimeo_id", unique: true, using: :btree
 
   create_table "meetings", force: :cascade do |t|
-    t.integer  "group_id",                          null: false
-    t.integer  "lesson_id",                         null: false
-    t.integer  "position",              default: 0, null: false
-    t.string   "state",      limit: 50,             null: false
+    t.integer  "group_id",               null: false
+    t.integer  "position",   default: 0, null: false
     t.datetime "date_of"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "lesson_id"
   end
 
   add_index "meetings", ["group_id", "position"], name: "index_meetings_on_group_id_and_position", using: :btree
-  add_index "meetings", ["group_id", "state"], name: "index_meetings_on_group_id_and_state", using: :btree
   add_index "meetings", ["lesson_id"], name: "index_meetings_on_lesson_id", using: :btree
 
   create_table "ministries", force: :cascade do |t|
@@ -357,6 +369,18 @@ ActiveRecord::Schema.define(version: 20150724220608) do
   add_index "uploaded_files", ["from_id", "from_type"], name: "index_uploaded_files_on_from_id_and_from_type", using: :btree
   add_index "uploaded_files", ["session_id"], name: "index_uploaded_files_on_session_id", using: :btree
 
+  create_table "user_lesson_states", force: :cascade do |t|
+    t.datetime "started_at"
+    t.datetime "last_visited_at"
+    t.datetime "complete_at"
+    t.integer  "media_progress"
+    t.integer  "user_id"
+    t.integer  "lesson_id"
+  end
+
+  add_index "user_lesson_states", ["lesson_id"], name: "index_user_lesson_states_on_lesson_id", using: :btree
+  add_index "user_lesson_states", ["user_id"], name: "index_user_lesson_states_on_user_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "first_name",                 limit: 60
     t.string   "last_name",                  limit: 60
@@ -408,4 +432,8 @@ ActiveRecord::Schema.define(version: 20150724220608) do
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
   add_foreign_key "comm_arts_requests", "posts"
+  add_foreign_key "groups", "studies"
+  add_foreign_key "meetings", "lessons"
+  add_foreign_key "user_lesson_states", "lessons"
+  add_foreign_key "user_lesson_states", "users"
 end

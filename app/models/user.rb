@@ -117,7 +117,6 @@ class User < ActiveRecord::Base
   has_many :block_requests,                                     inverse_of: :requester
   has_many :groups,            :through => :group_memberships
   has_many :group_memberships, :dependent => :destroy,          inverse_of: :member do
-
     # association wrapped in #membership_in(group)
     def for_group(group)
       group_id = group.is_a?( Group ) ? group.id : group
@@ -144,6 +143,7 @@ class User < ActiveRecord::Base
   end
 
   has_many :invitations, :class_name => 'User', :foreign_key => :invited_by_id
+  has_many :user_lesson_states
 
   # ---------------------------------------------------------------------------------
   # Validations

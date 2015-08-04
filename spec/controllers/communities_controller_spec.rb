@@ -24,7 +24,6 @@ RSpec.describe CommunitiesController, :type => :controller do
       end
 
     end
-
   end
 
   describe "GET 'show'" do

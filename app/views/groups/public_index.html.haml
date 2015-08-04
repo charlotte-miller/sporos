@@ -1,20 +1,21 @@
 = (render partial: 'sidebar')
-%h1 Public Listing groups
-%table
-  %tr
-    %th Name
-    %th Desription
-    %th Study
-    %th
-    %th
-    %th
+
+- content_for(:page_specific_js) do
+  = javascript_include_tag 'groups/public_index'
+
+#groups-public
+  .row
+    .col-xs-6
+      .well
+        .form-inline
+          .form-group
+            = text_field_tag('email', nil, id: 'email_field', class: 'form-control', placeholder: 'Enter email...')
+            = label_tag(:sign_up, 'Sign Up', id: 'join_button', class: 'btn btn-default')
+    .col-xs-6
+      .well{ id: 'login_button' }
+        = label_tag(:login, 'Log In To Your Groups', class: 'btn')
+
+%h3 Study groups
+#groups-study-list
   - @groups.each do |group|
-    %tr
-      %td= group.name
-      %td= group.description
-      %td= group.study_id
-      %td= link_to 'Show', group
-      %td= link_to 'Edit', edit_group_path(group)
-      %td= link_to 'Delete', group, method: :delete, data: { confirm: 'Are you sure?' }
-%br/
-= link_to 'New Group', new_group_path
+    = link_to(image_tag(group.poster_img.url), group_path(group))

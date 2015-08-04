@@ -73,12 +73,13 @@ class Study < ActiveRecord::Base
   belongs_to :channel
   belongs_to :podcast, :inverse_of => :studies
   has_one :church,     :through => :podcast, :inverse_of => :studies
-  has_many :lessons, -> {order 'position ASC'}, {:dependent => :destroy, class_name:'Lesson'} do
-    def number(n, strict=false)
-      raise ActiveRecord::RecordNotFound if strict && (n > self.length) #lessons_count
-      where(position:n).first
-    end
-  end
+  has_many :lessons, -> {order 'lessons.position ASC'}, {:dependent => :destroy, class_name:'Lesson'}# do
+  #   def number(n, strict=false)
+  #     raise ActiveRecord::RecordNotFound if strict && (n > self.length) #lessons_count
+  #     where(position:n).first
+  #   end
+  # end
+  has_many :groups
 
 
   # ---------------------------------------------------------------------------------

@@ -7,9 +7,15 @@ class GroupsController < ApplicationController
   # GET /groups.json
   def index
     if user_signed_in?
+      @groups = current_user.groups.includes(:meetings, :lessons_through_meetings)
+      @open_groups = @groups.select { |group| group.is_open? }
+      @finished_groups = @groups.select { |group| group.is_finished? }
+      @user_lesson_states = current_user.user_lesson_states
+      .where(['lesson_id IN(?)', @groups.map {|group| group.lessons_through_meetings.map(&:id) }.flatten.uniq])
+
       template= 'index'
     else
-      @groups = Group.publicly_searchable.all
+      @groups = Group.includes(:meetings).publicly_searchable.all
       template= 'public_index'
     end
 
@@ -56,12 +62,13 @@ class GroupsController < ApplicationController
   # POST /groups
   # POST /groups.json
   def create
-    @group = Group.new(params[:group])
+    @group ||= group_params[:type].constantize.new(group_params)
+    @group.errors.add(:type, 'Not a valid group') unless @group.is_a?(Group)
 
     respond_to do |format|
       if @group.save
-        format.html { redirect_to @group, notice: 'Group was successfully created.' }
-        format.json { render json: @group, status: :created, location: @group }
+        format.html { redirect_to @group.becomes(Group), notice: 'Group was successfully created.' }
+        format.json { render json: @group, status: :created, location: @group.becomes(Group) }
       else
         format.html { render action: "new" }
         format.json { render json: @group.errors, status: :unprocessable_entity }
@@ -74,8 +81,8 @@ class GroupsController < ApplicationController
   def update
 
     respond_to do |format|
-      if @group.update_attributes(params[:group])
-        format.html { redirect_to @group, notice: 'Group was successfully updated.' }
+      if @group.update_attributes(group_params)
+        format.html { redirect_to @group.becomes(Group), notice: 'Group was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -96,6 +103,14 @@ class GroupsController < ApplicationController
   end
 
 private
+
+  def group_params
+    raise ArgumentError unless ['Groups::StudyGroup'].include? params[:group][:type]
+    @group_params ||= params.require(:group).permit(
+      :description, :name, :is_public, :state, :meets_every_days, :poster_img, :poster_img_remote_url, :type,
+      :study_id
+    )
+  end
 
   # scopes SELECT to current user
   def safe_select_groups

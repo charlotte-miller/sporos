@@ -72,6 +72,7 @@ describe User do
   it { should have_many(:approval_requests) }
   it { should have_many(:posts) }
   it { should have_many(:ministries) }
+  it { should have_many(:user_lesson_states) }
 
   it { should validate_presence_of(:email) }
   it { should ensure_length_of(:email).is_at_most(80) }

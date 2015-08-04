@@ -32,6 +32,7 @@ require 'rails_helper'
 
 describe Study do
   it { should have_many(:lessons) }
+  it { should have_many(:groups) }
   it { should belong_to(:podcast) }
   it { should belong_to(:channel) }
   it { should have_one(:church).through(:podcast) }
@@ -81,25 +82,25 @@ describe Study do
     end
   end
 
-  describe '#lessons.number(n, strict=false)' do
-    before(:each) do
-      @study = create(:study_with_n_lessons, n:2 )
-      @lesson1, @lesson2 = @lessons = @study.reload.lessons # position assigned after_create
-    end
-
-    it "returns a lesson at(n) index" do
-      @study.lessons.number(1).should eql @lesson1
-      @study.lessons.number(2).should eql @lesson2
-    end
-
-    it "returns nil when no lesson matches" do
-      @study.lessons.number(3).should be_nil
-    end
-
-    it "returns an ArgumentError if 'strict=true'" do
-      lambda {@study.lessons.number(3, :strict) }.should raise_error(ActiveRecord::RecordNotFound)
-    end
-  end
+  # describe '#lessons.number(n, strict=false)' do
+  #   before(:each) do
+  #     @study = create(:study_with_n_lessons, n:2 )
+  #     @lesson1, @lesson2 = @lessons = @study.reload.lessons # position assigned after_create
+  #   end
+  #
+  #   it "returns a lesson at(n) index" do
+  #     @study.lessons.number(1).should eql @lesson1
+  #     @study.lessons.number(2).should eql @lesson2
+  #   end
+  #
+  #   it "returns nil when no lesson matches" do
+  #     @study.lessons.number(3).should be_nil
+  #   end
+  #
+  #   it "returns an ArgumentError if 'strict=true'" do
+  #     lambda {@study.lessons.number(3, :strict) }.should raise_error(ActiveRecord::RecordNotFound)
+  #   end
+  # end
 
   describe '#stand_alone?' do
     it "returns true if the study has one lesson" do

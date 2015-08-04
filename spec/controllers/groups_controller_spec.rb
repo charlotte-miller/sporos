@@ -20,11 +20,40 @@ describe GroupsController do
         should respond_with(:success)
       end
 
-
       it "assigns all groups as @groups" do
         load_page!
         should assign_to(:groups)
         assigns(:groups).should eq([group])
+      end
+
+      describe 'user_signed_in' do
+        login_user
+
+        let(:open_group) { FactoryGirl.build(:study_group) }
+        let(:finished_group) { FactoryGirl.build(:study_group, state: 'is_finished') }
+
+        before do
+          FactoryGirl.create(:group_membership, group: open_group, member: current_user)
+          FactoryGirl.create(:group_membership, group: finished_group, member: current_user)
+        end
+
+        it 'assigns groups associated with member when logged in' do
+          load_page!
+          should assign_to(:groups)
+          assigns(:groups).should eq(current_user.groups)
+        end
+
+        it 'should assign to open_groups' do
+          load_page!
+          should assign_to(:open_groups)
+          assigns(:open_groups).should eq([open_group])
+        end
+
+        it 'should assign to finished_groups' do
+          load_page!
+          should assign_to(:finished_groups)
+          assigns(:finished_groups).should eq([finished_group])
+        end
       end
     end
 
@@ -157,6 +186,8 @@ describe GroupsController do
     end
 
     describe "POST create" do
+      let(:valid_attributes) { build(:study_group).attributes }
+
       it "sets current_user as 'leader'" do
         skip
         # assigns(:group).leader.should eql current_user
@@ -165,34 +196,33 @@ describe GroupsController do
       describe "with valid params" do
         it "creates a new Group" do
           expect {
-            post :create, {:group => valid_attributes}
+            post :create, { group: valid_attributes }
           }.to change(Group, :count).by(1)
         end
 
         it "assigns a newly created group as @group" do
-          post :create, {:group => valid_attributes}
+          post :create, { group: valid_attributes }
           assigns(:group).should be_a(Group)
           assigns(:group).should be_persisted
         end
 
         it "redirects to the created group" do
-          post :create, {:group => valid_attributes}
-          response.should redirect_to(Group.last)
+          post :create, { group: valid_attributes }
+          response.should redirect_to(Group.last.becomes(Group))
         end
       end
 
       describe "with invalid params" do
-        it "assigns a newly created but unsaved group as @group" do
-          # Trigger the behavior that occurs when invalid params are submitted
-          Group.any_instance.stub(:save).and_return(false)
-          post :create, {:group => { "name" => "invalid value" }}
-          assigns(:group).should be_a_new(Group)
+        describe 'with missing type' do
+          it 'expects an argument error' do
+            expect { post :create, { group: { type: {} } } }.to raise_error(ArgumentError)
+          end
         end
 
         it "re-renders the 'new' template" do
           # Trigger the behavior that occurs when invalid params are submitted
           Group.any_instance.stub(:save).and_return(false)
-          post :create, {:group => { "name" => "invalid value" }}
+          post :create, { group: { "name" => "invalid value", type: 'Groups::StudyGroup' } }
           response.should render_template("new")
         end
       end
@@ -205,8 +235,9 @@ describe GroupsController do
           # specifies that the Group created on the previous line
           # receives the :update_attributes message with whatever params are
           # submitted in the request.
-          Group.any_instance.should_receive(:update_attributes).with({ "name" => "MyString" })
-          put :update, {:id => group.to_param, :group => { "name" => "MyString" }}
+          Group.any_instance.should_receive(:update_attributes).
+            with({ "name" => "MyString", type: 'Groups::StudyGroup' })
+          put :update, { id: group.to_param, group: { "name" => "MyString", type: 'Groups::StudyGroup' }}
         end
 
         it "assigns the requested group as @group" do
@@ -216,7 +247,7 @@ describe GroupsController do
 
         it "redirects to the group" do
           put :update, {:id => group.to_param, :group => valid_attributes}
-          response.should redirect_to(group)
+          response.should redirect_to(group.becomes(Group))
         end
 
         it "scopes updates to the current_user" do
@@ -225,17 +256,17 @@ describe GroupsController do
       end
 
       describe "with invalid params" do
-        it "assigns the group as @group" do
+        before :each do
           # Trigger the behavior that occurs when invalid params are submitted
           Group.any_instance.stub(:save).and_return(false)
-          put :update, {:id => group.to_param, :group => { "name" => "invalid value" }}
+          put :update, { id: group.to_param, group: { "name" => "invalid value", type: 'Groups::StudyGroup' }}
+        end
+
+        it "assigns the group as @group" do
           assigns(:group).should eq(group)
         end
 
         it "re-renders the 'edit' template" do
-          # Trigger the behavior that occurs when invalid params are submitted
-          Group.any_instance.stub(:save).and_return(false)
-          put :update, {:id => group.to_param, :group => { "name" => "invalid value" }}
           response.should render_template("edit")
         end
       end

@@ -75,7 +75,7 @@ gem "redis-rack-cache"
 # gem 'slim', '<= 1.3.0'
 # gem 'sinatra', :require => nil
 
-# Legacy 
+# Legacy
 gem 'rack-slashenforce'#, :require => 'rack'
 gem 'rack-rewrite', '~> 1.5.0'#, require:'rack/rewrite'
 
@@ -113,11 +113,11 @@ gem 'ansi'
 group :development, :test do
   gem "erb2haml"
   # gem "bullet"
-  
+
   gem 'zeus'
   gem 'thin'
   # gem 'capistrano-rails', :require => nil
-  
+
   # TDD
   gem 'growl'
   gem 'rb-fsevent'
@@ -125,7 +125,7 @@ group :development, :test do
   gem 'guard-bundler', require: false
   gem "teaspoon"
   gem "guard-teaspoon"
-  
+
   # Rspec
   gem 'rspec-rails'
   gem 'factory_girl_rails'
@@ -143,21 +143,21 @@ group :development, :test do
   # gem 'capybara'
   # gem 'capybara-webkit'
   # gem 'capybara-screenshot', git:'git@github.com:mattheworiordan/capybara-screenshot.git'
-  
+
   # Debugger
   gem 'awesome_print'
   gem 'pry-rails'
   gem 'progress_bar'
   # gem 'web-console', '~> 2.0'
-  
+
   # Documentation
   gem 'annotate', ">=2.5.0"
   gem 'sdoc', '~> 0.4.0'
-  
+
   gem 'quiet_assets'
   gem 'rails-backbone-generator', require:false #, path:'~/development/Gems/rails-backbone-generator'
   # gem 'activerecord-import', '~> 0.3.0' #for seed file
-  
+
   gem 'git', require:false
 end
 

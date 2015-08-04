@@ -4,7 +4,7 @@ require 'rss/itunes'
 #
 class Podcast::RssChannel
   include Sanitizable
-  
+
   attr_accessor :xml_str, :podcast_obj, :items
 
   def initialize(xml_str)
@@ -21,7 +21,7 @@ class Podcast::RssChannel
   def title
     plain_text(channel.title)
   end
-  
+
   def description
     plain_text(channel.itunes_summary)
   end
@@ -29,11 +29,11 @@ class Podcast::RssChannel
   def homepage
     sanitize_url(channel.link)
   end
-  
+
   def poster_img
     sanitize_url(channel.image.try :url)
   end
-  
+
   def keywords
     channel.itunes_keywords.map do |keyword|
       plain_text(keyword)
@@ -51,7 +51,7 @@ class Podcast::RssChannel
   rescue NoMethodError
     super(meth, *args, &block)
   end
-  
+
 end #Podcast::RssChannel
 
 ##### IF YOU HAVE PARSING PROBLEMS BETWEEN FORMATS

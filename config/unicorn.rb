@@ -25,7 +25,7 @@ before_fork do |server, worker|
 	if defined?(ActiveRecord::Base)
 		ActiveRecord::Base.connection.disconnect!
   end
-  
+
   if defined?(Resque)
     Resque.redis.quit
     Rails.logger.info('Disconnected from Redis')
@@ -37,16 +37,16 @@ after_fork do |server, worker|
   if defined?(ActiveRecord::Base)
 		ActiveRecord::Base.establish_connection
   end
-  
+
   if defined?(Resque)
     Resque.redis = Redis.new( AppConfig.redis )
     Resque.redis.namespace = AppConfig.redis.namespace
     Rails.logger.info('Connected to Redis')
   end
-  
-  # Reset the connections to memcache-based object and session stores - this                           
-  # is using a dalli-specific reset method. Otherwise you'll get wacky cache                           
-  # misreads (returning incorrect values for the requested key).                                       
+
+  # Reset the connections to memcache-based object and session stores - this
+  # is using a dalli-specific reset method. Otherwise you'll get wacky cache
+  # misreads (returning incorrect values for the requested key).
   # Rails.cache.reset if Rails.cache.respond_to?(:reset)
   # Rails.application.config.session_options[:cache] if Rails.application.config.session_options[:cache]
 

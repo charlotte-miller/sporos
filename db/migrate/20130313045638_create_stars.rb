@@ -7,7 +7,7 @@ class CreateStars < ActiveRecord::Migration
 
       t.timestamps  null: false
     end
-    
+
     add_index :stars, :user_id
     add_index :stars, [:source_id, :source_type]
   end

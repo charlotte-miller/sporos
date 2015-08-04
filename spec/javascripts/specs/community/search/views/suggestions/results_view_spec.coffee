@@ -1,6 +1,6 @@
 describe "CStone.Community.Search.Views", ->
   describe "SuggestionsResults", ->
-        
+
     beforeEach =>
       @session = Factory.session(results: [Factory.result()] )
       @view = new CStone.Community.Search.Views.SuggestionsResults( session: @session )
@@ -18,13 +18,13 @@ describe "CStone.Community.Search.Views", ->
           @view.$('.suggestion').click()
           expect(@session.acceptHint).toHaveBeenCalled()
           expect(@session.acceptHint.callCount).toEqual(1)
-      
+
         it "opens the result", =>
           @view.$('.suggestion').click()
           expect(@first_result.open).toHaveBeenCalled()
           expect(@first_result.open.callCount).toEqual(1)
 
-      describe 'mouseover', =>      
+      describe 'mouseover', =>
         it "focuses the result", =>
           @collection = @view.collection
           spyOn(@collection, 'updateFocus')

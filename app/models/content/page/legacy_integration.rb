@@ -1,17 +1,17 @@
 module Page::LegacyIntegration
   extend  ActiveSupport::Concern
-  
+
   def legacy_url(joiner='/')
     slug_chain = []
     ancestor = self
-    
+
     while ancestor
       slug_chain.unshift ancestor.slug
       ancestor = ancestor.parent
     end
     "/#{slug_chain.join(joiner)}"
   end
-  
+
   def self.audit_urls
     hydra = Typhoeus::Hydra.new
     all.map(&:legacy_url).each do |path|

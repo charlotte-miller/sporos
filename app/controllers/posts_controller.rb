@@ -5,11 +5,11 @@ class PostsController < ApplicationController
 
   def index
     context = @ministry.try(:posts) || Post.w_out_pages
-    
+
     @posts = context.current.relevance_order
       .paginated(params[:page]).per(20)
       .all
-    
+
     render template:'posts/show', layout: !request.xhr?
   end
 
@@ -18,7 +18,7 @@ class PostsController < ApplicationController
       format.html { render template:'posts/show',  layout: !request.xhr?}
       format.json { render json: @post }
     end
-    
+
   end
 
 
@@ -26,7 +26,7 @@ private
   def set_post
     @post ||= Post.includes(:uploaded_files, :ministry).find_by(public_id:params[:id])
   end
-  
+
   def set_ministry
     if params[:ministry]
       @ministry = Ministry.friendly.find(params[:ministry])

@@ -21,7 +21,7 @@ FactoryGirl.define do
   factory :approval_request do
     post
     user
-    status {ApprovalRequest.statuses.first[0].to_sym} 
+    status {ApprovalRequest.statuses.first[0].to_sym}
   end
 
 end

@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe "admin/posts/show", :type => :view do
   include PostsHelper
-    
+
   before(:all) do
     @ministry = create(:populated_ministry)
     @post     = assign(:post, create(:post,
-      :ministry => @ministry, 
-      :author => @ministry.volunteers.first, 
+      :ministry => @ministry,
+      :author => @ministry.volunteers.first,
       :title => "MyText",
       :description => "MyText",
       :poster => "",
@@ -15,7 +15,7 @@ RSpec.describe "admin/posts/show", :type => :view do
     ))
     def form_authenticity_token; 'adsfads' ;end
     def current_user; @post.author ;end
-    
+
     @current_users_approval_request = assign(:current_users_approval_request, ApprovalRequest.find_by( user:@post.author, post:@post ))
     @approval_statuses = assign(:approval_statuses, {AUTHOR:'complete', LEADER:'complete',EDITOR:'disabled'})
     @comments = assign(:comments, [])
@@ -27,7 +27,7 @@ RSpec.describe "admin/posts/show", :type => :view do
     render
     expect(rendered).to match(%r{http://www.thevillagechurch.net/resources/sermons/series/james/})
   end
-  
+
   it 'renders approval_statuses' do
     view.stub(:current_user) {  @post.author }
     render

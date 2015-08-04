@@ -2,8 +2,8 @@ require 'rails_helper'
 
 # Moderating block requests
 describe Admin::BlockRequestsController do
-  
+
   describe 'admin cannot delete posts they authored' do
-    
+
   end
 end

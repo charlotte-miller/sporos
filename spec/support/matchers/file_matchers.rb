@@ -45,16 +45,16 @@ module FileMatchers
   def have_the_same_content_as(expected)
     HaveTheSameContent.new(expected)
   end
-  
+
   def have_the_same_name_as(expected)
     HaveTheSameName.new(expected)
   end
-    
+
   def be_the_same_file_as(expected)
     HaveTheSameName.new(expected)
     HaveTheSameContent.new(expected)
   end
-  
+
 end
 
 RSpec.configure do |config|

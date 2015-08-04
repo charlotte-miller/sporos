@@ -8,7 +8,7 @@ class Admin::StudiesController < Admin::BaseController
         Study.search do
           fulltext params[:search]
         end
-        
+
       else # Not searching
         Study.all
       end

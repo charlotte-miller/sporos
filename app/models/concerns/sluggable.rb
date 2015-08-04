@@ -8,9 +8,9 @@ module Sluggable
     friendly_id :slug_candidates, use: [:slugged, :history]
     attr_protected :slug
   end
-  
+
   module ClassMethods
-    
+
     # Usage: slug_candidates :title, [:title, :church_name]
     # Becomes:
     #
@@ -22,18 +22,18 @@ module Sluggable
       define_method(:slug_candidates) {args}
     end
   end
-  
+
   # Canidate Helpers
   # Example: slug_candidates :title, [:title, :year], [:title, :month, :year]
   #
   def year
     (created_at || Time.now).year
   end
-  
+
   def month
     (created_at || Time.now).strftime("%B")
   end
-  
+
   def date
     (created_at || Time.now).day
   end

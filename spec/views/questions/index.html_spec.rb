@@ -13,9 +13,9 @@ describe "questions/index" do
       render :template => 'questions/index'
       assert_select '#new_question_button', :href => '/library/matthew-study/lessons/1/questions'
     end
-    
+
   end
-  
+
   context "group" do
     before(:each) do
       assign(:questions, 2.times.map { build_stubbed(:question) })
@@ -25,10 +25,10 @@ describe "questions/index" do
 
     it "renders a list of questions" do
       render :template => 'questions/index'
-      
+
       assert_select '#new_question_button', :href => '/groups/1/meetings/1/questions'
     end
-    
+
   end
-  
+
 end

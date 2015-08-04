@@ -20,7 +20,7 @@ RSpec.describe "admin/content/pages/index", :type => :view do
 
   it "renders a list of admin/content/pages" do
     render
-    @pages.map(&:slug).each do |slug| 
+    @pages.map(&:slug).each do |slug|
       assert_select "tr>td", :text => slug,     :count => 1
     end
     assert_select "tr>td", :text => "Title",    :count => 2

@@ -84,6 +84,7 @@ class Lesson < ActiveRecord::Base
   # has_one :poster_maker, :class_name => "Lesson::PosterMaker", :dependent => :destroy
   has_many :user_lesson_states
 
+
   # ---------------------------------------------------------------------------------
   # Validations
   # ---------------------------------------------------------------------------------

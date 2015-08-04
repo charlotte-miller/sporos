@@ -26,8 +26,8 @@ class GroupMembership < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   attr_accessible :group_id, :user_id, :is_public
   alias_attribute :last_attended_at, :updated_at
-    
-  
+
+
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------
@@ -35,15 +35,15 @@ class GroupMembership < ActiveRecord::Base
   belongs_to :member, :class_name => "User", foreign_key: 'user_id',  inverse_of: :group_memberships
   # belongs_to :invitation, :class_name => "Message"
   # alias_method :invitation, :request
-  
-  
+
+
   # ---------------------------------------------------------------------------------
   # Validations
   # ---------------------------------------------------------------------------------
   validates_presence_of :group, :member
   validates_uniqueness_of :group_id, scope: :user_id
-  
-  
+
+
   # ---------------------------------------------------------------------------------
   # StateMachine
   # ---------------------------------------------------------------------------------
@@ -53,14 +53,14 @@ class GroupMembership < ActiveRecord::Base
     state :active
     state :banned
   end
-  
-  
+
+
   # ---------------------------------------------------------------------------------
   # Scopes
   # ---------------------------------------------------------------------------------
   scope :is_public, -> {where(is_public: true)}
-  
-  
+
+
   # ---------------------------------------------------------------------------------
   # Callbacks
   # ---------------------------------------------------------------------------------
@@ -69,13 +69,13 @@ class GroupMembership < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # Methods
   # ---------------------------------------------------------------------------------
-  
+
 private
   def keep_private_groups_private
     self.is_public &&= group.is_public
     self
   end
-  
+
   def send_invitation
     # SendInvitationEmail(member, group)
     # touch(:request_sent_at)

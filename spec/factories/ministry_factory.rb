@@ -16,31 +16,31 @@
 #
 
 FactoryGirl.define do
-  factory :ministry do      
+  factory :ministry do
     name {Faker::Lorem.words(3).split('').shuffle.join('').titlecase }
     description { "#{name.titlecase}'s Ministry is for #{name.downcase.pluralize}... coffee will be served." }
   end
-  
+
   factory :ministry_w_member, parent:'ministry' do
     ignore do
       user nil
       involvement_level nil
     end
-    
+
     after(:create) do |ministry, context|
       options = { ministry: ministry }
       options.merge!({level: context.involvement_level}) if context.involvement_level
       options.merge!({user: context.user}) if context.user
-      
+
       FactoryGirl.create(:involvement, options)
     end
   end
-  
+
   factory :populated_ministry, parent:'ministry' do
     ignore do
       n 2
     end
-    
+
     before(:create) do |ministry, context|
       Involvement.levels.values.each do |level_index|
         2.times do

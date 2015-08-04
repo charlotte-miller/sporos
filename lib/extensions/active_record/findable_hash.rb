@@ -7,7 +7,7 @@
 #
 module FindableHash
   extend ActiveSupport::Concern
-  
+
   def to_findable_hash
     { :klass => self.class.name,
       :id    => self.id }
@@ -22,5 +22,5 @@ class Hash
   end
 end
 
-# include the extension 
+# include the extension
 ActiveRecord::Base.send(:include, FindableHash)

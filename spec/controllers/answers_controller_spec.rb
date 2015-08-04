@@ -2,31 +2,31 @@ require 'rails_helper'
 
 describe AnswersController do
   login_user
-  
+
   before(:all) do
     @lesson   = create(:lesson)
     @question = create(:question, author:@user, source:@lesson, permanent_approver:nil)
     @valid_attributes = attributes_for(:answer, author:@user, question:@question).slice(:text)
   end
-  
+
   let(:valid_attributes) { @valid_attributes }
   let(:question) { @question }
   let(:answer) { create(:answer, author:@user, question:@question)}
 
   describe "GET index" do
     before(:each) { answer } #create
-    
+
     it "loads" do
       get :index, {question_id:question.id}
       should respond_with(:success)
     end
-    
+
     it "requires authentication" do
       sign_out current_user
       get :index, {question_id:question.id}
       should redirect_to '/login'
     end
-    
+
     it "assigns all answers as @answers" do
       get :index, {question_id:question.id}
       assigns(:answers).should eq([answer])
@@ -35,7 +35,7 @@ describe AnswersController do
 
   describe "GET show" do
     before(:each) { answer } #create
-    
+
     it "loads" do
       get :show, {:id => answer.to_param}
       should respond_with(:success)
@@ -46,7 +46,7 @@ describe AnswersController do
       get :show, {:id => answer.to_param}
       should redirect_to '/login'
     end
-    
+
     it "assigns the requested answer as @answer" do
       get :show, {:id => answer.to_param}
       assigns(:answer).should eq(answer)
@@ -59,7 +59,7 @@ describe AnswersController do
       post :create, {question_id:question.id, :answer => valid_attributes}
       should redirect_to '/login'
     end
-    
+
     describe "with valid params" do
       it "creates a new Answer" do
         expect {
@@ -102,15 +102,15 @@ describe AnswersController do
       put :update, {:id => answer.to_param, :answer => { "text" => "foo" }}
       should redirect_to '/login'
     end
-    
+
     it "is accessable only by the original author" do
       skip
       put :update, {:id => answer.to_param, :answer => { "text" => "foo" }}
     end
-    
+
     describe "with valid params" do
       before(:each) { answer } #create
-      
+
       it "updates the requested answer" do
         Answer.any_instance.should_receive(:update_attributes).with({ "text" => "foo" })
         put :update, {:id => answer.to_param, :answer => { "text" => "foo" }}
@@ -146,18 +146,18 @@ describe AnswersController do
 
   describe "DELETE destroy" do
     before(:each) { answer } #create
-    
+
     it "requires authentication" do
       sign_out current_user
       delete :destroy, {:id => answer.to_param}
       should redirect_to '/login'
     end
-    
+
     it "is accessable only by the original author" do
       skip
       delete :destroy, {:id => answer.to_param}
     end
-    
+
     it "destroys the requested answer" do
       expect {
         delete :destroy, {:id => answer.to_param}

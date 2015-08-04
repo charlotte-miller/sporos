@@ -33,18 +33,18 @@
 module Study::Search
   extend  ActiveSupport::Concern
   include Searchable
-    
+
   included do
     searchable_model do
       # [title, display_description, description, keywords, path] are already declaired
       indexes :last_published_at, type: 'date'
     end
-    
+
     scope :search_indexable, ->{} #-> { where('last_published_at IS NOT NULL') }
   end
-  
+
   module ClassMethods
-    
+
     def custom_import
       channel_to_type = {
         sermon: 'messages',
@@ -52,10 +52,10 @@ module Study::Search
         # drama:  'dramavideo',              # not in UI
         video:  ['studies', 'resources', 'coffeetalk', 'mens-retreat', 'dramavideo'],
       }
-      
+
       channel_to_type.each do |type, channel_name|
         channel_ids = Channel.where(slug:channel_name).pluck(:id)
-        
+
         import({
           # scoped to search_indexable by searchable.rb
           query: ->{ where(channel_id:channel_ids) } ,
@@ -64,7 +64,7 @@ module Study::Search
       end
     end
   end
-  
+
   def as_indexed_json(options={})
     {
       title:                title,

@@ -53,19 +53,19 @@ class Podcast < ActiveRecord::Base
   class << self
     def pull_updates(podcasts = Podcast.all)
       podcast_arr = Array.wrap(podcasts)
-      
+
       Podcast::Collector.new(podcast_arr) do |podcast_obj, podcast_xml|
         podcast_obj.touch(:last_checked)
-        
+
         channel = Podcast::RssChannel.new(podcast_xml)
         if (channel.last_updated > podcast_obj.last_updated rescue true)
           podcast_obj.update_channel( channel )
         end
       end.run!
     end
-    
+
   end #class << self
-  
+
 
   # Areas of Responcibility
   # - podcast (self)
@@ -90,10 +90,10 @@ class Podcast < ActiveRecord::Base
       # 4) save lesson
       lesson.save!
     end
-    
+
     # 5) Update Podcast.timestamps
     touch(:last_updated) if new_lessons.any?
-    
+
     self #chain
   end
 end

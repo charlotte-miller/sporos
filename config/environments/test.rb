@@ -36,13 +36,13 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-  
+
   config.assets.precompile += %w( teaspoon.css teaspoon-teaspoon.js jasmine/2.0.0.js jasmine/1.3.1.js teaspoon-jasmine.js)
 
   ActiveSupport::Deprecation.silenced = true
-  
+
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   routes.default_url_options = { host: 'localhost', port: 3000 }
-  
+
   config.action_mailer.perform_deliveries = false
 end

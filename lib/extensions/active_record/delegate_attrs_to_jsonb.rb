@@ -1,8 +1,8 @@
 module DelegateAttrsToJsonb
   extend ActiveSupport::Concern
-  
+
   module ClassMethods
-    
+
     def delegate_attrs_to_jsonb *args #options={to:jsonb_col}
       options    = args.extract_options!
       jsonb_col  = options[:to]
@@ -10,7 +10,7 @@ module DelegateAttrsToJsonb
       attr_names.each do |attr_name|
         self.table_name.classify.constantize.send(:define_method , jsonb_col ){ DeepStruct.new super() }
         delegate *attr_names, to:jsonb_col
-  
+
         attr_names.each do |virtual_attr|
           self.table_name.classify.constantize.send( :define_method, "#{virtual_attr}=" ) do |val|
             working_copy = self.send(jsonb_col).to_h
@@ -18,12 +18,12 @@ module DelegateAttrsToJsonb
             self.send "#{jsonb_col}=", working_copy
           end
         end
-      
+
       end
     end
-    
+
   end
 end
 
-# include the extension 
+# include the extension
 ActiveRecord::Base.send(:include, DelegateAttrsToJsonb)

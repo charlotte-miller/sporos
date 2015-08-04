@@ -1,13 +1,13 @@
 class SearchController < ApplicationController
   include ElasticsearchHelpers
-  
-  def index    
+
+  def index
     @results = Elasticsearch::Model.client.search({
       index: AppConfig.elasticsearch.index_name,
       type: types_w_defaults,
       # explain:true,
       # search_type:'count', #w/out hits
-      body: { 
+      body: {
         query: {
         # if query.length > 3
         # - update this with {}.merge
@@ -15,7 +15,7 @@ class SearchController < ApplicationController
             must:{
               bool:{
                 should:[
-                  { multi_match: { 
+                  { multi_match: {
                       query: query,
                       # fuzziness:'AUTO',
                       # prefix_length:3,
@@ -40,7 +40,7 @@ class SearchController < ApplicationController
               }
             },
             should:{
-              multi_match: { 
+              multi_match: {
                 query: query,
                 fields:[
                   'title.phrase_bi_grams',
@@ -59,7 +59,7 @@ class SearchController < ApplicationController
         # },
         suggest:{
           text: query,
-          
+
           autocomplete:{
             completion:{
               field:'keywords.autocomplete'
@@ -67,7 +67,7 @@ class SearchController < ApplicationController
           },
 
         },
-        
+
         highlight:{
           fields:{
             title:{},
@@ -86,17 +86,17 @@ class SearchController < ApplicationController
         _source: [:title, :display_description, :path],
       }.merge(pagination_options)
     })
-    
+
     filtered_results = {
       took: @results['took'],
       hits: @results['hits'],
       suggest: @results['suggest'],
       total_counts: total_counts,
     }
-    
+
     render json: MultiJson.dump(filtered_results, pretty:false)
   end
-  
+
   def preload
     @results = Elasticsearch::Model.client.search({
       index: AppConfig.elasticsearch.index_name,
@@ -107,45 +107,45 @@ class SearchController < ApplicationController
         query:{match_all:{}}
       }
     })
-      
+
     filtered_results = {
       took: @results['took'],
       hits: @results['hits'],
       # suggest: @results['suggest'],
       # total_counts: total_counts,
     }
-    
+
     render json: MultiJson.dump(filtered_results, pretty:false)
   end
-  
+
   # POST search/conversion
   def conversion
   end
-  
+
   # POST search/abandonment
   def abandonment
   end
-  
+
 
 private
   def search_params
     # params.require(:q)
     @search_params ||= params.permit(:q, :types, :page)
   end
-  
+
   def query
     q = search_params[:q]
     q = q[0...80] #cap at 50 char
     # q = ElasticsearchHelpers.sanitize_string( q )
   end
-  
+
   def types_w_defaults
     search_params[:types] || nil
   end
-  
+
   def pagination_options
     return {} unless search_params[:page]
-    
+
     page_size = 10
     result_count = page_size * search_params[:page]
     {
@@ -153,7 +153,7 @@ private
       from: result_count
     }
   end
-  
+
   def total_counts
     hash_w_total = {total:@results['hits']['total']}
     if @results['aggregations']

@@ -8,7 +8,7 @@ class CreateInvolvements < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-        
+
     add_index :involvements, [:ministry_id, :level], order: {level:'DESC'}
     add_index :involvements, [:user_id, :ministry_id], unique:true
   end

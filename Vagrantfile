@@ -5,7 +5,7 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  
+
   config.vm.define "app" do |role|
     role.vm.provider "docker" do |dock|
       # dock.build_dir = "."
@@ -14,14 +14,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       dock.cmd   = ["/sbin/my_init", "--enable-insecure-key"]
       dock.has_ssh = true
     end
-    
+
     role.ssh.username = "root"
     role.ssh.private_key_path = "phusion.key"
-    
+
     role.vm.provision "shell", inline: "echo Hello World"
     role.vm.synced_folder "./keys", "/vagrant"
   end
-  
+
   # config.vm.define "util" do |role|
   #   role.vm.provider "docker" do |d|
   #     d.build_dir = "./docker"
@@ -56,7 +56,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #     d.image = "dockerfile/nginx"
   #   end
   # end
-  
+
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.

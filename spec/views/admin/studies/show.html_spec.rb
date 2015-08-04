@@ -13,7 +13,7 @@ describe "admin/studies/show" do
   it "renders attributes in <p>" do
     render
     assert_select "#study"
-        
+
     rendered.should match "road-to-damascus"
     rendered.should match "Road to Damascus"
     rendered.should match "God famously meets us in the low places.  This is a study on God intersecting our high-points"

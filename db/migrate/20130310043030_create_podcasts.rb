@@ -9,7 +9,7 @@ class CreatePodcasts < ActiveRecord::Migration
 
       t.timestamps  null: false
     end
-    
+
     add_index :podcasts, :church_id
   end
 end

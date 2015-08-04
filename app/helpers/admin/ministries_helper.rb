@@ -1,5 +1,5 @@
 module Admin::MinistriesHelper
-  
+
   def edit_current_user_path
     ministries = current_user.ministries
     case current_user.ministries.length
@@ -11,5 +11,5 @@ module Admin::MinistriesHelper
       admin_ministries_path
     end
   end
-  
+
 end

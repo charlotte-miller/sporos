@@ -29,7 +29,7 @@
         / #carasel-toggle More From This Study
         / %br
         = link_to 'Download Audio', @lesson.audio.url
-        
+
     #all-lessons
       %ol
         - @study.lessons.each do |lesson|
@@ -38,13 +38,13 @@
               = lesson.title
               / = image_tag(lesson.poster_img.url(:thumbnail), height:200, width:300)
               %span.lesson-number= lesson.position
-          
+
   #similar-studies-lg
     = render partial: 'lessons/similar_studies'
 
 .clearfix
 / #discussion.fluid-row
 /   = render partial: 'lessons/discussion'
-  
+
 #similar-studies-sm-screen
   = render partial: 'lessons/similar_studies'

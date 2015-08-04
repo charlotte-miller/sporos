@@ -14,7 +14,7 @@
       %a{href:'#upload-video', data:{toggle:'tab'}} Upload Video
     %li{role:'presentation', class:(f.object.vimeo_id.present? ? 'active' : '')}
       %a{href:'#vimeo-video', data:{toggle:'tab'}} Use Vimeo
-  .tab-content  
+  .tab-content
     .field.tab-pane#upload-video{role:'tabpanel', class:(f.object.vimeo_id.present? ? '' : 'active')}
       #dropzone
         .row
@@ -26,7 +26,7 @@
           .col-xs-7
             %b Drag & Drop Here
         #dropzone-file-manager
-        
+
     .field.tab-pane#vimeo-video{role:'tabpanel', class:(f.object.vimeo_id.present? ? 'active' : '')}
       = react_component('CStone.Admin.Components.VimeoUploadHelp ', {vimeoId: f.object.vimeo_id}, {prerender: true})
 

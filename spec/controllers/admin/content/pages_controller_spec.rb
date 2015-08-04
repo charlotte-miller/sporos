@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Admin::Content::PagesController, :type => :controller do
   login_admin_user
-  
+
   before(:all) do
     @valid_attributes = attributes_for(:page)
     @valid_session    = {}
   end
-  
+
   let(:valid_attributes) { @valid_attributes }
   let(:invalid_attributes) { {title:'', body:''} }
   let(:valid_session)    { @valid_session }

@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_filter :authenticate_user!
   before_filter :set_question, :only => [:index, :create]#, :unless => format_json?
-  
+
   # GET questions/:id/answers
   # GET questions/:id/answers.json
   def index
@@ -70,13 +70,13 @@ class AnswersController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
   # POST /answers/1/block
   # POST /answers/1/block.json
   def block
     @question      = Question.find(params[:id])
     @block_request = BlockRequest.new(source: @question)
-    
+
     respond_to do |format|
       if @block_request.save
         format.html { redirect_to @block_request, notice: 'Answer Blocked.' }
@@ -87,7 +87,7 @@ class AnswersController < ApplicationController
       end
     end
   end
-  
+
   # POST /answers/1/star
   # POST /answers/1/star.json
   def star
@@ -95,7 +95,7 @@ class AnswersController < ApplicationController
       user_id: current_user.id,
       source:  current_source
     })
-    
+
     respond_to do |format|
       if @star.save
         format.html { redirect_to @star, notice: 'Answer Stared.' }
@@ -106,16 +106,16 @@ class AnswersController < ApplicationController
       end
     end
   end
-  
+
 private
 
   def set_question
     @question = Question.find(params[:question_id])
   end
-  
+
   def merge_author_and_question
    @answer.author      = current_user
    @answer.question_id = params[:question_id] if @answer.new_record?
   end
-  
+
 end

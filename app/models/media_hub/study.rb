@@ -36,11 +36,11 @@ class Study < ActiveRecord::Base
   include Sanitizable
   include AttachableFile
   include Study::Search
-  
+
   TEACHING_CHANNELS = %w{ messages studies resources mens-retreat coffeetalk }
   MUSIC_CHANNELS    = %w{ music }
   ARTS_CHANNELS     = %w{ dramavideo }
-  
+
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------

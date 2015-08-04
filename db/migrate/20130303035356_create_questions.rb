@@ -9,14 +9,14 @@ class CreateQuestions < ActiveRecord::Migration
       t.integer :answers_count,  default: 0
       t.integer :blocked_count,  default: 0
       t.integer :stared_count,   default: 0
-      
+
       t.timestamps  null: false
     end
-    
+
     add_index :questions, :user_id
     add_index :questions, [:source_id, :source_type]
     add_index :questions, [:stared_count, :answers_count]
-    
+
     # add_index :questions, :answers_count
   end
 end

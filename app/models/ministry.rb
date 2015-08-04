@@ -18,37 +18,37 @@
 class Ministry < ActiveRecord::Base
   include Sluggable
   slug_candidates :name
-  
+
   attr_protected #none - using strong params
-  
+
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------
   has_many :posts,        dependent: :destroy, inverse_of: :ministry
   has_many :involvements, dependent: :destroy, inverse_of: :ministry
-  
+
   has_many :users,      through: :involvements
   has_many :members,    ->{where 'involvements.level' => 0}, through: :involvements, source:'user'
   has_many :volunteers, ->{where 'involvements.level' => 1}, through: :involvements, source:'user'
   has_many :leaders,    ->{where 'involvements.level' => 2}, through: :involvements, source:'user'
   has_many :editors,    ->{where 'involvements.level' => 3}, through: :involvements, source:'user'
-  
+
   has_many :more_involved_than_a_members,    ->{where 'involvements.level > 0'}, through: :involvements, source:'user'
   has_many :more_involved_than_a_volunteers, ->{where 'involvements.level > 1'}, through: :involvements, source:'user'
   has_many :more_involved_than_a_leaders,    ->{where 'involvements.level > 2'}, through: :involvements, source:'user'
   has_many :more_involved_than_a_editors,    ->{where 'involvements.level > 3'}, through: :involvements, source:'user'
-  
+
   # ---------------------------------------------------------------------------------
   # Validations
   # ---------------------------------------------------------------------------------
   validates_presence_of   :name, :slug
   validates_uniqueness_of :name, :slug
-  
-  
+
+
   # ---------------------------------------------------------------------------------
   # Methods
   # ---------------------------------------------------------------------------------
-  
+
   def title
     name.titleize
   end

@@ -6,12 +6,12 @@
 # Enable parameter wrapping for JSON. You can disable this by setting :format to an empty array.
 ActiveSupport.on_load(:action_controller) do
   wrap_parameters format: [:json] if respond_to?(:wrap_parameters)
-  
+
   # Enable escaping HTML in JSON.
   escape_html_entities_in_json = true
 end
 
 # To enable root element in JSON for ActiveRecord objects.
 ActiveSupport.on_load(:active_record) do
- self.include_root_in_json = false  #for BackboneJS 
+ self.include_root_in_json = false  #for BackboneJS
 end

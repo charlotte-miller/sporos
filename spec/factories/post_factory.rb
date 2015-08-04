@@ -37,7 +37,7 @@ FactoryGirl.define do
     before(:create, :stub) { AWS.stub! if Rails.env.test? }
     after(:build) {|post, context| post.generate_missing_public_id }
     # after(:build) {|post, context| post.class.skip_callback(:create, :after, :request_approval!) }
-    
+
     # type            'Posts::Link'
     current_session {rand(1_000_000).to_s}
     ministry
@@ -49,34 +49,34 @@ FactoryGirl.define do
     rejected_at  nil
     published_at nil
     expired_at   nil
-    
+
     # factory :post_w_approval_requests do
     #   after(:create) {|post, context| post.send(:request_approval!)}
     # end
   end
-  
+
   factory :published_post, parent:'generic_post' do
     published_at {Time.now - 1.minute}
   end
-  
+
   factory :post_link, parent:'generic_post', class:'Posts::Link', aliases:[:post] do
     ignore do
       url {Faker::Internet.url}
     end
-    
+
     type 'Posts::Link'
     display_options { {url: url } }
   end
-  
+
   factory :post_event, parent:'generic_post', class:'Posts::Event' do
     ignore do
       event_time { Time.parse("10:00 AM") }
       event_date { Date.today+2.weeks }
     end
-    
+
     type       'Posts::Event'
     display_options {{
-      event_time:event_time.strftime('%l:%M %p'), 
+      event_time:event_time.strftime('%l:%M %p'),
       event_date:event_date.strftime('%d %b, %Y'),
       location:'Here... right here',}}
   end
@@ -84,10 +84,10 @@ FactoryGirl.define do
   factory :post_page, parent:'generic_post', class:'Posts::Page' do
     type 'Posts::Page'
   end
-  
+
   factory :post_photo, parent:'generic_post', class:'Posts::Photo' do
     type 'Posts::Photo'
-    
+
     ignore do
       uploaded_file true
       uploaded_file_image 'unset'
@@ -102,15 +102,15 @@ FactoryGirl.define do
       end
     end
   end
-  
+
   factory :post_video, parent:'generic_post', class:'Posts::Video' do
     after(:build) {|post, context| post.class.skip_callback(:save, :before, :update_vimeo_details) }
     ignore do
       vimeo_id '124184882'
     end
-    
+
     type 'Posts::Video'
     display_options { {vimeo_id: vimeo_id} }
   end
-  
+
 end

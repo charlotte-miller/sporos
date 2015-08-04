@@ -16,8 +16,8 @@ class CStone.Community.News
 
     filter: (filter_str)=>
       @isotope.arrange({filter: filter_str})
-  
-  
+
+
   # CStone.Community.News.feed
   @feed: 'CStone.Community.News not initialized'
   @init: =>
@@ -26,7 +26,7 @@ class CStone.Community.News
       @feed = new Feed('#cards', '.card')
       @feed.isotope.on 'layoutComplete', @feed.reflow
       @feed.reflow()
-    
+
     # Initialize Jquery
     $ ->
       $("#cards img").unveil 300, '#main-page'

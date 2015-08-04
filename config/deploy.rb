@@ -36,13 +36,13 @@ namespace :deploy do
   # before "deploy",                 "deploy:check_revision"
   # before "deploy:create_symlink",  "deploy:sidekiq_stop"
   # after  "deploy:create_symlink",  "deploy:sidekiq_start"
-  
+
   # before "deploy:cold", "deploy:install_bundler"
 
   # task :install_bundler, :roles => :app do
   #   run "type -P bundle &>/dev/null || { gem install bundler --no-rdoc --no-ri; }"
   # end
-  
+
   task :setup_config, roles: :app do
     sudo "ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
     sudo "ln -nfs #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn_#{application}"
@@ -50,11 +50,11 @@ namespace :deploy do
     put File.read("config/database.example.yml"), "#{shared_path}/config/database.yml"
     puts "Now edit the config files in #{shared_path}."
   end
-  
+
   task :symlink_config, roles: :app do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
   end
-  
+
   desc "Make sure local git is in sync with remote."
   task :check_revision, roles: :web do
     unless `git rev-parse HEAD` == `git rev-parse origin/master`
@@ -74,7 +74,7 @@ namespace :deploy do
     run "(test -e /etc/init.d/prebuy_sidekiq && /etc/init.d/prebuy_sidekiq stop) || $(exit 0)"
     sleep 5
   end
-  
+
   # Unicorn
   %w[start stop restart].each do |command|
     desc "#{command} unicorn server"

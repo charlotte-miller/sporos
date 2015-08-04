@@ -2,7 +2,7 @@ require 'rails_helper'
 
 module Lesson::SimilarityHeuristic
   describe NumericTitle do
-    
+
     describe '#maches?' do
       it "matches lessons that differ ONLY by a number" do
         matching_title_pairs = [
@@ -23,6 +23,6 @@ module Lesson::SimilarityHeuristic
         end
       end
     end
-    
+
   end
 end

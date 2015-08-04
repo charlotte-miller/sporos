@@ -19,7 +19,7 @@ module HttpAuthentication
   RESQUE_DASHBOARD = Rack::Auth::Basic.new(Resque::Server) do |username, password|
     [username, password] == CREDENTIALS
   end
-  
+
   # OR w/ Devise https://github.com/resque/resque/wiki/FAQ#how-do-you-protect-resque-web-with-devise
 end
 

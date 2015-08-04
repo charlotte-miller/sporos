@@ -10,7 +10,7 @@ class CreateGroupMemberships < ActiveRecord::Migration
 
       t.timestamps  null: false
     end
-    
+
      add_index :group_memberships, [  :user_id, :is_public ]
      add_index :group_memberships, [  :group_id,  :user_id   ], unique:true
      add_index :group_memberships, :state

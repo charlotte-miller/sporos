@@ -7,7 +7,7 @@ describe QuestionsController do
     @study   = create(:study)
     @lesson  = create(:lesson, study_id:@study.id)
     @group   = create(:group)
-    @meeting = create(:meeting, group:@group)
+    @meeting = create(:meeting, lesson:@lesson, group:@group)
     @valid_attributes = attributes_for(:question).merge(author: @user)
   end
 

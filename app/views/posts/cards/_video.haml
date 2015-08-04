@@ -2,7 +2,7 @@
 .card.video{class:ministry_class(@post)}
   %a.thumbnail{href: post_path(id:@post)}
     = react_component('CStone.Shared.Components.VimeoPlayer', {vimeoId: @post.vimeo_id}, {prerender: true})
-    
+
     .captions
       %h3.title= @post.title
       %p.description= @post.description

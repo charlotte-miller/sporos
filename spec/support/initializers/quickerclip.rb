@@ -1,4 +1,4 @@
-# inspired by https://gist.github.com/406460 and 
+# inspired by https://gist.github.com/406460 and
 # http://pivotallabs.com/users/rolson/blog/articles/1249-stubbing-out-paperclip-imagemagick-in-tests
 # plus some additional monkeypatching to prevent "too many files open" err's
 #

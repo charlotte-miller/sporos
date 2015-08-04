@@ -7,7 +7,7 @@ class CreateChannels < ActiveRecord::Migration
 
       t.timestamps          null: false
     end
-    
+
     add_index :channels, :position
     add_index :channels, :slug,     unique:true
   end

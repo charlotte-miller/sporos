@@ -21,7 +21,7 @@ class Tempfile
 
   # Replaces Tempfile's +make_tmpname+ with one that honors file extensions.
   # Copied from Paperclip
-  
+
   # Due to how ImageMagick handles its image format conversion and how
   # Tempfile handles its naming scheme, it is necessary to override how
   # Tempfile makes # its names so as to allow for file extensions. Idea

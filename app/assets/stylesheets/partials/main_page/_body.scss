@@ -1,7 +1,7 @@
 #main-body{
   @extend .container-fluid;
 }
-    
+
     #evergreen-links{
       @extend .row;
       margin:20px 0 -20px 0;
@@ -13,7 +13,7 @@
           text-align:center;
           height:100px;
         }
-        
+
         .panel-body{
           padding:0px;
           line-height: 90px;
@@ -25,18 +25,18 @@
         #new-to-cornerstone{ }
         #times-and-locations{ }
         #invest-in-cornerstone{ }
-    
+
     #current-content-nav{
       @extend .nav;
       @extend .nav-tabs;
       margin: 0 -15px;
       padding: 0 15px;
-      
+
       .active > a{
         background-color:$gray-lighter !important;
       }
     }
-    
+
     #comming-up{
       @include gradient-vertical($gray-lighter, #FFF, 0%, 20%);
       margin: 0px -15px;
@@ -45,7 +45,7 @@
         padding:0px 47px;
       }
     }
-        
+
         #community-feed{
           @extend .col-xs-12;
           font-size: $font-size-large;
@@ -63,7 +63,7 @@
                 padding-right:16px;
               }
             }
-            
+
               #adults-link{
                 @extend .visible-xs;
               }

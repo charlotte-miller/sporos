@@ -47,12 +47,12 @@
 module Lesson::Search
   extend  ActiveSupport::Concern
   include Searchable
-    
+
   included do
     searchable_model do
       # [title, display_description, description, keywords, path] are already declaired
-      
-      indexes :study_title, 
+
+      indexes :study_title,
                analyzer: 'english',      # boost:1.5
                index_options: 'offsets',
                fields:{
@@ -61,16 +61,16 @@ module Lesson::Search
                  #   index:'not_analyzed'
                  # },
                }
-               
+
       indexes :author,      analyzer: 'stop'
       indexes :duration,    type:'long'
     end
-    
-    scope :search_indexable, ->{} #-> { where('published_at IS NOT NULL') }    
+
+    scope :search_indexable, ->{} #-> { where('published_at IS NOT NULL') }
   end
-  
+
   module ClassMethods
-    
+
     def custom_import
       channel_to_type = {
         sermon: 'messages',
@@ -78,11 +78,11 @@ module Lesson::Search
         # drama:  'dramavideo',              # not in UI
         video:  ['studies', 'resources', 'coffeetalk', 'mens-retreat', 'dramavideo'],
       }
-      
+
       channel_to_type.each do |type, channel_name|
         channel_ids = Channel.where(slug:channel_name).pluck(:id)
         study_ids = Study.where(channel_id:channel_ids).pluck(:id)
-        
+
         import({
           # scoped to search_indexable by searchable.rb
           query: ->{ where(study_id:study_ids) } ,
@@ -91,7 +91,7 @@ module Lesson::Search
       end
     end
   end
-  
+
   def as_indexed_json(options={})
     {
       title:                title,

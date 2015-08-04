@@ -14,14 +14,14 @@ module Paperclip
     let(:result)  { run_make }
 
     it { should be_kind_of( ::Paperclip::Processor) }
-    
+
     describe '#make' do
       it 'ignores videos that are already in Vimeo' do
         expect(subject).to_not receive(:generate_vimeo_ticket!)
         lesson.video_remote_url = 'https://vimeo.com/45678'
         run_make
       end
-      
+
       it 'uploads to vimeo' do
         run_make
         response = Typhoeus.get("https://api.vimeo.com/videos/#{subject.vimeo_video_id}", headers: {"Authorization" => "bearer #{AppConfig.vimeo.token}"})
@@ -30,13 +30,13 @@ module Paperclip
         expect(video_data.name).to eq(lesson.title)
         expect(video_data.description).to eq(lesson.description)
       end
-      
+
       it 'stores the video_vimeo_id' do
         run_make
         expect(subject.vimeo_video_id).not_to be_nil
         expect(subject.vimeo_video_id).to eq(subject.vimeo_video_id)
       end
-      
+
       it 'leaves video_original_url for reference' do
         run_make
         expect(lesson.video_original_url).to eq('http://foo.com/bar')

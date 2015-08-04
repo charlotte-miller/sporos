@@ -1,10 +1,10 @@
 module Typhoeus
-  
+
   # Creates a Typhoeus request (w/ error handling)
   # Executes the block (passing response )
   def self.go_to_url_then( url, &on_success )
     raise ArgumentError.new('Block Required') unless block_given?
-    
+
     request = Typhoeus::Request.new(url, followlocation: true)
     request.on_complete do |response|
       return on_success.call(response)                if response.success?
@@ -14,5 +14,5 @@ module Typhoeus
     end
     request.run
   end
-  
+
 end

@@ -39,7 +39,7 @@ http_interactions:
         </html>
 
 '
-    http_version: 
+    http_version:
   recorded_at: Sat, 07 Dec 2013 18:47:42 GMT
 - request:
     method: get
@@ -98,7 +98,7 @@ http_interactions:
         documents. You may use this\n    domain in examples without prior coordination
         or asking for permission.</p>\n    <p><a href=\"http://www.iana.org/domains/example\">More
         information...</a></p>\n</div>\n</body>\n</html>\n"
-    http_version: 
+    http_version:
   recorded_at: Sat, 07 Dec 2013 19:26:39 GMT
 - request:
     method: get
@@ -818,7 +818,7 @@ http_interactions:
         a=document.createElement(\"script\");\nvar b=document.getElementsByTagName(\"script\")[0];\na.src=document.location.protocol+\"//dnn506yrbagrg.cloudfront.net/pages/scripts/0013/0301.js?\"+Math.floor(new
         Date().getTime()/3600000);\na.async=true;a.type=\"text/javascript\";b.parentNode.insertBefore(a,b)},
         1);\n</script>\n<!-- END CRAZYEGG TRACKING -->\n</body>\n</html>\n"
-    http_version: 
+    http_version:
   recorded_at: Sat, 07 Dec 2013 19:50:08 GMT
 - request:
     method: get
@@ -919,6 +919,6 @@ http_interactions:
         ["player._trackPageview"]];c=a.createElement("script");c.async=!0;c.src="http://www.google-analytics.com/ga.js";e.parentNode.insertBefore(c,e)}})(document,document.getElementById("player"));
 
         </script>'
-    http_version: 
+    http_version:
   recorded_at: Sun, 08 Dec 2013 02:55:53 GMT
 recorded_with: VCR 2.6.0

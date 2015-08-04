@@ -9,8 +9,8 @@ class CreateApprovalRequests < ActiveRecord::Migration
       t.datetime   :last_vistited_at, null:false
       t.timestamps null: false
     end
-    
-    
+
+
     add_index :approval_requests, [:user_id, :post_id], unique:true
     add_index :approval_requests, [:user_id, :status]
     add_index :approval_requests, :post_id

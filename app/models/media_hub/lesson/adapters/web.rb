@@ -18,7 +18,7 @@ module Lesson::Adapters
       end
     end
 
-    def initialize( url, nokogiri_doc )      
+    def initialize( url, nokogiri_doc )
       @url, @nokogiri_doc = url, nokogiri_doc
       load_adapter
     end

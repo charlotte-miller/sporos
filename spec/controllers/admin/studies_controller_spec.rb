@@ -2,11 +2,11 @@ require 'rails_helper'
 
 describe Admin::StudiesController do
   login_admin_user
-  
+
   before(:each) do
     AWS.stub!
   end
-  
+
   before(:all) do
     @podcast = create(:podcast)
     @study   = create(:study, podcast:@podcast)
@@ -14,14 +14,14 @@ describe Admin::StudiesController do
       .merge({ podcast_id:@podcast.id, title:@study.slug })
       .except(:lessons)
   end
-  
+
   let!(:podcast){ @podcast }
   let!(:study){ @study }
   let(:valid_attributes){ @valid_attributes }
-  
+
   describe "GET index" do
     before(:each) { get :index, {} }
-    
+
     it { should respond_with(:success) }
     it "assigns all studies as @studies" do
       assigns(:studies).should eq([study])
@@ -30,7 +30,7 @@ describe Admin::StudiesController do
 
   describe "GET show" do
     before(:each) { get :show, {:id => study.to_param} }
-    
+
     it { should respond_with(:success) }
     it "assigns the requested study as @study" do
       assigns(:study).should eq(study)
@@ -39,7 +39,7 @@ describe Admin::StudiesController do
 
   describe "GET new" do
     before(:each) { get :new, {} }
-    
+
     it { should respond_with(:success) }
     it "assigns a new study as @study" do
       assigns(:study).should be_a_new(Study)
@@ -48,7 +48,7 @@ describe Admin::StudiesController do
 
   describe "GET edit" do
     before(:each) { get :edit, {:id => study.to_param} }
-    
+
     it { should respond_with(:success) }
     it "assigns the requested study as @study" do
       assigns(:study).should eq(study)
@@ -56,10 +56,10 @@ describe Admin::StudiesController do
   end
 
   describe "POST create" do
-    describe "with valid params" do    
+    describe "with valid params" do
       it "creates a new Study" do
         expect {
-          post :create, {:study => valid_attributes} 
+          post :create, {:study => valid_attributes}
         }.to change(Study, :count).by(1)
       end
 
@@ -93,7 +93,7 @@ describe Admin::StudiesController do
   end
 
   describe "PUT update" do
-    describe "with valid params" do    
+    describe "with valid params" do
       it "updates the requested study" do
         # Assuming there are no other study in the database, this
         # specifies that the Study created on the previous line
@@ -115,7 +115,7 @@ describe Admin::StudiesController do
     end
 
     describe "with invalid params" do
-            
+
       it "assigns the study as @study" do
         # Trigger the behavior that occurs when invalid params are submitted
         Study.any_instance.stub(:save).and_return(false)

@@ -12,7 +12,7 @@
 
 $ ->
   CStone.Shared.logger.info('Auth Page Initialized')
-  
+
   $main_header  = $('#auth-background')
   video_element = $main_header.vide(
     mp4:    "http://vodkabears.github.io/vide/video/ocean.mp4"
@@ -29,18 +29,18 @@ $ ->
     $main_header.css({background:'none'})
     $(@).unbind 'loadeddata'
 
-  
+
   # =====================================
   # =            File Upload            =
   # =====================================
-  
+
   progress_data = {visible:0, actual:0, img_ready:false}
   @handleProgress = (e, data, ceiling=359)->
     loader = document.getElementById('loader')
     border = document.getElementById('border')
     π = Math.PI
     progress_data.actual= parseInt(360 * (data.loaded / data.total), 10)
-  
+
     # Animate to Value
     (draw = ->
       α = _([progress_data.visible += 1, ceiling]).min()
@@ -51,10 +51,10 @@ $ ->
       anim = 'M 0 0 v -125 A 125 125 1 ' + mid + ' 1 ' + x + ' ' + y + ' z'
       loader.setAttribute 'd', anim
       border.setAttribute 'd', anim
-      
+
       # Crude Animation
       setTimeout( draw, 20 ) unless α >= _([progress_data.actual, ceiling]).min()
-      
+
       if α >= 360 && progress_data.img_ready
         $(".img-circle").attr("src", progress_data.img_ready )
         progress_data = {visible:0, actual:0, img_ready:false}
@@ -67,10 +67,10 @@ $ ->
         loader.setAttribute 'd', anim
         border.setAttribute 'd', anim
     )()
-  
+
   if $('#edit_user').length
     $(document).on 'drop dragover', (e)-> e.preventDefault() #prevent's browser from just opening the file
-        
+
     $('#edit_user').fileupload
       limitConcurrentUploads: 3
       dataType: 'json'
@@ -113,5 +113,5 @@ $ ->
           setTimeout ->
             cache_busted_url = image.attr('src').replace /\?\d*$/, "?#{+new Date}"
             image.attr('src', cache_busted_url)
-          , 1000  
-  
+          , 1000
+

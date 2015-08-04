@@ -8,9 +8,9 @@ module Rack
       attr_reader :rules
 
       #  Provides a method for setting the rewrite rules in a yaml file.
-      #  
+      #
       #  Relys on Yaml to correctly produce ruby types like regex and then pushes
-      #  those values into a ruleset - giving the same result as if the DSL was 
+      #  those values into a ruleset - giving the same result as if the DSL was
       #  used.
 
       def initialize(options)

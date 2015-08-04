@@ -8,7 +8,7 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
     'keypress .text'        : 'onInputKey'
     'cut      .text'        : 'onInputKey'
     'paste    .text'        : 'onInputKey'
-    
+
   modelEvents: (active=false)=>
     if active
       @listenTo @session, 'change:current_search',    @thenUpdateText
@@ -18,12 +18,12 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
       @listenTo @session, 'change:dropdown_visible',  @thenScrollToMainUI
     else
       @stopListening @session
-  
+
   initialize: =>
     @session = CStone.Community.Search.session
     @session.on 'change:active_ui', @onUIActivationChange
     _.defer( @onInputFocus ) if @$('.text').is(":focus") #already focused
-  
+
   onUIActivationChange: (e)=>
     active = @ui_name == @session.get('active_ui')
     @modelEvents(active)
@@ -34,12 +34,12 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
     e.preventDefault() if e
     @session.set active_ui: @ui_name #triggers listeners - must be first
     @session.set dropdown_visible:true
-  
+
   onIconClick: (e)=>
     e.preventDefault()
     @session.set active_ui: @ui_name #triggers listeners - must be first
     @session.toggle('dropdown_visible')
-  
+
   onSubmit: (e)->
     e.preventDefault()
     @session.acceptHint()
@@ -55,7 +55,7 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
       13: 'enter',
       38: 'up',
       40: 'down'
-    
+
     # keydown allows preventDefault()
     if e.type=='keydown' && specialKeyCodeMap[key_code]
       switch specialKeyCodeMap[e.which]
@@ -89,10 +89,10 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
         @session.set( current_search: e.target.value )
 
 
-  
+
   # React to Models - Change DOM
   # ----------------------------------------------------------------------
-  
+
   thenOpenDropdown: =>
     @_createDropdown()
     @$el.addClass('search-focused')
@@ -109,12 +109,12 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
       @thenOpenDropdown()
     else
       @thenCloseDropdown()
-  
+
   thenUpdateText: =>
     return if @$('.text').val() == @session.get('current_search')
     @$('.text').val(@session.get('current_search'))
     @$('.text').putCursorAtEnd()
-  
+
   thenUpdateHint: =>
     if @session.get('hint_visible')
       @$('.search-hint').val(@session.get('current_hint'))
@@ -123,15 +123,15 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
 
   thenScrollToMainUI: =>
     return unless @ui_name=='main' && @session.get('dropdown_visible')
-    
+
     col_sm_min = 768
     container  = $('#main-page')
     scroll_to  = if container.width() < col_sm_min then '#global-search' else '#main-header'
-    
+
     $(scroll_to).smoothScroll CStone.Animation.layoutTransition.duration, CStone.Animation.layoutTransition.easing,
       container: container
       offset:    -100 #offset mobile address-bars
-  
+
   # Internal
   # ----------------------------------------------------------------------
   _createDropdown: =>
@@ -140,7 +140,7 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
       parent_view: @
     @$('.search').append(@dropdown.el)
     @dropdown.render()
-    
+
   _destroyDropdown: =>
     @dropdown.remove()
     @dropdown = null

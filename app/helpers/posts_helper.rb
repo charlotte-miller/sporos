@@ -1,19 +1,19 @@
 module PostsHelper
-  
+
   def ministry_class(post)
     post.ministry.slug
   end
-  
+
   def post_type_of(post)
     post.class.name.sub(/^Posts::/,'').downcase
   end
-  
+
   def render_partial_for(post)
     Rails.cache.fetch(post) do
       render partial:"posts/cards/#{post_type_of(post)}", locals:{post:post}
     end
   end
-  
+
   # Only parses twice if url doesn't start with a scheme
   def get_host_domain(url)
     uri = URI.parse(url)
@@ -22,10 +22,10 @@ module PostsHelper
     # host.start_with?('www.') ? host[4..-1] : host
     host.split('.')[-2..-1].join('.')
   end
-  
+
   def comments_data
     raise ArgumentError.new('Missing required instance variable') unless @comments && @post && @current_users_approval_request
-    
+
     @comments_data ||= {
       approval_request_id: @current_users_approval_request.id,
       approval_request_path: Rails.application.routes.url_helpers.admin_approval_request_path(@current_users_approval_request),
@@ -34,7 +34,7 @@ module PostsHelper
         id:current_user.id,
         status: @current_users_approval_request.status ,
         is_author: current_user == @post.author },
-      comments: @comments.map do |comment| 
+      comments: @comments.map do |comment|
         { id:comment.id,
           text:comment.body,
           author_id: comment.author.id }

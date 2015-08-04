@@ -1,21 +1,21 @@
 class CStone.Community.Search.Views.SuggestionsSources extends CStone.Shared.Backbone.ExtendedView
   className:'suggestions-nav'
   template: HandlebarsTemplates['suggestions/sources']
-    
+
   events:
     'click .suggestion-nav-source' : 'onNavClick'
-  
+
   initialize: =>
     @collection         = @session.get('sources')
     @results_collection = @session.get('results')
     @throttledRender    = _.debounce(@render, 100)
     @modelEvents()
-    
+
   modelEvents: =>
     @listenTo @results_collection, 'filtered:change',        @thenUpdateFocus
     @listenTo @results_collection, 'filtered:reset',         @thenUpdateFocus
     @listenTo @results_collection, 'filtered:filters:reset', @thenUpdateFocus
-  
+
   templateData: =>
     grouped_results = @results_collection.allGrouped()
     source_nav_data = @collection.map (source)=>
@@ -33,9 +33,9 @@ class CStone.Community.Search.Views.SuggestionsSources extends CStone.Shared.Bac
       isAll:  true
       showMe: _(grouped_results).size() != 1
       focusClass: if @collection.findWhere(focus:true) then '' else 'active'
-    
+
     return source_nav_data
-    
+
 
   # React to DOM - Change Models
   # ----------------------------------------------------------------------
@@ -50,9 +50,9 @@ class CStone.Community.Search.Views.SuggestionsSources extends CStone.Shared.Bac
     @sources_collection.updateFocus(to_focus)
     @render()
     @parent_view.$('.text').focus()
-    
-    
-  
+
+
+
   # React to Models - Change DOM
   # ----------------------------------------------------------------------
   thenUpdateFocus: =>
@@ -61,5 +61,5 @@ class CStone.Community.Search.Views.SuggestionsSources extends CStone.Shared.Bac
     to_focus = @collection.findWhere(name: filter )
     @collection.updateFocus(to_focus)
     @render()
-    
-  
+
+

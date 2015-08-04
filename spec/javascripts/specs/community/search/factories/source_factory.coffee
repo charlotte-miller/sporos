@@ -10,7 +10,7 @@ BackboneFactory.define_sequence 'source_data', (n)->
 BackboneFactory.define 'source', CStone.Community.Search.Models.AbstractSource, ->
   name:   BackboneFactory.next('source_name')
   local:  BackboneFactory.next('source_data')
-  
+
   # session: Factory.session(sources:'dummy')
   # title:       'Your Title Here'
   # description: 'string, function, or another Factory'

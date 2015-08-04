@@ -8,7 +8,7 @@ CStone.Community.Search.init()
 
 $ ->
   CStone.Shared.logger.info('Main Page Initialized')
-  
+
   $main_header  = $('#main-header')
   video_element = $main_header.vide(
     mp4:    "http://vodkabears.github.io/vide/video/ocean.mp4"
@@ -33,7 +33,7 @@ $ ->
     $('#headroom').addClass('headroom--unpinned')
 
     CStone.Base.Pages.layout.loadPage $(@).prop('href')
-  
+
   $('#headroom').headroom
     offset : 800
     scroller: document.getElementById('main-page')

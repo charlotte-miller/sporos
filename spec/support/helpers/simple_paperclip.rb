@@ -2,7 +2,7 @@
 #
 # Simple and lightweight object that can use Paperclip
 #
-# 
+#
 # Customized part can be extracted in another class which
 # would inherit from SimplePaperclip.
 #
@@ -25,7 +25,7 @@ class SimplePaperclip
   define_model_callbacks :destroy, only: [:before, :after]
 
   def save
-    run_callbacks :save do 
+    run_callbacks :save do
       self.id = 1000 + Random.rand(9000)
     end
     return true
@@ -36,7 +36,7 @@ class SimplePaperclip
   end
 
   def updated_at_short
-    return Time.now.to_s(:autosave_time) 
+    return Time.now.to_s(:autosave_time)
   end
 
   def errors

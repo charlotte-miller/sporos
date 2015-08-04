@@ -5,29 +5,29 @@
   -o-background-size: cover;
   background-size: cover;
   @extend %transitionHeight;
-  
+
   height:400px;
   @media (max-width: $screen-sm-min) {
     height:300px;
   }
 
   .container{ height:inherit; }
-  
+
   .submit > .glyphicon{
     top:3px;
   }
-  
+
   &.search-focused{
     height:100%;
-    
+
     .container > #main-header-content{
        top:10%;
     }
-    
+
     .suggestions{
       height:500px;
     }
-    
+
     .submit > .glyphicon {
       @extend .glyphicon-remove;
     }
@@ -45,11 +45,11 @@
     #logo{
       @extend .col-md-4;
       display:inline-block;
-  
+
       margin-top:20px;
       border-right:white solid 1px;
       text-align:right;
-  
+
 
       @media (max-width: $screen-md-min) {
         border-right:none;
@@ -61,7 +61,7 @@
       .search-form{
         @extend .col-md-8;
         margin-top: 60px;
-  
+
         @media (max-width: $screen-md-min) {
           margin-top: 15px;
         }

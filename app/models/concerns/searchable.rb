@@ -2,9 +2,9 @@
 #
 module Searchable
   extend ActiveSupport::Concern
-  
+
   REQUIRED_KEYS = [:title, :display_description, :path, :description, :keywords]
-  
+
   included do
     include Sanitizable
     include ActionView::Helpers::TextHelper #truncate, excerpt, hightlight, etc.
@@ -12,7 +12,7 @@ module Searchable
     delegate :url_helpers, to: 'Rails.application.routes'
 
     # include Elasticsearch::Model::Callbacks  # https://github.com/elasticsearch/elasticsearch-rails/tree/master/elasticsearch-model#asynchronous-callbacks
-    
+
     class << self
       def import_with_scope( options = {} )
         import_without_scope({ scope: 'search_indexable' }.merge(options))
@@ -28,9 +28,9 @@ module Searchable
 
       class_eval do
         index_name     AppConfig.elasticsearch.index_name
-        document_type  options.type || name.downcase 
-        
-        settings index: { 
+        document_type  options.type || name.downcase
+
+        settings index: {
           number_of_shards: 1,
           number_of_replicas: 0,
           analysis: {
@@ -67,7 +67,7 @@ module Searchable
                   'christ => jesus',
                 ]
               },
-              
+
               cstone_stopwords:{
                 type:'stop',
                 stopwords:['pastor', 'chruch']
@@ -114,7 +114,7 @@ module Searchable
                 tokenizer: 'classic',
                 filter:['trim', 'lowercase', 'asciifolding', 'stop', 'cstone_synonyms', 'cstone_stopwords', 'porter_stem'], #'wordnet_synonym'
               },
-              
+
               html_word_edge_ngram__index:{
                 type:'custom',
                 char_filter: ['html_strip', '&_to_and', '@_to_at'],
@@ -176,7 +176,7 @@ module Searchable
                        # },
                      }
 
-            indexes :description, 
+            indexes :description,
                      analyzer: 'html_stem',
                      fields:{
 
@@ -215,7 +215,7 @@ module Searchable
                      }
                      # boost:2.0
                      #might makes sense to stem bible verses
-                            
+
             # Not Searchable
             indexes :path,                index:'no'
             indexes :display_description, index:'no'
@@ -226,21 +226,21 @@ module Searchable
         end
       end
     end
-    
+
   end #ClassMethods
-  
-  
+
+
 private
-  
-  # Helpers - could be analyzers  
+
+  # Helpers - could be analyzers
   def shorter_plain_text(str, truncate_options={})
     truncate( plain_text(str), {
       length:50,
-      omission:'...', 
+      omission:'...',
       separator: ' '
     }.merge(truncate_options))
   end
-  
+
   # def dont_stem(*terms)
   #   (BOOKS_OF_THE_BIBLE | terms).map(&:downcase).uniq
   # end

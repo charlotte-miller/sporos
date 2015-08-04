@@ -11,7 +11,7 @@ describe "lessons/show" do
     @lessons = assign(:lessons, @study.lessons)
     @lesson  = assign(:lesson, @lessons.first)
     @video   = assign(:video, @lessons.first.video)
-    
+
     render
   end
 
@@ -22,7 +22,7 @@ describe "lessons/show" do
       # @church.name,
     ].each {|info| rendered.should match(info) }
   end
-  
+
   it "renders the Study's media" do
     pending 'doing media conversion instead of using vimeo'
 
@@ -32,10 +32,10 @@ describe "lessons/show" do
       rendered.should match( url_to_regex( @lesson.video.url(format) ))
     end
   end
-    
+
   it "renders links to the Study's lessons" do
     # assert_select '.lessons', count:@lessons.length
-    @lessons.each do |lesson| 
+    @lessons.each do |lesson|
       # assert_select "#lesson_#{lesson.id}"
       assert_select "img[src=#{lesson.poster_img.url(:thumbnail)}]"
       rendered.should match( url_to_regex(study_lesson_path(@study, lesson)) )

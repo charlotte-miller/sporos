@@ -18,11 +18,11 @@
 
 require 'active_support'
 FactoryGirl.define do
-  factory :podcast do  
+  factory :podcast do
     ignore do
       study nil
     end
-    
+
     church
     studies { [study].compact }
     title   { "#{church.name} Sermons" }
@@ -30,13 +30,13 @@ FactoryGirl.define do
     last_updated 2.days.ago
     last_checked 1.day.ago
   end
-  
+
   # creates a podcast w/ a single study
   factory :podcast_w_study, parent:'podcast' do |podcast|
     study {FactoryGirl.create(:study, last_published_at:Time.now, podcast:build_stubbed(:podcast) )}
     after(:create) {|podcast| podcast.reload }
   end
-  
+
   # creates a podcast w/ 'n' number of assocaiated studies
   factory :podcast_w_studies, aliases:[:podcast_with_n_studies], parent:'podcast' do |podcast|
     ignore  { n 2 }

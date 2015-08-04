@@ -9,7 +9,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       ## Database authenticatable
       t.string :email,              :null => false, :default => "", :limit => 80
       t.string :encrypted_password, :null => false, :default => ""
-      t.boolean :admin,                             :default => false 
+      t.boolean :admin,                             :default => false
 
       ## Encryptable
       t.string :password_salt
@@ -43,7 +43,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.attachment :profile_image
       t.string     :profile_image_fingerprint
       t.boolean    :profile_image_processing
-      
+
       t.timestamps  null: false
     end
 

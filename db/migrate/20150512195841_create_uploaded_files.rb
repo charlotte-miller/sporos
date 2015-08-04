@@ -8,7 +8,7 @@ class CreateUploadedFiles < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    
+
     add_index :uploaded_files, [:from_id, :from_type]
   end
 end

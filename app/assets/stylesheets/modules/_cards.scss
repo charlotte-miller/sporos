@@ -8,23 +8,23 @@
       @extend .col-md-4;
       @extend .col-lg-3;
       @extend .col-xl-2;
-      
+
       @media (max-width: $screen-xs-max) {
         width:100%;
         .thumbnail{ width:inherit;}
       }
     }
   }
-  
+
   .card{
     max-width:$screen-xs-max;
     display: inline-flex;
     padding:  .25rem;
-    
 
-    
+
+
     &.photo{  }
-    
+
     .thumbnail{
       overflow:hidden;
       text-decoration:none;
@@ -34,28 +34,28 @@
        height: auto;
        width: 100%;
       }
-      
+
       .stack-frame{
         overflow:hidden;
       }
-      
+
       .stack{
         margin-bottom:-20px;
-        
+
         img{
           border:2px solid #FFF;
         }
       }
-      
+
       .stack-cornergrid img{
         height:400px;
       }
-      
+
       .source-domain{
         text-align: left;
         font-weight:bold;
       }
-      
+
       .captions p{
         text-align: justify;
       }

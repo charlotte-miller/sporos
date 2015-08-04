@@ -75,7 +75,6 @@ class Lesson < ActiveRecord::Base
   attr_accessible :study, :study_id, :position, :title, :author, :description, :backlink, :published_at, :machine_sorted,
                   :audio, :video, :poster_img, :audio_remote_url, :video_remote_url, :poster_img_remote_url, :handout_remote_url,
                   :video_vimeo_id
-                  
 
 
   # ---------------------------------------------------------------------------------
@@ -142,7 +141,7 @@ class Lesson < ActiveRecord::Base
 
   def vimeo_api
     require Rails.root.join('lib/paperclip_processors/upload_to_vimeo')
-    Paperclip::UploadToVimeo.for_lesson(self)
+    @vimeo_api ||= Paperclip::UploadToVimeo.for_lesson(self)
   end
 private
 

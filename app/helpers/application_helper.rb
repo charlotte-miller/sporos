@@ -81,6 +81,7 @@ module ApplicationHelper
   end
 
   def current_meeting_position(meeting, current_meeting)
+    return "finished" if current_meeting.blank?
     if meeting.position < current_meeting.position
       "past"
     elsif meeting.position == current_meeting.position

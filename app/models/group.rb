@@ -88,7 +88,7 @@ class Group < ActiveRecord::Base
   aasm column:'state' do #no_direct_assignment:true
     state :is_open, initial: true
     state :is_closed
-    state :is_invite_only
+    state :is_finished
   end
 
 

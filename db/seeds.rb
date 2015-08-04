@@ -86,6 +86,15 @@ study_group_lessons.each_with_index do |lesson, index|
   FactoryGirl.create(:user_lesson_state, user: oky, lesson: lesson)
 end
 
+# A finished study group
+finished_group = FactoryGirl.create(:study_group, state: 'is_finished')
+FactoryGirl.create(:group_membership, group: finished_group, member: oky)
+lessons = finished_group.study.lessons
+lessons.each_with_index do |lesson, index|
+  FactoryGirl.create(:meeting, group: finished_group, date_of: Time.now - index.week, lesson: lesson)
+  FactoryGirl.create(:user_lesson_state, user: oky, lesson: lesson)
+end
+
 # Another study group
 another_study_group = FactoryGirl.create(:study_group)
 FactoryGirl.create(:group_membership, group: another_study_group, member: oky)
@@ -95,3 +104,4 @@ study_group_lessons.each_with_index do |lesson, index|
   FactoryGirl.create(:meeting, group: another_study_group, date_of: Time.now + index.week, lesson: lesson)
   FactoryGirl.create(:user_lesson_state, user: oky, lesson: lesson)
 end
+

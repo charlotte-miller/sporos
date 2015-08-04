@@ -9,7 +9,7 @@
   - @groups.each do |group|
     .row
       = link_to(image_tag(group.poster_img.url), group_path(group))
-    %a.row.step-progress{"data-toggle" => "collapse", "href" => "#collapseExample"}
+    %a.row.step-progress{"data-toggle" => "collapse", "href" => "#collapseGroup#{group.id}"}
       - group.meetings.each do |meeting|
         - current_meeting_position = current_meeting_position(meeting, current_meeting_from(group))
         .step-progress-step{class:["#{current_meeting_position}", "col-xs-#{12/group.meetings.length}"].join(' ')}
@@ -17,7 +17,7 @@
             .progress-bar
           .step-progress-dot
             %i.glyphicon
-    .collapse#collapseExample
+    .collapse{id: "collapseGroup#{group.id}"}
       .row
         - group.meetings.each_with_index do |meeting, index|
           - numbered_list = index + 1

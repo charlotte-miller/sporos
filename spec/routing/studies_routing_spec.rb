@@ -10,6 +10,6 @@ describe StudiesController do
     it "routes to #show" do
       get("/library/1").should route_to("studies#show", :id => "1")
     end
-    
+
   end
 end

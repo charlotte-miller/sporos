@@ -23,7 +23,7 @@ FactoryGirl.define do
     ignore do
       position nil
     end
-    
+
     group
     lesson
     state   'current'

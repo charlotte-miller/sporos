@@ -57,7 +57,7 @@ Rails.application.configure do
     metastore:   "#{AppConfig.redis.url}/1/metastore",
     entitystore: "#{AppConfig.redis.url}/1/entitystore"
   }
-  
+
   config.action_controller.action_on_unpermitted_parameters = :log #:raise
 
   # TODO
@@ -87,7 +87,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-  
+
   config.action_mailer.default_url_options = { host: AppConfig.domains.primary }
   routes.default_url_options = { host: AppConfig.domains.primary }
 end

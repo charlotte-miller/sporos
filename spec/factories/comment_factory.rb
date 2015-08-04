@@ -33,6 +33,6 @@ FactoryGirl.define do
     body        { Faker::Lorem.paragraph(rand(2..5)) }
     user
     parent nil
-    
+
   end
 end

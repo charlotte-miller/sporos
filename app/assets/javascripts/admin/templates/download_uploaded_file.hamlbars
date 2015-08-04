@@ -24,7 +24,7 @@
     %button.btn.btn-danger.delete{"data-type" => "{{delete_type}}", "data-url" => "{{delete_url}}"}
       %i.glyphicon.glyphicon-trash
   {{/if}}
-      
+
 {{/each}}
 
 / Modified from https://gist.github.com/elmariachi111/5407282

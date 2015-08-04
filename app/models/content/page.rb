@@ -22,30 +22,30 @@ class Page < ActiveRecord::Base
   include Sluggable
   include Page::Search
   include Page::LegacyIntegration
-  
+
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
   slug_candidates :title, [:title, :year], [:title, :month, :year]
 
-  
+
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------
   belongs_to :parent, :class_name => "Page", :foreign_key => "parent_id"
-  
+
 
   # ---------------------------------------------------------------------------------
   # Validations
   # ---------------------------------------------------------------------------------
   validates :title, presence:true, length:{in:2..150}
   validates :body,  presence:true, length:{maximum:500_000}
-  
-  
+
+
   # ---------------------------------------------------------------------------------
   # Methods
   # ---------------------------------------------------------------------------------
-  
+
   def url
     url_helpers.page_url(self)
   end
@@ -53,11 +53,11 @@ class Page < ActiveRecord::Base
   def path
     url_helpers.page_path(self)
   end
-  
+
   def body_w_media
     body.gsub "{{ MEDIA_URL }}", "http://#{AppConfig.domains.legacy_media}" #AppConfig.domains.assets.gsub('%d', rand(0..3).to_s)
   end
-  
+
 end
 
 # Support the namespacing convention for rake tasks etc.

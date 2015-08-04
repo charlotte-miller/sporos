@@ -7,9 +7,9 @@ module Sortable
     include Comparable
     default_scope -> {order 'position ASC'}
   end
-  
+
   module ClassMethods
-    
+
     def acts_as_listable options={}
       class_eval do
         acts_as_list options

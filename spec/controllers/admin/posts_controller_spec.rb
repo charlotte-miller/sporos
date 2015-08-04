@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Admin::PostsController, :type => :controller do
   login_user
-  
+
   before(:all) do
    @ministry = create(:populated_ministry)
    @ministry.leaders << @user
@@ -11,7 +11,7 @@ RSpec.describe Admin::PostsController, :type => :controller do
    @volunteer= @ministry.volunteers.first
   end
   before(:each) { AWS.stub! }
-  
+
   let(:valid_attributes) { attributes_for(:post_link, ministry:@ministry, author:@user, ministry_id:@ministry.id, user_id:@user.id ) }
 
   let(:invalid_attributes) { {type:'Posts::Link', title:''} }
@@ -26,9 +26,9 @@ RSpec.describe Admin::PostsController, :type => :controller do
         @my_rejected_posts          = [create(:post, ministry:@ministry, author:@user, rejected_at:5.minutes.ago)]
         @my_pending_posts           = [create(:post, ministry:@ministry, author:@user)]
       end
-      
+
       before(:each) { get :index, {}, valid_session }
-       
+
       it 'includes "Recently Published" posts' do
         expect(assigns(:grouped_posts)['Recently Published'].to_ary).to eq(@my_recently_approved_posts)
       end
@@ -44,7 +44,7 @@ RSpec.describe Admin::PostsController, :type => :controller do
       it 'includes "Pending Posts" posts' do
         expect(assigns(:grouped_posts)['Pending Posts'].to_ary).to eq(@my_pending_posts)
       end
-      
+
       it 'adds post.unread_comment_count' do
         assigns(:grouped_posts).values.flatten.each do |post|
           expect(post.unread_comment_count).to_not be_nil
@@ -55,37 +55,37 @@ RSpec.describe Admin::PostsController, :type => :controller do
 
   describe "GET show" do
     let(:post) { create(:post, ministry:@ministry, author:@user) }
-    
+
     describe 'assigns' do
       before(:each) do
         get :show, {:id => post.to_param}, valid_session
       end
-      
+
       it "@post" do
         expect(assigns(:post)).to eq(post)
       end
-    
+
       it '@approval_statuses' do
         expect(assigns(:approval_statuses)).to eq(assigns(:current_users_approval_request).current_concensus(:mark_author))
       end
-    
+
       it '@comments' do
         expect(assigns(:comments)).to eq(post.comment_threads)
       end
-    
+
       it '@current_users_approval_request' do
         expect(assigns(:current_users_approval_request)).to eq(ApprovalRequest.find_by( user:@user, post:post ))
       end
-    
+
       it '@approvers' do
         expect(assigns(:approvers)).to eq(post.approvers - [@user])
       end
-    
+
       it '@comments_data' do
         expect(assigns(:comments_data)).to eq(controller.comments_data)
       end
     end
-    
+
   end
 
   describe "GET new" do
@@ -104,35 +104,35 @@ RSpec.describe Admin::PostsController, :type => :controller do
   end
 
   describe "POST create" do
-    
+
     describe '#safe_ministry_id' do
       it 'sets the ministry_id if the user has 1 ministry' do
         post :create, {:post => valid_attributes.merge({ministry_id:'whatever'}), format: :html}, valid_session
         expect(Post.last.ministry).to eq(@ministry)
         expect(response).to redirect_to(admin_post_url Post.last)
       end
-    
+
       describe 'users with multiple ministries' do
         before(:each) do
           @other_ministry = create(:ministry)
           @other_ministry.leaders << @user
         end
-        
+
         it 'returns params[:ministry_id] IF the current_user is involved in the ministry' do
           post :create, {:post => valid_attributes.merge({ministry_id:@other_ministry.id}), format: :html}, valid_session
           expect(Post.last.ministry).to eq(@other_ministry)
           expect(response).to redirect_to(admin_post_url Post.last)
         end
-        
+
         it 'returns an error if the current_user is not involved with the ministry' do
           post :create, {:post => valid_attributes.merge({ministry_id:@other_ministry.id+10}), format: :html}, valid_session
           expect(assigns(:post).errors.full_messages).to eql ["Ministry can't be blank"]
           expect(response).to render_template("new")
         end
-        
+
       end
     end
-    
+
     describe "with valid params" do
       it "creates a new Post" do
         expect {

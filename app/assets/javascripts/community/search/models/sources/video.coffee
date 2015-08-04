@@ -13,5 +13,5 @@ class SearchNamespace.Sources.Video extends SearchNamespace.AbstractSource
     remote:
       url: "http://#{CStoneData.domains.origin}/search?q=%QUERY&types=video"
       filter: @elasticsearchProcessor('video')
-      
+
 SearchNamespace.Sources.Video.setup()

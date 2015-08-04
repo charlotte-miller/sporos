@@ -1,6 +1,6 @@
 ReactCSSTransitionGroup = React.addons.CSSTransitionGroup
 CStone.Admin.Components.Comments= React.createClass
-  
+
   propTypes:
     approval_request_id: React.PropTypes.number.isRequired
     approval_request_path: React.PropTypes.string.isRequired
@@ -20,15 +20,15 @@ CStone.Admin.Components.Comments= React.createClass
       id: React.PropTypes.number.isRequired
       text: React.PropTypes.string.isRequired
       author_id: React.PropTypes.number.isRequired
-  
+
   getInitialState: ->
     comment:''
     approve_default: @props.current_user.status != 'rejected'
     already_decided: @props.current_user.status != 'pending'
     archived:        @props.current_user.status == 'archived'
-    
+
   # getDefaultProps: ->
-  
+
   componentDidMount: ->
     @setState
       poll_process: setInterval =>
@@ -36,32 +36,32 @@ CStone.Admin.Components.Comments= React.createClass
           $.getJSON "#{@props.approval_request_path}.json", (data)=>
             @setProps(data) if @isMounted()
       , 5000
-    
+
     setTimeout =>
       @setState( animate_comments:true ) if @isMounted()
     , 1000
-  
-  
+
+
   componentWillUnmount: ->
     clearInterval @state.poll_process
-  
-  
+
+
   current_user: ->
     @props.approvers[@props.current_user.id]
-  
+
   author_of: (comment)->
     @props.approvers[comment.author_id]
-  
+
   placeholder: ->
     if @props.is_author then "Any additional comments for the #{@props.post.ministry_possessive} ministry team?" else "#{@props.post.author_first_name} would appreciate feedback"
-  
+
   proposed_status: ->
     if @state.approve_default then 'accepted' else 'rejected'
-    
+
   handleCommentChange: (e)->
     e.preventDefault()
     @setState(comment: event.target.value)
-  
+
   handleSubmit: (e, options={})->
     e.preventDefault()
     url       = @refs.comment_form.props.action
@@ -75,19 +75,19 @@ CStone.Admin.Components.Comments= React.createClass
         _(new_state_data).extend
           approve_default: @props.current_user.status != 'rejected'
           already_decided: @props.current_user.status != 'pending'
-      @setState new_state_data 
-      
+      @setState new_state_data
+
   handleToggleStatus: (e,default_to_approve)->
     e.preventDefault()
     if @state.approve_default != default_to_approve
-      @setState 
+      @setState
         approve_default: default_to_approve
         already_decided: @props.current_user.status == if default_to_approve then 'accepted' else 'rejected'
-  
+
   handleOnlyComment: (e)->
     e.preventDefault()
     @handleSubmit(e, {without_status:true})
-      
+
   buildComments: ->
     _(@props.comments).map (comment)=>
       all_comment_parts = [
@@ -116,7 +116,7 @@ CStone.Admin.Components.Comments= React.createClass
       my_comment = comment.author_id == @props.current_user.id
       rm_index= if my_comment then 0 else 2
       all_comment_parts.splice(rm_index,1)
-          
+
       classes = React.addons.classSet
         comment: true
         media: true
@@ -124,18 +124,18 @@ CStone.Admin.Components.Comments= React.createClass
         animated:true
         fadeInUp:true
         'instant-animation': !@state.animate_comments
-      
+
       `<div className={classes} key={comment.id}>
         {all_comment_parts}
        </div>`
-    
+
   buildApprovers: ->
     approver_pics = _(@props.approvers).map (user,id)=> `<img src={user.profile_micro} height='32' width='32' className='img-circle' title={user.name} key={id} />`
-        
+
     `<div id="approvers">
       { approver_pics }
      </div>`
-  
+
   buildSubmitButton: ->
     classes = (options={})=>
       React.addons.classSet( _({
@@ -144,7 +144,7 @@ CStone.Admin.Components.Comments= React.createClass
         'btn-danger'  : !@state.approve_default
         'disabled'    : @state.already_decided
       }).extend(options))
-      
+
     btn_cta = if @state.already_decided
       status_title = if @state.approve_default then 'Approved' else 'Rejected'
       "Already #{status_title}"
@@ -152,7 +152,7 @@ CStone.Admin.Components.Comments= React.createClass
       "Approve Post"
     else
       "Reject Post"
-    
+
     context = @
     if @state.archived
       `<div id="comment-buttons">
@@ -161,7 +161,7 @@ CStone.Admin.Components.Comments= React.createClass
     else
       `<div id="comment-buttons">
         <input onClick={ context.handleOnlyComment } id="add-comment-btn" type="submit" name="commit" value="Only Comment" className="btn btn-link" />
-      
+
         <div className="btn-group dropup">
           <input type="submit" name="commit" value={btn_cta} className={ classes() } />
           <button className={classes({'dropdown-toggle':true, disabled:false})} data-toggle='dropdown'>
@@ -179,7 +179,7 @@ CStone.Admin.Components.Comments= React.createClass
           </ul>
         </div>
        </div>`
-  
+
   buildCommentBox: ->
     `<form onSubmit={ this.handleSubmit } ref="comment_form" className="edit_approval_request" id={"edit_approval_request_"+this.props.approval_request_id} action={"/admin/approval_requests/"+this.props.approval_request_id+".json"} acceptCharset="UTF-8" method="post">
       <input name="utf8" type="hidden" value="&#x2713;" />
@@ -188,10 +188,10 @@ CStone.Admin.Components.Comments= React.createClass
       <input type="hidden" name="approval_request[status]" value={this.proposed_status()} id="approval_request_status" />
       <div className="comment media my-comment">
         <div className="media-body">
-          <div id="comment-field" className="word-bubble">           
+          <div id="comment-field" className="word-bubble">
             <textarea placeholder={this.placeholder()} value={this.state.comment} onChange={this.handleCommentChange} className="form-control" name="approval_request[comment_threads_attributes][][body]"></textarea>
           </div>
-      
+
 
         </div>
         <div className="user media-right media-bottom">
@@ -206,7 +206,7 @@ CStone.Admin.Components.Comments= React.createClass
         { this.buildSubmitButton() }
       </div>
     </form>`
-  
+
   render:->
     `<div id="comments">
       <h3>Discussion:</h3>

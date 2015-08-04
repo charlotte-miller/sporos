@@ -2,13 +2,13 @@
 class Lesson::PosterMaker < ActiveRecord::Base
   include AttachableFile
   belongs_to :lesson, class_name:'Lesson'
-  
+
   # Creates a series of possible poster images from a video (SD/HD)
   # - include the studies poster_img
   # Stores the correct (user's) choice
-  # Clears the others after a few weeks 
-  
-  
+  # Clears the others after a few weeks
+
+
   # # TODO: add migration for poster_img_options:attachment img_selection:integer
   # has_attachable_file :img_options, :path => ':rails_env/:class/:id/:attachment/:style.:extension',
   #                     :processors => [:ffmpeg],
@@ -23,5 +23,5 @@ class Lesson::PosterMaker < ActiveRecord::Base
   #                       sd_16: { geometry: Lesson::AttachedSD_SIZE,  :format => 'png', :time => 16 },
   #                       sd_18: { geometry: Lesson::AttachedSD_SIZE,  :format => 'png', :time => 18 },
   #                       sd_20: { geometry: Lesson::AttachedSD_SIZE,  :format => 'png', :time => 20 }}
-  #                       # poster_img_hd: { geometry: Lesson::AttachedHD_SIZE,  :format => 'png', :time => 8 },                       
+  #                       # poster_img_hd: { geometry: Lesson::AttachedHD_SIZE,  :format => 'png', :time => 8 },
 end

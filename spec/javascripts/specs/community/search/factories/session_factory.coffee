@@ -9,7 +9,7 @@ BackboneFactory.define 'session', CStone.Community.Search.Models.Session, ->
   sources:        Factory.sources().models
   current_search: ''
   active_ui:      null
-  
+
   # title:       'Your Title Here'
   # description: 'string, function, or another Factory'
   # size:         _(['Tall', 'Grande', 'Venti', 'Trenta']).shuffle()[0]

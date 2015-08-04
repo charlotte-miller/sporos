@@ -18,10 +18,10 @@
 require 'rails_helper'
 
 RSpec.describe Channel, :type => :model do
-  
+
   it "builds from factory", :internal do
     lambda { create(:channel) }.should_not raise_error
   end
-  
+
   it_behaves_like 'it is Sortable'
 end

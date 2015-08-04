@@ -4,11 +4,11 @@ require 'rails_helper'
 describe "A class that is commentable" do
   before(:all) do
     @ministry = create(:populated_ministry)
-    @user     = @ministry.leaders.first 
+    @user     = @ministry.leaders.first
     @post     = create(:post, author:@user, ministry:@ministry)
     @commentable = create(:approval_request, post:@post)
   end
-  
+
   it "can have many root comments" do
     expect(ApprovalRequest.new.comment_threads.respond_to?(:each)).to eq(true)
   end

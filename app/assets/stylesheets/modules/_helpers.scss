@@ -58,7 +58,7 @@
   @extend %newCSSLayer;
   @include transitionValue('all');
   @include duration(1s);
-  
+
   &.blured {
     @include opacity(0.4);
     @include filter(blur(5px));

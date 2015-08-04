@@ -19,7 +19,7 @@ $ ->
       opacity: 1
       height: "#{target_height }px"
     , speed, easing, callback
-    
+
 # possible firefox fail
   jQuery.fn.smoothScroll = (speed, easing, options={}, callback) ->
     target = $(@)

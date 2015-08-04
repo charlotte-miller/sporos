@@ -15,13 +15,13 @@
             .input-group
               %span#instrutions.input-group-addon Level of Involvement:
               = f.collection_select :involvement_level, Involvement.levels.except('editor').to_a.reverse, :last, lambda {|a| a.first.titlecase}, {selected:1}, {class:'form-control'}
-        
+
         .form-group
           = f.label :first_name
-          = f.text_field :first_name, class: "form-control"        
+          = f.text_field :first_name, class: "form-control"
         .form-group
           = f.label :last_name
-          = f.text_field :last_name, class: "form-control"        
+          = f.text_field :last_name, class: "form-control"
         - resource.class.invite_key_fields.each do |field|
           .form-group
             = f.label field

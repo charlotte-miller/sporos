@@ -6,6 +6,6 @@ $ ->
 
   jQuery.fn.moveTo = (to_selector)->
     @detach().appendTo(to_selector)
-  
+
   jQuery.fn.moveContentTo = (to_selector)->
     @children().detach().appendTo(to_selector)

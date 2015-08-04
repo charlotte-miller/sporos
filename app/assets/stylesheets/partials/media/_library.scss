@@ -5,19 +5,19 @@
 #library-search{
   @extend .col-sm-offset-1;
   @extend .col-sm-10;
-  
+
   #library-search-inputs{
     @extend .input-group;
     @extend .input-group-lg;
     margin-top:25px;
-    
+
     input{
       @extend .form-control;
       @extend .input-lg;
       height:50px;
       margin-top:1px;
     }
-    
+
     button{
       @extend .btn;
       @extend .btn-lg;
@@ -32,8 +32,8 @@
 #study-library{
   $library-row-heights: ('250px','175px','215px','190px','300px');
   margin-top:30px;
-  
-  .study-row{ 
+
+  .study-row{
     @extend .row;
     &:nth-of-type(4n+1){ height:unquote(nth($library-row-heights, 1)); }
     &:nth-of-type(4n+2){ height:unquote(nth($library-row-heights, 2)); }
@@ -41,7 +41,7 @@
     &:nth-of-type(4n+4){ height:unquote(nth($library-row-heights, 4)); }
     &:nth-of-type(5n+1){ height:unquote(nth($library-row-heights, 5)); }
   }
-  
+
   .study{
     padding:0px;
     height:inherit;
@@ -51,20 +51,20 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    
-    
+
+
     a{
       display:block;
       height:100%;
       width:100%;
-      
-      .click_to_play{ 
+
+      .click_to_play{
         background-color:rgba(0,0,0,0.8);
         width:100%;
         height:100%;
         @include opacity(0);
         @include transition(opacity 0.35s ease-in-out);
-        
+
         .call_to_action{
           $size: 80px ;
           @extend .glyphicon;
@@ -79,7 +79,7 @@
         }
       }
     }
-    
+
     .study-details{
       position:absolute;
       top:0px;
@@ -87,14 +87,14 @@
       height:0px;
       overflow:hidden;
     }
-      
+
     &.active{
-      .click_to_play{ 
+      .click_to_play{
         @include opacity(1);
       }
     }
   }
-  
+
 
   .study-detail-display{
     display:none;
@@ -110,21 +110,21 @@
     }
   }
   .study-detail-display, .study-details{
-    &>img{ 
-      @extend .col-xs-5; 
+    &>img{
+      @extend .col-xs-5;
       height:inherit;
     }
     .credits{
       @extend .col-xs-7;
-      
+
       .lessons{
         @extend .hidden-xs;
       }
     }
   }
-  
+
   @media screen and (max-width: $screen-xs-max){
-    
+
     .study-row{ height:inherit !important; }
     .study{
       &:nth-of-type(4n+1){ height:unquote(nth($library-row-heights, 1)); }
@@ -132,16 +132,16 @@
       &:nth-of-type(4n+3){ height:unquote(nth($library-row-heights, 3)); }
       &:nth-of-type(4n+4){ height:unquote(nth($library-row-heights, 4)); }
       &:nth-of-type(5n+1){ height:unquote(nth($library-row-heights, 5)); }
-      
+
       border-width:3px;
-      
+
       .click_to_play{
         .call_to_action{
           opacity:0 !important;
         }
       }
-      
-      &.active{        
+
+      &.active{
         .study-details{
           @include transition(opacity 0.35s ease-in-out);
           opacity:1 !important;

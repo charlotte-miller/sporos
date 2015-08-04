@@ -7,14 +7,14 @@
   margin-left:0;
   line-height: 32px;
   text-align:center;
-  
+
   &.active{
     background:white;
   }
-  
+
   &.profile{
     margin-right:15px;
-    
+
     .img-circle{
       height:120px;
       width:120px;
@@ -24,13 +24,13 @@
       border: 2px solid $gray-lighter;
       background-color:$gray-lighter;
     }
-    
+
     @media (max-width: $screen-xs-min) {
       b{
         display:none;
       }
     }
-    
+
     svg {
       display: block;
       position: absolute;
@@ -39,60 +39,60 @@
       top: -39px;
       right: -19px;
       @include opacity(0.4);
-      
-      #loader 
+
+      #loader
       { fill: $gray-lighter }
 
-      #border 
+      #border
       { fill: $gray-dark }
     }
   }
-        
+
   .template-download, .template-upload{
     margin-top:30px;
     margin-bottom:40px;
   }
-  
+
   b{
     margin-left: -15px;
     font-size:16px;
-    
+
     @media (max-width: $screen-xs-min) {
       margin-left: 0;
       font-size:13px;
     }
   }
-  
+
   .preview-img, .preview{
     height:180px;
   }
-  
+
   .name{
     @extend %truncate;
     width: 100%;
     float: right;
   }
-  
+
   .name, .delete-col, .progress-and-name{
     line-height: 180px;
     height:180px;
-    
+
     .wrapper{
       @extend %verticalCenter;
       line-height: initial;
     }
-    
+
     @media (max-width: $screen-xs-max) {
       line-height: 80px;
       height: 50px;
     }
   }
-  
+
   #dropzone-file-manager{
     video{
       width:100%;
     }
-    
+
     .progress-and-name p{
       @extend %truncate;
     }

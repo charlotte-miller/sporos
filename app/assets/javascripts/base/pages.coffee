@@ -6,8 +6,8 @@ class CStone.Base.Pages
     @initalized = true
     @layout = new Layout(mainPath, blacklist)
     # Initialize jQuery in page_initializers using CStone.Base.Pages.layout
-  
-  
+
+
   class Layout
     constructor: (mainPath, blacklist=[]) ->
       @mainPath = mainPath                                 # The url/path to the main page
@@ -17,13 +17,13 @@ class CStone.Base.Pages
       @cache = {}                                          # Variable that stores pages after they are requested
       @href = window.location.href                         # Url of the content that is currently displayed
       window.onpopstate = @onPopState                      # Sets the popstate function
-    
+
       # Sets a default state
       unless history.state #is null
         history.replaceState
           id: @$page.prop("id")
         , document.title, @href
-    
+
 
     ###
     Loads the contents of a url into $page
@@ -38,14 +38,14 @@ class CStone.Base.Pages
       if _(options).isFunction()
         callback = options
         options = {}
-    
+
       # Load normally if external, #hash, or page-to-page
       lastUrl = @href
       return if url == lastUrl
       if @loadNormally(lastUrl, url)
         window.location = url
         return
-        
+
       # Fetches the contents of a url and stores it in the '@cache' varible
       fetch = (url) =>
         if @$main.trim_html()
@@ -54,24 +54,24 @@ class CStone.Base.Pages
             title: document.title
             html: "<div><p id='#{@$main.attr('id')}'>Stored in DOM</p></div>"
             stored_at: undefined #timeless - stays cached
-        
+
         # Don't fetch we have the content already
         unless @cache.hasOwnProperty(url)
           transitions.loading()
           @cache[url] = status: "fetching"
           request = $.ajax(url)
-    
+
           # Store contents in @cache variable if successful
           request.success (html) =>
             Layout.utility.storePage @cache, url, html
 
           # Mark as error
           request.error => @cache[url].status = "error"
-          
+
         # Start checking for the status of content
         responses[@cache[url].status]()
-    
-    
+
+
       # If the content has been requested and is done:
       # Updates the contents from @cache[url]
       updateContent = (url) =>
@@ -98,7 +98,7 @@ class CStone.Base.Pages
             history.pushState
               id: @$page.prop("id")
             , @cache[url].title, url
-      
+
         # Loading, wait 10 ms and check again
         fetching: =>
           setTimeout (=>
@@ -107,21 +107,21 @@ class CStone.Base.Pages
 
         # Error, abort and redirect
         error: -> window.location = url
-    
+
       $body = $("html, body")
       transitions=
         loading: =>
           return false if options.onlyPrefetch
           @$main.addClass('background')
-  
+
         revealing: ->
           animatePageTransition(transitions.cleanup)
-  
+
         cleanup: =>
           # Clear @cache varible if it's getting too big
           @clearCacheIfOverCapacity(5)
           callback?()
-    
+
 
       animatePageTransition= (trans_callback)=>
         @$page.addClass('transition')
@@ -132,7 +132,7 @@ class CStone.Base.Pages
             @$main.addClass('background')
             @$main.removeClass('current')
             @$page.addClass('current')
-      
+
         else #fromPage
           if toMain
             @$page.removeClass('current')
@@ -193,7 +193,7 @@ class CStone.Base.Pages
       if (cache_count = _(@cache).keys().length) > cap
         _sorted_entry_pairs = _(@cache).chain().pairs().sortBy((entry_pair)-> entry_pair[1].stored_at)
         _sorted_entry_pairs.first(cache_count - cap).each (stale_entry)=> delete @cache[stale_entry[0]]
-  
+
     # Static Utility Methods
     @utility:
       # URL ---
@@ -237,17 +237,17 @@ class CStone.Base.Pages
             elems.eq(-1).attr obj
           "<" + slash + "div" + ((if slash then "" else " id=\"" + prefix + (elems.length - 1) + "\"")) + ">"
         )
-    
+
         # If no placeholder elements were necessary, just return normal
         # jQuery-parsed HTML.
         return $(html)  unless elems.length
-    
+
         # Create parent node if it hasn't been created yet.
         parent = $("<div/>")  unless parent
-    
+
         # Create the parent node and append the parsed, place-held HTML.
         parent.html htmlParsed
-    
+
         # Replace each placeholder element with its intended element.
         $.each elems, (i) ->
           elem = parent.find("#" + prefix + i).before(elems[i])
@@ -255,7 +255,7 @@ class CStone.Base.Pages
           elem.remove()
           return
         parent.children().unwrap()
-    
+
       getContentById: (id, $html) ->
         # Grabs the new container's contents from the cache
         updatedContainer = $(id, $html).html()

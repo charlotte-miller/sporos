@@ -10,6 +10,6 @@ class SearchNamespace.Sources.Sermon extends SearchNamespace.AbstractSource
     remote:
       url: "http://#{CStoneData.domains.origin}/search?q=%QUERY&types=sermon"
       filter: @elasticsearchProcessor('sermon')
-    
-    
+
+
 SearchNamespace.Sources.Sermon.setup()

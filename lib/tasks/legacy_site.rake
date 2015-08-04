@@ -4,14 +4,14 @@ Dir[Rails.root.join("lib/legacy_adapters/**/*.rb")].each {|f| require f}
 namespace "legacy_site" do
 
   desc "Migrates Pages from the Legacy Site"
-  task "pages" => 'environment' do    
+  task "pages" => 'environment' do
     open_tunnel do
       LegacyPage.db_setup "cornerstone_sf_org_#{Rails.env}", 'simple_cms_navigation'
       LegacyPage.update_or_create_recent_pages
       Page::LegacyIntegration.audit_urls
     end
 
-    
+
   end
 
 

@@ -2,11 +2,11 @@ require 'rails_helper'
 
 describe QuestionsController do
   login_user
-  
+
   before(:all) do
     @study   = create(:study)
     @lesson  = create(:lesson, study_id:@study.id)
-    @group   = create(:group)  
+    @group   = create(:group)
     @meeting = create(:meeting, lesson:@lesson, group:@group)
     @valid_attributes = attributes_for(:question).merge(author: @user)
   end
@@ -17,7 +17,7 @@ describe QuestionsController do
   describe 'from Lesson' do
     let!(:study)  { @study }
     let!(:lesson) { @lesson }
-    
+
     describe "GET index" do
       it "loads" do
         get :index, {study_id:study.id, lesson_id:lesson.id}
@@ -78,8 +78,8 @@ describe QuestionsController do
         post :create, {study_id:study.id, lesson_id:lesson.id, :question => valid_attributes}
         should redirect_to '/login'
       end
-      
-      describe "with valid params" do        
+
+      describe "with valid params" do
         it "creates a new Question" do
           expect {
             post :create, {study_id:study.id, lesson_id:lesson.id, :question => valid_attributes}
@@ -98,7 +98,7 @@ describe QuestionsController do
         end
       end
 
-      describe "with invalid params" do        
+      describe "with invalid params" do
         it "assigns a newly created but unsaved question as @question" do
           # Trigger the behavior that occurs when invalid params are submitted
           Question.any_instance.stub(:save).and_return(false)
@@ -119,7 +119,7 @@ describe QuestionsController do
       it "should be a Lesson" do
         get :index, {study_id:study.id, lesson_id:lesson.id}
         controller.send(:current_source).should eql lesson
-      end 
+      end
     end
   end
 
@@ -251,15 +251,15 @@ describe QuestionsController do
   #              or create a query for checking a users privlages') # leaning toward nesting
   #   end
   # end
-  
+
   # describe 'private methods' do
   #   describe 'before_filters' do
-  #     
+  #
   #     describe '#merge_author_and_source' do
   #       skip
   #     end
-  #     
+  #
   #   end
-  #   
+  #
   # end
 end

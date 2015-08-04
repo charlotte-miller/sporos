@@ -14,11 +14,11 @@ class CreateStudies < ActiveRecord::Migration
       t.string      :poster_img_fingerprint
       t.boolean     :poster_img_processing
       t.integer     :lessons_count, default: 0
-                    
+
       t.datetime    :last_published_at
       t.timestamps  null: false
     end
-    
+
     add_index :studies, :slug, unique: true
     add_index :studies, [:podcast_id, :last_published_at]
     add_index :studies, :last_published_at

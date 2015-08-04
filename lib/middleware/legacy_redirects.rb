@@ -5,7 +5,7 @@ module Rack
   class Rewrite
     class LegacyRedirects
       attr_reader :rules
-      
+
       # :r301 moved permanently
       # :r302 found
       # :r303 see other
@@ -27,10 +27,10 @@ module Rack
           Rule.new(REDIRECT_METHOD, redirect.from, redirect.to, @options)
         end
       end
-      
+
     private
       def load_page_rules
-        if Page.table_exists? 
+        if Page.table_exists?
           Page.all.map do |page|
             OpenStruct.new({
               from: page.legacy_url,
@@ -41,9 +41,9 @@ module Rack
           []
         end
       end
-      
+
       def load_media_rules
-        #todo 
+        #todo
       end
 
     end

@@ -25,11 +25,11 @@
 
 class UploadedFile < ActiveRecord::Base
   include AttachableFile
-  
+
   delegate :url_helpers, to: 'Rails.application.routes'
-  
+
   belongs_to :from, polymorphic:true
-  
+
   attr_protected #none
   has_attachable_file :image,
                       :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
@@ -43,20 +43,20 @@ class UploadedFile < ActiveRecord::Base
                         large_thumb:  { geometry: "120x120#",   format: 'jpg', convert_options: "-strip" },
                         thumb:        { geometry: "100x100#",   format: 'jpg', convert_options: "-strip" }
                       }
-  
+
   has_attachable_file :video,
                       :content_type => ["video/mp4", "video/quicktime", "video/x-msvideo", "video/3gpp"],
                       :processors => [:upload_to_vimeo] # :set_image_to_video_poster #https://vimeo.com/api/v2/video/6271487.json
 
   process_in_background :image
   process_in_background :video
-  
+
   validates_presence_of :file
-  
+
   def file
     [image, video].find(&:present?)
   end
-  
+
   def file_as_json
     raise ArgumentError unless file.present?
     { name: file.basename,

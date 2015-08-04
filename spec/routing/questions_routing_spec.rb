@@ -22,12 +22,12 @@ describe QuestionsController do
       it "routes to #block" do
         post("/questions/1/block").should route_to("questions#block", :id => "1")
       end
-      
+
       it "routes to #star" do
         post("/questions/1/star").should route_to("questions#star", :id => "1")
       end
     end
-    
+
     context "within meetings" do
       it "routes to #index" do
         get("/groups/1/meetings/1/questions").should route_to("questions#index", :meeting_id => '1', :group_id => '1')

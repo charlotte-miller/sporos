@@ -4,12 +4,12 @@
 # * Copyright 2013 Pete Rojwongsuriya.
 # * http://www.thepetedesign.com
 # *
-# * A very simple and light weight jQuery plugin that 
-# * allows you to rotate multiple text without changing 
+# * A very simple and light weight jQuery plugin that
+# * allows you to rotate multiple text without changing
 # * the layout
 # * https://github.com/peachananr/simple-text-rotator
 # *
-# * ========================================================== 
+# * ==========================================================
 (($) ->
   defaults =
     animation: "dissolve"
@@ -30,7 +30,7 @@
         return
 
       el.text array[0]
-      
+
       # animation option
       rotate = ->
         el.html el.find(".back").html()  if el.find(".back").length > 0

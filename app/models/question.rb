@@ -22,14 +22,14 @@
 #
 
 class Question < ActiveRecord::Base
-  include SourceableModels 
+  include SourceableModels
 
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
   attr_accessible :author, :source, :text
-    
-  
+
+
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------
@@ -41,23 +41,23 @@ class Question < ActiveRecord::Base
     def popular(n)
       order('stared_count DESC, answers_count DESC').limit(n)
     end
-    
+
     def recent(n)
       order('updated_at DESC').limit(n)
     end
-    
+
     def timeline(n)
       order('created_at ASC').limit(n)
     end
   end
-    
-  
+
+
   # ---------------------------------------------------------------------------------
   # Validations
   # ---------------------------------------------------------------------------------
   validates_presence_of :author, :source, :text
-  
-  
+
+
   # ---------------------------------------------------------------------------------
   # Scopes
   # ---------------------------------------------------------------------------------
@@ -67,15 +67,15 @@ class Question < ActiveRecord::Base
   # scope :popular,  reorder( 'stared_count'  )
   # scope :timeline, reorder( 'created_at ASC')
   # scope :first_n,  lambda {|n=3| limit(n)   }
-    
+
   # Admin and Reporting
   # scope :meetings,  where(source_type:'Meeting')
   # scope :lessons,   where(source_type:'Lesson')
-  # scope :groups,    where(source_type:'Group')  
-  
-  
+  # scope :groups,    where(source_type:'Group')
+
+
   # ---------------------------------------------------------------------------------
   # Methods
   # ---------------------------------------------------------------------------------
-  
+
 end

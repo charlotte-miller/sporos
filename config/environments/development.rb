@@ -32,7 +32,7 @@ Rails.application.configure do
   # Started GET "/assets/application.js" for 127.0.0.1 at 2015-01-28 13:35:34 +0300
   # Served asset /application.js - 304 Not Modified (8ms)
   config.quiet_assets = true
-  
+
   # Adds additional error checking when serving assets at runtime.
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.
@@ -40,10 +40,10 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-  
+
   # config.web_console.automount = true
   # config.web_console.default_mount_path = '/terminal' # Optional, defaults to /console
-  
+
   config.assets.precompile += %w( teaspoon.css teaspoon-teaspoon.js jasmine/2.0.0.js jasmine/1.3.1.js teaspoon-jasmine.js)
 
   # Devise Mailers

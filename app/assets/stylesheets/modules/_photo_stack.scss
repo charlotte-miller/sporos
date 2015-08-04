@@ -44,7 +44,7 @@ a.ps_close{
 	z-index:100;
 	-moz-border-radius:10px;
 	-webkit-border-radius:10px;
-	border-radius:10px;	
+	border-radius:10px;
 	opacity:0.6;
 	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=60);
 }
@@ -60,7 +60,7 @@ a.ps_next_photo{
 	cursor:pointer;
 //  background:#000 url(../images/next_photo.png) no-repeat 50% 50%;
 	opacity:0.6;
-	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=60);	
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=60);
     -moz-border-radius:10px;
     -webkit-border-radius:10px;
     border-radius:10px;
@@ -76,5 +76,5 @@ a.ps_next_photo{
 a.ps_next_photo:hover,
 a.ps_close:hover{
 	opacity:0.8;
-	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80);	
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80);
 }

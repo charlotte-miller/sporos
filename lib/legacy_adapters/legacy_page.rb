@@ -40,14 +40,14 @@ require 'mixins/external_table'
 
 class LegacyPage < ActiveRecord::Base
   include ExternalTable
-  
+
   belongs_to :parent, :class_name => "LegacyPage", :foreign_key => "parent_id"
-  
+
   def self.update_or_create_recent_pages(only_updates=false)
     find_recent_updates(only_updates).map(&:update_or_create_page).length
     #remove pages that have been flagged inactive
   end
-    
+
   def update_or_create_page
     page = Page.friendly.find(slug)
     parent_id         = find_or_create_parent.try(:id)
@@ -57,7 +57,7 @@ class LegacyPage < ActiveRecord::Base
     page.hidden_link  = hidden_link?
     page.save! if page.changed?
     page
-    
+
   rescue ActiveRecord::RecordNotFound
     page = Page.create!({
       parent_id: find_or_create_parent.try(:id),
@@ -71,7 +71,7 @@ class LegacyPage < ActiveRecord::Base
   end
 
 private #----------------------------------------------------------------------------
-  
+
   def self.find_recent_updates(only_updates)
     last_updated_page   = Page.maximum(:updated_at) if only_updates
     last_updated_page ||= Time.at(0)
@@ -83,8 +83,8 @@ private #-----------------------------------------------------------------------
       .where("text!=''")
       .all
   end
-  
-  
+
+
   def find_or_create_parent
     legacy_parent = self.parent
     modern_parent = legacy_parent.try(:update_or_create_page)
@@ -98,9 +98,9 @@ private #-----------------------------------------------------------------------
       text
     end
   end
-  
+
   def hidden_link?
     parent_id.nil? && group_id.nil?
   end
-  
+
 end

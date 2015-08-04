@@ -72,7 +72,7 @@ $ ->
           resizeCenterImage $image
           $ps_container.append $image
           r = Math.floor(Math.random() * 41) - 20
-          
+
           if img_url == last_file
             $loading.remove()
             $ps_container.show()
@@ -134,12 +134,12 @@ $ ->
     $ps_container.hide()
     $ps_close.hide()
     $ps_overlay.fadeOut 400
-  
+
   $(window).resize _.debounce( ->
     $('#ps_container img').each -> resizeCenterImage $(@) if $ps_overlay.is(':visible')
   , 500)
-  
-    
+
+
   $('.card.photo').hover (e)->
     $('.stack', @).removeClass('active')
   , (e)->

@@ -15,6 +15,6 @@ module Lesson::SimilarityHeuristic
       lambda { DummyClass.new('foo', 'bar').matches? }.should raise_error(NotImplementedError)
     end
   end
-  
+
   class DummyClass < Base ;end
 end

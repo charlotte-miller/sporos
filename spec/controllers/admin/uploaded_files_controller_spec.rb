@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Admin::UploadedFilesController, :type => :controller do
   login_user
-  
+
   before(:all) do
     @ministry = create(:ministry_w_member, user:@user)
     @post     = create(:post_photo, ministry:@ministry, author:@user)
   end
-  
+
   let(:valid_attributes) { attributes_for(:uploaded_file, from: @post) }
   let(:invalid_attributes) { {uploaded_file:{}} }
   let(:valid_session) {{}}
@@ -20,7 +20,7 @@ RSpec.describe Admin::UploadedFilesController, :type => :controller do
         expect(assigns(:uploaded_files)).to eq(files)
       end
     end
-    
+
     context 'UPDATE Post' do
       it "assigns all uploaded_files as @uploaded_files" do
         files = @post.uploaded_files | 2.times.map { create :uploaded_file, from:@post}.reverse
@@ -29,12 +29,12 @@ RSpec.describe Admin::UploadedFilesController, :type => :controller do
       end
     end
   end
-  
+
   describe "POST create" do
     it 'finds an existing @post' do
-      
+
     end
-    
+
     describe "with valid params" do
       it "creates a new UploadedFile" do
         expect {

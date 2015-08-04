@@ -4,7 +4,7 @@ class Admin::MinistriesController < Admin::BaseController
 
   respond_to :html
 
-  def index  
+  def index
     case @ministries.length
     when 1
       redirect_to admin_ministry_url(@ministries.first)
@@ -59,15 +59,15 @@ class Admin::MinistriesController < Admin::BaseController
     def ministry_params
       params.require(:ministry).permit(:name, :description)
     end
-    
+
     def admin_only
       (redirect_to :index and return) unless current_user.admin?
     end
-    
+
     def ministry_url(*args)
       admin_ministry_url(*args)
     end
-    
+
     def ministries_url(*args)
       admin_ministries_url(*args)
     end

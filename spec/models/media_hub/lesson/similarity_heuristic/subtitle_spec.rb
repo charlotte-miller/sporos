@@ -2,7 +2,7 @@ require 'rails_helper'
 
 module Lesson::SimilarityHeuristic
   describe Subtitle do
-    
+
     describe '#maches?' do
       it "matches lessons that differ ONLY the Subtitle" do
         matching_title_pairs = [

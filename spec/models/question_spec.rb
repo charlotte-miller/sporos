@@ -24,18 +24,18 @@
 require 'rails_helper'
 
 describe Question do
-  it { skip "should have_many  :answers"   } 
+  it { skip "should have_many  :answers"   }
   it { should belong_to( :source             )}
   it { should belong_to( :author             )}
   it { should belong_to( :permanent_approver )}
-  
+
   describe 'lesson' do
     context "source is a lesson" do
       it "should have a lesson" do
         skip
       end
     end
-    
+
     context "source is a meeting" do
       it "should have a lesson through meeting" do
         skip
@@ -45,16 +45,16 @@ describe Question do
 
   describe 'scopes' do
     describe 'meetings' do
-      
+
     end
-    
+
     describe 'lessons' do
-      
+
     end
-    
+
     describe 'groups' do
-      
+
     end
-    
+
   end
 end

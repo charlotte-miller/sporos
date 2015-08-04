@@ -16,7 +16,7 @@
   .field
     = f.select :poster_remote_url, options_for_select(@possible_poster_images.map(){|url| ['Image Options', url, {'data-img-src'=>url}] }), {}, id:'link-poster'
     #all_image_options
-      
+
 / .field
 /   = f.label :expired_at, 'Archive at:'
 /   .input-group

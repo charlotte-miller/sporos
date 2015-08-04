@@ -7,7 +7,7 @@ RSpec.describe Admin::MinistriesController, :type => :controller do
     AWS.stub!
     @valid_attributes = attributes_for(:ministry)
   end
-  
+
   let(:valid_attributes){ @valid_attributes }
 
   let(:invalid_attributes) { {name:'', description:''} }

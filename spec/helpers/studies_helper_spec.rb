@@ -2,10 +2,10 @@ require 'rails_helper'
 
 describe StudiesHelper do
   let(:collection) { (1..5).to_a }
-    
+
   describe "grid_layout_for(collection, options={})" do
     let(:collection) { 3.times.map {build_stubbed :study} }
-    
+
     it "returns a JSON structure (as_json)" do
       grid = helper.grid_layout_for(collection)
       grid.should be_a Array
@@ -14,11 +14,11 @@ describe StudiesHelper do
       grid.first.values.first.should be_a Integer
     end
   end
-  
+
   describe '::GridLayout' do
     subject { StudiesHelper::GridLayout.new((@collection || collection), (@options || {})) }
-    
-    describe "as_json" do      
+
+    describe "as_json" do
       #   [  # Study is the key
       #     {<#Study>:4, <#Study>:4, <#Study>:4},
       #     {<#Study>:3, <#Study>:3, <#Study>:3, <#Study>:3},
@@ -32,35 +32,35 @@ describe StudiesHelper do
         grid.first.values.first.should be_a Integer
       end
     end
-    
+
     describe "[private]" do
       let(:layout_column_counts) { subject.instance_variable_get("@layout_column_counts") }
-      
+
       describe "#random_grid_row" do
         it "grabs a random sample of @layout_column_counts" do
           expect(layout_column_counts).to include subject.bypass.random_grid_row
         end
       end
-    
+
       describe "#collection_to_rows" do
         before(:all){ @orig_verbose, $VERBOSE = $VERBOSE, nil }
         after(:all){ $VERBOSE = @orig_verbose}
         before(:each) { @options={tidy_ending:false}}
-    
+
         it "returns N samples of @layout_column_counts" do
           expect(subject.bypass.collection_to_rows).to have(2).items # 5 items always spread to 2 rows
           subject.bypass.collection_to_rows.each do |layout|
             expect(layout_column_counts).to include layout
           end
         end
-    
+
         it "does not repeat for 'rows_since_possible_repeat'" do
           @options = { rows_since_possible_repeat: 2, tidy_ending:false}
           @collection = (1..6).to_a
           subject.instance_variable_set( "@layout_column_counts", [[1], [2], [3]] ) # length must be > rows_since_possible_repeat
           subject.bypass.collection_to_rows.flatten.sort.should eq [1,1,2,2,3,3]
         end
-    
+
         it "does not allow immediately repeated values for first/last value" do
           @collection = (1..50).to_a
           (layouts = subject.bypass.collection_to_rows).each_with_index do |layout, index|
@@ -70,7 +70,7 @@ describe StudiesHelper do
             trailing_layout[-1].should_not eql layout[-1]
           end
         end
-      
+
         it "has a tidy ending (no partial row)" do
           StudiesHelper::GridLayout.new(1.times.map).bypass.collection_to_rows.last.should eq [12]
           StudiesHelper::GridLayout.new(2.times.map).bypass.collection_to_rows.last.should eq [7,5]

@@ -4,7 +4,7 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
     how in is it of on or that the this to
     was what when where who will with w/ the
   """.toLowerCase().split(/\s+/)
-  
+
   REPLACEMENTS = [
     ['@', 'at'],
     ['&', 'and'],
@@ -13,7 +13,7 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
     ['\s?-\s?', ' '],  # -
     ['\s?:\s?', ''],  # :
   ]
-  
+
   subModelTypeAttribute: 'name'
   subModelTypes:
     'announcement' : 'CStone.Community.Search.Models.Sources.Announcement'
@@ -24,16 +24,16 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
     'page'         : 'CStone.Community.Search.Models.Sources.Page'
     'question'     : 'CStone.Community.Search.Models.Sources.Question'
     'sermon'       : 'CStone.Community.Search.Models.Sources.Sermon'
-  
-  
+
+
   initialize: =>
     _(['name']).forEach (requirement)=>
       throw Error("A Source MUST have a #{requirement}") unless @get(requirement)
-    
+
     unless @get('title')
       name = @get('name')
       @set(title: name.charAt(0).toUpperCase() + name.slice(1))
-    
+
     # https://github.com/twitter/typeahead.js/blob/master/doc/bloodhound.md#options
     bloodhound_options =
       name:           @get 'name'
@@ -49,7 +49,7 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
     @bloodhound = new Bloodhound( bloodhound_options )
     @bloodhound.initialize()
 
-  
+
   search: (query)=>
     @bloodhound.get query, (async_results)=>
       processed_results = @processResults(async_results, query = query) #preserve query
@@ -61,19 +61,19 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
       @bloodhound.index.get(query)
     else
       results # Abstract Funciton - Overwrite in child
-  
+
   # Internal #########
   startPhraseTokenizer = (str, word_cap=3)-> [str.split(/\s+/, word_cap).join(' ')]
   significantWordTokenizer = (query)->
     q_array = Bloodhound.tokenizers.whitespace(query)
     q_array = _(q_array).difference( STOPWORDS )
-    
+
   charFilter = (str)->
     _(REPLACEMENTS).each (pair)->
       [regex, replacement] = pair
       str= str.replace(///#{regex}///g, replacement)
     str
-  
+
   defaultDatumTokenizer = (datum)->
     q = datum.payload.toLowerCase().trim()
     q = charFilter(q)
@@ -83,7 +83,7 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
     ]).inject(((memo,tokens)->_.union(memo,tokens)),[])
     # console.log "Data: ['#{answer.join('\', \'')}']"
     answer
-  
+
   defaultQueryTokenizer = (query)->
     q = query.toLowerCase().trim()
     q = charFilter(q)
@@ -103,7 +103,7 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
   defaultSorter         = (a, b) ->
     if a.score > b.score then return  1
     if a.score < b.score then -1 else 0
-    
+
   # Singletons ##########
   @elasticsearchProcessor: (type)->
     processor = (results)->
@@ -117,5 +117,5 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
       results_array.total_counts = results.total_counts
       results_array
     return processor
-    
+
 CStone.Community.Search.Models.AbstractSource.setup()

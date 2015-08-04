@@ -18,4 +18,4 @@ describe 'CStone.Community.Search.Views', ->
       @view.remove()
       subviews.forEach (subview)->
         expect(subview.remove).wasCalled()
-    
+

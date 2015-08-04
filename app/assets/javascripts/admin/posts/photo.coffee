@@ -4,13 +4,13 @@
 $ ->
   if $('#upload-photo').length
     $(document).on 'drop dragover', (e)-> e.preventDefault() #prevent's browser from just opening the file
-    
+
     url = '/admin/uploaded_files'
     url += "?post[id]=#{post_id}" if post_id = $('#post_id').val()
     $.getJSON url, (data)->
       template = HandlebarsTemplates.download_uploaded_file(data)
       $('#dropzone-file-manager').append(template)
-    
+
     $('#upload-photo').fileupload
       limitConcurrentUploads: 3
       dataType: 'json'

@@ -18,7 +18,7 @@
             / - @channels.each do |channel|
             /   %li= link_to channel.title, "##{channel.slug}"
         %input{type:'text', placeholder:'What do you want to learn?'}
-      
+
   / .col-xs-12
   /   %ul.nav.nav-pills
   /     %li.active{role:'presentation'}
@@ -46,4 +46,4 @@
               %ol.lessons.hidden-xs
                 - study.lessons.each do |lesson|
                   %li= link_to lesson.title, study_lesson_path(study, lesson)
-            
+

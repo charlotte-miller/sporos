@@ -56,7 +56,7 @@ include ActionDispatch::TestProcess
 FactoryGirl.define do
   factory :lesson do
     before(:create, :stub) { AWS.stub! if Rails.env.test? }
-    
+
     study
     # position 1
     title       { Faker::Lorem.sentence(rand(3..6))  }

@@ -37,7 +37,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"uri":"/users/37127388","name":"Chip Miller","link":"https://vimeo.com/user37127388","location":null,"bio":null,"created_time":"2015-02-05T21:41:16+00:00","account":"basic","pictures":null,"websites":[],"metadata":{"connections":{"activities":{"uri":"/users/37127388/activities","options":["GET"]},"albums":{"uri":"/users/37127388/albums","options":["GET"],"total":0},"channels":{"uri":"/users/37127388/channels","options":["GET"],"total":0},"feed":{"uri":"/users/37127388/feed","options":["GET"]},"followers":{"uri":"/users/37127388/followers","options":["GET"],"total":0},"following":{"uri":"/users/37127388/following","options":["GET"],"total":0},"groups":{"uri":"/users/37127388/groups","options":["GET"],"total":0},"likes":{"uri":"/users/37127388/likes","options":["GET"],"total":0},"portfolios":{"uri":"/users/37127388/portfolios","options":["GET"],"total":0},"videos":{"uri":"/users/37127388/videos","options":["GET"],"total":2},"watchlater":{"uri":"/users/37127388/watchlater","options":["GET"],"total":0},"shared":{"uri":"/users/37127388/shared/videos","options":["GET"],"total":0},"pictures":{"uri":"/users/37127388/pictures","options":["GET","POST"],"total":0}}},"content_filter":["language","drugs","violence","nudity","safe","unrated"],"upload_quota":{"space":{"free":524206500,"max":524288000,"used":81500},"quota":{"hd":false,"sd":true}}}'
-    http_version: 
+    http_version:
   recorded_at: Thu, 19 Feb 2015 23:53:41 GMT
 - request:
     method: post
@@ -81,7 +81,7 @@ http_interactions:
         enctype=\"multipart/form-data\">\n<label for=\"file\">File:</label>\n<input
         type=\"file\" name=\"file_data\" id=\"file\"><br>\n<input type=\"submit\"
         name=\"submit\" value=\"Submit\">\n</form>"}'
-    http_version: 
+    http_version:
   recorded_at: Thu, 19 Feb 2015 23:53:41 GMT
 - request:
     method: post
@@ -112,7 +112,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Thu, 19 Feb 2015 23:53:43 GMT
 - request:
     method: get
@@ -170,7 +170,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Thu, 19 Feb 2015 23:53:44 GMT
 - request:
     method: patch
@@ -212,7 +212,7 @@ http_interactions:
         of wonders is a very important message.","link":"https://vimeo.com/120109687","duration":0,"width":400,"locale":null,"height":300,"created_time":"2015-02-19T23:53:44+00:00","modified_time":"2015-02-19T23:53:45+00:00","content_rating":["unrated"],"license":"by-nc-nd","privacy":{"view":"anybody","embed":"public","download":true,"add":true,"comments":"anybody"},"pictures":null,"tags":[],"stats":{"plays":0},"embed":{"buttons":{"like":true,"watchlater":true,"share":true,"embed":true,"hd":false,"fullscreen":true,"scaling":true},"logos":{"vimeo":true,"custom":{"active":false,"link":null,"sticky":false}},"title":{"name":"user","owner":"user","portrait":"user"},"playbar":true,"volume":true,"color":"00adef"},"metadata":{"connections":{"comments":{"uri":"/videos/120109687/comments","options":["GET","POST"],"total":0},"credits":{"uri":"/videos/120109687/credits","options":["GET","POST"],"total":1},"likes":{"uri":"/videos/120109687/likes","options":["GET"],"total":0},"pictures":{"uri":"/videos/120109687/pictures","options":["GET","POST"],"total":0},"texttracks":{"uri":"/videos/120109687/texttracks","options":["GET","POST"],"total":0}},"interactions":{"watchlater":{"added":false,"added_time":null,"uri":"/users/37127388/watchlater/120109687"}}},"embed_presets":null,"user":{"uri":"/users/37127388","name":"Chip
         Miller","link":"https://vimeo.com/user37127388","location":null,"bio":null,"created_time":"2015-02-05T21:41:16+00:00","account":"basic","pictures":null,"websites":[],"metadata":{"connections":{"activities":{"uri":"/users/37127388/activities","options":["GET"]},"albums":{"uri":"/users/37127388/albums","options":["GET"],"total":0},"channels":{"uri":"/users/37127388/channels","options":["GET"],"total":0},"feed":{"uri":"/users/37127388/feed","options":["GET"]},"followers":{"uri":"/users/37127388/followers","options":["GET"],"total":0},"following":{"uri":"/users/37127388/following","options":["GET"],"total":0},"groups":{"uri":"/users/37127388/groups","options":["GET"],"total":0},"likes":{"uri":"/users/37127388/likes","options":["GET"],"total":0},"portfolios":{"uri":"/users/37127388/portfolios","options":["GET"],"total":0},"videos":{"uri":"/users/37127388/videos","options":["GET"],"total":3},"watchlater":{"uri":"/users/37127388/watchlater","options":["GET"],"total":0},"shared":{"uri":"/users/37127388/shared/videos","options":["GET"],"total":0},"pictures":{"uri":"/users/37127388/pictures","options":["GET","POST"],"total":0}}},"content_filter":["language","drugs","violence","nudity","safe","unrated"],"upload_quota":{"space":{"free":524206500,"max":524288000,"used":81500},"quota":{"hd":false,"sd":true}}},"app":{"name":"Cornerstone
         Chruch SF","uri":"/apps/49619"},"status":"uploading"}'
-    http_version: 
+    http_version:
   recorded_at: Thu, 19 Feb 2015 23:53:45 GMT
 - request:
     method: get
@@ -252,7 +252,7 @@ http_interactions:
         of wonders is a very important message.","link":"https://vimeo.com/120109687","duration":0,"width":400,"locale":null,"height":300,"created_time":"2015-02-19T23:53:44+00:00","modified_time":"2015-02-19T23:53:45+00:00","content_rating":["unrated"],"license":"by-nc-nd","privacy":{"view":"anybody","embed":"public","download":true,"add":true,"comments":"anybody"},"pictures":null,"tags":[],"stats":{"plays":0},"embed":{"buttons":{"like":true,"watchlater":true,"share":true,"embed":true,"hd":false,"fullscreen":true,"scaling":true},"logos":{"vimeo":true,"custom":{"active":false,"link":null,"sticky":false}},"title":{"name":"user","owner":"user","portrait":"user"},"playbar":true,"volume":true,"color":"00adef"},"metadata":{"connections":{"comments":{"uri":"/videos/120109687/comments","options":["GET","POST"],"total":0},"credits":{"uri":"/videos/120109687/credits","options":["GET","POST"],"total":1},"likes":{"uri":"/videos/120109687/likes","options":["GET"],"total":0},"pictures":{"uri":"/videos/120109687/pictures","options":["GET","POST"],"total":0},"texttracks":{"uri":"/videos/120109687/texttracks","options":["GET","POST"],"total":0}},"interactions":{"watchlater":{"added":false,"added_time":null,"uri":"/users/37127388/watchlater/120109687"}}},"embed_presets":null,"user":{"uri":"/users/37127388","name":"Chip
         Miller","link":"https://vimeo.com/user37127388","location":null,"bio":null,"created_time":"2015-02-05T21:41:16+00:00","account":"basic","pictures":null,"websites":[],"metadata":{"connections":{"activities":{"uri":"/users/37127388/activities","options":["GET"]},"albums":{"uri":"/users/37127388/albums","options":["GET"],"total":0},"channels":{"uri":"/users/37127388/channels","options":["GET"],"total":0},"feed":{"uri":"/users/37127388/feed","options":["GET"]},"followers":{"uri":"/users/37127388/followers","options":["GET"],"total":0},"following":{"uri":"/users/37127388/following","options":["GET"],"total":0},"groups":{"uri":"/users/37127388/groups","options":["GET"],"total":0},"likes":{"uri":"/users/37127388/likes","options":["GET"],"total":0},"portfolios":{"uri":"/users/37127388/portfolios","options":["GET"],"total":0},"videos":{"uri":"/users/37127388/videos","options":["GET"],"total":3},"watchlater":{"uri":"/users/37127388/watchlater","options":["GET"],"total":0},"shared":{"uri":"/users/37127388/shared/videos","options":["GET"],"total":0},"pictures":{"uri":"/users/37127388/pictures","options":["GET","POST"],"total":0}}},"content_filter":["language","drugs","violence","nudity","safe","unrated"],"upload_quota":{"space":{"free":524206500,"max":524288000,"used":81500},"quota":{"hd":false,"sd":true}}},"app":{"name":"Cornerstone
         Chruch SF","uri":"/apps/49619"},"status":"uploading"}'
-    http_version: 
+    http_version:
   recorded_at: Thu, 19 Feb 2015 23:53:46 GMT
 - request:
     method: get
@@ -309,7 +309,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"uri":"/users/37127388","name":"Chip Miller","link":"https://vimeo.com/user37127388","location":null,"bio":null,"created_time":"2015-02-05T21:41:16+00:00","account":"basic","pictures":null,"websites":[],"metadata":{"connections":{"activities":{"uri":"/users/37127388/activities","options":["GET"]},"albums":{"uri":"/users/37127388/albums","options":["GET"],"total":0},"channels":{"uri":"/users/37127388/channels","options":["GET"],"total":0},"feed":{"uri":"/users/37127388/feed","options":["GET"]},"followers":{"uri":"/users/37127388/followers","options":["GET"],"total":0},"following":{"uri":"/users/37127388/following","options":["GET"],"total":0},"groups":{"uri":"/users/37127388/groups","options":["GET"],"total":0},"likes":{"uri":"/users/37127388/likes","options":["GET"],"total":0},"portfolios":{"uri":"/users/37127388/portfolios","options":["GET"],"total":0},"videos":{"uri":"/users/37127388/videos","options":["GET"],"total":4},"watchlater":{"uri":"/users/37127388/watchlater","options":["GET"],"total":0},"shared":{"uri":"/users/37127388/shared/videos","options":["GET"],"total":0},"pictures":{"uri":"/users/37127388/pictures","options":["GET","POST"],"total":0}}},"preferences":{"videos":{"privacy":"anybody"}},"content_filter":["language","drugs","violence","nudity","safe","unrated"],"upload_quota":{"space":{"free":524288000,"max":524288000,"used":0},"quota":{"hd":true,"sd":true}}}'
-    http_version: 
+    http_version:
   recorded_at: Tue, 07 Jul 2015 21:22:56 GMT
 - request:
     method: post
@@ -369,7 +369,7 @@ http_interactions:
         enctype=\"multipart/form-data\">\n<label for=\"file\">File:</label>\n<input
         type=\"file\" name=\"file_data\" id=\"file\"><br>\n<input type=\"submit\"
         name=\"submit\" value=\"Submit\">\n</form>"}'
-    http_version: 
+    http_version:
   recorded_at: Tue, 07 Jul 2015 23:23:09 GMT
 - request:
     method: post
@@ -400,7 +400,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Tue, 07 Jul 2015 23:23:10 GMT
 - request:
     method: get
@@ -462,7 +462,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Tue, 07 Jul 2015 23:23:11 GMT
 - request:
     method: get
@@ -519,7 +519,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"uri":"/users/37127388","name":"Chip Miller","link":"https://vimeo.com/user37127388","location":null,"bio":null,"created_time":"2015-02-05T21:41:16+00:00","account":"basic","pictures":null,"websites":[],"metadata":{"connections":{"activities":{"uri":"/users/37127388/activities","options":["GET"]},"albums":{"uri":"/users/37127388/albums","options":["GET"],"total":0},"channels":{"uri":"/users/37127388/channels","options":["GET"],"total":0},"feed":{"uri":"/users/37127388/feed","options":["GET"]},"followers":{"uri":"/users/37127388/followers","options":["GET"],"total":0},"following":{"uri":"/users/37127388/following","options":["GET"],"total":0},"groups":{"uri":"/users/37127388/groups","options":["GET"],"total":0},"likes":{"uri":"/users/37127388/likes","options":["GET"],"total":0},"portfolios":{"uri":"/users/37127388/portfolios","options":["GET"],"total":0},"videos":{"uri":"/users/37127388/videos","options":["GET"],"total":5},"watchlater":{"uri":"/users/37127388/watchlater","options":["GET"],"total":0},"shared":{"uri":"/users/37127388/shared/videos","options":["GET"],"total":0},"pictures":{"uri":"/users/37127388/pictures","options":["GET","POST"],"total":0}}},"preferences":{"videos":{"privacy":"anybody"}},"content_filter":["language","drugs","violence","nudity","safe","unrated"],"upload_quota":{"space":{"free":524288000,"max":524288000,"used":0},"quota":{"hd":true,"sd":true}}}'
-    http_version: 
+    http_version:
   recorded_at: Tue, 07 Jul 2015 23:23:27 GMT
 - request:
     method: post
@@ -579,7 +579,7 @@ http_interactions:
         enctype=\"multipart/form-data\">\n<label for=\"file\">File:</label>\n<input
         type=\"file\" name=\"file_data\" id=\"file\"><br>\n<input type=\"submit\"
         name=\"submit\" value=\"Submit\">\n</form>"}'
-    http_version: 
+    http_version:
   recorded_at: Tue, 07 Jul 2015 23:23:27 GMT
 - request:
     method: post
@@ -610,7 +610,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Tue, 07 Jul 2015 23:23:28 GMT
 - request:
     method: get
@@ -672,6 +672,6 @@ http_interactions:
     body:
       encoding: UTF-8
       string: ''
-    http_version: 
+    http_version:
   recorded_at: Tue, 07 Jul 2015 23:23:29 GMT
 recorded_with: VCR 2.9.3

@@ -61,7 +61,7 @@ FactoryGirl.define do
     before(:create, :stub) do
       AWS.stub! if Rails.env.test?
     end
-    
+
     admin       false
     first_name  {Faker::Name.first_name}
     last_name   {Faker::Name.last_name}
@@ -70,7 +70,7 @@ FactoryGirl.define do
     password_confirmation  {|me| me.password }
     profile_image { fixture_file_upload(Rails.root.join('spec/files/', 'user_profile_image.jpg'), 'image/jpg', true) }
   end
-  
+
   factory :admin_user, parent:'user', aliases: [:approver, :permanent_approver] do
     admin true
   end

@@ -5,7 +5,7 @@ require 'ansi/progressbar'
 require 'elasticsearch/rails/tasks/import'
 
 namespace :elasticsearch do
-  
+
   desc "Downloads the WordNet 3.0 synonyms database - might require sudo privlages for /var/lib"
   task :download_wordnet do
     [
@@ -14,12 +14,12 @@ namespace :elasticsearch do
       'cd /tmp && mv prolog/wn_s.pl /var/lib'
     ].each { |command| system(command) || raise( RuntimeError.new("FAILED TO EXECUTE: '#{command}'" )) }
   end
-  
+
 
   task :import => 'import:model' # move original
 
   namespace :import do
- 
+
     desc <<-DESC.gsub(/    /, '')
       Import all mappings from `app/models` (or use DIR environment variable) into a single index.
 
@@ -27,15 +27,15 @@ namespace :elasticsearch do
 
       class Article
         include Elasticsearch::Model
-    
+
         index_name 'app_scoped_index'
-    
+
         mappings do
           ...
         end
       end
 
-      Usage: 
+      Usage:
         $ rake environment elasticsearch:import:combined DIR=app/models
     DESC
     task :combined => 'environment' do
@@ -45,7 +45,7 @@ namespace :elasticsearch do
         model_filename = path[/#{Regexp.escape(dir.to_s)}\/([^\.]+).rb/, 1]
 
         next if model_filename.match(/^concerns\//i) # Skip concerns/ folder
-                
+
         begin
           klass = model_filename.camelize.constantize
         rescue NameError
@@ -61,20 +61,20 @@ namespace :elasticsearch do
 
       # REBUILD deletes the index before building
       rebuild_once = ENV['REBUILD'] ? searchable_classes.map(&:index_name).uniq : []
-    
+
       ## Update Each Class
       searchable_classes.each do |klass|
         puts "[IMPORT] Processing mappings for: #{klass}..."
-        
+
         es_indices = Elasticsearch::Model.client.indices
         options = {index: klass.index_name }
-        
+
         # Delete index once if REBUILD
         if rebuild_once.include? klass.index_name
           es_indices.delete(options) if es_indices.exists(options)
           rebuild_once.delete(klass.index_name)
         end
-        
+
         # Find or create index
         es_indices.create(options.merge({ body:{settings: klass.settings.to_hash} })) unless es_indices.exists(options)
         es_indices.put_mapping(options.merge({
@@ -82,14 +82,14 @@ namespace :elasticsearch do
           body: klass.mappings.to_hash,
           # ignore_conflicts:true,
         }))
-        
+
       end
-      
+
       # Run Import for each class using .custom_import or .import
       searchable_classes.each do |klass|
         defined?(klass.custom_import) ? klass.custom_import : klass.import
       end
-      
+
 
       ## Import data into the newly created index
       # Rake::Task["elasticsearch:import:all"].invoke
@@ -97,5 +97,5 @@ namespace :elasticsearch do
 
   end
 
-  
+
 end

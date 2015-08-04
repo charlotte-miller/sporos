@@ -7,52 +7,52 @@
   background-color: rgba(3, 3, 3, 0.7);
   z-index:9999;
    @include transitionValue(height);
-  
+
   .search-form{
     @extend .pull-right;
     @extend .col-xs-offset-3;
     @extend .col-xs-6;
     @include transitionValue((width, top, margin-left));
-    top:25px;     
-  
+    top:25px;
+
     .text, .search-hint, .submit{
       @extend .input-sm;
     }
-  
+
     #headroom-search-input, .search-hint{
       border-radius:3px 0 0 3px !important;
     }
-  
+
     .submit{
       @extend .btn-sm;
       border-bottom-width: 1px;
       border-radius:0 3px 3px 0;
     }
   }
-  
+
   &.headroom--pinned.headroom--not-top{
     height:100px;
-    
+
     #headroom-content{
       top:10px;
     }
-    
+
     &.search-focused{
-      
+
       #headroom-logo{
         height:50px !important;
       }
-    
+
       .search-form{
         margin-left:0px !important;
         width:70% !important;
         top:10px !important;
       }
-            
+
       .search-suggestions{
         top:5px;
       }
-    
+
       .submit > .glyphicon {
         @extend .glyphicon-remove;
       }

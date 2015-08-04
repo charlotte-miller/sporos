@@ -33,6 +33,6 @@
 #
 
 class Posts::Page < Post
-  
-  
+
+
 end

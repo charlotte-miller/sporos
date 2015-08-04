@@ -2,14 +2,14 @@
 require 'ostruct'
 
 class DeepStruct < OpenStruct
-  
+
   def initialize(data=nil)
     @table = {}
     @hash_table = {}
-    
+
     if data && defined? data.each
       @hash_table = data.deep_symbolize_keys
-      
+
       data.each do |k,v|
         @table[k.to_sym] = case v
           when Hash

@@ -1,7 +1,7 @@
 class MeetingsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :safe_select_group_and_meeting
-  
+
   # GET /meetings
   # GET /meetings.json
   def index
@@ -79,14 +79,14 @@ class MeetingsController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
 private
-  
+
   def safe_select_group_and_meeting
     return unless user_signed_in?
     @group = current_user.groups.find(params[:group_id])
     @meetings = @group.meetings
     @meeting = @group.meetings.find(params[:id])  if params[:id]
   end
-  
+
 end

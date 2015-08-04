@@ -25,7 +25,7 @@ class CreateLessons < ActiveRecord::Migration
       t.datetime      :published_at
       t.timestamps                      null: false
     end
-    
+
     add_index :lessons, [:study_id, :position]
     add_index :lessons, :backlink
     add_index :lessons, :video_vimeo_id, unique:true

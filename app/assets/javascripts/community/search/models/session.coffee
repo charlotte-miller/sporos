@@ -1,5 +1,5 @@
 class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
-  
+
   initialize: =>
     @on 'change:current_search',   @_searchSourcesForCurrentSearch
     @on 'change:current_search',   @_storeSearchHistory
@@ -7,7 +7,7 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
     @on 'change:dropdown_visible', @_clearActiveUiWhenHidingDropdown
     @listenTo @get('results'), 'filtered:change', @_updateCurrentHint
     @listenTo @get('results'), 'filtered:reset',  @_updateCurrentHint
-  
+
   defaults:
     dropdown_visible:false
     hint_visible:false
@@ -15,7 +15,7 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
     current_search:''
     current_hint:''
     current_hint_w_original_capitalization:''
-    
+
   relations: _([
     {
       type:            'HasMany'
@@ -38,18 +38,18 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
 
   # Public Helpers
   # ----------------------------------------------------------------------
-  
+
   searchState: =>
     is_searching = !!@get('current_search')
     return 'pre-search'   unless is_searching
     return 'searching'    if is_searching && @get('results').length
     return 'no-results'   if is_searching
-  
+
   acceptHint: =>
     @set
       current_search: @get('current_hint_w_original_capitalization')
       current_hint:   @get('current_hint_w_original_capitalization')
-  
+
   # toggle dropdown_visible, hint_visible, etc.
   toggle: (flag, additional_options)=>
     val = @get(flag)
@@ -59,10 +59,10 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
 
   openFocused: =>
     @get('results').currentFocus().open()
-  
+
   moveFocus: (up_down)=>
     @get('results').moveFocus(up_down)
-  
+
   # Internal
   # ----------------------------------------------------------------------
 
@@ -77,7 +77,7 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
 
   _hideHintWhenHidingDropdown: =>
     @set(hint_visible:false) unless @get('dropdown_visible')
-  
+
   _updateCurrentHint: =>
     current_search = @get('current_search')
     focused =  @get('results').currentFocus() && @get('results').currentFocus().get('payload')
@@ -87,10 +87,10 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
       @set(current_hint: hint, current_hint_w_original_capitalization: focused, hint_visible:true)
     else
       @set(current_hint: '', current_hint_w_original_capitalization: '', hint_visible:false)
-  
+
   _clearActiveUiWhenHidingDropdown: =>
     @set(active_ui:null) unless @get('dropdown_visible')
-      
+
   _storeSearchHistory:=>
     # add @get('current_search') to a seperate SearchHistory object
     # collaps typing into the 'final' product

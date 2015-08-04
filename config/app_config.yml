@@ -3,10 +3,10 @@
 #   admin_email: admin@domain.com
 #   xml_rpc_url: http://domain.com:8000/
 #   media_path: <%= Rails.root %>/tmp/media
-# 
+#
 # development:
 #   xml_rpc_url: http://localhost:8000/
-# 
+#
 # test:
 #   xml_rpc_url: http://localhost:8008/
 
@@ -19,10 +19,10 @@ common:
     assets:  assets.cornerstonesf.org                 # CLOUDFRONT -> S3
     legacy_media: media.cornerstone-sf.org
     live:    live.cornerstonesf.org                   # CHURCH ONLINE PLATFORM
-  
+
   mail:
     delivery_method: :sendmail
-   
+
   vimeo:
     token: deddea72ddcd1b0d99e0c461ee52ba96
   paperclip:
@@ -43,14 +43,14 @@ common:
     address: localhost
   church_online_platform:
     sso_key: key_only_used_in_production
-    
+
 
 development:
   domains:
     primary:  localhost:3000
     origin:   localhost:3000
     assets:   assets.dev.cornerstonesf.org
-  
+
   s3:
     url: s3-us-west-1.amazonaws.com
     bucket: assets.dev.cornerstonesf.org
@@ -61,29 +61,29 @@ development:
 test:
   mail:
     delivery_method: :test
-  
+
   s3:
     url: s3-us-west-1.amazonaws.com
     bucket: assets.dev.cornerstonesf.org
     credentials:
       access_key_id: NOT A USER?
       secret_access_key: GET AN ACCESS KEY FROM THE CORNERSTONE DIGITAL TEAM.
-  
 
-production:  
+
+production:
   domains:
     primary: sporos.cornerstonesf.org                 # CLOUDFRONT -> ORIGIN
     origin:  sporos.cornerstonesf.org                 # WEB SERVERS
     assets:  assets.cornerstonesf.org                 # CLOUDFRONT -> S3
     legacy_media:  media.cornerstone-sf.org
-  
+
   dev_user: developer
   dev_pass: 6a582863aa0cb850ff62924825e54555b5ee705b42d21c4280d5bced9adaaed3757eb2afcdf2c5d497226f811020f782905e909032fc9532e91f9110143b9fc8
-  
+
   redis:
     host: <%= ENV['REDIS_ADDRESS_INT'] %>
     url:  <%= ENV['REDIS_URL_INT'] %>
-  
+
   s3:
     url: s3-us-west-1.amazonaws.com #s3.amazonaws.com
     bucket: assets.cornerstonesf.org
@@ -98,18 +98,18 @@ production:
 
   vimeo:
     token: <%= ENV['VIMEO_TOKEN'] %>
-  
+
   elasticsearch:
     address: <%= ENV['ELASTICSEARCH_ADDRESS_INT'] %>
-  
+
   devise:
     secret_key: <%= ENV['DEVISE_SECRET_KEY'] %>
     pepper:     <%= ENV['DEVISE_PEPPER'] %>
-  
+
   paperclip:
     hash_secret: <%= ENV['PAPERCLIP_HASH_SECRET'] %>
 
   church_online_platform:
     sso_key: <%= ENV['CHURCH_ONLINE_PLATFORM_SSO_KEY'] %>
-    
+
 #custom_environment:

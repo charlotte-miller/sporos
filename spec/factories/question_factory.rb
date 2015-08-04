@@ -24,18 +24,18 @@
 FactoryGirl.define do
   factory :question do
     before(:create, :stub) { AWS.stub! if Rails.env.test? }
-    
+
     permanent_approver
     author
     source { FactoryGirl.create(:lesson) }
     text   { Faker::Lorem.sentence(rand(3..6)) }
     # answers_count 0
   end
-  
+
   factory :library_question, parent: 'question' do
     source { FactoryGirl.create(:lesson) }
   end
-  
+
   factory :group_question, parent: 'question' do
     source { FactoryGirl.create(:group) }
   end

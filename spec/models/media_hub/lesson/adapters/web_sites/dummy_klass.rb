@@ -1,7 +1,7 @@
 module Lesson::Adapters::WebSites
   class SomethingCom
     def initialize(path, nokogiri_doc)  end
-  
+
     { title:                 'Something.com',
       description:           'Dummy Lesson::Adapters::WebSites for something.com',
       author:                'Somebody',

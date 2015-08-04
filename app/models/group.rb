@@ -17,39 +17,39 @@
 #  index_groups_on_state_and_is_public  (state,is_public)
 #
 
-class Group < ActiveRecord::Base  
-  
+class Group < ActiveRecord::Base
+
   # ---------------------------------------------------------------------------------
   # Attributes
   # ---------------------------------------------------------------------------------
   attr_accessible :description, :name, :is_public, :state, :meets_every_days
   attr_accessible :members, :members_attributes,  as: 'leader'
-  
-  
+
+
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------
   has_one  :current_meeting,    -> { where state: 'current'},  :class_name => "Meeting", foreign_key: 'group_id'
   has_many :meetings,           :dependent => :destroy,        :class_name => "Meeting", foreign_key: 'group_id'
   has_many :questions,          as: 'source'
-  
+
   has_many :members,            :through => :group_memberships
   # has_many :leaders,            :through => :group_memberships, source: 'member', conditions: 'group_memberships.role_level > 1'
   has_many :group_memberships,  :dependent => :destroy, inverse_of: :group
-  accepts_nested_attributes_for :group_memberships, 
-                                allow_destroy: true, 
+  accepts_nested_attributes_for :group_memberships,
+                                allow_destroy: true,
                                 reject_if: lambda { !(attributes[:members_attributes].try(:[], :user_id)) }
-  
-  
+
+
   def leaders; members.where('group_memberships.role_level > 1') ;end
-  
+
   # ---------------------------------------------------------------------------------
   # Validations
   # ---------------------------------------------------------------------------------
   validates_presence_of :name, :description, :state
-  
-  
-  
+
+
+
   # ---------------------------------------------------------------------------------
   # StateMachine
   # ---------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ class Group < ActiveRecord::Base
     state :is_closed
     state :is_invite_only
   end
-  
+
 
   # ---------------------------------------------------------------------------------
   # Scopes
@@ -68,17 +68,17 @@ class Group < ActiveRecord::Base
   scope :is_public,           -> {where(is_public: true)}
   scope :publicly_searchable, -> {is_public.is_open}
 
-  
-  
+
+
   # ---------------------------------------------------------------------------------
   # Callbacks
   # ---------------------------------------------------------------------------------
   # after_save :create_first_meeting
-  
-  
+
+
   # ---------------------------------------------------------------------------------
   # Methods
   # ---------------------------------------------------------------------------------
-  
-  
+
+
 end

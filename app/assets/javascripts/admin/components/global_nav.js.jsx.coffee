@@ -1,29 +1,29 @@
 ReactCSSTransitionGroup = React.addons.CSSTransitionGroup
 CStone.Admin.Components.GlobalNav = React.createClass
-  
+
   # propTypes:
     # vimeoId: React.PropTypes.string
-    
+
   getInitialState: ->
     is_open: false
-  
+
   clickEdit: (e)->
     e.preventDefault()
     @setState(is_open: !@state.is_open)
-    
+
   clickNewPostBackground:(e)->
     unless e.target.nodeName == "A"
       @setState(is_open: false)
-  
+
   onNavSelect: (e)->
     e.preventDefault()
     $(e.target).addClass('opening')
     is_safari = /^((?!chrome).)*safari/i.test(navigator.userAgent)
     url = e.target.href
-    _.delay -> 
+    _.delay ->
       window.location= url
     , (if is_safari then 500 else 0)
-  
+
   buildNewPost: ->
     links = if @state.is_open
       [`<span key="event" className="new-post-type pop-1" onClick={this.clickNewPostBackground}><a onClick={this.onNavSelect} href="/admin/posts/new?post_type=event">EVENTS</a></span>`,
@@ -35,13 +35,13 @@ CStone.Admin.Components.GlobalNav = React.createClass
     `<ReactCSSTransitionGroup transitionName="post-create-nav" id="new-post" className={this.state.is_open ? '' : 'inactive'} onClick={this.clickNewPostBackground}>
        {links}
      </ReactCSSTransitionGroup>`
-  
+
   buildEdit: ->
     if @state.is_open
       `<div>GO BACK</div>`
     else
       `<i className="glyphicon glyphicon-pencil"></i>`
-  
+
   render: ->
     if $?
       if @state.is_open then $('#admin-body').addClass('blured') else $('#admin-body').removeClass('blured')

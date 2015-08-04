@@ -24,7 +24,7 @@ RSpec.configure do |config|
   config.extend  Devise::RequestHelper,    :type => :request
   config.include FactoryGirl::Syntax::Methods
   config.include Paperclip::Shoulda::Matchers
-  
+
   # ## Mock Framework
   config.mock_with :rspec #:mocha
 
@@ -34,21 +34,21 @@ RSpec.configure do |config|
     c.cassette_library_dir = "#{Rails.root}/spec/files/vcr_cassettes"
     c.hook_into :webmock
   end
-  
+
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = true
-  
+
   config.infer_base_class_for_anonymous_controllers = true
   config.infer_spec_type_from_file_location!
   config.order = "random"
-  
+
   config.infer_spec_type_from_file_location!
-  
+
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:deletion, except: %w[public.schema_migrations])
   end
-  
+
   # Makes before(:all) useful again!
   config.before(:all) { DatabaseCleaner.start }
   config.after(:all)  {DatabaseCleaner.clean}

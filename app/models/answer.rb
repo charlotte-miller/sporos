@@ -21,6 +21,6 @@ class Answer < ActiveRecord::Base
   belongs_to :question
   belongs_to :author, class_name: 'User'
   attr_accessible :text
-  
+
   validates_presence_of :question_id, :author_id, :text
 end

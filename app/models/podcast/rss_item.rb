@@ -4,36 +4,36 @@ require 'rss/itunes'
 #
 class Podcast::RssItem
   include Sanitizable
-  
+
   attr_reader :parent_channel, :rss_item_obj
-  
+
   def initialize(parent_channel, rss_item_obj)
     raise ArgumentError.new('Podcast::RssChannel required') unless parent_channel.is_a? Podcast::RssChannel
     raise ArgumentError.new('RSS::Rss::Channel::Item required') unless rss_item_obj.is_a? RSS::Rss::Channel::Item
     @parent_channel = parent_channel
     @rss_item_obj   = rss_item_obj
   end
-  
+
   def title
     plain_text(rss_item_obj.title)
   end
-  
+
   def author
     plain_text( rss_item_obj.try_these(:author, :itunes_author) )
   end
-  
+
   def description
     plain_text( rss_item_obj.try_these(:description, :itunes_summary) )
   end
-  
+
   def homepage
     sanitize_url(rss_item_obj.link)
   end
-  
+
   def published_at
     pubDate
   end
-  
+
   # duration in seconds (integer)
   def duration
     t = itunes_duration
@@ -42,21 +42,21 @@ class Podcast::RssItem
       t.second
     ].sum
   end
-  
+
   def media_link
     sanitize_url(enclosure.url)
   end
-  
+
   def media_length
     enclosure.length.to_i
   rescue
     0
   end
-  
+
   def media_type
     enclosure.type
   end
-  
+
   # TODO: split audio from video OR handle audio only
   def media_audio
     # audio conversion of video
@@ -67,7 +67,7 @@ class Podcast::RssItem
     # if media_type.
     media_link
   end
-  
+
   def poster_img
     parent_channel.poster_img
   end

@@ -1,19 +1,19 @@
 require 'rails_helper'
 
-describe GroupsController do  
+describe GroupsController do
   before(:all) do
     @group = create(:group)
     @valid_attributes = attributes_for(:group)
   end
-  
+
   let!(:group){ @group }
   let(:valid_attributes) { @valid_attributes }
 
   describe 'new or logged-out user' do
-    
+
     describe "GET index" do
       let(:load_page!) { get :index, {} }
-      
+
       it "loads" do
         load_page!
         should assign_to(:groups)
@@ -30,7 +30,7 @@ describe GroupsController do
 
     describe "GET show" do
       let(:load_page!) { get :show, {:id => group.to_param} }
-      
+
       it "loads" do
         load_page!
         should respond_with(:success)
@@ -48,28 +48,28 @@ describe GroupsController do
         get :new, {}
         should redirect_to(new_user_session_url)
       end
-      
+
       it ":show redirects to :index if a non-public group is attempted" do
         group = create(:group, is_public:false)
         get :show, {:id => group.to_param}
         should redirect_to(new_user_session_url)
       end
-      
+
       it ":edit redirects to :index" do
         get :edit, { :id => group.to_param }
         should redirect_to(new_user_session_url)
       end
-      
+
       it ":create redirects to :index" do
         post :create, {:group => valid_attributes}
         should redirect_to(new_user_session_url)
       end
-      
+
       it ":update redirects to :index" do
         put :update, {:id => group.to_param, :group => { "name" => "MyString" }}
         should redirect_to(new_user_session_url)
       end
-      
+
       it ":destroy redirects to :index" do
         delete :destroy, {:id => group.to_param}
         should redirect_to(new_user_session_url)
@@ -77,14 +77,14 @@ describe GroupsController do
     end
 
   end
-  
+
   describe 'logged-in user' do
     login_user
     before(:each){  group.members << current_user }
-    
+
     describe "GET index" do
       let(:load_page!) { get :index, {} }
-      
+
       it "loads" do
         load_page!
         should respond_with(:success)
@@ -94,7 +94,7 @@ describe GroupsController do
         load_page!
         assigns(:groups).should eq([group])
       end
-      
+
       it "scopes queries to the current_user" do
         load_page!
         skip
@@ -103,7 +103,7 @@ describe GroupsController do
 
     describe "GET show" do
       let(:load_page!) { get :show, { :id => group.to_param } }
-      
+
       it "loads" do
         load_page!
         should respond_with(:success)
@@ -115,11 +115,11 @@ describe GroupsController do
         assigns(:group).should eq(group)
         assigns(:membership).should eq(group.group_memberships.first)
       end
-      
+
       it "scopes queries to the current_user" do
         skip
       end
-      
+
       it "updates the users GroupMembership#last_attended_at" do
         Timecop.freeze('12/12/2012') { load_page! }
         current_user.membership_in(group.id).last_attended_at.should eql Time.parse('12/12/2012')
@@ -150,7 +150,7 @@ describe GroupsController do
         get :edit, {:id => group.to_param}
         assigns(:group).should eq(group)
       end
-      
+
       it "scopes queries to the current_user" do
         skip
       end
@@ -161,7 +161,7 @@ describe GroupsController do
         skip
         # assigns(:group).leader.should eql current_user
       end
-      
+
       describe "with valid params" do
         it "creates a new Group" do
           expect {
@@ -218,7 +218,7 @@ describe GroupsController do
           put :update, {:id => group.to_param, :group => valid_attributes}
           response.should redirect_to(group)
         end
-        
+
         it "scopes updates to the current_user" do
           skip
         end
@@ -253,7 +253,7 @@ describe GroupsController do
         response.should redirect_to(groups_url)
       end
     end
-    
+
     it "scopes deletes to the current_user" do
       skip
     end
@@ -262,45 +262,45 @@ describe GroupsController do
   describe 'private methods' do
 
     describe '.safe_select_group' do
-      
+
       it "rejects new or logged out users" do
         controller.stub('user_signed_in?'=>false )
         controller.send( :safe_select_group      )
         should_not assign_to(:groups)
         should_not assign_to(:group)
       end
-      
+
       describe 'logged in users' do
         login_user
         let(:run_private_methods) { [:safe_select_groups, :safe_select_group].each {|meth| controller.send( meth ) } }
         # before(:each){  group.members << current_user }
-        
+
         it "scopes @groups to the current user" do
           not_user_group = group
           user_group     = create(:group_w_member, new_member:@user)
-          
+
           controller.params[:id] = user_group.id
           run_private_methods
-          
+
           should assign_to(:groups)
           assigns(:groups).should     include(user_group)
-          assigns(:groups).should_not include(not_user_group) 
+          assigns(:groups).should_not include(not_user_group)
 
         end
-        
+
         it "prevents horizontal privilage escilation from params[:id]" do
           not_user_group = group
           user_group     = create(:group_w_member, new_member:@user)
-          
+
           controller.params[:id] = user_group
           run_private_methods
-          
+
           should assign_to(:groups).with([user_group])
           should assign_to(:group).with(user_group)
         end
       end
-      
+
     end
-    
+
   end
 end

@@ -1,9 +1,9 @@
 class QuestionsController < ApplicationController
   include SourceableControllers
-  
+
   before_filter :authenticate_user!
   before_filter :merge_author_and_source, only: [:create, :update, :destroy]
-  
+
   # GET /questions
   # GET /questions.json
   def index
@@ -41,7 +41,7 @@ class QuestionsController < ApplicationController
   # POST /questions.json
   def create
     @question = Question.new(params[:question])
-    
+
     respond_to do |format|
       if @question.save
         format.html { redirect_to @question, notice: 'Question was successfully created.' }
@@ -53,13 +53,13 @@ class QuestionsController < ApplicationController
     end
   end
 
-  
+
   # POST /questions/1/block
   # POST /questions/1/block.json
   def block
     @question      = Question.find(params[:id])
     @block_request = BlockRequest.new(source: @question)
-    
+
     respond_to do |format|
       if @block_request.save
         format.html { redirect_to @block_request, notice: 'Question Blocked.' }
@@ -70,7 +70,7 @@ class QuestionsController < ApplicationController
       end
     end
   end
-  
+
   # POST /questions/1/star
   # POST /questions/1/star.json
   def star
@@ -78,7 +78,7 @@ class QuestionsController < ApplicationController
       user_id: current_user.id,
       source:  current_source
     })
-    
+
     respond_to do |format|
       if @star.save
         format.html { redirect_to @star, notice: 'Question Stared.' }
@@ -89,14 +89,14 @@ class QuestionsController < ApplicationController
       end
     end
   end
-  
+
 private
-  
+
   def merge_author_and_source
     params[:question][:author] = current_user
     params[:question][:source] = current_source
   end
-  
+
   def current_source
     def find_obj
       return Lesson.find(  params.delete(:lesson_id)  ) if params[:lesson_id]
@@ -104,5 +104,5 @@ private
     end
     @current_source ||= find_obj
   end
-  
+
 end

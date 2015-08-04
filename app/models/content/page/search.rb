@@ -20,13 +20,13 @@
 module Page::Search
   extend  ActiveSupport::Concern
   include Searchable
-    
+
   included do
     searchable_model # [title, display_description, description, keywords, path] are already declaired
-    
+
     scope :search_indexable, lambda { where(hidden_link:false) }
   end
-  
+
   def as_indexed_json(options={})
     {
       title:                title,

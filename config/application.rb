@@ -18,7 +18,7 @@ Bundler.require(*Rails.groups(:assets => %w(development test)))
 module Sporos
   class Application < Rails::Application
     require File.expand_path('../initializers/_configy', __FILE__)
-    
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -30,30 +30,30 @@ module Sporos
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :en
-    
+
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
-    
+
     # Custom directories with classes and modules you want to be autoloadable.
     config.paths.add "#{Rails.root}/lib/mixins",           eager_load:true
     config.paths.add "#{Rails.root}/app/models/content",   eager_load:true
     config.paths.add "#{Rails.root}/app/models/media_hub", eager_load:true
-    
+
     # Be sure to have the adapter's gem in your Gemfile and follow
     # the adapter's specific installation and deployment instructions.
     config.active_job.queue_adapter = :resque
-    
+
     config.react.addons = true
-    
-    # Generate Controllers w/out associated styles/scripts 
+
+    # Generate Controllers w/out associated styles/scripts
     config.generators do |g|
       g.assets = false
       # g.helper false
       # g.template_engine false
     end
-    
+
     config.cache_store = :redis_store, "#{AppConfig.redis.url}/0/cache", { expires_in: 1.week }
-    
+
     # String should use VARCHAR not VARCHAR(255)
     initializer "postgresql.no_default_string_limit" do
       ActiveSupport.on_load(:active_record) do

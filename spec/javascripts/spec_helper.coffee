@@ -6,7 +6,7 @@
 #= require support/jasmine-jquery-1.7.0
 #= require support/sinon
 #= require support/vendor/backbone-factory
-#= require support/bind-poly 
+#= require support/bind-poly
 #= require_tree ./support/helpers
 #= require_tree ./specs/community/news/factories
 #= require_tree ./specs/community/pages/factories

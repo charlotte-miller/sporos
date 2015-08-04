@@ -5,9 +5,9 @@ $.fn.simulateKey = (key)->
   up = jQuery.Event("keyup")
   up.which = keycode(key)
   $(@).trigger(up)
-  
+
 keycode = (keystr)->
-  codes = 
+  codes =
     backspace:	8
     tab:	9
     enter:	13

@@ -23,5 +23,5 @@ RSpec.describe Page, :type => :model do
   it "builds from factory", :internal do
     lambda { create(:page) }.should_not raise_error
   end
-  
+
 end

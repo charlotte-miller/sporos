@@ -10,6 +10,6 @@ describe LessonsController do
     it "routes to #show" do
       get("/library/1/lessons/1").should route_to("lessons#show", :study_id => '1', :id => "1")
     end
-    
+
   end
 end

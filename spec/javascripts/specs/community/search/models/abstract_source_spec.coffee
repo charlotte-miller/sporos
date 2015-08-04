@@ -7,6 +7,6 @@ describe "CStone.Community.Search.Models", ->
       expect(@source).toBeA( CStone.Community.Search.Models.AbstractSource )
       expect(@source).toHaveAssociated('session')
 
-    
+
     describe '#search(query)', =>
-      
+

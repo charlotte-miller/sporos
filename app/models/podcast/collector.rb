@@ -1,7 +1,7 @@
 class Podcast::Collector
   attr_reader :hydra, :queue
-  
-  
+
+
   # Accepts an array of Podcast objects
   # Pulls the current podcast XML
   # Executes the &block on_complete passing the podcast_obj and podcast_xml
@@ -11,18 +11,18 @@ class Podcast::Collector
 
     @hydra = Typhoeus::Hydra.new
     @queue = @hydra.queued_requests
-    podcasts.map do |podcast| 
+    podcasts.map do |podcast|
       request = Typhoeus::Request.new(podcast.url)
       request.on_complete do |response|
         on_complete.call(podcast, response.body)
       end if block_given?
-      
+
       @hydra.queue request
     end
   end
-  
+
   def run!
     hydra.run
   end
-  
+
 end

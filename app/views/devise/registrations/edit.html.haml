@@ -48,11 +48,11 @@
         = f.label :current_password, 'Current Password'
         = f.password_field :current_password, class: "form-control", placeholder:'Required to change password'
         = link_to t(".forgot_your_password", :default => "Forgot your password?"), new_password_path(resource_name), id:'forgot-password-link'
-      
+
       %hr
       = f.submit t('.update', :default => "Update"), class: "btn btn-primary"
       = link_to :back do
         .button.btn.btn-link Cancel
       = link_to user_registration_path, :method => :delete, :data => { :confirm => "This cannot be undone. \rAre you sure?" }, class:'pull-right' do
         .button.btn.btn-link Delete Account
-        
+

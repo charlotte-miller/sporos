@@ -4,7 +4,7 @@ RSpec.describe "admin/posts/edit", :type => :view do
   before(:all) do
     @ministries = assign(:ministries, [build_stubbed(:ministry)])
   end
-  
+
   context 'Posts::Event' do
     before do
       @post = assign(:post, Posts::Event.new(
@@ -14,7 +14,7 @@ RSpec.describe "admin/posts/edit", :type => :view do
         :poster => ""
       ))
     end
-    
+
     it "renders new post form" do
       render
 
@@ -23,7 +23,7 @@ RSpec.describe "admin/posts/edit", :type => :view do
         assert_select "input#post_title[name=?]", "post[title]"
         assert_select "textarea#post_description[name=?]", "post[description]"
         # assert_select "input#post_poster[name=?]", "post[poster]"
-      
+
         # assert_select "input#post_url[name='post[display_options][url]']"
       end
     end
@@ -39,7 +39,7 @@ RSpec.describe "admin/posts/edit", :type => :view do
       ))
       @possible_poster_images = assign(:possible_poster_images, [])
     end
-    
+
     it "renders new post form" do
       render
 
@@ -48,7 +48,7 @@ RSpec.describe "admin/posts/edit", :type => :view do
         assert_select "input#post_title[name=?]", "post[title]"
         assert_select "textarea#post_description[name=?]", "post[description]"
         # assert_select "input#post_poster[name=?]", "post[poster]"
-      
+
         # assert_select "input#post_url[name='post[display_options][url]']"
       end
     end
@@ -63,7 +63,7 @@ RSpec.describe "admin/posts/edit", :type => :view do
         :poster => ""
       ))
     end
-    
+
     it "renders new post form" do
       render
 
@@ -72,7 +72,7 @@ RSpec.describe "admin/posts/edit", :type => :view do
         assert_select "input#post_title[name=?]", "post[title]"
         assert_select "textarea#post_description[name=?]", "post[description]"
         # assert_select "input#post_poster[name=?]", "post[poster]"
-      
+
         # assert_select "input#post_url[name='post[display_options][url]']"
       end
     end
@@ -87,7 +87,7 @@ RSpec.describe "admin/posts/edit", :type => :view do
         :poster => ""
       ))
     end
-    
+
     it "renders new post form" do
       render
 
@@ -101,5 +101,5 @@ RSpec.describe "admin/posts/edit", :type => :view do
     end
   end
 
-  
+
 end

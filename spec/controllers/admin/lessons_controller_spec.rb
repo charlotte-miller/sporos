@@ -2,21 +2,21 @@ require 'rails_helper'
 
 describe Admin::LessonsController do
   login_admin_user
-  
+
   before(:all) do
     AWS.stub!
     @study  = create(:study)
     @lesson = create(:lesson, study:@study)
     @valid_attributes = attributes_for(:lesson).merge( study_id:@study.id)
   end
-  
+
   let!(:study) { @study }
   let!(:lesson){ @lesson}
   let(:valid_attributes){ @valid_attributes }
-  
+
   describe "GET index" do
     before(:each) { get :index, {} }
-    
+
     it { should respond_with(:success) }
     it "assigns all lessons as @lessons" do
       should assign_to(:lessons).with([lesson])
@@ -26,8 +26,8 @@ describe Admin::LessonsController do
 
   describe "GET show" do
     before(:each) { get :show, {:id => lesson.to_param} }
-    
-    it { should respond_with(:success) }    
+
+    it { should respond_with(:success) }
     it "assigns the requested lesson as @lesson" do
       assigns(:lesson).should eq(lesson)
     end
@@ -35,7 +35,7 @@ describe Admin::LessonsController do
 
   describe "GET new" do
     before(:each) { get :new, {} }
-    
+
     it { should respond_with(:success) }
     it "assigns a new lesson as @lesson" do
       assigns(:lesson).should be_a_new(Lesson)
@@ -44,7 +44,7 @@ describe Admin::LessonsController do
 
   describe "GET edit" do
     before(:each) { get :edit, {:id => lesson.to_param} }
-    
+
     it { should respond_with(:success) }
     it "assigns the requested lesson as @lesson" do
       assigns(:lesson).should eq(lesson)

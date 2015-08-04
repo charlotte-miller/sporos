@@ -6,7 +6,7 @@ RSpec.describe "admin/ministries/new", :type => :view do
       :name => "MyString",
       :description => "MyText",
     ))
-    
+
     view.stub(:current_user) { User.new }
   end
 

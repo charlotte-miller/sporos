@@ -26,13 +26,33 @@ describe GroupsController do
         assigns(:groups).should eq([group])
       end
 
-      describe 'logged in' do
+      describe 'user_signed_in' do
         login_user
+
+        let(:open_group) { FactoryGirl.build(:study_group) }
+        let(:finished_group) { FactoryGirl.build(:study_group, state: 'is_finished') }
+
+        before do
+          FactoryGirl.create(:group_membership, group: open_group, member: current_user)
+          FactoryGirl.create(:group_membership, group: finished_group, member: current_user)
+        end
 
         it 'assigns groups associated with member when logged in' do
           load_page!
           should assign_to(:groups)
           assigns(:groups).should eq(current_user.groups)
+        end
+
+        it 'should assign to open_groups' do
+          load_page!
+          should assign_to(:open_groups)
+          assigns(:open_groups).should eq([open_group])
+        end
+
+        it 'should assign to finished_groups' do
+          load_page!
+          should assign_to(:finished_groups)
+          assigns(:finished_groups).should eq([finished_group])
         end
       end
     end

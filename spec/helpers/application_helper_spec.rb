@@ -14,6 +14,11 @@ describe ApplicationHelper do
     it { expect(current_meeting_position(past_meeting, current_meeting)).to eq("past") }
     it { expect(current_meeting_position(current_meeting, current_meeting)).to eq("current") }
     it { expect(current_meeting_position(future_meeting, current_meeting)).to eq("future") }
+
+    describe 'all meeting has finished' do
+      let(:current_meeting) { nil }
+      it { expect(current_meeting_position(future_meeting, current_meeting)).to eq("finished") }
+    end
   end
 
   describe '#percent_completed' do

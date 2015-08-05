@@ -1,8 +1,8 @@
 - groups.each do |group|
   .row
-    .col-xs-6
+    .col-sm-6
       = link_to(image_tag(group.poster_img.url), group_path(group))
-    .col-xs-6
+    .col-sm-6
       .title.row
         .lead.text-right
           = truncate(group.name, length: 35)

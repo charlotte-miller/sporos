@@ -4,16 +4,16 @@
 = (render partial: 'sidebar')
 
 .container
-  .col-xs-7.display
+  .col-md-7.display
     %h3.group-title My Groups
 
     .member-groups
       =render partial: "group_row", locals: { groups: @open_groups }
-  .col-xs-5
+  .col-md-5
     %h3.group-title Active Questions
 
 .container
-  .col-xs-7.display
+  .col-md-7.display
     %h3.group-title Archived Groups
 
     .member-groups

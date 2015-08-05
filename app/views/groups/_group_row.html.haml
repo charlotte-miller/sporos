@@ -1,14 +1,28 @@
 - groups.each do |group|
   .row
-    = link_to(image_tag(group.poster_img.url), group_path(group))
+    .col-sm-6
+      = link_to(image_tag(group.poster_img.url), group_path(group))
+    .col-sm-6
+      .title.row
+        .lead.text-right
+          = truncate(group.name, length: 35)
+      .name.row.small
+        Cornerstone Church?
+      .row.new-activity
+        %a
+          New Activity
+          %span.badge 7
   %a.row.step-progress{"data-toggle" => "collapse", "href" => "#collapseGroup#{group.id}"}
-    - group.meetings.each do |meeting|
-      - current_meeting_position = current_meeting_position(meeting, current_meeting_from(group))
-      .step-progress-step{class:["#{current_meeting_position}", "col-xs-#{12/group.meetings.length}"].join(' ')}
-        .progress
-          .progress-bar
-        .step-progress-dot
-          %i.glyphicon
+    .col-xs-9
+      - group.meetings.each do |meeting|
+        - current_meeting_position = current_meeting_position(meeting, current_meeting_from(group))
+        .step-progress-step{class:["#{current_meeting_position}", "col-xs-#{12/group.meetings.length}"].join(' ')}
+          .progress
+            .progress-bar
+          .step-progress-dot
+            %i.glyphicon
+    .expand.col-xs-3
+      %button.btn.btn-default See All
   .collapse{id: "collapseGroup#{group.id}"}
     .row
       - group.meetings.each_with_index do |meeting, index|

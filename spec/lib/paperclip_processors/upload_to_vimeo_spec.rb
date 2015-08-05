@@ -24,7 +24,7 @@ module Paperclip
 
       it 'uploads to vimeo' do
         run_make
-        response = Typhoeus.get("https://api.vimeo.com/videos/#{subject.vimeo_video_id}", headers: {"Authorization" => "bearer #{AppConfig.vimeo.token}"})
+        response = Typhoeus.get("https://api.vimeo.com/videos/#{subject.video_vimeo_id}", headers: {"Authorization" => "bearer #{AppConfig.vimeo.token}"})
         expect(response.code).to eq(200)
         video_data = DeepStruct.from_json response.body
         expect(video_data.name).to eq(lesson.title)
@@ -33,8 +33,8 @@ module Paperclip
 
       it 'stores the video_vimeo_id' do
         run_make
-        expect(subject.vimeo_video_id).not_to be_nil
-        expect(subject.vimeo_video_id).to eq(subject.vimeo_video_id)
+        expect(lesson.video_vimeo_id).not_to be_nil
+        expect(lesson.video_vimeo_id).to eq(subject.video_vimeo_id)
       end
 
       it 'leaves video_original_url for reference' do

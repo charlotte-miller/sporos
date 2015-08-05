@@ -102,7 +102,7 @@ RSpec.describe Post, :type => :model do
       expect(Post.featured_order.map(&:id)).to eq([@first_post.id, @second_post.id, @other_post.id])
     end
 
-    it 'should order the featured at by the relevance order' do
+    it 'should order the featured at by the relevance order', :transient do
       expect(Post.featured_order.map(&:id)).to eq([@first_post.id, @second_post.id, @other_post.id])
       @first_post.expired_at = @second_post.expired_at + 1.minute
       @first_post.save!

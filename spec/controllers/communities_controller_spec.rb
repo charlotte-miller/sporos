@@ -20,7 +20,7 @@ RSpec.describe CommunitiesController, :type => :controller do
     describe 'featured posts' do
       let!(:featured_post) { FactoryGirl.create(:post_event, published_at: Time.now, featured_at: Time.now) }
       it 'expects featured published posts to be assigned' do
-        expect(assigns(:posts).first).to eql featured_post
+        expect(assigns(:posts).first.id).to eql featured_post.id
       end
 
     end

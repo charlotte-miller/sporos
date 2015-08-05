@@ -49,10 +49,16 @@ RSpec.describe Post, :type => :model do
 
   subject { build_stubbed(:post, ministry:@ministry, author:@ministry.members.first) }
 
-  it "builds from factory", :internal do
-    [:post, :post_event, :post_link, :post_page, :post_photo, :post_video].each do |factory|
+  [:post, :post_event, :post_link, :post_page, :post_photo, :post_video].each do |factory|
+    it "builds from factory: #{factory}", :internal do
       expect { create(factory) }.to_not raise_error
     end
+  end
+
+  it 'creates at least 1 approval_request for the author' do
+    post = create(:post)
+    expect(post.approval_requests).to_not be_empty
+    expect(post.approval_requests.first.user).to eq(post.author)
   end
 
   describe 'accepts_nested_attributes_for :comm_arts_request' do

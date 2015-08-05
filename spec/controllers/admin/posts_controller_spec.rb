@@ -86,6 +86,14 @@ RSpec.describe Admin::PostsController, :type => :controller do
       end
     end
 
+    context 'author is an editor' do
+      before(:all) { @user = @editor } #login_user this user
+      let(:post) { create(:post, ministry:@ministry, author:@editor) }
+
+      it 'does not throw an error' do
+        expect(lambda { get :show, {:id => post.to_param}, valid_session }).not_to raise_error
+      end
+    end
   end
 
   describe "GET new" do

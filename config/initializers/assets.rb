@@ -13,7 +13,8 @@ Rails.application.config.assets.precompile += ['groups/*.js', 'page_initializers
 Rails.application.config.assets.precompile += ['library/*.js']
 # Rails.application.config.assets.precompile += ['community/**/*.js']
 
-Rails.application.config.assets.image_optim = {pngout:false, svgo: false, pack:true, skip_missing_workers:true}
+# WARNING - Only works in config/application.rb
+# Rails.application.config.assets.image_optim = {pngout:false, svgo: false, pack:true, skip_missing_workers:true}
 
 # Rails.application.config.react.variant = :production
 # Rails.application.config.react.addons = true

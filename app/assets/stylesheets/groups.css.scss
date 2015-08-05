@@ -20,11 +20,34 @@
   align-items: stretch;
 }
 
+.display {
+  padding-left: 0px;
+}
+
+h3.group-title {
+  margin-top: 50px;
+}
+
 .member-groups {
   .row {
-    margin-top: 10px;
-    margin-left: 20px;
-    margin-right: 20px;
+    img {
+      width: 100%;
+    }
+  }
+
+  .title {
+    .lead {
+      // text-align: right;
+    }
+  }
+
+  .new-activity {
+    margin-top: 5px;
+    text-align: right;
+  }
+
+  .name {
+    text-align: right;
   }
 
   .group-progress.past {
@@ -44,6 +67,14 @@
 
 
   .step-progress {
+    .expand {
+      text-align: right;
+    }
+
+    .step-progress-step:first-child {
+      margin-left: -25px;
+    }
+
     .step-progress-step {
       padding: 0;
 
@@ -62,6 +93,7 @@
 
         border-radius: 50%;
       }
+
 
       .progress {
         position: relative;

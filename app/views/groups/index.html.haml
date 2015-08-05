@@ -3,12 +3,19 @@
 
 = (render partial: 'sidebar')
 
-%h3 Study groups
+.container
+  .col-xs-7.display
+    %h3.group-title My Groups
 
-.member-groups
-  =render partial: "group_row", locals: { groups: @open_groups }
+    .member-groups
+      =render partial: "group_row", locals: { groups: @open_groups }
+  .col-xs-5
+    %h3.group-title Active Questions
 
-%h3 Archived groups
+.container
+  .col-xs-7.display
+    %h3.group-title Archived Groups
 
-.member-groups
-  =render partial: "group_row", locals: { groups: @finished_groups }
+    .member-groups
+      =render partial: "group_row", locals: { groups: @finished_groups }
+

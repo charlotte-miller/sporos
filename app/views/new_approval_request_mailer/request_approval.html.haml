@@ -1,17 +1,7 @@
-%h1
-  Go here young man:
-=link_to "Approve post", Rails.application.routes.url_helpers.post_url(@approval_request.post)
-
-%p
-  Ministry Name:
-  =@ministry.name
-
-%p
-  Title:
+%h2
   =@post.title
 
 %p
-  Description:
   =@post.description
 
 / Post::Event section
@@ -36,5 +26,9 @@
     Photo Count:
     =@post.uploaded_files.count
 
-=link_to("Approve", update_status_from_link_admin_approval_request_url(@approval_request, { commit: 'Approve' }))
-=link_to("Reject", update_status_from_link_admin_approval_request_url(@approval_request, { commit: 'Reject' }))
+#view_post
+  = link_to 'View the Post & Discussion', admin_post_url(@approval_request.post)
+
+#instant
+  =link_to("Approve", update_status_from_link_admin_approval_request_url(@approval_request, { commit: 'Approve' }))
+  =link_to("Reject", update_status_from_link_admin_approval_request_url(@approval_request, { commit: 'Reject' }))

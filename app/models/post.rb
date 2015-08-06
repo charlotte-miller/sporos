@@ -75,7 +75,7 @@ class Post < ActiveRecord::Base
 
   has_many :uploaded_files, as:'from', dependent: :destroy
 
-  has_one :comm_arts_request
+  has_one :comm_arts_request, dependent: :destroy
     accepts_nested_attributes_for :comm_arts_request, reject_if: :attributes_absent
 
   # ---------------------------------------------------------------------------------

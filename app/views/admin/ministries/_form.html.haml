@@ -3,7 +3,7 @@
     - if @ministry.new_record?
       %h4 New Ministry
     - else
-      %h4= "Editing #{@ministry.name.titleize}"
+      %h4= "Editing #{@ministry.name}"
   .panel-body
 
     = form_for [:admin, @ministry], html: { role: "form" } do |f|

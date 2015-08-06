@@ -11,7 +11,7 @@
   %tbody
     - @ministries.each do |ministry|
       %tr
-        %td= ministry.name.titleize
+        %td= ministry.name
         %td= ministry.description
         %td= link_to 'Edit', edit_admin_ministry_path(ministry)
 

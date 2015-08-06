@@ -218,4 +218,19 @@ RSpec.describe ApprovalRequest, :type => :model do
       expect(subject.current_concensus(:mark_author).keys).to eq(%w{AUTHOR EDITOR})
     end
   end
+
+  describe '#send_notification' do
+
+    it 'does nothing if ALREADY accepted?' do
+      subject = build_stubbed(:approval_request, status:'accepted')
+      expect(NewApprovalRequestMailer).not_to receive(:request_approval)
+      subject.send_notification
+    end
+
+    it 'sends an email' do
+      subject = build_stubbed(:approval_request)
+      expect(NewApprovalRequestMailer).to receive(:request_approval).with({:klass=>"ApprovalRequest", :id=>subject.id}).and_call_original
+      subject.send_notification
+    end
+  end
 end

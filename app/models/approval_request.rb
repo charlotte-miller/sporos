@@ -77,7 +77,9 @@ class ApprovalRequest < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
 
   def send_notification
-    NewApprovalRequestMailer.request_approval(self.to_findable_hash).deliver_later
+    unless accepted?
+      NewApprovalRequestMailer.request_approval(self.to_findable_hash).deliver_later
+    end
   end
 
   def check_for_concensus

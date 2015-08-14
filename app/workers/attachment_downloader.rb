@@ -36,8 +36,8 @@ private
       return if @obj_instance.send(attachment_name).trusted_third_party? || Paperclip::UploadToVimeo.over_limit?
     end
 
-    # tempfile = Tempfile.new([self.basename, self.extname]).binmode)
-    Tempfile.open([file_name, extention]) do |tempfile|
+    begin
+      tempfile = Tempfile.new([file_name, extention])
       tempfile.binmode
       curl_to(url_str, tempfile.path)
       @obj_instance.send("#{attachment_name}=", tempfile)
@@ -45,10 +45,11 @@ private
       # Use the downloaded video file
       upload_to_vimeo(tempfile) if attachment_name.to_s == 'video'
 
+    ensure
       # Kill all the tempfiles!
-      tempfile.truncate(0)
-      tempfile.unlink
+      # tempfile.truncate(0)
       tempfile.close
+      tempfile.unlink
     end
   end
 

@@ -1,9 +1,10 @@
 class VimeoUploadApi
-  attr_accessor :vimeo_video_id
+  COMM_ARTS_BUFFER = Rails.env.production? ? 5.gigabytes : 0 # Total 20gb / week
+  attr_accessor :video_vimeo_id
   delegate :upload_link_secure, :complete_uri, :ticket_id, :uri, to: :generate_vimeo_ticket!
 
   def initialize(ticket_id=false)
-    @vimeo_video_id = ticket_id
+    @video_vimeo_id = ticket_id
   end
 
   # ACCOUNT INFO
@@ -11,12 +12,12 @@ class VimeoUploadApi
     contact_vimeo :get, "https://api.vimeo.com/videos/#{@video_vimeo_id}"
   end
 
-  def over_vimeo_upload_quota?(from_cache=false)
-    return Rails.cache.read(:over_vimeo_upload_quota) if from_cache
+  def over_vimeo_upload_quota?(plus_file=nil)
+    return Rails.cache.read(:over_vimeo_upload_quota) unless plus_file
 
     account_info  = contact_vimeo(:get, "https://api.vimeo.com/me")
     free_space    = account_info.upload_quota.space.free
-    is_over_quota = COMM_ARTS_BUFFER + file.size > free_space
+    is_over_quota = COMM_ARTS_BUFFER + plus_file.size > free_space
     if is_over_quota
       Rails.cache.write(:over_vimeo_upload_quota, true, expires_in:1.week)
       Rails.logger.info("[[OVER WEEKLY VIMEO QUOTA]] #{free_space} remaining")
@@ -27,7 +28,7 @@ class VimeoUploadApi
   # POST API
   def upload_to_vimeo!(video_file, meta_data)
     ticket = generate_vimeo_ticket!
-    @vimeo_video_id = contact_vimeo :post, ticket.upload_link_secure, body:{ file_data:video_file }
+    @video_vimeo_id = contact_vimeo :post, ticket.upload_link_secure, body:{ file_data:video_file }
     update_video_metadata!(meta_data)
   end
 
@@ -42,7 +43,7 @@ class VimeoUploadApi
 
   # VIDEO METADATA
   def update_video_metadata!(meta_data)
-    contact_vimeo :patch, "https://api.vimeo.com/videos/#{@vimeo_video_id}", headers: {'Content-Type' => "application/json"}, body: MultiJson.dump({
+    contact_vimeo :patch, "https://api.vimeo.com/videos/#{@video_vimeo_id}", headers: {'Content-Type' => "application/json"}, body: MultiJson.dump({
       name:         meta_data[:title],
       description:  meta_data[:description],
       license:      'by-nc-nd',
@@ -74,7 +75,7 @@ class VimeoUploadApi
         volume:true,
 
       },
-    }.deep_merge(overrides), mode: :compat)
+    }.deep_merge(meta_data), mode: :compat)
     # source: https://developer.vimeo.com/api/endpoints/videos#PATCH/videos/%7Bvideo_id%7D
   end
 

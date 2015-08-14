@@ -2,7 +2,6 @@
 #
 module Paperclip
   class UploadToVimeo < Processor
-    COMM_ARTS_BUFFER = Rails.env.production? ? 5.gigabytes : 0 # Total 20gb / week
     attr_reader :video_vimeo_id
 
     def initialize(file, options = {}, attachment = nil)
@@ -37,7 +36,7 @@ module Paperclip
     end
 
     def over_vimeo_upload_quota?
-      vimeo_api.over_vimeo_upload_quota?
+      vimeo_api.over_vimeo_upload_quota?(file)
     end
 
     def vimeo_api

@@ -1,35 +1,37 @@
-class VimeoCreateTicket
-  attr_accessor :ticket
-  delegate :upload_link_secure, :complete_uri, :ticket_id, :uri, to: :ticket
+class VimeoUploadApi
+  attr_accessor :vimeo_video_id
+  delegate :upload_link_secure, :complete_uri, :ticket_id, :uri, to: :generate_vimeo_ticket!
 
-  def initialize(skip_ticket=false)
-    skip_ticket || generate_vimeo_ticket!
+  def initialize(ticket_id=false)
+    @vimeo_video_id = ticket_id
   end
 
-  # def over_vimeo_upload_quota?
-  #   account_info = contact_vimeo(:get, "https://api.vimeo.com/me")
-  #   free_space = account_info.upload_quota.space.free
-  #   file.size > free_space
-  # end
+  # ACCOUNT INFO
+  def get_info
+    contact_vimeo :get, "https://api.vimeo.com/videos/#{@video_vimeo_id}"
+  end
 
+  def over_vimeo_upload_quota?(from_cache=false)
+    return Rails.cache.read(:over_vimeo_upload_quota) if from_cache
+
+    account_info  = contact_vimeo(:get, "https://api.vimeo.com/me")
+    free_space    = account_info.upload_quota.space.free
+    is_over_quota = COMM_ARTS_BUFFER + file.size > free_space
+    if is_over_quota
+      Rails.cache.write(:over_vimeo_upload_quota, true, expires_in:1.week)
+      Rails.logger.info("[[OVER WEEKLY VIMEO QUOTA]] #{free_space} remaining")
+    end
+    return is_over_quota
+  end
 
   # POST API
-  def upload_to_vimeo!(video_file)
-    # generate_vimeo_ticket!
-    @vimeo_video_id = contact_vimeo :post, @ticket.upload_link_secure, body:{ file_data:video_file }
-    contact_vimeo :patch, "https://api.vimeo.com/videos/#{@vimeo_video_id}", body:{
-      name:         @lesson.title,
-      description:  @lesson.description,
-      license:      'by-nc-nd',
-      review_link:  false,
-      # embed:{ },
-      privacy:{
-        view: 'anybody',
-        embed: 'public', }
-    }
+  def upload_to_vimeo!(video_file, meta_data)
+    ticket = generate_vimeo_ticket!
+    @vimeo_video_id = contact_vimeo :post, ticket.upload_link_secure, body:{ file_data:video_file }
+    update_video_metadata!(meta_data)
   end
 
-  # Streaming API
+  # STREAMING API
   def complete_upload(vimeo_options={})
     # verify_once     = contact_vimeo :put,    "https://api.vimeo.com/upload?ticket_id=#{vimeo_options[:ticket_id]}", headers:{'Content-Length'=> 0, 'Content-Range' => 'bytes */*'}
     info = contact_vimeo :get, "https://api.vimeo.com#{vimeo_options[:uri]}"
@@ -38,26 +40,58 @@ class VimeoCreateTicket
     {location: location, vimeo_id:location.gsub(/\D/,'') }
   end
 
-  def update_video_metadata(vimeo_video_id, meta_data={})
-    contact_vimeo :patch, "https://api.vimeo.com/videos/#{vimeo_video_id}", body:{
-      #https://developer.vimeo.com/api/endpoints/videos#/{video_id}
+  # VIDEO METADATA
+  def update_video_metadata!(meta_data)
+    contact_vimeo :patch, "https://api.vimeo.com/videos/#{@vimeo_video_id}", headers: {'Content-Type' => "application/json"}, body: MultiJson.dump({
       name:         meta_data[:title],
       description:  meta_data[:description],
       license:      'by-nc-nd',
       review_link:  false,
-      # embed:{ },
       privacy:{
-        view: 'anybody',
-        embed: 'public', }
-    }
+        view: 'disable', #(Rails.env.production? ? 'disable' : 'anybody'),
+        embed: 'public',
+        add: false,
+        comments:'nobody',
+        download:false,
+      },
+      embed:{
+        buttons:{
+          like:false,
+          share:false,
+          embed:false,
+          watchlater:false,
+          scaling:false,
+
+          hd:true,
+          fullscreen:true,
+        },
+        logos:{custom:{
+          active:false,
+          sticky:false,
+          link: meta_data[:show_url],
+        }},
+        playbar:true,
+        volume:true,
+
+      },
+    }.deep_merge(overrides), mode: :compat)
+    # source: https://developer.vimeo.com/api/endpoints/videos#PATCH/videos/%7Bvideo_id%7D
   end
 
 private
 
   def generate_vimeo_ticket!
-    @ticket = contact_vimeo :post, 'https://api.vimeo.com/me/videos', body:{
-      type:'streaming'}  # upgrade_to_1080:true, #pro account
-      # redirect_url:'http://cornerstone-sf.org'}
+    @ticket ||=(
+      if @video_vimeo_id
+        contact_vimeo :put, "https://api.vimeo.com/videos/#{@video_vimeo_id}/files", body:{
+          type:'POST',  upgrade_to_1080:false, #requires pro account
+          redirect_url:'http://cornerstone-sf.org'}
+      else
+        contact_vimeo :post, 'https://api.vimeo.com/me/videos', body:{
+          type:'POST',  upgrade_to_1080:false, #requires pro account
+          redirect_url:'http://cornerstone-sf.org'}
+      end
+    )
   end
 
   def contact_vimeo(method, url, options={})

@@ -45,10 +45,11 @@ class Posts::Video < Post
 
   def update_vimeo_details
     if new_record? || display_options_changed?
-      VimeoCreateTicket.new(:skip_ticket).update_video_metadata vimeo_id, {
+      VimeoUploadApi.new(vimeo_id).update_video_metadata!({
         title:title,
-        description:description
-      }
+        description:description,
+        show_url: url_helpers.post_url(self),
+      })
     end
   end
 

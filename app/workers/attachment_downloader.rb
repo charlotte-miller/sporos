@@ -33,7 +33,7 @@ private
 
     if attachment_name.to_sym == :video
       # Paperclip options[:skip_processing_urls]
-      return if @obj_instance.send(attachment_name).trusted_third_party? || Paperclip::UploadToVimeo.over_limit?
+      return if @obj_instance.send(attachment_name).trusted_third_party? || VimeoUploadApi.new.over_vimeo_upload_quota?(:from_cache)
     end
 
     begin

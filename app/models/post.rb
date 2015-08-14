@@ -90,6 +90,7 @@ class Post < ActiveRecord::Base
   # Attributes
   # ---------------------------------------------------------------------------------
   delegate :file, to: :uploaded_files
+  delegate :url_helpers, to: 'Rails.application.routes'
   has_public_id :public_id, prefix:'post', length:21
   def to_param; public_id || generate_missing_public_id ;end
 

@@ -84,6 +84,9 @@ module Lesson::AttachedMedia
   end
 
 private
+  def vimeo_api
+    @vimeo_api ||= VimeoUploadApi.new(video_vimeo_id)
+  end
 
   # DEPRECATED
   # the audio_to_video processor requires :poster_img

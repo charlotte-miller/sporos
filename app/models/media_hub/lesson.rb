@@ -140,10 +140,6 @@ class Lesson < ActiveRecord::Base
     url_helpers.study_lesson_url(study, self)
   end
 
-  def vimeo_api
-    require Rails.root.join('lib/paperclip_processors/upload_to_vimeo')
-    @vimeo_api ||= Paperclip::UploadToVimeo.for_lesson(self)
-  end
 private
 
   def video_vimeo_id_from_original_url

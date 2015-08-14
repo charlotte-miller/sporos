@@ -99,7 +99,7 @@ class Admin::PostsController < Admin::BaseController
 
   # DELETE?vimeo_complete_uri
   def video_complete_upload
-    completed_reply = VimeoCreateTicket.new(:skip_ticket).complete_upload({
+    completed_reply = VimeoUploadApi.new.complete_upload({
       complete_uri: params[:vimeo_complete_uri],
       ticket_id:    params[:vimeo_ticket_id],
       uri:          params[:vimeo_info_uri],
@@ -160,7 +160,7 @@ private
 
   def set_vimeo_js_vars
     if @post.is_a? Posts::Video
-      ticket = VimeoCreateTicket.new
+      ticket = VimeoUploadApi.new
       gon.vimeo = {
         upload_link_secure: ticket.upload_link_secure,
         complete_uri:       ticket.complete_uri,

@@ -160,12 +160,12 @@ private
 
   def set_vimeo_js_vars
     if @post.is_a? Posts::Video
-      ticket = VimeoUploadApi.new
+      streaming_ticket = VimeoUploadApi.new.streaming_ticket
       gon.vimeo = {
-        upload_link_secure: ticket.upload_link_secure,
-        complete_uri:       ticket.complete_uri,
-        ticket_id:          ticket.ticket_id,
-        uri:                ticket.uri
+        upload_link_secure: streaming_ticket.upload_link_secure,
+        complete_uri:       streaming_ticket.complete_uri,
+        ticket_id:          streaming_ticket.ticket_id,
+        uri:                streaming_ticket.uri
       }
     end
   end

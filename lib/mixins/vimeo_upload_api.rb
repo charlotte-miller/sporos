@@ -33,6 +33,10 @@ class VimeoUploadApi
   end
 
   # STREAMING API
+  def streaming_ticket
+    generate_vimeo_ticket!('streaming')
+  end
+
   def complete_upload(vimeo_options={})
     # verify_once     = contact_vimeo :put,    "https://api.vimeo.com/upload?ticket_id=#{vimeo_options[:ticket_id]}", headers:{'Content-Length'=> 0, 'Content-Range' => 'bytes */*'}
     info = contact_vimeo :get, "https://api.vimeo.com#{vimeo_options[:uri]}"
@@ -81,15 +85,15 @@ class VimeoUploadApi
 
 private
 
-  def generate_vimeo_ticket!
+  def generate_vimeo_ticket!(upload_type='POST')
     @ticket ||=(
       if @video_vimeo_id
         contact_vimeo :put, "https://api.vimeo.com/videos/#{@video_vimeo_id}/files", body:{
-          type:'POST',  upgrade_to_1080:false, #requires pro account
+          type:upload_type,  upgrade_to_1080:false, #requires pro account
           redirect_url:'http://cornerstone-sf.org'}
       else
         contact_vimeo :post, 'https://api.vimeo.com/me/videos', body:{
-          type:'POST',  upgrade_to_1080:false, #requires pro account
+          type:upload_type,  upgrade_to_1080:false, #requires pro account
           redirect_url:'http://cornerstone-sf.org'}
       end
     )

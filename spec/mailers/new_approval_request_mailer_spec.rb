@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe NewApprovalRequestMailer, :focus, :type => :mailer do
+RSpec.describe NewApprovalRequestMailer, :type => :mailer do
   before(:all) do
     @post = create(:post)
     @approval_requests = 3.times.map { create(:approval_request, post:@post) }

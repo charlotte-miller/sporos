@@ -14,7 +14,7 @@
 #= require bootstrap/tab
 #= require bootstrap/transition
 #= require bootstrap/collapse
-#= require pickadate
+#= require pickadate/lib/picker
 #= require pickadate/lib/picker.date
 #= require pickadate/lib/picker.time
 #  require clockpicker

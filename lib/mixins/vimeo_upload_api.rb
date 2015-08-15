@@ -42,14 +42,14 @@ class VimeoUploadApi
   end
 
   # VIDEO METADATA
-  def update_video_metadata!(meta_data)
+  def update_video_metadata!(meta_data, overrides={})
     contact_vimeo :patch, "https://api.vimeo.com/videos/#{@video_vimeo_id}", headers: {'Content-Type' => "application/json"}, body: MultiJson.dump({
       name:         meta_data[:title],
       description:  meta_data[:description],
       license:      'by-nc-nd',
       review_link:  false,
       privacy:{
-        view: 'disable', #(Rails.env.production? ? 'disable' : 'anybody'),
+        view: (Rails.env.production? ? 'disable' : 'anybody'),
         embed: 'public',
         add: false,
         comments:'nobody',
@@ -75,7 +75,7 @@ class VimeoUploadApi
         volume:true,
 
       },
-    }.deep_merge(meta_data), mode: :compat)
+    }.deep_merge(overrides), mode: :compat)
     # source: https://developer.vimeo.com/api/endpoints/videos#PATCH/videos/%7Bvideo_id%7D
   end
 

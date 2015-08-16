@@ -117,8 +117,12 @@ private
       redirect_to = response_obj.headers["Location"]
 
       if redirect_to =~ /^http:\/\/cornerstone-sf\.org/
-        redirect_to_query = URI.parse(redirect_to).query
-        CGI.parse( redirect_to_query )["video_uri"][0].gsub(/^\/videos\//,'')
+        redirect_to_query = CGI.parse( URI.parse(redirect_to).query )
+        if redirect_to_query["error"].present?
+          raise StandardError.new(redirect_to)
+        else
+          redirect_to_query["video_uri"][0].gsub(/^\/videos\//,'')
+        end
       else
         contact_vimeo :get, redirect_to
       end
@@ -129,8 +133,6 @@ private
         response_obj
       end
     end
-  rescue NoMethodError
-    raise StandardError.new(redirect_to)
   end
 
 end

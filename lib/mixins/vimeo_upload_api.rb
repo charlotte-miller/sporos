@@ -28,12 +28,11 @@ class VimeoUploadApi
   # POST API
   def upload_to_vimeo!(video_file, meta_data)
     ticket = generate_vimeo_ticket!
-    tries = 3
+    tries = 5
     begin
       @video_vimeo_id = contact_vimeo :post, ticket.upload_link_secure, body:{ file_data:video_file }
     rescue StandardError => e
-      Rails.logger.debug('#### gsub production only error ####')
-      Rails.logger.debug("#{tries} left")
+      Rails.logger.info("#### Vimeo API Retry - #{tries} remaining ####")
       retry unless (tries -= 1).zero?
       raise e
     end
@@ -131,8 +130,6 @@ private
       end
     end
   rescue NoMethodError
-    Rails.logger.fatal('#### gsub production only error ####')
-    Rails.logger.fatal(redirect_to)
     raise StandardError.new(redirect_to)
   end
 

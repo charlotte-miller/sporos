@@ -28,8 +28,15 @@ class VimeoUploadApi
   # POST API
   def upload_to_vimeo!(video_file, meta_data)
     ticket = generate_vimeo_ticket!
-    @video_vimeo_id = contact_vimeo :post, ticket.upload_link_secure, body:{ file_data:video_file }
-    sleep(5) #let the video propigate
+    tries = 3
+    begin
+      @video_vimeo_id = contact_vimeo :post, ticket.upload_link_secure, body:{ file_data:video_file }
+    rescue StandardError => e
+      Rails.logger.debug('#### gsub production only error ####')
+      Rails.logger.debug("#{tries} left")
+      retry unless (tries -= 1).zero?
+      raise e
+    end
     update_video_metadata!(meta_data)
   end
 

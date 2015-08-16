@@ -29,6 +29,7 @@ class VimeoUploadApi
   def upload_to_vimeo!(video_file, meta_data)
     ticket = generate_vimeo_ticket!
     @video_vimeo_id = contact_vimeo :post, ticket.upload_link_secure, body:{ file_data:video_file }
+    sleep(5) #let the video propigate
     update_video_metadata!(meta_data)
   end
 
@@ -107,10 +108,13 @@ private
     }.deep_merge(options))
 
     if (response_obj = request.run).code == 302
-      unless (redirect_to = response_obj.headers["Location"]) =~ /^http:\/\/cornerstone-sf\.org/
-        contact_vimeo :get, redirect_to
+      redirect_to = response_obj.headers["Location"]
+
+      if redirect_to =~ /^http:\/\/cornerstone-sf\.org/
+        redirect_to_query = URI.parse(redirect_to).query
+        CGI.parse( redirect_to_query )["video_uri"][0].gsub(/^\/videos\//,'')
       else
-        CGI.parse( URI.parse(redirect_to).query )["video_uri"][0].gsub(/^\/videos\//,'')
+        contact_vimeo :get, redirect_to
       end
     else
       if response_obj.body.present?
@@ -119,6 +123,10 @@ private
         response_obj
       end
     end
+  rescue NoMethodError
+    Rails.logger.fatal('#### gsub production only error ####')
+    Rails.logger.fatal(redirect_to)
+    raise StandardError.new(redirect_to)
   end
 
 end

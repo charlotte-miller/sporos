@@ -26,7 +26,7 @@ $ ->
     $(@).unbind 'loadeddata'
 
 
-  $('#main-page a').not('.ministry, .photo-gallery, #photo-stack a').click (e)->
+  $('#main-page a').not('.ministry, .photo-gallery, #photo-stack a, #times-and-locations a').click (e)->
     e.preventDefault()
 
     $('#headroom').removeClass('headroom--pinned')
@@ -41,3 +41,14 @@ $ ->
     tolerance:
       down:30
       up:100
+
+  $('#times-and-locations').click (e)->
+    e.preventDefault()
+    $('#times-and-locations-body').toggleClass('active')
+    if $('#times-and-locations-body.active').length
+      col_sm_min = 768
+      container  = $('#main-page')
+      scroll_to  = if container.width() < col_sm_min then '#times-and-locations' else '#main-body'
+
+      $(scroll_to).smoothScroll 500, CStone.Animation.layoutTransition.easing,
+        container: container

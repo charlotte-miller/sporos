@@ -49,7 +49,7 @@ private
       # Kill all the tempfiles!
       # tempfile.truncate(0)
       tempfile.close
-      # tempfile.unlink
+      tempfile.unlink
     end
   end
 

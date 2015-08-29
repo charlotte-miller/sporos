@@ -5,6 +5,7 @@ class CStone.Community.Search
   @Collections = {}
   @Models      = {}
   @Views       = {}
+  @Components  = {}
 
   #### Interface ####
   # CStone.Community.Search.init()
@@ -28,8 +29,10 @@ class CStone.Community.Search
         {name: 'sermon'       },
       ]
 
-    @main   = new @Views.UI( ui_name: 'main',   el:'#main-header' )
-    @header = new @Views.UI( ui_name: 'header', el:'#headroom'    )
+    # @main   = new @Views.UI( ui_name: 'main',   el:'#main-header' )
+    # @header = new @Views.UI( ui_name: 'header', el:'#headroom'    )
+
+    @main   = React.render(React.createElement(@Components.UI, {model: @session}), $('#main-header')[0])
 
     CStone.Shared.ScrollSpy.addCallback (scroll)=>
       scroll_past = scroll > 400

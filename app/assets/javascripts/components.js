@@ -8,6 +8,7 @@
 //= require_tree ../../../lib/assets/javascripts/components
 //= require_tree ./base/components
 //= require_tree ./admin/components
+//= require_tree ./community/search/components
 
 
 var self, window, global = global || window || self;

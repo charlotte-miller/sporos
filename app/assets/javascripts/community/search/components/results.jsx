@@ -35,12 +35,12 @@ CStone.Community.Search.Components.Results = React.createClass({
 
         return source_nav_data.map(function(source) {
           var caret, count;
-          caret = <span class="caret"></span>;
-          count = <span class="count">{source.count}</span>;
+          caret = <span className="caret"></span>;
+          count = <span className="count">{source.count}</span>;
           return (
-            <li class={source.focusClass+" suggestion-nav-source"}>
+            <li className={source.focusClass+" suggestion-nav-source"}>
               <a data-source={source.name} href={"#search/filter/"+source.name}>
-                <i class={this.name+' icon'}></i>
+                <i className={this.name+' icon'}></i>
                 { source.title }
                 { source.isAll && caret }
                 { source.count && count }
@@ -50,8 +50,8 @@ CStone.Community.Search.Components.Results = React.createClass({
         });
       };
       return(
-        // <div class="suggestions">
-          <ul class="suggestion-nav-sources">
+        // <div className="suggestions">
+          <ul className="suggestion-nav-sources">
             { eachSource() }
           </ul>
         // </div>
@@ -60,38 +60,38 @@ CStone.Community.Search.Components.Results = React.createClass({
 
     var buildResults= function() {
       var buildEmptyHelp, buildInitHelp, buildResults, eachResult;
-      buildEmptyHelp = <div class="search-help" id="empty-help">
-        <div class="search-help-content">
-          <h3 class="search-help-text">
-            <i class="icon"></i>
+      buildEmptyHelp = <div className="search-help" id="empty-help">
+        <div className="search-help-content">
+          <h3 className="search-help-text">
+            <i className="icon"></i>
             Sorry, Nothing like that was found.
-            <p class="lead">Our search is getting smarter every day, but we still do not understand "{session.get('current_search')}".  Try searching someting similar.</p>
+            <p className="lead">Our search is getting smarter every day, but we still do not understand "{session.get('current_search')}".  Try searching someting similar.</p>
           </h3>
         </div>
       </div>;
 
-      buildInitHelp = <div class="search-help" id="init-help">
-         <div class="search-help-content">
-           <h3 class="search-help-text">
-             <i class="icon"></i>
+      buildInitHelp = <div className="search-help" id="init-help">
+         <div className="search-help-content">
+           <h3 className="search-help-text">
+             <i className="icon"></i>
              Try Searching:
-             <a class="text-spinner" href="#">"When does Church start", "Parking", "Child care", "BART &amp; MUNI", "Haiti Mission", "Videos", "Music", "1 Peter 2", "Ministries"</a>
-             <p class="lead">We want you to find what you are looking for, so start typing to learn more about our community &amp; media library.</p>
+             <a className="text-spinner" href="#">"When does Church start", "Parking", "Child care", "BART &amp; MUNI", "Haiti Mission", "Videos", "Music", "1 Peter 2", "Ministries"</a>
+             <p className="lead">We want you to find what you are looking for, so start typing to learn more about our community &amp; media library.</p>
            </h3>
          </div>
        </div>;
 
       eachResult = function() {
         return _this.state.results.map(function(result) {
-          return <li class="{result.focusClass} suggestion" data-result_id={result.id} >
-           <i class="{result.source} icon"></i>
+          return <li className="{result.focusClass} suggestion" data-result_id={result.id} >
+           <i className="{result.source} icon"></i>
            { result.payload }
          </li>
         ;
         });
       };
 
-      buildResults = <ol class="suggestion-list">
+      buildResults = <ol className="suggestion-list">
          { eachResult() }
        </ol>;
 
@@ -102,8 +102,8 @@ CStone.Community.Search.Components.Results = React.createClass({
       }
     };
 
-    return <div class="search-suggestions-dropdown">
-      <div class="search-results">
+    return <div className="search-suggestions-dropdown">
+      <div className="search-results">
         { buildSources() }
         { buildResults() }
       </div>

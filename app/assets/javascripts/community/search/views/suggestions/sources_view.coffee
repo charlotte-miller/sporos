@@ -6,9 +6,9 @@ class CStone.Community.Search.Views.SuggestionsSources extends CStone.Shared.Bac
     'click .suggestion-nav-source' : 'onNavClick'
 
   initialize: =>
-    @collection         = @session.get('sources')
-    @results_collection = @session.get('results')
-    @throttledRender    = _.debounce(@render, 100)
+    # @collection         = @session.get('sources')
+    # @results_collection = @session.get('results')
+    # @throttledRender    = _.debounce(@render, 100)
     @modelEvents()
 
   modelEvents: =>
@@ -16,25 +16,25 @@ class CStone.Community.Search.Views.SuggestionsSources extends CStone.Shared.Bac
     @listenTo @results_collection, 'filtered:reset',         @thenUpdateFocus
     @listenTo @results_collection, 'filtered:filters:reset', @thenUpdateFocus
 
-  templateData: =>
-    grouped_results = @results_collection.allGrouped()
-    source_nav_data = @collection.map (source)=>
-      results = grouped_results[source.get('name')]
-      name:  source.get('name')
-      title: source.get('title')
-      count: count = (if results? then results.length else 0)
-      showMe: !!(count || !(@results_collection.length))
-      focusClass: if source.get('focus') then 'active' else ''
-
-    source_nav_data.unshift
-      name:  'all'
-      title: 'All'
-      count: @results_collection.length
-      isAll:  true
-      showMe: _(grouped_results).size() != 1
-      focusClass: if @collection.findWhere(focus:true) then '' else 'active'
-
-    return source_nav_data
+  # templateData: =>
+    # grouped_results = @results_collection.allGrouped()
+    # source_nav_data = @collection.map (source)=>
+    #   results = grouped_results[source.get('name')]
+    #   name:  source.get('name')
+    #   title: source.get('title')
+    #   count: count = (if results? then results.length else 0)
+    #   showMe: !!(count || !(@results_collection.length))
+    #   focusClass: if source.get('focus') then 'active' else ''
+    #
+    # source_nav_data.unshift
+    #   name:  'all'
+    #   title: 'All'
+    #   count: @results_collection.length
+    #   isAll:  true
+    #   showMe: _(grouped_results).size() != 1
+    #   focusClass: if @collection.findWhere(focus:true) then '' else 'active'
+    #
+    # return source_nav_data
 
 
   # React to DOM - Change Models

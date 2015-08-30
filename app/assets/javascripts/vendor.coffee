@@ -9,6 +9,8 @@
 #= require fastclick
 #= require typeahead.js/dist/bloodhound.js
 #= require handlebars/handlebars.runtime.js
+#= require react
+#= require react_ujs
 #= require backbone
 #= require backbone-filtered-collection
 #  require backbone_query/backbone-query
@@ -21,8 +23,6 @@
 #  require utility/boba-0.0.2
 #= require autosize
 #= require bootstrap/alert
-#= require react
-#= require react_ujs
 #
 #  -- Community Only -----
 #= require headroom.js/dist/headroom.js

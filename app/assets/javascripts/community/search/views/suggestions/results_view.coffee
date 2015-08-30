@@ -1,11 +1,11 @@
 class CStone.Community.Search.Views.SuggestionsResults extends CStone.Shared.Backbone.ExtendedView
-  className: 'suggestions'
-  template: HandlebarsTemplates['suggestions/results']
-  templateData: =>
-    results_collection: @collection.filtered.toJSON()
-    init_help:      @session.searchState()=='pre-search'
-    empty_help:     @session.searchState()=='no-results'
-    current_search: @session.get('current_search')
+  # className: 'suggestions'
+  # template: HandlebarsTemplates['suggestions/results']
+  # templateData: =>
+    # results_collection: @collection.filtered.toJSON()
+    # init_help:      @session.searchState()=='pre-search'
+    # empty_help:     @session.searchState()=='no-results'
+    # current_search: @session.get('current_search')
 
   initialize: =>
     @collection = @session.get('results')

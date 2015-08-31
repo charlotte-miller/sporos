@@ -18,7 +18,7 @@ CStone.Community.Search.Components.Results = React.createClass({
             name: source.get('name'),
             title: source.get('title'),
             count: count = (results !== null ? results.length : 0),
-            showMe: !!(count || !_this.results_collection.length),
+            showMe: !!(count || !results_collection.length),
             focusClass: source.get('focus') ? 'active' : ''
           };
         });

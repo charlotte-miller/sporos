@@ -12,15 +12,7 @@
     = render partial:'search', locals: {namespace_id:'headroom-search'}
 
 
-
 = react_component('CStone.Community.Search.Components.UI', {}, {prerender:true, id:'main-header-wrapper'})
-/ #main-header.header
-/   .container
-/     #main-header-content
-/       %a#logo{href:'#'}
-/         = image_tag 'white_cornerstone.png', class:'logo-img'
-/
-/       = render partial:'search', locals: {namespace_id:'global-search', show_examples:true}
 
 #main-body
   #evergreen-links

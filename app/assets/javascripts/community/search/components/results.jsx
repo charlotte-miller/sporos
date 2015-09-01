@@ -2,6 +2,15 @@ if (!CStone.Community.Search) { CStone.Community.Search = {Components:{}}; }
 CStone.Community.Search.Components.Results = React.createClass({
   mixins: [Backbone.React.Component.mixin],
 
+  componentDidMount: function () {
+    this.state.interval = $('.text-spinner').textrotator();
+  },
+
+  componentWillUnmount: function () {
+    clearInterval(this.state.interval);
+  },
+
+  session: function(){ return this.getModel().session; },
 
   render: function(){
     var _this = this;
@@ -12,7 +21,7 @@ CStone.Community.Search.Components.Results = React.createClass({
         var results_collection  = _this.getCollection().results;
         var sources_collection  = _this.getCollection().sources;
         var grouped_results = results_collection.allGrouped();
-        var source_nav_data = results_collection.map(function(source) {
+        var source_nav_data = sources_collection.map(function(source) {
           var count;
           var results = grouped_results[source.get('name')] || [];
           return {
@@ -34,28 +43,28 @@ CStone.Community.Search.Components.Results = React.createClass({
           }) ? '' : 'active'
         });
 
-        return source_nav_data.map(function(source) {
+        return _(source_nav_data).select(function(s){return s.showMe;}).map(function(source) {
           var caret, count;
           caret = <span className="caret"></span>;
           count = <span className="count">{source.count}</span>;
           return (
-            <li className={source.focusClass+" suggestion-nav-source"}>
+            <li className={source.focusClass+" suggestion-nav-source"} onClick={_this.onNavClick} >
               <a data-source={source.name} href={"#search/filter/"+source.name}>
-                <i className={this.name+' icon'}></i>
+                <i className={source.name+' icon'}></i>
                 { source.title }
-                { source.isAll && caret }
-                { source.count && count }
+                { source.isAll ? caret : null }
+                { source.count ? count : null }
               </a>
             </li>
           );
         });
       };
       return(
-        // <div className="suggestions">
+        <div className="suggestions-nav">
           <ul className="suggestion-nav-sources">
             { eachSource() }
           </ul>
-        // </div>
+        </div>
       );
     };
 
@@ -84,11 +93,12 @@ CStone.Community.Search.Components.Results = React.createClass({
 
       eachResult = function() {
         return _this.state.results.map(function(result) {
-          return <li className="{result.focusClass} suggestion" data-result_id={result.id} >
-           <i className="{result.source} icon"></i>
-           { result.payload }
-         </li>
-        ;
+          return (
+            <li className={result.focusClass+" suggestion"} data-result_id={result.id} onClick={_this.onClick} onMouseOver={_this.onMouseover} >
+              <i className="{result.source} icon"></i>
+              { result.payload }
+            </li>
+          );
         });
       };
 
@@ -96,18 +106,66 @@ CStone.Community.Search.Components.Results = React.createClass({
          { eachResult() }
        </ol>;
 
-      switch (session.searchState()) {
-        case 'pre-search' : return buildInitHelp;
-        case 'no-results' : return buildEmptyHelp;
-        default: return buildResults;
-      }
+
+
+      return (
+        <div className="suggestions">
+          { (function(){
+            switch (session.searchState()) {
+            case 'pre-search' : return buildInitHelp;
+            case 'no-results' : return buildEmptyHelp;
+            default: return buildResults;}
+          })() }
+        </div>
+      );
     };
 
-    return <div className="search-suggestions-dropdown">
-      <div className="search-results">
-        { buildSources() }
-        { buildResults() }
+    return (
+      <div className="search-suggestions">
+        <div className="search-suggestions-dropdown">
+          <div className="search-results">
+            { buildSources() }
+            { buildResults() }
+          </div>
+        </div>
       </div>
-    </div>;
+    );
   },
+
+  // Event Handlers
+  //---------------------------------------------------------
+  onClick: function(e) {
+    this.session().acceptHint();
+    var result = this.getCollection().results.get(e.target.dataset.result_id);
+    return result.open();
+  },
+
+  onMouseover: function(e) {
+    var results, result;
+    results = this.getCollection().results;
+    result  = results.get(e.target.dataset.result_id);
+    if (!result.get('focus')) {
+      return results.updateFocus(result);
+    }
+  },
+
+  onNavClick: function(e) {
+    var results_collection, sources_collection, to_focus, _ref;
+    results_collection = this.getCollection().results;
+    sources_collection = this.getCollection().sources;
+
+    if (this.$('.caret:visible').length) {
+      if (('all' === (_ref = results_collection.currentFilter()) && _ref === e.target.dataset.source)) {
+        this.$el.toggleClass('expanded');
+        return 'to prevent re-render';
+      }
+    }
+    results_collection.filterBySource(e.target.dataset.source);
+    to_focus = this.sources_collection.findWhere({
+      name: this.results_collection.currentFilter()
+    });
+    this.sources_collection.updateFocus(to_focus);
+    this.render();
+    return this.parent_view.$('.text').focus();
+  }
 });

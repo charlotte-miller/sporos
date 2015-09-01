@@ -1,15 +1,15 @@
 class CStone.Community.Search.Views.SuggestionsSources extends CStone.Shared.Backbone.ExtendedView
-  className:'suggestions-nav'
-  template: HandlebarsTemplates['suggestions/sources']
+  # className:'suggestions-nav'
+  # template: HandlebarsTemplates['suggestions/sources']
 
-  events:
-    'click .suggestion-nav-source' : 'onNavClick'
+  # events:
+  #   'click .suggestion-nav-source' : 'onNavClick'
 
-  initialize: =>
+  # initialize: =>
     # @collection         = @session.get('sources')
     # @results_collection = @session.get('results')
     # @throttledRender    = _.debounce(@render, 100)
-    @modelEvents()
+    # @modelEvents()
 
   modelEvents: =>
     @listenTo @results_collection, 'filtered:change',        @thenUpdateFocus
@@ -39,17 +39,17 @@ class CStone.Community.Search.Views.SuggestionsSources extends CStone.Shared.Bac
 
   # React to DOM - Change Models
   # ----------------------------------------------------------------------
-  onNavClick: (e)=>
-    if @$('.caret:visible').length
-      if 'all' == @results_collection.currentFilter() == e.target.dataset.source
-        @$el.toggleClass('expanded')
-        return 'to prevent re-render'
-
-    @results_collection.filterBySource(e.target.dataset.source)
-    to_focus = @sources_collection.findWhere(name: @results_collection.currentFilter() )
-    @sources_collection.updateFocus(to_focus)
-    @render()
-    @parent_view.$('.text').focus()
+  # onNavClick: (e)->
+  #   if @$('.caret:visible').length
+  #     if 'all' == @results_collection.currentFilter() == e.target.dataset.source
+  #       @$el.toggleClass('expanded')
+  #       return 'to prevent re-render'
+  #
+  #   @results_collection.filterBySource(e.target.dataset.source)
+  #   to_focus = @sources_collection.findWhere(name: @results_collection.currentFilter() )
+  #   @sources_collection.updateFocus(to_focus)
+  #   @render()
+  #   @parent_view.$('.text').focus()
 
 
 

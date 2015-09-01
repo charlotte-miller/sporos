@@ -5,3 +5,4 @@ window.CStone = @CStone ||=
   Library:   {}
   Shared:    {}  # Backbone, Helpers, Utils, Components
   Animation: {}
+  UJSComponents:{}

@@ -22,7 +22,7 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
   initialize: =>
     # @session = CStone.Community.Search.session
     @session.on 'change:active_ui', @onUIActivationChange
-    _.defer( @onInputFocus ) if @$('.text').is(":focus") #already focused
+    # _.defer( @onInputFocus ) if @$('.text').is(":focus") #already focused
 
   onUIActivationChange: (e)=>
     active = @ui_name == @session.get('active_ui')
@@ -90,57 +90,57 @@ class CStone.Community.Search.Views.UI extends CStone.Shared.Backbone.ExtendedVi
   #
   #
 
-  # React to Models - Change DOM
-  # ----------------------------------------------------------------------
-
-  thenOpenDropdown: =>
-    @_createDropdown()
-    @$el.addClass('search-focused')
-    @session.set(current_search:$('.text').val())
-    @$('.text').focus()
-
-  thenCloseDropdown: =>
-    @_destroyDropdown()
-    @$el.removeClass('search-focused')
-    @$('.submit, .text').blur()
-
-  thenToggleDropdown: =>
-    if @session.get('dropdown_visible')
-      @thenOpenDropdown()
-    else
-      @thenCloseDropdown()
-
-  thenUpdateText: =>
-    return if @$('.text').val() == @session.get('current_search')
-    @$('.text').val(@session.get('current_search'))
-    @$('.text').putCursorAtEnd()
-
-  thenUpdateHint: =>
-    if @session.get('hint_visible')
-      @$('.search-hint').val(@session.get('current_hint'))
-    else
-      @$('.search-hint').val('')
-
-  thenScrollToMainUI: =>
-    return unless @ui_name=='main' && @session.get('dropdown_visible')
-
-    col_sm_min = 768
-    container  = $('#main-page')
-    scroll_to  = if container.width() < col_sm_min then '#global-search' else '#main-header'
-
-    $(scroll_to).smoothScroll CStone.Animation.layoutTransition.duration, CStone.Animation.layoutTransition.easing,
-      container: container
-      offset:    -100 #offset mobile address-bars
-
-  # Internal
-  # ----------------------------------------------------------------------
-  _createDropdown: =>
-    @dropdown = new CStone.Community.Search.Views.Suggestions
-      session: @session
-      parent_view: @
-    @$('.search').append(@dropdown.el)
-    @dropdown.render()
-
-  _destroyDropdown: =>
-    @dropdown.remove()
-    @dropdown = null
+  # # React to Models - Change DOM
+  # # ----------------------------------------------------------------------
+  #
+  # thenOpenDropdown: =>
+  #   @_createDropdown()
+  #   @$el.addClass('search-focused')
+  #   @session.set(current_search:$('.text').val())
+  #   @$('.text').focus()
+  #
+  # thenCloseDropdown: =>
+  #   @_destroyDropdown()
+  #   @$el.removeClass('search-focused')
+  #   @$('.submit, .text').blur()
+  #
+  # thenToggleDropdown: =>
+  #   if @session.get('dropdown_visible')
+  #     @thenOpenDropdown()
+  #   else
+  #     @thenCloseDropdown()
+  #
+  # thenUpdateText: =>
+  #   return if @$('.text').val() == @session.get('current_search')
+  #   @$('.text').val(@session.get('current_search'))
+  #   @$('.text').putCursorAtEnd()
+  #
+  # thenUpdateHint: =>
+  #   if @session.get('hint_visible')
+  #     @$('.search-hint').val(@session.get('current_hint'))
+  #   else
+  #     @$('.search-hint').val('')
+  #
+  # thenScrollToMainUI: =>
+  #   return unless @ui_name=='main' && @session.get('dropdown_visible')
+  #
+  #   col_sm_min = 768
+  #   container  = $('#main-page')
+  #   scroll_to  = if container.width() < col_sm_min then '#global-search' else '#main-header'
+  #
+  #   $(scroll_to).smoothScroll CStone.Animation.layoutTransition.duration, CStone.Animation.layoutTransition.easing,
+  #     container: container
+  #     offset:    -100 #offset mobile address-bars
+  #
+  # # Internal
+  # # ----------------------------------------------------------------------
+  # _createDropdown: =>
+  #   @dropdown = new CStone.Community.Search.Views.Suggestions
+  #     session: @session
+  #     parent_view: @
+  #   @$('.search').append(@dropdown.el)
+  #   @dropdown.render()
+  #
+  # _destroyDropdown: =>
+  #   @dropdown.remove()
+  #   @dropdown = null

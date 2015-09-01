@@ -1,11 +1,18 @@
+//= require ./results
+
+if (!CStone.Community.Search) { CStone.Community.Search = {Components:{}}; }
 CStone.Community.Search.Components.UI = React.createClass({
   mixins: [Backbone.React.Component.mixin],
 
   session: function(){ return this.getModel(); },
 
   render: function() {
+    var defaults = {
+      dropdown_visible:false
+    };
+
     var session, session_model, Results;
-    session = this.state.model;
+    session = this.state.model || defaults;
     session_model = this.session();
     if (session.dropdown_visible) {
       Results = React.createElement(CStone.Community.Search.Components.Results, {
@@ -19,37 +26,41 @@ CStone.Community.Search.Components.UI = React.createClass({
       });
     }
 
-    return <div className="container">
-      <div id="main-header-content">
-        <a href="#" id="logo" name="logo">
-          <img className="logo-img" src="/assets/white_cornerstone.png" alt="White cornerstone"/>
-        </a>
-        <div className="search" id="global-search">
-          <form className="search-form" role="search" onSubmit={this.onSubmit}>
-            <div className="input-group" >
-              <input  autoComplete="off" placeholder="What are you looking for?" type="text"
-                      ref="global-search-input" className="text" id="global-search-input"
-                      value={session.current_search}
-                      onFocus={this.onInputFocus}
-                      onChange={  this.onInputKey}
-                      onKeyDown={ this.onInputKey }
-                      />
+    return (
+      <div id="main-header" className={"header"+(session.dropdown_visible ? ' search-focused' : '')}>
+        <div className="container">
+          <div id="main-header-content">
+            <a href="#" id="logo" name="logo">
+              <img className="logo-img" src="/assets/white_cornerstone.png" alt="White cornerstone"/>
+            </a>
+            <div className="search" id="global-search">
+              <form className="search-form" role="search" onSubmit={this.onSubmit}>
+                <div className="input-group" >
+                  <input  autoComplete="off" placeholder="What are you looking for?" type="text"
+                          ref="global-search-input" className="text" id="global-search-input"
+                          value={session.current_search}
+                          onFocus={this.onInputFocus}
+                          onChange={  this.onInputKey}
+                          onKeyDown={ this.onInputKey }
+                          />
 
-              <input className="search-hint" value={ session.hint_visible ? session.current_hint : ''} />
-              <div className="input-group-btn">
-                <button className="search-button submit" type="submit" onClick={this.onIconClick}>
-                  <i className="glyphicon glyphicon-search"></i>
-                </button>
-              </div>
+                  <input className="search-hint" value={ session.hint_visible ? session.current_hint : ''} />
+                  <div className="input-group-btn">
+                    <button className="search-button submit" type="submit" onClick={this.onIconClick}>
+                      <i className="glyphicon glyphicon-search"></i>
+                    </button>
+                  </div>
+                </div>
+                <div className="examples">
+                  Examples:&nbsp; <span className="thin">Kids, &nbsp;Parking, &nbsp;Small Groups, &nbsp;Luke 12:12, &nbsp;Current Series, &nbsp;Get Involved</span>
+                </div>
+              </form>
+              { Results }
             </div>
-            <div className="examples">
-              Examples:&nbsp; <span className="thin">Kids, &nbsp;Parking, &nbsp;Small Groups, &nbsp;Luke 12:12, &nbsp;Current Series, &nbsp;Get Involved</span>
-            </div>
-          </form>
-          { Results }
+          </div>
         </div>
       </div>
-    </div>;
+    );
   },
 
   // = Event Handlers =
@@ -66,6 +77,12 @@ CStone.Community.Search.Components.UI = React.createClass({
     e.preventDefault();
     this.session().set({ active_ui: this.ui_name });
     this.session().toggle('dropdown_visible');
+    if (this.session().get('dropdown_visible')) {
+      this.session().set({ current_search: this.$('.text').val()});
+      this.$('.text').focus();
+    } else {
+      this.$('.submit, .text').blur();
+    }
   }),
 
   onSubmit: function(e) {
@@ -142,23 +159,8 @@ CStone.Community.Search.Components.UI = React.createClass({
   // React to Models - Change DOM
   // ----------------------------------------------------------------------
 
-  // @listenTo @session, 'change:dropdown_visible',  @thenToggleDropdown
   // @listenTo @session, 'change:dropdown_visible',  @thenScrollToMainUI
 
-  thenOpenDropdown: function() {
-    // _this._createDropdown();
-    _this.$el.addClass('search-focused');
-    _this.session.set({
-      current_search: $('.text').val()
-    });
-    return _this.$('.text').focus();
-  },
-
-  thenCloseDropdown: function() {
-    // _this._destroyDropdown();
-    _this.$el.removeClass('search-focused');
-    return _this.$('.submit, .text').blur();
-  },
 
   thenScrollToMainUI: (function(_this) {
     return function() {

@@ -10,7 +10,7 @@
 #= require typeahead.js/dist/bloodhound.js
 #= require handlebars/handlebars.runtime.js
 #= require react
-#= require react_ujs
+#= require vendor_modified/react_ujs
 #= require backbone
 #= require backbone-filtered-collection
 #  require backbone_query/backbone-query

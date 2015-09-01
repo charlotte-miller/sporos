@@ -1,3 +1,4 @@
+if (!CStone.Community.Search) { CStone.Community.Search = {Components:{}}; }
 CStone.Community.Search.Components.Results = React.createClass({
   mixins: [Backbone.React.Component.mixin],
 

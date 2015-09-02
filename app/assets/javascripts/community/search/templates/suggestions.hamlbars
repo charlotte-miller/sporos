@@ -1,4 +1,0 @@
-.search-suggestions-dropdown
-  .search-results
-    {{view 'CStone.Community.Search.Views.SuggestionsSources' session=session }}
-    {{view 'CStone.Community.Search.Views.SuggestionsResults' session=session }}

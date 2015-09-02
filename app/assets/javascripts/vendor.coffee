@@ -8,7 +8,6 @@
 #= require es6-promise
 #= require fastclick
 #= require typeahead.js/dist/bloodhound.js
-#= require handlebars/handlebars.runtime.js
 #= require react
 #= require vendor_modified/react_ujs
 #= require backbone

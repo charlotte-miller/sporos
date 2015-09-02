@@ -1,3 +1,4 @@
+#= require handlebars/handlebars.runtime.js
 #= require jquery_ujs
 #= require blueimp-load-image/js/load-image.all.min
 #= require blueimp-canvas-to-blob

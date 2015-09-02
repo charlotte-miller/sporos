@@ -3,11 +3,25 @@ CStone.Community.Search.Components.Results = React.createClass({
   mixins: [Backbone.React.Component.mixin],
 
   componentDidMount: function () {
-    this.state.interval = $('.text-spinner').textrotator();
+    this.spinner_interval = this.$('.text-spinner').textrotator();
+  },
+
+  componentDidUpdate: function () {
+    if (this.session().searchState()=='pre-search' && !this.spinner_interval) {
+      this.spinner_interval = this.$('.text-spinner').textrotator();
+    } else {
+      if (this.spinner_interval) {
+        clearInterval(this.spinner_interval);
+        this.spinner_interval = false;
+      }
+    }
   },
 
   componentWillUnmount: function () {
-    clearInterval(this.state.interval);
+    if (this.spinner_interval) {
+      clearInterval(this.spinner_interval);
+      this.spinner_interval = false;
+    }
   },
 
   session: function(){ return this.getModel().session; },
@@ -80,7 +94,8 @@ CStone.Community.Search.Components.Results = React.createClass({
         </div>
       </div>;
 
-      buildInitHelp = <div className="search-help" id="init-help">
+      buildInitHelp = (
+        <div className="search-help" id="init-help">
          <div className="search-help-content">
            <h3 className="search-help-text">
              <i className="icon"></i>
@@ -89,13 +104,14 @@ CStone.Community.Search.Components.Results = React.createClass({
              <p className="lead">We want you to find what you are looking for, so start typing to learn more about our community &amp; media library.</p>
            </h3>
          </div>
-       </div>;
+       </div>
+      );
 
       eachResult = function() {
         return _this.state.results.map(function(result) {
           return (
             <li className={result.focusClass+" suggestion"} data-result_id={result.id} onClick={_this.onClick} onMouseOver={_this.onMouseover} >
-              <i className="{result.source} icon"></i>
+              <i className={result.source+" icon"}></i>
               { result.payload }
             </li>
           );
@@ -156,7 +172,7 @@ CStone.Community.Search.Components.Results = React.createClass({
 
     if (this.$('.caret:visible').length) {
       if (('all' === (_ref = results_collection.currentFilter()) && _ref === e.target.dataset.source)) {
-        this.$el.toggleClass('expanded');
+        this.$('suggestions-nav').toggleClass('expanded');
         return 'to prevent re-render';
       }
     }
@@ -166,6 +182,6 @@ CStone.Community.Search.Components.Results = React.createClass({
     });
     this.sources_collection.updateFocus(to_focus);
     this.render();
-    return this.parent_view.$('.text').focus();
+    return this.$('.text').focus();
   }
 });

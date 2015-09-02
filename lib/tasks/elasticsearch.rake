@@ -87,6 +87,7 @@ namespace :elasticsearch do
 
       # Run Import for each class using .custom_import or .import
       searchable_classes.each do |klass|
+        puts "[IMPORTING] #{klass}..."
         defined?(klass.custom_import) ? klass.custom_import : klass.import
       end
 

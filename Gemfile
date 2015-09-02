@@ -32,7 +32,7 @@ gem 'awesome_nested_set', '~> 3.0.2'
 
 # Search
 # =======
-gem 'elasticsearch', '~> 1.0.8'
+gem 'elasticsearch', '~> 1.0.12'
 gem 'elasticsearch-model', require: 'elasticsearch/model'
 gem 'elasticsearch-rails', require: false
 # gem 'searchkick'

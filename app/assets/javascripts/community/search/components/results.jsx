@@ -31,10 +31,11 @@ CStone.Community.Search.Components.Results = React.createClass({
     var session = _this.getModel().session;
 
     var buildSources= function() {
-      var eachSource = function() {
-        var results_collection  = _this.getCollection().results;
-        var sources_collection  = _this.getCollection().sources;
-        var grouped_results = results_collection.allGrouped();
+      var results_collection  = _this.getCollection().results;
+      var sources_collection  = _this.getCollection().sources;
+      var grouped_results = results_collection.allGrouped();
+
+      var mapSources = function() {
         var source_nav_data = sources_collection.map(function(source) {
           var count;
           var results = grouped_results[source.get('name')] || [];
@@ -62,8 +63,8 @@ CStone.Community.Search.Components.Results = React.createClass({
           caret = <span className="caret"></span>;
           count = <span className="count">{source.count}</span>;
           return (
-            <li className={source.focusClass+" suggestion-nav-source"} onClick={_this.onNavClick} >
-              <a data-source={source.name} href={"#search/filter/"+source.name}>
+            <li className={source.focusClass+" suggestion-nav-source"} >
+              <a data-source={source.name} href={"#search/filter/"+source.name} onClick={_this.onNavClick}>
                 <i className={source.name+' icon'}></i>
                 { source.title }
                 { source.isAll ? caret : null }
@@ -76,7 +77,7 @@ CStone.Community.Search.Components.Results = React.createClass({
       return(
         <div className="suggestions-nav">
           <ul className="suggestion-nav-sources">
-            { eachSource() }
+            { mapSources() }
           </ul>
         </div>
       );
@@ -110,7 +111,7 @@ CStone.Community.Search.Components.Results = React.createClass({
       eachResult = function() {
         return _this.state.results.map(function(result) {
           return (
-            <li className={result.focusClass+" suggestion"} data-result_id={result.id} onClick={_this.onClick} onMouseOver={_this.onMouseover} >
+            <li className={result.focusClass+" suggestion"} data-result-id={result.id} onClick={_this.onClick} onMouseOver={_this.onMouseover} >
               <i className={result.source+" icon"}></i>
               { result.payload }
             </li>
@@ -152,36 +153,38 @@ CStone.Community.Search.Components.Results = React.createClass({
   //---------------------------------------------------------
   onClick: function(e) {
     this.session().acceptHint();
-    var result = this.getCollection().results.get(e.target.dataset.result_id);
+    var result = this.getCollection().results.get(e.target.dataset.resultId);
     return result.open();
   },
 
   onMouseover: function(e) {
     var results, result;
     results = this.getCollection().results;
-    result  = results.get(e.target.dataset.result_id);
-    if (!result.get('focus')) {
+    result  = results.get(e.target.dataset.resultId);
+    if (result && !result.get('focus')) {
       return results.updateFocus(result);
     }
   },
 
   onNavClick: function(e) {
-    var results_collection, sources_collection, to_focus, _ref;
+    var results_collection, sources_collection, current_source, to_focus, _ref;
     results_collection = this.getCollection().results;
     sources_collection = this.getCollection().sources;
+    current_source     = e.target.dataset.source || this.$(e.target).parents('a').data().source;
 
     if (this.$('.caret:visible').length) {
-      if (('all' === (_ref = results_collection.currentFilter()) && _ref === e.target.dataset.source)) {
-        this.$('suggestions-nav').toggleClass('expanded');
+      if (('all' === (_ref = results_collection.currentFilter()) && _ref === current_source)) {
+        this.$('.suggestions-nav').toggleClass('expanded');
         return 'to prevent re-render';
       }
     }
-    results_collection.filterBySource(e.target.dataset.source);
-    to_focus = this.sources_collection.findWhere({
-      name: this.results_collection.currentFilter()
+
+    results_collection.filterBySource(current_source);
+    to_focus = sources_collection.findWhere({
+      name: results_collection.currentFilter()
     });
-    this.sources_collection.updateFocus(to_focus);
-    this.render();
-    return this.$('.text').focus();
+    sources_collection.updateFocus(to_focus);
+    $('.text').focus();
   }
+
 });

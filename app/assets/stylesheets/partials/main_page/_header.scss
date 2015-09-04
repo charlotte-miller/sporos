@@ -219,10 +219,13 @@
                     .suggestion{
                       @extend .text;
                       @extend %truncate;
+//                      @extend %transitionHeight;
                       margin:5px 0;
 
                       &.active{
                         background-color:#cccccc;
+//                        height:80px;
+//                        line-height:80px;
                       }
                     }
 

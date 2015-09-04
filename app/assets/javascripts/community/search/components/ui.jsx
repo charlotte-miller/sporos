@@ -162,20 +162,18 @@ CStone.Community.Search.Components.UI = React.createClass({
   // @listenTo @session, 'change:dropdown_visible',  @thenScrollToMainUI
 
 
-  thenScrollToMainUI: (function(_this) {
-    return function() {
-      var col_sm_min, container, scroll_to;
-      if (!(_this.ui_name === 'main' && _this.session.get('dropdown_visible'))) {
-        return;
-      }
-      col_sm_min = 768;
-      container = $('#main-page');
-      scroll_to = container.width() < col_sm_min ? '#global-search' : '#main-header';
-      return $(scroll_to).smoothScroll(CStone.Animation.layoutTransition.duration, CStone.Animation.layoutTransition.easing, {
-        container: container,
-        offset: -100
-      });
-    };
-  })(this),
-
+  // PENDING
+  thenScrollToMainUI: function() {
+    var col_sm_min, container, scroll_to;
+    if (!(_this.ui_name === 'main' && _this.session.get('dropdown_visible'))) {
+      return;
+    }
+    col_sm_min = 768;
+    container = $('#main-page');
+    scroll_to = container.width() < col_sm_min ? '#global-search' : '#main-header';
+    return $(scroll_to).smoothScroll(CStone.Animation.layoutTransition.duration, CStone.Animation.layoutTransition.easing, {
+      container: container,
+      offset: -100
+    });
+  },
 });

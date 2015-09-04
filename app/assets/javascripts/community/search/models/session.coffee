@@ -7,6 +7,9 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
     @on 'change:dropdown_visible', @_clearActiveUiWhenHidingDropdown
     @listenTo @get('results'), 'filtered:change', @_updateCurrentHint
     @listenTo @get('results'), 'filtered:reset',  @_updateCurrentHint
+    @listenTo @get('results'), 'filtered:change',          @_updateSources
+    @listenTo @get('results'), 'filtered:reset',           @_updateSources
+    @listenTo @get('results'), 'filtered:filtered:reset',  @_updateSources
 
   defaults:
     dropdown_visible:false
@@ -91,7 +94,17 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
   _clearActiveUiWhenHidingDropdown: =>
     @set(active_ui:null) unless @get('dropdown_visible')
 
-  _storeSearchHistory:=>
+  _updateSources: =>
+    results_collection = @get('results')
+    sources_collection = @get('sources')
+    sources = results_collection.sources()
+    filter = if sources.length == 1 then sources[0] else results_collection.currentFilter()
+    to_focus = sources_collection.findWhere({
+      name: filter
+    })
+    sources_collection.updateFocus(to_focus)
+
+  _storeSearchHistory:->
     # add @get('current_search') to a seperate SearchHistory object
     # collaps typing into the 'final' product
     # store the selected (opened) result

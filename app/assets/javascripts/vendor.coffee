@@ -12,10 +12,7 @@
 #= require vendor_modified/react_ujs
 #= require backbone
 #= require backbone-filtered-collection
-#  require backbone_query/backbone-query
 #= require backbone-relational
-#= require Backbone.BindTo
-#= require Backbone.Handlebars
 #= require backbone-react-component
 #= require pace
 #= require moment

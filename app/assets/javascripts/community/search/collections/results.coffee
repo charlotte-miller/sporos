@@ -10,7 +10,7 @@ class CStone.Community.Search.Collections.Results extends CStone.Shared.Backbone
     @filtered.on 'all', @_filteredEventDelegator
     @filtered.grouped = -> @groupBy('source')
     @filtered.sources = -> @pluck('source')
-    @throttledHandleUpdates = _.debounce @handleUpdates, 100
+    # @throttledHandleUpdates = _.debounce @handleUpdates, 100
     @updateFocus()
 
 
@@ -53,7 +53,7 @@ class CStone.Community.Search.Collections.Results extends CStone.Shared.Backbone
     _(to_add).forEach (data) -> data.source=source
     @add to_add
     @remove to_remove
-    @throttledHandleUpdates()
+    @handleUpdates()
 
   handleUpdates: =>
     @all() unless @filtered.length

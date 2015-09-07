@@ -19,7 +19,6 @@ class CStone.Community.Search
     @session = new @Models.Session
       results: []
       sources: [
-        {name: 'announcement' },
         {name: 'event'        },
         {name: 'ministry'     },
         {name: 'music'        },

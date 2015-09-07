@@ -16,7 +16,6 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
 
   subModelTypeAttribute: 'name'
   subModelTypes:
-    'announcement' : 'CStone.Community.Search.Models.Sources.Announcement'
     'event'        : 'CStone.Community.Search.Models.Sources.Event'
     'ministry'     : 'CStone.Community.Search.Models.Sources.Ministry'
     'music'        : 'CStone.Community.Search.Models.Sources.Music'

@@ -42,17 +42,18 @@ class CStone.Community.Search.Collections.Results extends CStone.Shared.Backbone
 
   # Update Models (including focus)
   # ----------------------------------------------------------------------
-  updateSingleSource: (source, models_data=[])=>
-    old_model_ids = _(@where(source:source)).map (obj)-> obj.id
-    new_model_ids = _(models_data).map (obj)-> obj.id
-    to_add        = _(models_data).reject (data)-> _(old_model_ids).include(data.id)
-    to_remove     = _(old_model_ids).chain()
-      .without(new_model_ids...)
-      .map (id)=> @get(id)
-      .value()
-    _(to_add).forEach (data) -> data.source=source
-    @add to_add
-    @remove to_remove
+  updateFromSource: (models_data=[])=>
+    _.chain(models_data).groupBy('type').each (model_data, source)=>
+      old_model_ids = _(@where(source:source)).map (obj)-> obj.id
+      new_model_ids = _(model_data).map (obj)-> obj.id
+      to_add        = _(model_data).reject (data)-> _(old_model_ids).include(data.id)
+      to_remove     = _(old_model_ids).chain()
+        .without(new_model_ids...)
+        .map (id)=> @get(id)
+        .value()
+      _(to_add).forEach (data) -> data.source=source
+      @add to_add
+      @remove to_remove
     @handleUpdates()
 
   handleUpdates: =>

@@ -18,11 +18,12 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
   subModelTypes:
     'event'        : 'CStone.Community.Search.Models.Sources.Event'
     'ministry'     : 'CStone.Community.Search.Models.Sources.Ministry'
-    'music'        : 'CStone.Community.Search.Models.Sources.Music'
-    'video'        : 'CStone.Community.Search.Models.Sources.Video'
-    'page'         : 'CStone.Community.Search.Models.Sources.Page'
-    'question'     : 'CStone.Community.Search.Models.Sources.Question'
-    'sermon'       : 'CStone.Community.Search.Models.Sources.Sermon'
+    'combined'     : 'CStone.Community.Search.Models.Sources.Combined'
+    'music'        : 'CStone.Community.Search.Models.Sources.CombinedAdapter'
+    'video'        : 'CStone.Community.Search.Models.Sources.CombinedAdapter'
+    'page'         : 'CStone.Community.Search.Models.Sources.CombinedAdapter'
+    'question'     : 'CStone.Community.Search.Models.Sources.CombinedAdapter'
+    'sermon'       : 'CStone.Community.Search.Models.Sources.CombinedAdapter'
 
 
   initialize: =>
@@ -52,14 +53,15 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
   search: (query)=>
     @bloodhound.get query, (async_results)=>
       processed_results = @processResults(async_results, query = query) #preserve query
-      @get('session').get('results').updateSingleSource(@get('name'), processed_results)
+      @get('session').get('results').updateFromSource( processed_results )
 
   processResults: (results, query)=>
     if @get('elasticsearch')
       @bloodhound.add(results)
       @bloodhound.index.get(query)
     else
-      results # Abstract Funciton - Overwrite in child
+      # Abstract Funciton - Overwrite in child
+      _(results).map (result)=> result.type = @get('name'); return result
 
   # Internal #########
   startPhraseTokenizer = (str, word_cap=3)-> [str.split(/\s+/, word_cap).join(' ')]
@@ -104,17 +106,15 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
     if a.score < b.score then -1 else 0
 
   # Singletons ##########
-  @elasticsearchProcessor: (type)->
-    processor = (results)->
-      results_array = _(results.hits.hits).map (result)->
-        type:    type
-        id:      parseInt(result._id)
-        score:   result._score
-        payload: result._source.title
-        description: result._source.display_description
-        path:    result._source.path
-      results_array.total_counts = results.total_counts
-      results_array
-    return processor
+  @elasticsearchProcessor: (results)->
+    results_array = _(results.hits.hits).map (result)->
+      type:    result._type
+      id:      parseInt(result._id)
+      score:   result._score
+      payload: result._source.title
+      description: result._source.display_description
+      path:    result._source.path
+    results_array.total_counts = results.total_counts
+    results_array
 
 CStone.Community.Search.Models.AbstractSource.setup()

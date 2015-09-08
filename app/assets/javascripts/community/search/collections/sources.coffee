@@ -1,7 +1,7 @@
 #= require community/search/models/abstract_source
 
 class CStone.Community.Search.Collections.Sources extends CStone.Shared.Backbone.ExtendedCollection
-  PRESENTATION_ORDER = 'ministry event sermon music video page announcement question'.split(' ')
+  PRESENTATION_ORDER = 'ministry event sermon music video page question'.split(' ')
 
   model: CStone.Community.Search.Models.AbstractSource
 
@@ -10,7 +10,8 @@ class CStone.Community.Search.Collections.Sources extends CStone.Shared.Backbone
     options[:except]
   ###
   search: (query, options={})=>
-    @models.forEach (source)-> source.search(query)
+    uniq_sources = _(@models).uniq (m)-> m.constructor.name
+    uniq_sources.forEach (source)-> source.search(query)
 
   comparator: (a,b)->
     [a,b] = [a,b].map (source)-> PRESENTATION_ORDER.indexOf source.get('name')

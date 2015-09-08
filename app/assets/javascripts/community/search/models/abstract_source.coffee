@@ -60,8 +60,7 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
       @bloodhound.add(results)
       @bloodhound.index.get(query)
     else
-      # Abstract Funciton - Overwrite in child
-      _(results).map (result)=> result.type = @get('name'); return result
+      results # Abstract Funciton - Overwrite in child
 
   # Internal #########
   startPhraseTokenizer = (str, word_cap=3)-> [str.split(/\s+/, word_cap).join(' ')]

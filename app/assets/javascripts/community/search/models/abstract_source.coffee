@@ -111,7 +111,7 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
       type:    result._type
       id:      parseInt(result._id)
       score:   result._score
-      payload: result._source.title
+      payload: result.highlight.title
       description: result._source.display_description
       path:    result._source.path
     results_array.total_counts = results.total_counts

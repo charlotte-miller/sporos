@@ -6,7 +6,7 @@
     "jquery": "~2.1.1",
     "jquery.animate-enhanced": "latest",
     "isotope": "~2.0.1",
-    "typeahead.js": "~0.10.5",
+    "typeahead.js": "~0.11.1",
     "handlebars": "~2.0.0",
     "underscore": ">1.7.0",
     "backbone": ">=1.2.0",

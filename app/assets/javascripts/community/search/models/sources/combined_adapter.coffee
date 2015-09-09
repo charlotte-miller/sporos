@@ -5,6 +5,9 @@ SearchNamespace.Sources ||= {}
 
 class SearchNamespace.Sources.CombinedAdapter extends SearchNamespace.AbstractSource
 
+  defaults:
+    elasticsearch: true
+
   initialize: =>
     _(['name']).forEach (requirement)=>
       throw Error("A Source MUST have a #{requirement}") unless @get(requirement)

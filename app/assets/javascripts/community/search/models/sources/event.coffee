@@ -9,7 +9,7 @@ class SearchNamespace.Sources.Event extends SearchNamespace.AbstractSource
     local:  [{ payload: 'Dog Day at the Park', id:11, path:'#dogs-in-the-park' }, { payload: 'pig', id:12 }, { payload: 'moose', id:13 }]
     # remote: 'http://example.com/animals?q=%QUERY'
 
-  processResults: (results, query)=>
+  processResults: (results)=>
     _(results).map (result)=>
       result.type ||= 'event'
       result

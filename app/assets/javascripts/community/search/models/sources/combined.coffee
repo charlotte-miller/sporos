@@ -9,10 +9,13 @@ class SearchNamespace.Sources.Combined extends SearchNamespace.AbstractSource
     elasticsearch: true
     prefetch:
       url: "http://#{CStoneData.domains.origin}/search/preload?types=page,music,question,sermon,video"
-      filter: @elasticsearchProcessor
+      transform: @elasticsearchProcessor
     remote:
       url: "http://#{CStoneData.domains.origin}/search?q=%QUERY&types=page,music,question,sermon,video"
-      filter: @elasticsearchProcessor
+      wildcard:'%QUERY'
+      transform: @elasticsearchProcessor
+
+
 
 
 SearchNamespace.Sources.Combined.setup()

@@ -111,7 +111,7 @@ describe "CStone.Community.Search.Models", ->
         @results.reset()
 
 
-      it "returns ALL results that match a search term", =>
+      xit "returns ALL results that match a search term", =>
         expect(@sources.length).toEqual 3
         expect(@results.pluck('payload')).toEqual []
         @session.set(current_search:'men')

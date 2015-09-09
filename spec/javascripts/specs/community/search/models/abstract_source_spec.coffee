@@ -8,5 +8,29 @@ describe "CStone.Community.Search.Models", ->
       expect(@source).toHaveAssociated('session')
 
 
-    describe '#search(query)', =>
+    describe '#defaultQueryTokenizer(query)', =>
+      should_include = (q, result)=>
+        expect(@source.defaultQueryTokenizer(q)).toInclude(result)
 
+      it "normalizes capitalization and special char", ->
+        should_include "I AM", 'i am'
+        should_include 'cake & coffee', 'cake and coffee'
+        should_include '[Notes]: fun-time was fun (for a time)', 'notes fun time was fun for a time'
+
+      it "includes the full query", =>
+        should_include('I am the bread of life', 'i am the bread of life')
+
+      it "extracts significant words", =>
+        should_include('I am the bread of life', 'bread')
+        should_include('I am the bread of life', 'life')
+        console.log('Query:')
+        console.log(@source.defaultQueryTokenizer('I am the bread of life'))
+
+      xit "includes restults from one recent history", =>
+
+
+
+    describe '#defaultDatumTokenizer(datum)', =>
+      it "prints", =>
+        console.log('Datum')
+        console.log(@source.defaultDatumTokenizer(payload:'I am the bread of life'))

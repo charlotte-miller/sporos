@@ -51,14 +51,14 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
 
   search: (query)=>
     handleLocalSearch = (datums)=>
-      console.log(["#{@get('title')} Local: #{query}", datums])
+      # console.log(["#{@get('title')} Local: #{query}", datums])
       @get('session').get('results').updateFromSource( @processResults(datums), @ )
 
     handleRemoteSearch = (datums)=>
       if @get('elasticsearch')
         @bloodhound.add(datums)
         datums = @bloodhound.index.search(query)
-      console.log(["#{@get('title')} Remote #{query}", datums])
+      # console.log(["#{@get('title')} Remote #{query}", datums])
       @get('session').get('results').updateFromSource( @processResults(datums), @ )
 
     @bloodhound.search query, handleLocalSearch, handleRemoteSearch
@@ -70,8 +70,8 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
     q = charFilter(q)
     answer = _([
       [q],
-      # significantWordTokenizer(q),
-      # edgeNgramTokenizer(q),
+      significantWordTokenizer(q),
+      wordShinglesTokenizer(q),
     ]).inject(((memo,tokens)->_.union(memo,tokens)),[])
     console.log "Data: ['#{answer.join('\', \'')}']"
     answer
@@ -79,30 +79,14 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
   defaultQueryTokenizer: (query)->
     q = query.toLowerCase().trim()
     q = charFilter(q)
-    unless query.match /\s+/
-      answer = [q]
-    else
-      answer = _([
-        [q],
-        # significantWordTokenizer(q),
-        # recentHistoryTokenizer(q), #trailing history
-      ]).inject(((memo,tokens)->_.union(memo,tokens)),[])
-    console.log "Query: ['#{answer.join('\', \'')}']"
-    answer
+    return [q]
 
-  # Internal #########
-  edgeNgramTokenizer = (str, word_cap=5)->
-    gram = ''
-    collection = str.split(/\s+/, word_cap).join(' ').split('')
-    _(collection).map (letter, i)-> gram += letter
-
-  shingle = (collection, size) ->
-    shingles = []
-    i = 0
-    while i < collection.length - size + 1
-      shingles.push collection.slice(i, i + size)
-      i++
-    shingles
+  wordShinglesTokenizer = (query, shingle_size=3, final_shingle_size=2)->
+    q_array = Bloodhound.tokenizers.whitespace(query)
+    _q_array = _.chain(q_array).map (word, i)->
+      return if q_array.length - (i+shingle_size) < (final_shingle_size - shingle_size)
+      q_array.slice(i, i + shingle_size).join(' ')
+    _q_array.compact().value()
 
   significantWordTokenizer = (query)->
     q_array = Bloodhound.tokenizers.whitespace(query)

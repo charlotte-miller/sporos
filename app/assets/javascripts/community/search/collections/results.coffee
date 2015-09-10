@@ -49,6 +49,9 @@ class CStone.Community.Search.Collections.Results extends CStone.Shared.Backbone
       _empty_combined_sources = _.chain(combined_types).without(_grouped_data.keys().value()...)
       _grouped_data = _grouped_data.extend( _empty_combined_sources.inject( ((memo, key)-> memo[key]=[]; memo), {}).value() )
 
+    else if _grouped_data.isEmpty().value()
+      _grouped_data._wrapped[source_obj.get('name')] = []
+
     _grouped_data.each (model_data, source)=>
       old_model_ids = _(@where(source:source)).map (obj)-> obj.id
       new_model_ids = _(model_data).map (obj)-> obj.id

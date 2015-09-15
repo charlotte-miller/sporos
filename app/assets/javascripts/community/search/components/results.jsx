@@ -7,8 +7,10 @@ CStone.Community.Search.Components.Results = React.createClass({
   },
 
   componentDidUpdate: function () {
-    if (this.session().searchState()=='pre-search' && !this.spinner_interval) {
-      this.spinner_interval = this.$('.text-spinner').textrotator();
+    if (this.session().searchState()=='pre-search') {
+      if (!this.spinner_interval) {
+        this.spinner_interval = this.$('.text-spinner').textrotator();
+      }
     } else {
       if (this.spinner_interval) {
         clearInterval(this.spinner_interval);

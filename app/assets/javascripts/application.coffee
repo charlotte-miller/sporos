@@ -6,4 +6,4 @@
 CStone.Animation =
   layoutTransition:
     easing :  'easeInOutQuint'
-    duration: 350
+    duration: 500

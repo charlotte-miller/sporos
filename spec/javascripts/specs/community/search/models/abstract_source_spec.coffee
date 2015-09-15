@@ -23,14 +23,12 @@ describe "CStone.Community.Search.Models", ->
       it "extracts significant words", =>
         should_include('I am the bread of life', 'bread')
         should_include('I am the bread of life', 'life')
-        console.log('Query:')
-        console.log(@source.defaultQueryTokenizer('I am the bread of life'))
 
-      xit "includes restults from one recent history", =>
-
+      it "includes reverse word shingles (to ignore the first part of a phrase)", =>
+        should_include('I am the true vine', 'am the true')
 
 
-    describe '#defaultDatumTokenizer(datum)', =>
-      it "prints", =>
-        console.log('Datum')
-        console.log(@source.defaultDatumTokenizer(payload:'I am the bread of life'))
+    # describe '#defaultDatumTokenizer(datum)', =>
+    #   it "prints", =>
+    #     console.log('Datum')
+    #     console.log(@source.defaultDatumTokenizer(payload:'I am the bread of life'))

@@ -4,7 +4,15 @@ if (!CStone.Community.Search) { CStone.Community.Search = {Components:{}}; }
 CStone.Community.Search.Components.UI = React.createClass({
   mixins: [Backbone.React.Component.mixin],
 
-  session: function(){ return this.getModel(); },
+  componentWillReceiveProps: function(props) {
+    if (props.model) {
+      props.model.on('change:dropdown_visible', this.thenScrollToMainUI);
+    }
+  },
+
+  componentWillUnmount: function(){
+    this.session().off('change:dropdown_visible', this.thenScrollToMainUI);
+  },
 
   render: function() {
     var defaults = {
@@ -38,10 +46,9 @@ CStone.Community.Search.Components.UI = React.createClass({
                 <div className="input-group" >
                   <input  autoComplete="off" placeholder="What are you looking for?" type="text"
                           ref="global-search-input" className="text" id="global-search-input"
-                          value={session.current_search}
-                          onFocus={this.onInputFocus}
-                          onChange={  this.onInputKey}
-                          onKeyDown={ this.onInputKey }
+                          onFocus={   this.onInputFocus }
+                          onChange={  this.onInputKey   }
+                          onKeyDown={ this.onInputKey   }
                           />
 
                   <input className="search-hint" value={ session.hint_visible ? session.current_hint : ''} />
@@ -68,19 +75,22 @@ CStone.Community.Search.Components.UI = React.createClass({
   onInputFocus: function(e) {
     if (e) { e.preventDefault();}
     this.session().set({
-      active_ui: this.ui_name,
+      active_ui: this.props.ui_name,
       dropdown_visible: true,
     });
   },
 
   onIconClick: (function(e) {
     e.preventDefault();
-    this.session().set({ active_ui: this.ui_name });
+    this.session().set({ active_ui: this.props.ui_name });
     this.session().toggle('dropdown_visible');
+    var $global_search_input = $(this.refs['global-search-input'].getDOMNode());
     if (this.session().get('dropdown_visible')) {
-      this.session().set({ current_search: this.$('.text').val()});
-      this.$('.text').focus();
+      this.session().set({ current_search: $global_search_input.val()});
+      $global_search_input.putCursorAtEnd();
     } else {
+      this.session().set({ current_search: ''});
+      $global_search_input.val('');
       this.$('.submit, .text').blur();
     }
   }),
@@ -88,6 +98,7 @@ CStone.Community.Search.Components.UI = React.createClass({
   onSubmit: function(e) {
     e.preventDefault();
     this.session.acceptHint();
+    this.updateInputField();
     this.session.openFocused();
   },
 
@@ -119,17 +130,20 @@ CStone.Community.Search.Components.UI = React.createClass({
           if ($target.isCursorAtEnd()) {
             e.preventDefault();
             _this.session().acceptHint();
+            _this.updateInputField();
           }
           break;
         case 'tab':
           e.preventDefault();
           if ($target.isCursorAtEnd()) {
             _this.session().acceptHint();
+            _this.updateInputField();
           }
           break;
         case 'enter':
           e.preventDefault();
           _this.session().acceptHint();
+          _this.updateInputField();
           _this.session().openFocused();
           break;
         case 'esc':
@@ -156,16 +170,23 @@ CStone.Community.Search.Components.UI = React.createClass({
   },
 
 
-  // React to Models - Change DOM
+  // Helpers
+  // ----------------------------------------------------------------------
+  session: function(){ return this.getModel(); },
+
+  updateInputField: function(){
+    // NOTE: Breaks the one-way data flow. Use cautiously.
+    var $global_search_input = $(this.refs['global-search-input'].getDOMNode());
+    $global_search_input.val(this.session().get('current_search'));
+  },
+
+
+  // React to Model - Change DOM
   // ----------------------------------------------------------------------
 
-  // @listenTo @session, 'change:dropdown_visible',  @thenScrollToMainUI
-
-
-  // PENDING
   thenScrollToMainUI: function() {
     var col_sm_min, container, scroll_to;
-    if (!(_this.ui_name === 'main' && _this.session.get('dropdown_visible'))) {
+    if (!(this.props.ui_name === 'main' && this.session().get('dropdown_visible'))) {
       return;
     }
     col_sm_min = 768;

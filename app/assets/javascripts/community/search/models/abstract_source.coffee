@@ -68,18 +68,23 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
   defaultDatumTokenizer: (datum)->
     q = datum.payload.toLowerCase().trim()
     q = charFilter(q)
-    answer = _([
+    tokens = _([
       [q],
       significantWordTokenizer(q),
       wordShinglesTokenizer(q),
     ]).inject(((memo,tokens)->_.union(memo,tokens)),[])
-    console.log "Data: ['#{answer.join('\', \'')}']"
-    answer
+    # console.log "Data: ['#{tokens.join('\', \'')}']"
+    tokens
 
   defaultQueryTokenizer: (query)->
     q = query.toLowerCase().trim()
     q = charFilter(q)
-    return [q]
+    tokens = _([
+      [q],
+      queryTailTokenizer(q),
+    ]).inject(((memo,tokens)->_.union(memo,tokens)),[])
+    # console.log "Query: ['#{tokens.join('\', \'')}']"
+    tokens
 
   wordShinglesTokenizer = (query, shingle_size=3, final_shingle_size=2)->
     q_array = Bloodhound.tokenizers.whitespace(query)
@@ -87,6 +92,15 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
       return if q_array.length - (i+shingle_size) < (final_shingle_size - shingle_size)
       q_array.slice(i, i + shingle_size).join(' ')
     _q_array.compact().value()
+
+  queryTailTokenizer = (query)->
+    tokens= []
+    q_array = Bloodhound.tokenizers.whitespace(query)
+    while q_array.length
+      q_array.shift()
+      break unless q_array.length > 1
+      tokens.push q_array.join(' ')
+    return tokens
 
   significantWordTokenizer = (query)->
     q_array = Bloodhound.tokenizers.whitespace(query)

@@ -34,7 +34,7 @@ class CStone.Community.Search
     $ =>
       @main = CStone.UJSComponents['CStone.Community.Search.Components.UI']
       @session.set('current_search', @main.refs['global-search-input'].getDOMNode().value)
-      @main.setProps({model: @session})
+      @main.setProps({model: @session, ui_name:'main'})
       @main.onInputFocus() if $('.text').is(":focus")
 
     CStone.Shared.ScrollSpy.addCallback (scroll)=>

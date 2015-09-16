@@ -85,9 +85,9 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
     case_indiferent_matcher = ///^.*#{current_search}///i
     if focused && case_indiferent_matcher.test focused
       hint = focused.toLowerCase().replace case_indiferent_matcher, current_search
-      hint = hint.replace( ///(#{current_search}[^\:|\-|\?|\!|\.]*).*$///i, '$1').trim()
+      hint = hint.replace( ///(#{current_search}[^\:|\-|\?|\!|\.|\(|\)]*).*$///i, '$1').trim()
       unless single_word = /\s/.test hint
-        hint_phrase = focused.match( ///(^[^\:|\-|\?|\!|\.]*#{current_search}).*$///i )[0]
+        hint_phrase = focused.match( ///([^\:|\-|\?|\!|\.]*#{current_search}).*$///i )[0]
         hint_phrase = hint_phrase.replace( ///(#{current_search}[^\:|\-|\?|\!|\.]*).*$///i, '$1').trim()
         hint = "#{hint} - #{hint_phrase}"
       @set(current_hint: hint, current_hint_w_original_capitalization: focused, hint_visible:true)

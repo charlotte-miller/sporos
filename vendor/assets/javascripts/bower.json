@@ -6,7 +6,7 @@
     "jquery": "~2.1.1",
     "jquery.animate-enhanced": "latest",
     "isotope": "~2.0.1",
-    "typeahead.js": "git://github.com/chip-miller/typeahead.js",
+    "typeahead.js": "git://github.com/chip-miller/typeahead.js#da78bf206a0bf87bedfbb2e1386048d6ce9469ad",
     "handlebars": "~2.0.0",
     "underscore": ">1.7.0",
     "backbone": ">=1.2.0",

@@ -28,3 +28,8 @@ class CStone.Community.Search.Collections.Sources extends CStone.Shared.Backbone
     remote_sources = @select((source)->source.get('remote'))
     _(remote_sources).each (remote_source)->
       remote_source.bloodhound.clear()
+
+  updateTotalCounts: (total_counts)=>
+    _(total_counts).each (count, source)=>
+      unless source=='total'
+        @findWhere(name:source).set(total_count:count)

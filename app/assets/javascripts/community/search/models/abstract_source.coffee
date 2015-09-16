@@ -51,14 +51,15 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
 
   search: (query)=>
     handleLocalSearch = (datums)=>
-      # console.log(["#{@get('title')} Local: #{query}", datums])
       @get('session').get('results').updateFromSource( @processResults(datums), @ )
 
     handleRemoteSearch = (datums)=>
       if @get('elasticsearch')
-        @bloodhound.add(datums)
+        unless _(datums).isEmpty()
+          @get('session').get('sources').updateTotalCounts( datums[0].total_counts )
+          clean_datums = _(datums).map (d)-> delete d.total_counts && d
+          @bloodhound.add( clean_datums )
         datums = @bloodhound.index.search(query)
-      # console.log(["#{@get('title')} Remote #{query}", datums])
       @get('session').get('results').updateFromSource( @processResults(datums), @ )
 
     @bloodhound.search query, handleLocalSearch, handleRemoteSearch
@@ -115,6 +116,13 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
 
   identifyDatum = (datum)-> datum.id
   defaultSorter = (a, b) ->
+    # Sort series chronologically
+    # a_match = a.payload.match(/(.*)(\d)/)
+    # b_match = b.payload.match(/(.*)(\d)/)
+    # if a_match && b_match && a_match[1] == b_match[1]
+    #   if parseInt(a_match[2]) > parseInt(b_match[2]) then return -1
+    #   if parseInt(a_match[2]) < parseInt(b_match[2]) then return  1 else return 0
+
     if a.score > b.score then return  1
     if a.score < b.score then -1 else 0
 
@@ -127,7 +135,7 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
       payload: result._source.title
       description: result._source.display_description
       path:    result._source.path
-    results_array.total_counts = results.total_counts
+      total_counts: results.total_counts
     results_array
 
 CStone.Community.Search.Models.AbstractSource.setup()

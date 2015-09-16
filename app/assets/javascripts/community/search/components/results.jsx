@@ -38,21 +38,29 @@ CStone.Community.Search.Components.Results = React.createClass({
       var grouped_results = results_collection.allGrouped();
 
       var mapSources = function() {
+        var total = 0;
         var source_nav_data = sources_collection.map(function(source) {
           var count;
           var results = grouped_results[source.get('name')] || [];
+
+          if( source.get('elasticsearch') && results.length > 7 ) {
+            count = source.get('total_count');
+          }else{
+            count = results !== null ? results.length : 0;
+          }
+          total += count;
           return {
             name: source.get('name'),
             title: source.get('title'),
-            count: count = (results !== null ? results.length : 0),
-            showMe: !!(count || !results_collection.length),
+            count: count,
+            showMe: !!(count),
             focusClass: source.get('focus') ? 'active' : ''
           };
         });
         source_nav_data.unshift({
           name: 'all',
           title: 'All',
-          count: results_collection.length,
+          count: total,
           isAll: true,
           showMe: _(grouped_results).size() !== 1,
           focusClass: sources_collection.findWhere({
@@ -92,7 +100,7 @@ CStone.Community.Search.Components.Results = React.createClass({
           <h3 className="search-help-text">
             <i className="icon"></i>
             Sorry, Nothing like that was found.
-            <p className="lead">Our search is getting smarter every day, but we still do not understand "{session.get('current_search')}".  Try searching someting similar.</p>
+            <p className="lead">Our search is getting smarter every day, but we still do not understand "{session.get('current_search')}".  Please try searching someting similar.</p>
           </h3>
         </div>
       </div>;

@@ -49,9 +49,7 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
     return 'no-results'   if is_searching
 
   acceptHint: =>
-    @set
-      current_search: @get('current_hint_w_original_capitalization')
-      current_hint:   @get('current_hint_w_original_capitalization')
+    @set current_search: @get('current_hint')
 
   # toggle dropdown_visible, hint_visible, etc.
   toggle: (flag, additional_options)=>
@@ -84,9 +82,14 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
   _updateCurrentHint: =>
     current_search = @get('current_search')
     focused =  @get('results').currentFocus() && @get('results').currentFocus().get('payload')
-    case_indiferent_matcher = ///^#{current_search}///i
+    case_indiferent_matcher = ///^.*#{current_search}///i
     if focused && case_indiferent_matcher.test focused
-      hint = focused.replace case_indiferent_matcher, current_search
+      hint = focused.toLowerCase().replace case_indiferent_matcher, current_search
+      hint = hint.replace( ///(#{current_search}[^\:|\-|\?|\!|\.]*).*$///i, '$1').trim()
+      unless single_word = /\s/.test hint
+        hint_phrase = focused.match( ///(^[^\:|\-|\?|\!|\.]*#{current_search}).*$///i )[0]
+        hint_phrase = hint_phrase.replace( ///(#{current_search}[^\:|\-|\?|\!|\.]*).*$///i, '$1').trim()
+        hint = "#{hint} - #{hint_phrase}"
       @set(current_hint: hint, current_hint_w_original_capitalization: focused, hint_visible:true)
     else
       @set(current_hint: '', current_hint_w_original_capitalization: '', hint_visible:false)

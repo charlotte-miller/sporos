@@ -162,8 +162,8 @@ CStone.Community.Search.Components.Results = React.createClass({
   // Event Handlers
   //---------------------------------------------------------
   onClick: function(e) {
-    this.session().acceptHint();
-    var result = this.getCollection().results.get(e.target.dataset.resultId);
+    var result_id = this.$(e.target).closest('li').data('resultId');
+    var result = this.getCollection().results.get(result_id);
     return result.open();
   },
 

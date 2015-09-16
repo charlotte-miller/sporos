@@ -49,7 +49,7 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
     return 'no-results'   if is_searching
 
   acceptHint: =>
-    @set current_search: @get('current_hint')
+    @set {current_search: @get('current_hint')}
 
   # toggle dropdown_visible, hint_visible, etc.
   toggle: (flag, additional_options)=>

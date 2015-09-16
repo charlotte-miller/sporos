@@ -97,8 +97,6 @@ CStone.Community.Search.Components.UI = React.createClass({
 
   onSubmit: function(e) {
     e.preventDefault();
-    this.session.acceptHint();
-    this.updateInputField();
     this.session.openFocused();
   },
 
@@ -142,8 +140,6 @@ CStone.Community.Search.Components.UI = React.createClass({
           break;
         case 'enter':
           e.preventDefault();
-          _this.session().acceptHint();
-          _this.updateInputField();
           _this.session().openFocused();
           break;
         case 'esc':

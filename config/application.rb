@@ -54,6 +54,11 @@ module Sporos
 
     config.cache_store = :redis_store, "#{AppConfig.redis.url}/0/cache", { expires_in: 1.week }
 
+    config.assets.image_optim = {
+      pack:true,    skip_missing_workers: true,
+      pngout:false, svgo: false,
+    }
+
     # String should use VARCHAR not VARCHAR(255)
     initializer "postgresql.no_default_string_limit" do
       ActiveSupport.on_load(:active_record) do

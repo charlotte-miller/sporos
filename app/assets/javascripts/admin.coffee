@@ -1,3 +1,4 @@
+#= require handlebars/handlebars.runtime.js
 #= require jquery_ujs
 #= require blueimp-load-image/js/load-image.all.min
 #= require blueimp-canvas-to-blob
@@ -14,7 +15,7 @@
 #= require bootstrap/tab
 #= require bootstrap/transition
 #= require bootstrap/collapse
-#= require pickadate
+#= require pickadate/lib/picker
 #= require pickadate/lib/picker.date
 #= require pickadate/lib/picker.time
 #  require clockpicker

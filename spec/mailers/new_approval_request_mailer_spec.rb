@@ -19,6 +19,7 @@ RSpec.describe NewApprovalRequestMailer, :type => :mailer do
 
   it 'should have a subject' do
     expect(subject.subject).to_not be_nil
+    expect(subject.subject).to match(@ministry.name)
   end
 
   it 'should send to all the peers' do
@@ -33,8 +34,7 @@ RSpec.describe NewApprovalRequestMailer, :type => :mailer do
   describe "email body" do
     subject { NewApprovalRequestMailer.request_approval(@approval_request.to_findable_hash).body.encoded }
 
-    it { is_expected.to match(Rails.application.routes.url_helpers.post_url(@approval_request.post)) }
-    it { is_expected.to match(@ministry.name) }
+    it { is_expected.to match(Rails.application.routes.url_helpers.admin_post_url(@approval_request.post)) }
     it { is_expected.to match(@post.title) }
     it { is_expected.to match(@post.description) }
 

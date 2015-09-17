@@ -8,22 +8,23 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
   REPLACEMENTS = [
     ['@', 'at'],
     ['&', 'and'],
+    [',', ''],
     ['\\+', 'and'],
-    ['[\\(|\\)]', ''], # ()
-    ['\s?-\s?', ' '],  # -
-    ['\s?:\s?', ''],  # :
+    ['[\\[|\\(|\\)|\\]]', ''],   # ()
+    ['\\s?-\\s?', ' '],          # -
+    ['\\s?:', ''],               # :
   ]
 
   subModelTypeAttribute: 'name'
   subModelTypes:
-    'announcement' : 'CStone.Community.Search.Models.Sources.Announcement'
     'event'        : 'CStone.Community.Search.Models.Sources.Event'
     'ministry'     : 'CStone.Community.Search.Models.Sources.Ministry'
-    'music'        : 'CStone.Community.Search.Models.Sources.Music'
-    'video'        : 'CStone.Community.Search.Models.Sources.Video'
-    'page'         : 'CStone.Community.Search.Models.Sources.Page'
-    'question'     : 'CStone.Community.Search.Models.Sources.Question'
-    'sermon'       : 'CStone.Community.Search.Models.Sources.Sermon'
+    'combined'     : 'CStone.Community.Search.Models.Sources.Combined'
+    'music'        : 'CStone.Community.Search.Models.Sources.CombinedAdapter'
+    'video'        : 'CStone.Community.Search.Models.Sources.CombinedAdapter'
+    'page'         : 'CStone.Community.Search.Models.Sources.CombinedAdapter'
+    'question'     : 'CStone.Community.Search.Models.Sources.CombinedAdapter'
+    'sermon'       : 'CStone.Community.Search.Models.Sources.CombinedAdapter'
 
 
   initialize: =>
@@ -37,33 +38,71 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
     # https://github.com/twitter/typeahead.js/blob/master/doc/bloodhound.md#options
     bloodhound_options =
       name:           @get 'name'
-      datumTokenizer: defaultDatumTokenizer
-      queryTokenizer: defaultQueryTokenizer
-      dupDetector:    defaultDupDetector
+      datumTokenizer: @defaultDatumTokenizer
+      queryTokenizer: @defaultQueryTokenizer
+      identify:       identifyDatum
       sorter:         defaultSorter
-      limit:          5
+      sufficient:     10
       local:          @get 'local'
       remote:         @get 'remote'
       prefetch:       @get 'prefetch'
 
     @bloodhound = new Bloodhound( bloodhound_options )
-    @bloodhound.initialize()
-
 
   search: (query)=>
-    @bloodhound.get query, (async_results)=>
-      processed_results = @processResults(async_results, query = query) #preserve query
-      @get('session').get('results').updateSingleSource(@get('name'), processed_results)
+    handleLocalSearch = (datums)=>
+      @get('session').get('results').updateFromSource( @processResults(datums), @ )
 
-  processResults: (results, query)=>
-    if @get('elasticsearch')
-      @bloodhound.add(results)
-      @bloodhound.index.get(query)
-    else
-      results # Abstract Funciton - Overwrite in child
+    handleRemoteSearch = (datums)=>
+      if @get('elasticsearch')
+        unless _(datums).isEmpty()
+          @get('session').get('sources').updateTotalCounts( datums[0].total_counts )
+          clean_datums = _(datums).map (d)-> delete d.total_counts && d
+          @bloodhound.add( clean_datums )
+        datums = @bloodhound.index.search(query)
+      @get('session').get('results').updateFromSource( @processResults(datums), @ )
 
-  # Internal #########
-  startPhraseTokenizer = (str, word_cap=3)-> [str.split(/\s+/, word_cap).join(' ')]
+    @bloodhound.search query, handleLocalSearch, handleRemoteSearch
+
+  processResults: (results)-> results # Abstract Funciton - Overwrite in child
+
+  defaultDatumTokenizer: (datum)->
+    q = datum.payload.toLowerCase().trim()
+    q = charFilter(q)
+    tokens = _([
+      [q],
+      significantWordTokenizer(q),
+      wordShinglesTokenizer(q),
+    ]).inject(((memo,tokens)->_.union(memo,tokens)),[])
+    # console.log "Data: ['#{tokens.join('\', \'')}']"
+    tokens
+
+  defaultQueryTokenizer: (query)->
+    q = query.toLowerCase().trim()
+    q = charFilter(q)
+    tokens = _([
+      [q],
+      queryTailTokenizer(q),
+    ]).inject(((memo,tokens)->_.union(memo,tokens)),[])
+    # console.log "Query: ['#{tokens.join('\', \'')}']"
+    tokens
+
+  wordShinglesTokenizer = (query, shingle_size=3, final_shingle_size=2)->
+    q_array = Bloodhound.tokenizers.whitespace(query)
+    _q_array = _.chain(q_array).map (word, i)->
+      return if q_array.length - (i+shingle_size) < (final_shingle_size - shingle_size)
+      q_array.slice(i, i + shingle_size).join(' ')
+    _q_array.compact().value()
+
+  queryTailTokenizer = (query)->
+    tokens= []
+    q_array = Bloodhound.tokenizers.whitespace(query)
+    while q_array.length
+      q_array.shift()
+      break unless q_array.length > 1
+      tokens.push q_array.join(' ')
+    return tokens
+
   significantWordTokenizer = (query)->
     q_array = Bloodhound.tokenizers.whitespace(query)
     q_array = _(q_array).difference( STOPWORDS )
@@ -74,48 +113,29 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
       str= str.replace(///#{regex}///g, replacement)
     str
 
-  defaultDatumTokenizer = (datum)->
-    q = datum.payload.toLowerCase().trim()
-    q = charFilter(q)
-    answer = _([
-      significantWordTokenizer(q),
-      startPhraseTokenizer(q)
-    ]).inject(((memo,tokens)->_.union(memo,tokens)),[])
-    # console.log "Data: ['#{answer.join('\', \'')}']"
-    answer
 
-  defaultQueryTokenizer = (query)->
-    q = query.toLowerCase().trim()
-    q = charFilter(q)
-    unless query.match /\s+/
-      answer = [q]
-    else
-      finished_words = q.match(/(.*)\s+\S*$/)[1]
-      answer = _([
-        significantWordTokenizer(finished_words),
-        startPhraseTokenizer(q)
-      ]).inject(((memo,tokens)->_.union(memo,tokens)),[])
-    # console.log "Query: ['#{answer.join('\', \'')}']"
-    answer
+  identifyDatum = (datum)-> datum.id
+  defaultSorter = (a, b) ->
+    # Sort series chronologically
+    # a_match = a.payload.match(/(.*)(\d)/)
+    # b_match = b.payload.match(/(.*)(\d)/)
+    # if a_match && b_match && a_match[1] == b_match[1]
+    #   if parseInt(a_match[2]) > parseInt(b_match[2]) then return -1
+    #   if parseInt(a_match[2]) < parseInt(b_match[2]) then return  1 else return 0
 
-
-  defaultDupDetector    = (remoteMatch, localMatch)-> (remoteMatch.payload == localMatch.payload)
-  defaultSorter         = (a, b) ->
     if a.score > b.score then return  1
     if a.score < b.score then -1 else 0
 
   # Singletons ##########
-  @elasticsearchProcessor: (type)->
-    processor = (results)->
-      results_array = _(results.hits.hits).map (result)->
-        type:    type
-        id:      parseInt(result._id)
-        score:   result._score
-        payload: result._source.title
-        description: result._source.display_description
-        path:    result._source.path
-      results_array.total_counts = results.total_counts
-      results_array
-    return processor
+  @elasticsearchProcessor: (results)->
+    results_array = _(results.hits.hits).map (result)->
+      type:    result._type
+      id:      parseInt(result._id)
+      score:   result._score
+      payload: result._source.title
+      description: result._source.display_description
+      path:    result._source.path
+      total_counts: results.total_counts
+    results_array
 
 CStone.Community.Search.Models.AbstractSource.setup()

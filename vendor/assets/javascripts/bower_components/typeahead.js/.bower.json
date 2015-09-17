@@ -1,6 +1,5 @@
 {
   "name": "typeahead.js",
-  "version": "0.10.5",
   "main": "dist/typeahead.bundle.js",
   "dependencies": {
     "jquery": ">=1.7"
@@ -10,14 +9,13 @@
     "jasmine-ajax": "~1.3.1",
     "jasmine-jquery": "~1.5.2"
   },
-  "homepage": "https://github.com/twitter/typeahead.js",
-  "_release": "0.10.5",
+  "homepage": "https://github.com/chip-miller/typeahead.js",
+  "_release": "da78bf206a",
   "_resolution": {
-    "type": "version",
-    "tag": "v0.10.5",
-    "commit": "35f486cfe2d63c05989ee38a0a10122795661458"
+    "type": "commit",
+    "commit": "da78bf206a0bf87bedfbb2e1386048d6ce9469ad"
   },
-  "_source": "git://github.com/twitter/typeahead.js.git",
-  "_target": "~0.10.5",
-  "_originalSource": "typeahead.js"
+  "_source": "git://github.com/chip-miller/typeahead.js.git",
+  "_target": "da78bf206a0bf87bedfbb2e1386048d6ce9469ad",
+  "_originalSource": "git://github.com/chip-miller/typeahead.js"
 }

@@ -6,10 +6,12 @@ class SearchNamespace.Sources.Ministry extends SearchNamespace.AbstractSource
 
   defaults:
     name:   'ministry'
+    # local:  CStoneData.ministry_search #TODO
     local:  [{ payload: 'doggy', id:21 }, { payload: 'pig', id:22 }, { payload: 'moose', id:23 }]
-    # elasticsearch: true
-    # remote:
-    #   url: "http://#{CStoneData.domains.origin}/search?q=%QUERY&types=ministry"
-    #   filter: @elasticsearchProcessor('ministry')
+
+  processResults: (results)=>
+    _(results).map (result)=>
+      result.type ||= 'ministry'
+      result
 
 SearchNamespace.Sources.Ministry.setup()

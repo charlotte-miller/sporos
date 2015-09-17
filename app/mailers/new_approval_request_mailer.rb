@@ -1,4 +1,6 @@
 class NewApprovalRequestMailer < ApplicationMailer
+  include ApplicationHelper
+  include PostsHelper
 
   def request_approval(approval_request)
     @approval_request = approval_request.to_obj
@@ -8,7 +10,7 @@ class NewApprovalRequestMailer < ApplicationMailer
     @peers  = @approval_request.peers.map(&:user).map(&:email)
     mail(from: "\"#{@sender.first_name} from Cornerstone\" <do-not-reply@cornerstonesf.org>",
          to: @peers,
-         subject: "Require approval",
+         subject: "#{@ministry.name} wants to post #{indefinitize(post_type_of(@post))}".titleize,
          cc: @sender.email)
   end
 end

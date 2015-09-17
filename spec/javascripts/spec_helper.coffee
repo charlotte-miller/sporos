@@ -1,6 +1,10 @@
 #  APPLICATION
+#= require_self
 #= require vendor
 #= require application
+#= require community/news
+#= require community/search
+#= require community/posts/all
 #
 #  TEST HELPERS
 #= require support/jasmine-jquery-1.7.0
@@ -14,3 +18,5 @@
 #
 #  SPECS
 #  Teaspoon will look for files that match _spec.{js,js.coffee,.coffee}.
+
+window.CStoneData ||= {domains:{origin:'sporos-test.com'}}

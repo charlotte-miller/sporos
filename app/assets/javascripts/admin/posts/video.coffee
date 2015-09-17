@@ -42,7 +42,7 @@ $ ->
       , 50)
 
       fail: (e,data)->
-        debugger
+        # debugger
 
       done: (e,data)->
         $.ajax
@@ -58,4 +58,4 @@ $ ->
             $('#post_vimeo_id').val(result.vimeo_id)
             $('.progress.progress-striped.active, .btn.btn-danger.cancel').hide()
           fail: (error, data)->
-            debugger
+            # debugger

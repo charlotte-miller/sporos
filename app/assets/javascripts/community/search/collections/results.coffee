@@ -10,7 +10,7 @@ class CStone.Community.Search.Collections.Results extends CStone.Shared.Backbone
     @filtered.on 'all', @_filteredEventDelegator
     @filtered.grouped = -> @groupBy('source')
     @filtered.sources = -> @pluck('source')
-    @throttledHandleUpdates = _.debounce @handleUpdates, 100
+    # @throttledHandleUpdates = _.debounce @handleUpdates, 100
     @updateFocus()
 
 
@@ -39,21 +39,31 @@ class CStone.Community.Search.Collections.Results extends CStone.Shared.Backbone
     @filtered.filterBy( source, source:source ) unless source=='all'
     @handleUpdates()
 
-
   # Update Models (including focus)
   # ----------------------------------------------------------------------
-  updateSingleSource: (source, models_data=[])=>
-    old_model_ids = _(@where(source:source)).map (obj)-> obj.id
-    new_model_ids = _(models_data).map (obj)-> obj.id
-    to_add        = _(models_data).reject (data)-> _(old_model_ids).include(data.id)
-    to_remove     = _(old_model_ids).chain()
-      .without(new_model_ids...)
-      .map (id)=> @get(id)
-      .value()
-    _(to_add).forEach (data) -> data.source=source
-    @add to_add
-    @remove to_remove
-    @throttledHandleUpdates()
+  updateFromSource: (models_data, source_obj)=>
+    _grouped_data = _.chain(models_data).groupBy('type')
+
+    if source_obj.constructor.name == 'CombinedAdapter'
+      combined_types = ['page','music','question','sermon','video']
+      _empty_combined_sources = _.chain(combined_types).without(_grouped_data.keys().value()...)
+      _grouped_data = _grouped_data.extend( _empty_combined_sources.inject( ((memo, key)-> memo[key]=[]; memo), {}).value() )
+
+    else if _grouped_data.isEmpty().value()
+      _grouped_data._wrapped[source_obj.get('name')] = []
+
+    _grouped_data.each (model_data, source)=>
+      old_model_ids = _(@where(source:source)).map (obj)-> obj.id
+      new_model_ids = _(model_data).map (obj)-> obj.id
+      to_add        = _(model_data).reject (data)-> _(old_model_ids).include(data.id)
+      to_remove     = _(old_model_ids).chain()
+        .without(new_model_ids...)
+        .map (id)=> @get(id)
+        .value()
+      _(to_add).forEach (data) -> data.source=source
+      @add to_add
+      @remove to_remove
+    @handleUpdates()
 
   handleUpdates: =>
     @all() unless @filtered.length

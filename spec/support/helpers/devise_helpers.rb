@@ -23,7 +23,7 @@ module Devise
 
   module RequestHelper
     def login_user
-      before(:all) { @user = FactoryGirl.create :user }
+      before(:all) { @user ||= FactoryGirl.create :user }
 
       let(:current_user){ @user }
       before(:each) do

@@ -75,7 +75,7 @@ class Post < ActiveRecord::Base
 
   has_many :uploaded_files, as:'from', dependent: :destroy
 
-  has_one :comm_arts_request
+  has_one :comm_arts_request, dependent: :destroy
     accepts_nested_attributes_for :comm_arts_request, reject_if: :attributes_absent
 
   # ---------------------------------------------------------------------------------
@@ -90,6 +90,7 @@ class Post < ActiveRecord::Base
   # Attributes
   # ---------------------------------------------------------------------------------
   delegate :file, to: :uploaded_files
+  delegate :url_helpers, to: 'Rails.application.routes'
   has_public_id :public_id, prefix:'post', length:21
   def to_param; public_id || generate_missing_public_id ;end
 
@@ -131,20 +132,19 @@ class Post < ActiveRecord::Base
   # Callbacks
   # ---------------------------------------------------------------------------------
 
-  after_create :request_approval!
+  after_create :find_uploaded_files_by_session, :request_approval!
 
   def request_approval!
     if find_approvers.present?
       find_approvers.map do |user|
         ApprovalRequest.create!( post_id:id, user_id:user.id )
       end
-      ApprovalRequest.create!( post_id:id, user_id:author.id, status:'accepted' )
     else
       if author.involvements.in_ministry(ministry).first.editor?
-        # Editors publish instantly
-        self.touch :published_at
+        self.touch :published_at # Editors publish instantly
       end
     end
+    ApprovalRequest.create!( post_id:id, user_id:author.id, status:'accepted' ) # Everyone accepts their own work
   end
 
 
@@ -152,12 +152,11 @@ class Post < ActiveRecord::Base
     @find_approvers ||= begin
       involvement = Involvement.where(user_id:user_id, ministry_id:ministry_id).first
       involvement.more_involved_in_this_ministry
-
       # filter from UI
     end
   end
 
-  after_create :find_uploaded_files_by_session
+  # after_create :find_uploaded_files_by_session  #MUST run before request_approval!
   def find_uploaded_files_by_session
     UploadedFile.where(session_id:current_session).each do |file|
       file.from = self

@@ -1,8 +1,0 @@
-#init-help.search-help
-  .search-help-content
-    %h3.search-help-text
-      %i.icon
-      Try Searching:
-      %a.text-spinner{href:'#'} "When does Church start", "Parking", "Child care", "BART &amp; MUNI", "Haiti Mission", "Videos", "Music", "1 Peter 2", "Ministries"
-      %p.lead We want you to find what you are looking for, so start typing to learn more about our community &amp; media library.
-    / #init-help-recent-searches

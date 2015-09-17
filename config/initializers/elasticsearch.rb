@@ -4,7 +4,8 @@
 Elasticsearch::Model.client = Elasticsearch::Client.new({
   log:    true,
   logger: Logger.new( Rails.root.join("log/elasticsearch#{Rails.env.test? ? '-test' : ''}.log") ),
-  retry_on_failure: Rails.env.test? ? false : 2,
+  retry_on_failure: Rails.env.test? ? false : 1,
   host: AppConfig.elasticsearch.address,
   adapter: :typhoeus,
+  transport_options: { request: { timeout:2 }, },
 })

@@ -5,6 +5,7 @@ class CStone.Community.Search
   @Collections = {}
   @Models      = {}
   @Views       = {}
+  @Components  = {}
 
   #### Interface ####
   # CStone.Community.Search.init()
@@ -18,7 +19,6 @@ class CStone.Community.Search
     @session = new @Models.Session
       results: []
       sources: [
-        {name: 'announcement' },
         {name: 'event'        },
         {name: 'ministry'     },
         {name: 'music'        },
@@ -28,8 +28,14 @@ class CStone.Community.Search
         {name: 'sermon'       },
       ]
 
-    @main   = new @Views.UI( ui_name: 'main',   el:'#main-header' )
-    @header = new @Views.UI( ui_name: 'header', el:'#headroom'    )
+    # @main   = new @Views.UI( ui_name: 'main',   el:'#main-header' )
+    # @header = new @Views.UI( ui_name: 'header', el:'#headroom'    )
+
+    $ =>
+      @main = CStone.UJSComponents['CStone.Community.Search.Components.UI']
+      @session.set('current_search', @main.refs['global-search-input'].getDOMNode().value)
+      @main.setProps({model: @session, ui_name:'main'})
+      @main.onInputFocus() if $('.text').is(":focus")
 
     CStone.Shared.ScrollSpy.addCallback (scroll)=>
       scroll_past = scroll > 400

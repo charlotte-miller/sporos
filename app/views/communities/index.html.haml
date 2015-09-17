@@ -12,13 +12,7 @@
     = render partial:'search', locals: {namespace_id:'headroom-search'}
 
 
-#main-header.header
-  .container
-    #main-header-content
-      %a#logo{href:'#'}
-        = image_tag 'white_cornerstone.png', class:'logo-img'
-
-      = render partial:'search', locals: {namespace_id:'global-search', show_examples:true}
+= react_component('CStone.Community.Search.Components.UI', {}, {prerender:true, id:'main-header-wrapper'})
 
 #main-body
   #evergreen-links
@@ -38,6 +32,7 @@
           .panel-body Invest in Cornerstone
 
   %hr
+  #times-and-locations-body
 
   %ul#current-content-nav
     %li#comming-up-link.active

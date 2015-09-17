@@ -1,3 +1,4 @@
+#main-header-wrapper{ display:initial; }
 #main-header{
   background: url( image_path('background_video_start.jpg') ) no-repeat center center; //video background
   -webkit-background-size: cover;
@@ -40,6 +41,7 @@
   @include verticalAlign(30%);
   @extend %transitionTop;
   z-index:9999;
+  text-align:center;
 }
 
     #logo{
@@ -53,14 +55,13 @@
 
       @media (max-width: $screen-md-min) {
         border-right:none;
-        height:110px;
       }
     }
 
     #global-search{
       .search-form{
         @extend .col-md-8;
-        margin-top: 60px;
+        margin-top: 45px;
 
         @media (max-width: $screen-md-min) {
           margin-top: 15px;

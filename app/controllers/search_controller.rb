@@ -116,6 +116,8 @@ class SearchController < ApplicationController
     }
 
     render json: MultiJson.dump(filtered_results, pretty:false)
+  rescue Faraday::TimeoutError
+    render json: MultiJson.dump({error:'timeout', took:0, hits:[]}, pretty:false)
   end
 
   # POST search/conversion

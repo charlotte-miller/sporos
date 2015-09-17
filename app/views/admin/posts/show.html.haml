@@ -10,11 +10,12 @@
           = @current_users_approval_request.status.upcase
 
       .col-xs-7
-        %a#step-progress-help{href:'#'}
-          %i.glyphicon.glyphicon-question-sign
-        #status-action
-          = link_to '#write-comments' do
-            = render partial: 'post_progress', locals:{approval_statuses:@approval_statuses}
+        - if @approval_statuses.length > 1
+          %a#step-progress-help{href:'#'}
+            %i.glyphicon.glyphicon-question-sign
+          #status-action
+            = link_to '#write-comments' do
+              = render partial: 'post_progress', locals:{approval_statuses:@approval_statuses}
 
 
   #cards

@@ -53,7 +53,7 @@ CStone.Community.Search.Components.Results = React.createClass({
             name: source.get('name'),
             title: source.get('title'),
             count: count,
-            showMe: !!(count),
+            showMe: !!(count || session.searchState()==='pre-search'),
             focusClass: source.get('focus') ? 'active' : ''
           };
         });

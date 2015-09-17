@@ -39,7 +39,7 @@ CStone.Community.Search.Components.UI = React.createClass({
         <div className="container">
           <div id="main-header-content">
             <a href="#" id="logo" name="logo">
-              <img className="logo-img" src="/static/images/white_cornerstone.png" alt="White cornerstone"/>
+              <img className="logo-img" src="/static/images/cornerstone_logo_reverse_200px.png" alt="White cornerstone"/>
             </a>
             <div className="search" id="global-search">
               <form className="search-form" role="search" onSubmit={this.onSubmit}>

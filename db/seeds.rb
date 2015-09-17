@@ -77,6 +77,7 @@
 
 # Study groups
 oky = FactoryGirl.create(:user, email: 'oky@sabeni.com', password: 'password')
+oky.confirm!
 study_group = FactoryGirl.create(:study_group)
 FactoryGirl.create(:group_membership, group: study_group, member: oky)
 study_group_lessons = study_group.study.lessons
@@ -105,3 +106,6 @@ study_group_lessons.each_with_index do |lesson, index|
   FactoryGirl.create(:user_lesson_state, user: oky, lesson: lesson)
 end
 
+# Shorter login for easier testing
+short = FactoryGirl.create(:user, email: 'a@a.com', password: 'password')
+short.confirm!

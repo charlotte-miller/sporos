@@ -1,7 +1,7 @@
 .header{
   .logo-img{
-    height:inherit;
-    width:auto;
+    height:100px;
+    width:230px;
   }
 
   .submit{
@@ -16,8 +16,13 @@
     @extend %truncate;
     color:white;
     text-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+    text-align:left;
     .thin{
       font-weight:lighter;
+    }
+
+    @media (max-width: $screen-md-min) {
+      text-align:inherit;;
     }
   }
 

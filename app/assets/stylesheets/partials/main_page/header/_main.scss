@@ -41,6 +41,7 @@
   @include verticalAlign(30%);
   @extend %transitionTop;
   z-index:9999;
+  text-align:center;
 }
 
     #logo{
@@ -54,7 +55,6 @@
 
       @media (max-width: $screen-md-min) {
         border-right:none;
-        height:110px;
       }
     }
 

@@ -61,10 +61,10 @@
     #global-search{
       .search-form{
         @extend .col-md-8;
-        margin-top: 45px;
+        margin-top: 56px;
 
         @media (max-width: $screen-md-min) {
-          margin-top: 15px;
+          margin-top: 10px;
         }
       }
     }

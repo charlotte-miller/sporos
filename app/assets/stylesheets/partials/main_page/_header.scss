@@ -17,8 +17,9 @@
     color:white;
     text-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
     text-align:left;
+    font-weight:600;
     .thin{
-      font-weight:lighter;
+      font-weight:300;
     }
 
     @media (max-width: $screen-md-min) {

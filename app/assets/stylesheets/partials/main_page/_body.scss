@@ -8,6 +8,9 @@
 
       .evergreen-link{
         @extend .col-sm-4;
+        font-weight: 300;
+        font-family: "museo",sans-serif;
+        font-size:16px;
 
         .panel{
           text-align:center;
@@ -16,7 +19,7 @@
 
         .panel-body{
           padding:0px;
-          line-height: 90px;
+          @extend %flexCenter;
           height: 100px;
         }
       }

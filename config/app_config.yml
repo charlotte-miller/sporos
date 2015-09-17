@@ -43,6 +43,8 @@ common:
     address: localhost
   church_online_platform:
     sso_key: key_only_used_in_production
+  firebase:
+    secret_access_key: GET AN ACCESS KEY FROM THE CORNERSTONE DIGITAL TEAM
 
 
 development:
@@ -111,5 +113,8 @@ production:
 
   church_online_platform:
     sso_key: <%= ENV['CHURCH_ONLINE_PLATFORM_SSO_KEY'] %>
+
+  firebase:
+    secret_access_key: <%= ENV['FIREBASE_SECRET_ACCESS_KEY'] %>
 
 #custom_environment:

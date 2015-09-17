@@ -150,6 +150,7 @@ GEM
     fastimage (1.6.8)
       addressable (~> 2.3, >= 2.3.5)
     ffi (1.9.6)
+    firebase_token_generator (2.0.0)
     font-awesome-sass (4.3.2.1)
       sass (~> 3.2)
     formatador (0.2.5)
@@ -549,6 +550,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   fakeredis
+  firebase_token_generator
   font-awesome-sass
   friendly_id (~> 5.0.4)
   git

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150731210949) do
+ActiveRecord::Schema.define(version: 20150922170444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -155,8 +155,10 @@ ActiveRecord::Schema.define(version: 20150731210949) do
     t.jsonb    "study_group_data",                   default: {},   null: false
     t.jsonb    "book_group_data",                    default: {},   null: false
     t.jsonb    "affinity_group_data",                default: {},   null: false
+    t.string   "public_id",               limit: 20
   end
 
+  add_index "groups", ["public_id"], name: "index_groups_on_public_id", using: :btree
   add_index "groups", ["state", "is_public"], name: "index_groups_on_state_and_is_public", using: :btree
   add_index "groups", ["study_id"], name: "index_groups_on_study_id", using: :btree
   add_index "groups", ["type", "id"], name: "index_groups_on_type_and_id", using: :btree

@@ -23,9 +23,11 @@
 #  study_group_data        :jsonb            default("{}"), not null
 #  book_group_data         :jsonb            default("{}"), not null
 #  affinity_group_data     :jsonb            default("{}"), not null
+#  public_id               :string(20)
 #
 # Indexes
 #
+#  index_groups_on_public_id            (public_id)
 #  index_groups_on_state_and_is_public  (state,is_public)
 #  index_groups_on_study_id             (study_id)
 #  index_groups_on_type_and_id          (type,id)

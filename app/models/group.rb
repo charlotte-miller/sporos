@@ -23,9 +23,11 @@
 #  study_group_data        :jsonb            default("{}"), not null
 #  book_group_data         :jsonb            default("{}"), not null
 #  affinity_group_data     :jsonb            default("{}"), not null
+#  public_id               :string(20)
 #
 # Indexes
 #
+#  index_groups_on_public_id            (public_id)
 #  index_groups_on_state_and_is_public  (state,is_public)
 #  index_groups_on_study_id             (study_id)
 #  index_groups_on_type_and_id          (type,id)
@@ -33,6 +35,7 @@
 
 class Group < ActiveRecord::Base
   include AttachableFile
+  include Uuidable
 
   # ---------------------------------------------------------------------------------
   # Attributes
@@ -40,6 +43,8 @@ class Group < ActiveRecord::Base
   # attr_accessible :description, :name, :is_public, :state, :meets_every_days, :poster_img, :poster_img_remote_url
   # attr_accessible :members, :members_attributes,  as: 'leader'
   attr_protected #none
+
+  has_public_id :public_id, prefix:'GRP', length:20
 
   has_attachable_file :poster_img,
                       :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"],

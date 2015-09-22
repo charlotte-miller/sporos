@@ -25,22 +25,45 @@
       }
     }
 
-        #new-to-cornerstone{ }
-        #times-and-locations{ }
-        #invest-in-cornerstone{ }
+        #new-to-cornerstone-link{ }
+        #times-and-locations-link{ }
+        #invest-in-community-link{ }
 
-    #times-and-locations-body{
+    #evergreen-link-bodies .evergreen-body{
       @extend .row;
       @extend %transitionHeight;
       height:0px;
       margin: -21px -15px 20px;
       overflow:hidden;
-      @include coverImage('placeholder_mission_map.png');
       @include box-shadow(inset  0  8px 8px -8px #555, inset  0 -8px 8px -8px #999);
 
       &.active{
         height:400px;
       }
+    }
+
+    #new-to-cornerstone{
+      @include coverImage('');
+    }
+
+    #times-and-locations{
+      @include coverImage('placeholder_mission_map.png');
+
+      #mission-times, #merced-times, #stream-times{
+        @extend .col-sm-4;
+        @extend %verticalCenter;
+        text-align:center;
+        h4, .times, .address a{
+          font-weight:700;
+        }
+        h4{
+          margin-bottom: 7px;
+        }
+      }
+    }
+
+    #invest-in-community{
+      @include coverImage('');
     }
 
     #current-content-nav{

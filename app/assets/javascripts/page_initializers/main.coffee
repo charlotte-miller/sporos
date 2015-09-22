@@ -26,7 +26,7 @@ $ ->
     $(@).unbind 'loadeddata'
 
 
-  $('#main-page a').not('.ministry, .photo-gallery, #photo-stack a, #times-and-locations a').click (e)->
+  $('#main-page a').not('.ministry, .photo-gallery, #photo-stack a, .evergreen-link a').click (e)->
     e.preventDefault()
 
     $('#headroom').removeClass('headroom--pinned')
@@ -42,13 +42,17 @@ $ ->
       down:30
       up:100
 
-  $('#times-and-locations').click (e)->
+  $('#evergreen-links .evergreen-link').click (e)->
     e.preventDefault()
-    $('#times-and-locations-body').toggleClass('active')
-    if $('#times-and-locations-body.active').length
+    target_id  = $(e.target).closest('a').data('drawer')
+    current_id = $('.evergreen-body.active').attr('id')
+    $('#evergreen-link-bodies .evergreen-body').removeClass('active')
+    $( "##{target_id}" ).addClass('active') unless target_id == current_id
+
+    if $('.evergreen-body.active').length
       col_sm_min = 768
       container  = $('#main-page')
-      scroll_to  = if container.width() < col_sm_min then '#times-and-locations' else '#main-body'
+      scroll_to  = if container.width() < col_sm_min then "##{target_id}-link" else '#main-body'
 
       $(scroll_to).smoothScroll 500, CStone.Animation.layoutTransition.easing,
         container: container

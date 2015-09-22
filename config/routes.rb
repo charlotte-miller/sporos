@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   root                     to: 'communities#index'
   get 'new'                 => 'special_pages#new_to_cornerstone'
   get 'times-and-locations' => 'special_pages#times_and_locations'
-  get 'invest'              => 'special_pages#invest_in_cornerstone'
+  get 'invest-in-community' => 'special_pages#invest_in_cornerstone'
 
   # Search
   get  'search' => 'search#index'

@@ -129,12 +129,21 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
   # Singletons ##########
   @elasticsearchProcessor: (results)->
     results_array = _(results.hits.hits).map (result)->
+      combined_payload = _([
+        result._source.title,
+        result._source.preview,
+        # result._source.keywords.join('|'),
+        result._source.study_title,
+        result._source.author,
+      ]).compact().join(' | ')
+
       type:    result._type
       id:      parseInt(result._id)
       score:   result._score
-      payload: result._source.title
-      description: result._source.display_description
-      path:    result._source.path
+      payload: combined_payload
+      title:        result._source.title
+      description:  result._source.preview
+      path:         result._source.path
       total_counts: results.total_counts
     results_array
 

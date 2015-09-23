@@ -50,7 +50,7 @@ RSpec.describe Study::Search, type:'model', elasticsearch: true do
       # phrase with partial after 1 word
     end
 
-    describe 'by display_description' do
+    describe 'by preview' do
       # phrase with partial after 1 word
     end
 

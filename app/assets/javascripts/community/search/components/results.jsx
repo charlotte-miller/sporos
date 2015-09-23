@@ -123,7 +123,9 @@ CStone.Community.Search.Components.Results = React.createClass({
           return (
             <li className={result.focusClass+" suggestion"} data-result-id={result.id} onClick={_this.onClick} onMouseOver={_this.onMouseover} >
               <i className={result.source+" icon"}></i>
-              <span dangerouslySetInnerHTML={ {__html: result.payload} } />
+              <span dangerouslySetInnerHTML={ {__html: result.title} } />
+              <div class='preview'     dangerouslySetInnerHTML={ {__html: result.preview} } />
+              <div class='description' dangerouslySetInnerHTML={ {__html: result.description} } />
             </li>
           );
         });

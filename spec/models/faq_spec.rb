@@ -2,12 +2,15 @@
 #
 # Table name: faqs
 #
-#  id                :integer          not null, primary key
-#  question_variants :text             default("{}"), is an Array
-#  answer            :text             not null
-#  more_info_path    :text
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
+#  id            :integer          not null, primary key
+#  faq_answer_id :integer
+#  body          :text             not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+# Indexes
+#
+#  index_faqs_on_faq_answer_id  (faq_answer_id)
 #
 
 require 'rails_helper'

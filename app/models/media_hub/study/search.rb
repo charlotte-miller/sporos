@@ -36,7 +36,7 @@ module Study::Search
 
   included do
     searchable_model do
-      # [title, display_description, description, keywords, path] are already declaired
+      # [title, preview, description, keywords, path] are already declaired
       indexes :last_published_at, type: 'date'
     end
 
@@ -67,12 +67,12 @@ module Study::Search
 
   def as_indexed_json(options={})
     {
-      title:                title,
-      display_description:  shorter_plain_text(description),
-      path:                 url_helpers.study_path(self),
-      description:          plain_text(description),
-      keywords:             keywords,
-      last_published_at:    last_published_at,
+      title:             title,
+      preview:           shorter_plain_text(description),
+      path:              url_helpers.study_path(self),
+      description:       plain_text(description),
+      keywords:          keywords,
+      last_published_at: last_published_at,
     }
   end
 end

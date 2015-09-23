@@ -31,7 +31,7 @@ RSpec.describe SearchController, :type => :controller do
         end
 
         describe '._source' do
-          %w{title display_description path}.each do |required_interface|
+          %w{title preview path}.each do |required_interface|
             it "has a #{required_interface}" do
               expect(hit['_source'][required_interface]).not_to be_nil
             end

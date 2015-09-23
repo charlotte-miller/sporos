@@ -38,7 +38,7 @@ module Searchable
             filter: {
               word_edge_ngram:{
                 type:'edge_ngram',
-                min_gram:3,
+                min_gram:2,
                 max_gram:20,
               },
 
@@ -149,60 +149,56 @@ module Searchable
             #Indexes are not automaticly created and must be added by code to be searched
 
             indexes :title,
-                     analyzer: 'html_stem',          #boost: 1.5
+                     analyzer: 'html_stem', boost: 2,
                      fields:{
 
                        word_edge_ngrams:{
                          type:'string',
                          index_analyzer:  'html_word_edge_ngram__index',
-                         search_analyzer: 'html_word_edge_ngram__search'
+                         search_analyzer: 'html_word_edge_ngram__search',
                        },
 
                        phrase_bi_grams:{
                          type:'string',
                          analyzer:'html_phrase_bi_gram',
-                         boost: 2.0
+                         boost: 3,
                        },
 
                        phrase_tri_grams:{
                          type:'string',
                          analyzer:'html_phrase_tri_gram',
-                         boost: 3.0
+                         boost: 5,
                        },
-
-                       # raw:{
-                       #   type:'string',
-                       #   index:'not_analyzed'
-                       # },
                      }
 
             indexes :description,
-                     analyzer: 'html_stem',
+                     analyzer: 'html_stem', boost:0.5,
                      fields:{
 
-                       word_edge_ngrams:{
-                         type:'string',
-                         index_analyzer:  'html_word_edge_ngram__index',
-                         search_analyzer: 'html_word_edge_ngram__search'
-                       },
+                       # word_edge_ngrams:{
+                       #   type:'string',
+                       #   index_analyzer:  'html_word_edge_ngram__index',
+                       #   search_analyzer: 'html_word_edge_ngram__search'
+                       # },
 
                        phrase_bi_grams:{
                          type:'string',
                          analyzer:'html_phrase_bi_gram',
-                         boost:1.0
+                         boost:2
                        },
 
-                       # raw:{
-                       #   type:'string',
-                       #   index:'not_analyzed'
-                       # },
+                       phrase_tri_grams:{
+                         type:'string',
+                         analyzer:'html_phrase_tri_gram',
+                         boost: 3,
+                       },
                      }
 
             indexes :keywords,
                      analyzer: 'keyword',
                      fields:{
                        # POPULAR TERMS ONLY? COMMON PHRASES?
-                       # These have to start at the begining... so they are not well suited to tite / description
+                       # These have to start at the begining... so they are not well suited to title / description
                        # Better for keywords / questions etc.
                        #
                        autocomplete:{

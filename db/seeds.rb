@@ -109,3 +109,13 @@ end
 # Shorter login for easier testing
 short = FactoryGirl.create(:user, email: 'a@a.com', password: 'password')
 short.confirm!
+
+
+# ['When is church', 'When do services start']
+FactoryGirl.create(:faq_answer, body:"Mission Campus: Saturday at 7pm, Sunday at 9am, 10:30am, and 12pm", author:@chip)
+  .build_questions_for ["When is church", "When do services start"]
+  .save!
+
+FactoryGirl.create(:faq_answer, author:@chip,
+  questions_attributes: [{body:"Why is the church called Cornerstone"}],
+  body:"As Christians, we model our lives and the church after our hero Jesus Christ - who called himself the Cornerstone or the foundation of our faith. Thats the short answer...")

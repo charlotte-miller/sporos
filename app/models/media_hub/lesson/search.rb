@@ -50,7 +50,7 @@ module Lesson::Search
 
   included do
     searchable_model do
-      # [title, display_description, description, keywords, path] are already declaired
+      # [title, preview, description, keywords, path] are already declaired
 
       indexes :study_title,
                analyzer: 'english',      # boost:1.5
@@ -94,14 +94,14 @@ module Lesson::Search
 
   def as_indexed_json(options={})
     {
-      title:                title,
-      display_description:  shorter_plain_text(description),
-      path:                 url_helpers.study_lesson_path(study, self),
-      study_title:          study.title,
-      description:          plain_text(description),
-      keywords:             study.keywords,
-      author:               author,
-      duration:             duration,
+      title:        title,
+      preview:      shorter_plain_text(description),
+      path:         url_helpers.study_lesson_path(study, self),
+      study_title:  study.title,
+      description:  plain_text(description),
+      keywords:     study.keywords,
+      author:       author,
+      duration:     duration,
     }
   end
 end

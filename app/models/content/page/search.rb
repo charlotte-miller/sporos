@@ -22,18 +22,18 @@ module Page::Search
   include Searchable
 
   included do
-    searchable_model # [title, display_description, description, keywords, path] are already declaired
+    searchable_model # [title, preview, description, keywords, path] are already declaired
 
     scope :search_indexable, lambda { where(hidden_link:false) }
   end
 
   def as_indexed_json(options={})
     {
-      title:                title,
-      display_description:  shorter_plain_text(body),
-      path:                 path,
-      description:          plain_text(body),
-      keywords:             seo_keywords,
+      title:       title,
+      preview:     shorter_plain_text(body),
+      path:        path,
+      description: plain_text(body),
+      keywords:    seo_keywords,
     }
   end
 end

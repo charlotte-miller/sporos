@@ -4,3 +4,22 @@
     width:100%;
   }
 }
+
+// Credit: http://alistapart.com/article/creating-intrinsic-ratios-for-video
+// Credit: https://github.com/davatron5000/FitVids.js
+.fluid-width-video-wrapper{
+  width:100%;
+  position:relative;
+  padding:0;
+
+  &.widescreen{ padding-top:56.2%;} //based on 16:9 aspect ratio
+  &.standard{ padding-top:75%;}     //based on 4:3 aspect ratio
+
+  iframe, object, embed {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+  }
+}

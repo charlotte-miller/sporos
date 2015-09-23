@@ -20,7 +20,7 @@
   .clearfix
   #current_study.col-lg-9
     #lesson
-      = render :partial => 'video_tag'
+      = render :partial => 'vimeo_embed', locals:{autoplay:true}
       .lesson-source
         / Source:
         / = link_to @church.name, @church.homepage

@@ -3,7 +3,7 @@ class ApiController < ActionController::Base
 
   protect_from_forgery with: :null_session
 
-  before_filter :check_auth
+  before_filter :check_auth, except: [:groups]
 
   def login
     if @token
@@ -11,6 +11,16 @@ class ApiController < ActionController::Base
     else
       render json: { message: "invalid login/password" }, status: 401
     end
+  end
+
+  def groups
+    # Happy path for now...
+    payload = request.headers['Authorization']
+    decoded_data = JWT.decode(payload, AppConfig.firebase.secret_access_key)
+    user_public_id = decoded_data.first["d"]["uid"]
+    user = User.find_by(public_id: user_public_id)
+    @groups = user.groups
+    render "api/groups"
   end
 
 private

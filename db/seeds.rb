@@ -78,7 +78,7 @@
 # Study groups
 oky = FactoryGirl.create(:user, email: 'oky@sabeni.com', password: 'password')
 oky.confirm!
-study_group = FactoryGirl.create(:study_group)
+study_group = FactoryGirl.create(:study_group, name: 'MB Small Group')
 FactoryGirl.create(:group_membership, group: study_group, member: oky)
 study_group_lessons = study_group.study.lessons
 study_group_lessons.each_with_index do |lesson, index|
@@ -88,7 +88,7 @@ study_group_lessons.each_with_index do |lesson, index|
 end
 
 # A finished study group
-finished_group = FactoryGirl.create(:study_group, state: 'is_finished')
+finished_group = FactoryGirl.create(:study_group, state: 'is_finished', name: 'Coding Group')
 FactoryGirl.create(:group_membership, group: finished_group, member: oky)
 lessons = finished_group.study.lessons
 lessons.each_with_index do |lesson, index|
@@ -97,7 +97,7 @@ lessons.each_with_index do |lesson, index|
 end
 
 # Another study group
-another_study_group = FactoryGirl.create(:study_group)
+another_study_group = FactoryGirl.create(:study_group, name: 'Design Group')
 FactoryGirl.create(:group_membership, group: another_study_group, member: oky)
 study_group_lessons = another_study_group.study.lessons
 study_group_lessons.each_with_index do |lesson, index|

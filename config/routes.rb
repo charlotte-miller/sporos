@@ -93,6 +93,7 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
+    get 'groups'
     post 'login'
   end
 

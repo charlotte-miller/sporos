@@ -2,6 +2,8 @@ ruby '2.1.2'
 source 'https://rubygems.org'
 
 gem 'firebase_token_generator'
+gem 'jwt'
+gem 'rabl'
 
 gem 'rails', '~> 4.2.0'
 gem 'sass-rails', '~> 5.0.0.beta1'

@@ -94,6 +94,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     post 'login'
+    get 'login_and_visit'
   end
 
   # Example resource route with sub-resources:

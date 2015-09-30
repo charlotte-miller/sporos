@@ -1,0 +1,9 @@
+/ = render :partial => 'lessons/vimeo_embed', locals:{video_vimeo_id: 139544731, autoplay:false, aspect_ratio:'4:3'}
+
+- video_vimeo_id ||= @lesson.video_vimeo_id
+- autoplay_val = (defined?(autoplay) && autoplay) ? 1 : 0
+- aspect_ratio_class = (defined?(aspect_ratio) && aspect_ratio=='4:3') ? 'standard' : 'widescreen'
+
+.fluid-width-video-wrapper{class:aspect_ratio_class}
+  %iframe{ :src => "https://player.vimeo.com/video/#{video_vimeo_id}?autoplay=#{autoplay_val}&title=0&byline=0&portrait=0&api=1",  |
+           :allowfullscreen => "", :frameborder => "0", :mozallowfullscreen => "", :webkitallowfullscreen => ""}

@@ -34,41 +34,61 @@
   %hr
   #evergreen-link-bodies
     #new-to-cornerstone.evergreen-body
+      .container
+        %section.col-sm-8
+          = render :partial => 'lessons/vimeo_embed', locals:{video_vimeo_id: 139541524, autoplay:false}
+        %section.col-sm-4
+          .new-to-cornerstone-copy
+            %h3
+              %a{href:'/new'}
+                %span.hidden-xs.hidden-sm Are you
+                New to Cornerstone?
+            %ul
+              %li
+                %a{href:'/new#what-to-expect'} What to Expect
+              %li
+                %a{href:'/new#childcare-and-youth'} Childcare & Youth Ministry
+              %li
+                %a{href:'/new#coffee-and-food'} Coffee, Food, & Fellowship
+              %li
+                %a{href:'/new#park-and-transit'} Maps, Parking, & MUNI/BART
+
     #times-and-locations.evergreen-body
-      #mission-times
-        %h4 Mission Campus
-        .times
-          Saturday 7pm
-          %br
-          Sunday 9am, 10:30am, 12pm
-        .address
-          %a{target:'_blank', href:'https://www.google.com/maps/place/Cornerstone+Church/@37.7631083,-122.4229984,17z/data=!3m1!4b1!4m2!3m1!1s0x808f7f2eee633559:0x74a9f9b79a4c03ae'}
-            3459 17th St,
+      .container
+        #mission-times
+          %h4 Mission Campus
+          .times
+            Saturday 7pm
             %br
-            San Francisco, CA 94110
-          %br
-          (Near BART | Onsite Parking | Childcare)
-
-      #merced-times
-        %h4 Lake Merced Campus
-        .times
-          Sunday 11am
-        .address
-          %a{target:'_blank', href:'https://www.google.com/maps/place/825+Brotherhood+Way,+San+Francisco,+CA+94132/@37.7138696,-122.4783683,17z/data=!3m1!4b1!4m2!3m1!1s0x808f7c4d0440957b:0x65031621786d9ef6'}
-            825 Brotherhood Way,
+            Sunday 9am, 10:30am, 12pm
+          .address
+            %a{target:'_blank', href:'https://www.google.com/maps/place/Cornerstone+Church/@37.7631083,-122.4229984,17z/data=!3m1!4b1!4m2!3m1!1s0x808f7f2eee633559:0x74a9f9b79a4c03ae'}
+              3459 17th St,
+              %br
+              San Francisco, CA 94110
             %br
-            San Francisco, CA 94132
-          %br
-          (Near I-280 | Onsite Parking | Childcare)
+            (Near BART | Onsite Parking | Childcare)
 
-      #stream-times
-        %h4 Online Live Stream
-        .times
-          Sunday 10:30am
-        .address
-          %a{href:'http://live.cornerstonesf.org/', target:'_blank'} live.cornerstonesf.org
-          %br
-          (Replayed All Sunday)
+        #merced-times
+          %h4 Lake Merced Campus
+          .times
+            Sunday 11am
+          .address
+            %a{target:'_blank', href:'https://www.google.com/maps/place/825+Brotherhood+Way,+San+Francisco,+CA+94132/@37.7138696,-122.4783683,17z/data=!3m1!4b1!4m2!3m1!1s0x808f7c4d0440957b:0x65031621786d9ef6'}
+              825 Brotherhood Way,
+              %br
+              San Francisco, CA 94132
+            %br
+            (Near I-280 | Onsite Parking | Childcare)
+
+        #stream-times
+          %h4 Online Live Stream
+          .times
+            Sunday 10:30am
+          .address
+            %a{href:'http://live.cornerstonesf.org/', target:'_blank'} live.cornerstonesf.org
+            %br
+            (Replayed All Sunday)
 
 
     #invest-in-community.evergreen-body

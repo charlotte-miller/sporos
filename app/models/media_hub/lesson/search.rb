@@ -44,25 +44,35 @@
 #  index_lessons_on_video_vimeo_id         (video_vimeo_id) UNIQUE
 #
 
+# NOTE: This module handles multiple search types, and is included by the Lesson::Search::Klasses
+
 module Lesson::Search
   extend  ActiveSupport::Concern
   include Searchable
 
   included do
     searchable_model do
-      # [title, display_description, description, keywords, path] are already declaired
+      # [title, preview, description, keywords, path] are already declaired
 
       indexes :study_title,
                analyzer: 'english',      # boost:1.5
                index_options: 'offsets',
                fields:{
-                 # raw:{
-                 #   type:'string',
-                 #   index:'not_analyzed'
-                 # },
+                 word_edge_ngrams:{
+                   type:'string',
+                   index_analyzer:  'html_word_edge_ngram__index',
+                   search_analyzer: 'html_word_edge_ngram__search',
+                 },
                }
 
-      indexes :author,      analyzer: 'stop'
+      indexes :author,      analyzer: 'stop',
+              fields:{
+                word_edge_ngrams:{
+                  type:'string',
+                  index_analyzer:  'html_word_edge_ngram__index',
+                  search_analyzer: 'html_word_edge_ngram__search',
+                },
+              }
       indexes :duration,    type:'long'
     end
 
@@ -94,14 +104,14 @@ module Lesson::Search
 
   def as_indexed_json(options={})
     {
-      title:                title,
-      display_description:  shorter_plain_text(description),
-      path:                 url_helpers.study_lesson_path(study, self),
-      study_title:          study.title,
-      description:          plain_text(description),
-      keywords:             study.keywords,
-      author:               author,
-      duration:             duration,
+      title:        title,
+      preview:      shorter_plain_text(description),
+      path:         url_helpers.study_lesson_path(study, self),
+      study_title:  study.title,
+      description:  plain_text(description),
+      keywords:     study.keywords,
+      author:       author,
+      duration:     duration,
     }
   end
 end

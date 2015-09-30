@@ -96,6 +96,7 @@ Rails.application.routes.draw do
     get 'groups'
     get 'current_lesson'
     post 'login'
+    get 'login_and_visit'
   end
 
   # Example resource route with sub-resources:

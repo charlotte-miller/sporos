@@ -28,7 +28,7 @@ module Searchable
 
       class_eval do
         index_name     AppConfig.elasticsearch.index_name
-        document_type  options.type || name.downcase
+        document_type  (options.type || name.demodulize.downcase).to_sym
 
         settings index: {
           number_of_shards: 1,
@@ -119,14 +119,14 @@ module Searchable
                 type:'custom',
                 char_filter: ['html_strip', '&_to_and', '@_to_at'],
                 tokenizer: 'classic',
-                filter:['trim', 'lowercase', 'asciifolding', 'stop', 'common_leading_stopword', 'cstone_synonyms', 'word_edge_ngram'],
+                filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'kstem', 'word_edge_ngram__range', 'word_edge_ngram'],
               },
 
               html_word_edge_ngram__search:{
                 type:'custom',
                 char_filter: ['html_strip', '&_to_and', '@_to_at'],
                 tokenizer: 'classic',
-                filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'word_edge_ngram__range'],
+                filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'kstem', 'word_edge_ngram__range'],
               },
 
               html_phrase_bi_gram:{
@@ -149,60 +149,57 @@ module Searchable
             #Indexes are not automaticly created and must be added by code to be searched
 
             indexes :title,
-                     analyzer: 'html_stem',          #boost: 1.5
+                     analyzer: 'html_stem', boost: 3,
                      fields:{
 
                        word_edge_ngrams:{
                          type:'string',
                          index_analyzer:  'html_word_edge_ngram__index',
-                         search_analyzer: 'html_word_edge_ngram__search'
+                         search_analyzer: 'html_word_edge_ngram__search',
                        },
 
                        phrase_bi_grams:{
                          type:'string',
                          analyzer:'html_phrase_bi_gram',
-                         boost: 2.0
+                         boost: 5,
                        },
 
                        phrase_tri_grams:{
                          type:'string',
                          analyzer:'html_phrase_tri_gram',
-                         boost: 3.0
+                         boost: 8,
                        },
-
-                       # raw:{
-                       #   type:'string',
-                       #   index:'not_analyzed'
-                       # },
                      }
 
             indexes :description,
-                     analyzer: 'html_stem',
+                     analyzer: 'html_stem', boost:0.5, #(-%50)
+                     term_vector: "with_positions_offsets",
                      fields:{
 
-                       word_edge_ngrams:{
-                         type:'string',
-                         index_analyzer:  'html_word_edge_ngram__index',
-                         search_analyzer: 'html_word_edge_ngram__search'
-                       },
+                       # word_edge_ngrams:{
+                       #   type:'string',
+                       #   index_analyzer:  'html_word_edge_ngram__index',
+                       #   search_analyzer: 'html_word_edge_ngram__search'
+                       # },
 
                        phrase_bi_grams:{
                          type:'string',
                          analyzer:'html_phrase_bi_gram',
-                         boost:1.0
+                         boost:3
                        },
 
-                       # raw:{
-                       #   type:'string',
-                       #   index:'not_analyzed'
-                       # },
+                       phrase_tri_grams:{
+                         type:'string',
+                         analyzer:'html_phrase_tri_gram',
+                         boost: 5,
+                       },
                      }
 
             indexes :keywords,
                      analyzer: 'keyword',
                      fields:{
                        # POPULAR TERMS ONLY? COMMON PHRASES?
-                       # These have to start at the begining... so they are not well suited to tite / description
+                       # These have to start at the begining... so they are not well suited to title / description
                        # Better for keywords / questions etc.
                        #
                        autocomplete:{
@@ -235,7 +232,7 @@ private
   # Helpers - could be analyzers
   def shorter_plain_text(str, truncate_options={})
     truncate( plain_text(str), {
-      length:50,
+      length:80,
       omission:'...',
       separator: ' '
     }.merge(truncate_options))

@@ -35,7 +35,7 @@ class Study < ActiveRecord::Base
   include Sluggable
   include Sanitizable
   include AttachableFile
-  include Study::Search
+  # include Study::Search
 
   TEACHING_CHANNELS = %w{ messages studies resources mens-retreat coffeetalk }
   MUSIC_CHANNELS    = %w{ music }

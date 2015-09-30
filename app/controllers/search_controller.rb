@@ -9,88 +9,77 @@ class SearchController < ApplicationController
       # search_type:'count', #w/out hits
       body: {
         query: {
-        # if query.length > 3
-        # - update this with {}.merge
           bool: {
             must:{
-              bool:{
-                should:[
-                  { multi_match: {
-                      query: query,
-                      # fuzziness:'AUTO',
-                      # prefix_length:3,
-                      fields:[
-                        :title,             # all
-                        :description,       # all
-                        :keywords,          # all
-                        :study_title,       # lesson
-                        :author,            # lesson
-                      ]
-                    }
-                  },
-                  { multi_match:{
-                      query:query,
-                      fields:[
-                        'title.word_edge_ngrams',
-                        'description.word_edge_ngrams'
-                      ]
-                    }
-                  },
+              multi_match:{
+                query: query,
+                prefix_length:2,
+                type: "best_fields",
+                tie_breaker: 0.3,
+                minimum_should_match: '75%',
+                fields:[
+                  "title.word_edge_ngrams",
+                  "study_title.word_edge_ngrams",
+                  "author.word_edge_ngrams",
+                  "keywords.autocomplete",
+                  "description",
                 ]
-              }
+              },
             },
             should:{
-              multi_match: {
+              multi_match:{
                 query: query,
+                prefix_length:2,
+                type: "best_fields",
+                tie_breaker: 0.3,
+                minimum_should_match: '75%',
                 fields:[
-                  'title.phrase_bi_grams',
-                  'title.phrase_tri_grams',
-                  'description.phrase_bi_grams',
+                  "title",
+                  "keywords",
+                  "study_title",
+                  "author",
+
+                  "title.phrase_bi_grams",
+                  "title.phrase_tri_grams",
+                  "description.phrase_bi_grams",
+                  "description.phrase_tri_grams",
                 ]
-              }
+              },
             }
           }
         # end
+
         },
         # filter expired_at lt Time.now
         # sort:{
         #   last_published_at:{ order:'desc' },
         #   expired_at:{ order: 'asc' },
         # },
-        suggest:{
-          text: query,
-
-          autocomplete:{
-            completion:{
-              field:'keywords.autocomplete'
-            }
-          },
-
-        },
 
         highlight:{
           fields:{
-            title:{},
-            study_title:{},
-            description:{},
-            author:{},
-            'title.word_edge_ngrams'=>{},
-            'description.word_edge_ngrams'=>{},
+            # title:{},
+            # study_title:{},
+            # author:{},
+            description:{
+              fragment_size: 80,
+              number_of_fragments: 1
+            },
+            # 'description.phrase_bi_grams'=>{},
+            # 'description.phrase_tri_grams'=>{},
           }
         },
 
-        # #FUTURE: Consolidated search calls
         aggs: {
           type_counts: { terms:{ field:'_type' }}
         },
-        _source: [:title, :display_description, :path],
+        _source: [:title, :preview, :path],
       }.merge(pagination_options)
     })
 
     filtered_results = {
       took: @results['took'],
       hits: @results['hits'],
-      suggest: @results['suggest'],
       total_counts: total_counts,
     }
 
@@ -101,7 +90,7 @@ class SearchController < ApplicationController
     @results = Elasticsearch::Model.client.search({
       index: AppConfig.elasticsearch.index_name,
       type: types_w_defaults,
-      _source: [:title, :path], # :display_description,
+      _source: [:title, :path], # :preview,
       body:{
         size:200,
         query:{match_all:{}}

@@ -40,6 +40,21 @@
       &.active{
         height:400px;
       }
+
+      .container{
+        height:inherit;
+
+        section{
+          @extend %verticalCenter;
+          padding-top:10px;
+
+          iframe{
+            max-width: 680px;
+            max-height: 390px;
+            margin-top: 5px;
+          }
+        }
+      }
     }
 
     #new-to-cornerstone{

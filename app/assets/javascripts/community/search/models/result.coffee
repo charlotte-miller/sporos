@@ -11,6 +11,7 @@ class CStone.Community.Search.Models.Result extends Backbone.RelationalModel
     id: @get('id')
     source:  @get('source')
     payload: @get('payload')
+    title:   @get('title')
     path: @get('path')
     focusClass: if @get('focus') then 'active' else ''
 

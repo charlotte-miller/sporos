@@ -56,7 +56,8 @@ class Lesson < ActiveRecord::Base
   include Sanitizable
   include Questionable
   include Lesson::AttachedMedia
-  include Lesson::Search
+  # 302: Lesson::Search::<Type>
+
 
   # ---------------------------------------------------------------------------------
   # Attributes

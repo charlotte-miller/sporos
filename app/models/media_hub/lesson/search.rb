@@ -44,6 +44,8 @@
 #  index_lessons_on_video_vimeo_id         (video_vimeo_id) UNIQUE
 #
 
+# NOTE: This module handles multiple search types, and is included by the Lesson::Search::Klasses
+
 module Lesson::Search
   extend  ActiveSupport::Concern
   include Searchable
@@ -56,13 +58,21 @@ module Lesson::Search
                analyzer: 'english',      # boost:1.5
                index_options: 'offsets',
                fields:{
-                 # raw:{
-                 #   type:'string',
-                 #   index:'not_analyzed'
-                 # },
+                 word_edge_ngrams:{
+                   type:'string',
+                   index_analyzer:  'html_word_edge_ngram__index',
+                   search_analyzer: 'html_word_edge_ngram__search',
+                 },
                }
 
-      indexes :author,      analyzer: 'stop'
+      indexes :author,      analyzer: 'stop',
+              fields:{
+                word_edge_ngrams:{
+                  type:'string',
+                  index_analyzer:  'html_word_edge_ngram__index',
+                  search_analyzer: 'html_word_edge_ngram__search',
+                },
+              }
       indexes :duration,    type:'long'
     end
 

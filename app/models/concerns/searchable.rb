@@ -28,7 +28,7 @@ module Searchable
 
       class_eval do
         index_name     AppConfig.elasticsearch.index_name
-        document_type  options.type || name.downcase
+        document_type  (options.type || name.demodulize.downcase).to_sym
 
         settings index: {
           number_of_shards: 1,
@@ -38,7 +38,7 @@ module Searchable
             filter: {
               word_edge_ngram:{
                 type:'edge_ngram',
-                min_gram:2,
+                min_gram:3,
                 max_gram:20,
               },
 
@@ -119,14 +119,14 @@ module Searchable
                 type:'custom',
                 char_filter: ['html_strip', '&_to_and', '@_to_at'],
                 tokenizer: 'classic',
-                filter:['trim', 'lowercase', 'asciifolding', 'stop', 'common_leading_stopword', 'cstone_synonyms', 'word_edge_ngram'],
+                filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'kstem', 'word_edge_ngram__range', 'word_edge_ngram'],
               },
 
               html_word_edge_ngram__search:{
                 type:'custom',
                 char_filter: ['html_strip', '&_to_and', '@_to_at'],
                 tokenizer: 'classic',
-                filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'word_edge_ngram__range'],
+                filter:['trim', 'lowercase', 'asciifolding', 'common_leading_stopword', 'cstone_synonyms', 'kstem', 'word_edge_ngram__range'],
               },
 
               html_phrase_bi_gram:{
@@ -149,7 +149,7 @@ module Searchable
             #Indexes are not automaticly created and must be added by code to be searched
 
             indexes :title,
-                     analyzer: 'html_stem', boost: 2,
+                     analyzer: 'html_stem', boost: 3,
                      fields:{
 
                        word_edge_ngrams:{
@@ -161,18 +161,19 @@ module Searchable
                        phrase_bi_grams:{
                          type:'string',
                          analyzer:'html_phrase_bi_gram',
-                         boost: 3,
+                         boost: 5,
                        },
 
                        phrase_tri_grams:{
                          type:'string',
                          analyzer:'html_phrase_tri_gram',
-                         boost: 5,
+                         boost: 8,
                        },
                      }
 
             indexes :description,
-                     analyzer: 'html_stem', boost:0.5,
+                     analyzer: 'html_stem', boost:0.5, #(-%50)
+                     term_vector: "with_positions_offsets",
                      fields:{
 
                        # word_edge_ngrams:{
@@ -184,13 +185,13 @@ module Searchable
                        phrase_bi_grams:{
                          type:'string',
                          analyzer:'html_phrase_bi_gram',
-                         boost:2
+                         boost:3
                        },
 
                        phrase_tri_grams:{
                          type:'string',
                          analyzer:'html_phrase_tri_gram',
-                         boost: 3,
+                         boost: 5,
                        },
                      }
 
@@ -231,7 +232,7 @@ private
   # Helpers - could be analyzers
   def shorter_plain_text(str, truncate_options={})
     truncate( plain_text(str), {
-      length:50,
+      length:80,
       omission:'...',
       separator: ' '
     }.merge(truncate_options))

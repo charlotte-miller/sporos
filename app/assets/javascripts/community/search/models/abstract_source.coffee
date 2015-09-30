@@ -129,9 +129,12 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
   # Singletons ##########
   @elasticsearchProcessor: (results)->
     results_array = _(results.hits.hits).map (result)->
+      highlighted = (h = result.highlight) && (d = h.description) && (d[0])
+      most_relevant_preview = highlighted || result._source.preview
+
       combined_payload = _([
         result._source.title,
-        result._source.preview,
+        $("<span>#{most_relevant_preview}</span>").text(),
         # result._source.keywords.join('|'),
         result._source.study_title,
         result._source.author,
@@ -142,7 +145,7 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
       score:   result._score
       payload: combined_payload
       title:        result._source.title
-      description:  result._source.preview
+      description:  most_relevant_preview
       path:         result._source.path
       total_counts: results.total_counts
     results_array

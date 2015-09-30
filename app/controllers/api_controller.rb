@@ -3,7 +3,10 @@ class ApiController < ActionController::Base
 
   protect_from_forgery with: :null_session
 
-  before_filter :check_auth, except: [:groups]
+  before_filter :check_auth, except: [:groups, :current_lesson]
+
+  # TODO: rescue from can't find user from token and can't find groups from groupid???
+  rescue_from JWT::DecodeError, with: :token_error
 
   def login
     if @token
@@ -14,16 +17,47 @@ class ApiController < ActionController::Base
   end
 
   def groups
-    # Happy path for now...
-    payload = request.headers['Authorization']
-    decoded_data = JWT.decode(payload, AppConfig.firebase.secret_access_key)
-    user_public_id = decoded_data.first["d"]["uid"]
-    user = User.find_by(public_id: user_public_id)
-    @groups = user.groups
+    @groups = user_from_token.groups
     render "api/groups"
   end
 
+  def current_lesson
+    # TODO: Need to handle the case when group has no lessons
+    # TODO: Refactor with strong_params
+    if params["groupId"].present?
+      group = Group.find_by(public_id: params["groupId"])
+    else
+      # TODO: This default needs to be thought out again
+      group = user_from_token.groups.last
+    end
+
+    current_meeting = view_context.current_meeting_from(group)
+    if current_meeting.present?
+      @lesson = current_meeting.lesson
+    else
+      # group has no current meeting (ex: ended, etc) and so return the last lesson
+      @lesson = group.lessons.last
+    end
+
+    # TODO: Render only the required info on lesson instead of the whole object
+    render json: { lesson: @lesson.as_json }, status: 200
+  end
+
 private
+
+  def token_error
+    render json: { message: "invalid token" }, status: 401
+  end
+
+  def decoded_data
+    payload = request.headers['Authorization']
+    JWT.decode(payload, AppConfig.firebase.secret_access_key)
+  end
+
+  def user_from_token
+    user_public_id = decoded_data.first["d"]["uid"]
+    User.find_by(public_id: user_public_id)
+  end
 
   def check_auth
      authenticate_or_request_with_http_basic do |username,password|

@@ -94,6 +94,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     get 'groups'
+    get 'current_lesson'
     post 'login'
   end
 

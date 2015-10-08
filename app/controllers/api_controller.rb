@@ -3,7 +3,7 @@ class ApiController < ActionController::Base
 
   protect_from_forgery with: :null_session
 
-  before_filter :check_auth, except: [:groups, :current_lesson]
+  before_filter :check_auth, except: [:groups, :group, :current_lesson]
 
   # TODO: rescue from can't find user from token and can't find groups from groupid???
   rescue_from JWT::DecodeError, with: :token_error
@@ -47,6 +47,16 @@ class ApiController < ActionController::Base
 
     # TODO: Render only the required info on lesson instead of the whole object
     render json: { lesson: @lesson.as_json }, status: 200
+  end
+
+  def group
+    if params["groupId"].present?
+      @group = Group.find_by(public_id: params["groupId"])
+    else
+      @group = user_from_token.groups.last
+    end
+    render json: { group: @group.as_json }, status: 200
+  end
 
 private
 
@@ -56,6 +66,7 @@ private
 
   def decoded_data
     payload = request.headers['Authorization']
+    puts "payload: #{payload}"
     JWT.decode(payload, AppConfig.firebase.secret_access_key)
   end
 

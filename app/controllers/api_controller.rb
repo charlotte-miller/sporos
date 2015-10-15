@@ -37,16 +37,20 @@ class ApiController < ActionController::Base
       group = user_from_token.groups.last
     end
 
-    current_meeting = view_context.current_meeting_from(group)
-    if current_meeting.present?
-      @lesson = current_meeting.lesson
-    else
-      # group has no current meeting (ex: ended, etc) and so return the last lesson
-      @lesson = group.lessons.last
-    end
+    if group.present?
+      current_meeting = view_context.current_meeting_from(group)
+      if current_meeting.present?
+        @lesson = current_meeting.lesson
+      else
+        # group has no current meeting (ex: ended, etc) and so return the last lesson
+        @lesson = group.lessons.last
+      end
 
-    # TODO: Render only the required info on lesson instead of the whole object
-    render json: { lesson: @lesson.as_json }, status: 200
+      # TODO: Render only the required info on lesson instead of the whole object
+      render json: { lesson: @lesson.as_json }, status: 200
+    else
+      render json: { lesson: nil }, status: 200
+    end
   end
 
   def group

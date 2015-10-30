@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    resources :faq_answers
+  end
+
   get 'sso/authenticate'
 
   # See how all your routes lay out with "rake routes".

@@ -74,6 +74,12 @@ RSpec.describe SearchController, :type => :controller do
   end
 
   describe 'POST abandonment' do
+    it 'creates an Faq from the abandoned search' do
 
+    end
+
+    it "stores the sender's email" do
+
+    end
   end
 end

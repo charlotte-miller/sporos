@@ -83,6 +83,20 @@
           @extend .row;
         }
 
+            #faq-sender-email{
+              @media (max-width: $screen-sm-max) {
+                border-bottom-right-radius: 4px;
+                border-top-right-radius: 4px;
+              }
+            }
+
+            #faq-recipient{
+              @extend .hidden-xs;
+              @extend .hidden-sm;
+
+              font-weight:100;
+            }
+
             .search-help-content{
               @extend .col-md-offset-1;
               @extend .col-md-10;

@@ -16,8 +16,6 @@
 class Faq < ActiveRecord::Base
   include Searchable
 
-  attr_protected #none
-
   belongs_to :answer, :class_name => "FaqAnswer", :foreign_key => "faq_answer_id"
 
   searchable_model type: :question # [title, preview, description, keywords, path] are already declaired

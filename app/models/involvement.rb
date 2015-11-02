@@ -20,8 +20,6 @@ class Involvement < ActiveRecord::Base
   enum status: [ :active, :inactive ]
   enum level:  [ :member, :volunteer, :leader, :editor ]
 
-  attr_protected #none - using strong params
-
   # ---------------------------------------------------------------------------------
   # Scopes
   # ---------------------------------------------------------------------------------

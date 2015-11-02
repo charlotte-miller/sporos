@@ -94,7 +94,6 @@ class Post < ActiveRecord::Base
   has_public_id :public_id, prefix:'post', length:21
   def to_param; public_id || generate_missing_public_id ;end
 
-  attr_protected #none - using strong params
   attr_accessor :unread_comment_count, :current_session
   has_attachable_file :poster, {
                       :default_url   => :poster_original_url,

@@ -27,7 +27,6 @@
 #
 
 class Comment < ActiveRecord::Base
-  attr_protected #none - using strong params
   acts_as_nested_set :scope => [:commentable_id, :commentable_type], :counter_cache => :children_count#, touch:true
 
   validates :body, :presence => true

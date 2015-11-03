@@ -95,16 +95,56 @@
     #comming-up{
       @include gradient-vertical($gray-lighter, #FFF, 0%, 20%);
       margin: 0px -15px;
-      padding: 0px 33px;
+      padding: 10px 33px;
       @media (min-width: $screen-md-min) {
-        padding:0px 47px;
+        padding:10px 47px;
       }
     }
 
-        #community-feed{
+        nav#community-feed{
           @extend .col-xs-12;
           font-size: $font-size-large;
           padding: 9px 3px;
+          h4{
+            font-weight:900;
+          }
+
+          #adults-link, #childrens-link{
+            display:none;
+          }
+
+          // Shrink Font
+          @media (max-width: 1050px) {
+            font-size: $font-size-base;
+            h4{
+              font-size:16px;
+            }
+          }
+
+          // Collapse Children
+          @media (max-width: 935px) {
+            #childrens-link{
+              display:block;
+            }
+            #teens-link, #kids-link{
+              display:none;
+            }
+          }
+
+          // Collapse Adults
+          @media (max-width: 820px) {
+            #adults-link{
+              display:block;
+            }
+            #men-link, #women-link, #rendezvous-link{
+              display:none;
+            }
+          }
+
+          // Duck!
+          @media (min-width: 665px) {
+            margin-top: -75px;
+          }
         }
 
             #community-feed-links{
@@ -120,11 +160,12 @@
             }
 
               #adults-link{
-                @extend .visible-xs;
+                display:none;
+//                @extend .visible-xs;
               }
 
               #men-link, #women-link, #rendezvous-link{
-                @extend .hidden-xs;
+//                @extend .hidden-xs;
               }
 
 

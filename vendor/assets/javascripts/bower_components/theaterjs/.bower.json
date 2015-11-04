@@ -1,0 +1,26 @@
+{
+  "name": "TheaterJS",
+  "main": "build/theater.js",
+  "license": "MIT",
+  "ignore": [
+    ".gitignore"
+  ],
+  "devDependencies": {},
+  "keywords": [
+    "typing",
+    "animation",
+    "mimic",
+    "human"
+  ],
+  "homepage": "https://github.com/Zhouzi/TheaterJS",
+  "version": "2.0.1",
+  "_release": "2.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.0.1",
+    "commit": "34df75e14d34f86789ba93bc802aac7b045fcc12"
+  },
+  "_source": "git://github.com/Zhouzi/TheaterJS.git",
+  "_target": "*",
+  "_originalSource": "theaterjs"
+}

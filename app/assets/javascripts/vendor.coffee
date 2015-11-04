@@ -26,6 +26,7 @@
 #= require isotope/dist/isotope.pkgd
 #= require vide
 #= require jquery-resize/jquery.ba-resize.js
+#= require theaterjs/dist/theater.min.js
 #
 #  -- Library Only -----
 # vimeo

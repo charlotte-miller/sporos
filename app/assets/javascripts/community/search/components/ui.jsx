@@ -44,7 +44,7 @@ CStone.Community.Search.Components.UI = React.createClass({
             <div className="search" id="global-search">
               <form className="search-form" role="search" onSubmit={this.onSubmit}>
                 <div className="input-group" >
-                  <input  autoComplete="off" placeholder="What are you looking for?" type="text"
+                  <input  autoComplete="off" placeholder="Hi! What are you looking for?" type="text"
                           ref="global-search-input" className="text" id="global-search-input"
                           onFocus={   this.onInputFocus }
                           onChange={  this.onInputKey   }

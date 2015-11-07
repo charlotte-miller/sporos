@@ -213,9 +213,10 @@ CStone.Community.Search.Components.Results = React.createClass({
   },
 
   onClick: function(e) {
-    var result_id = this.$(e.target).closest('li').data('resultId');
-    var result = this.getCollection().results.get(result_id);
-    return result.open();
+    // var result_id = this.$(e.target).closest('li').data('resultId');
+    // var result = this.getCollection().results.get(result_id);
+    // return result.open();
+    this.session().openFocused()
   },
 
   onMouseover: function(e) {

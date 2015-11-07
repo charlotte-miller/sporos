@@ -1,8 +1,10 @@
 class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
+  urlRoot: '/search_sessions'
 
   initialize: =>
     @on 'change:current_search',   @_searchSourcesForCurrentSearch
-    @on 'change:current_search',   @_storeSearchHistory
+    @on 'change:current_search',   _.debounce @_storeSearchHistory, 2000 #2 sec
+    @on 'change:convertable_id',   @_storeSearchHistory
     @on 'change:dropdown_visible', @_hideHintWhenHidingDropdown
     @on 'change:dropdown_visible', @_clearActiveUiWhenHidingDropdown
     @listenTo @get('results'), 'filtered:change', @_updateCurrentHint
@@ -39,6 +41,16 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
     # }
   ]).map (relation)-> _(relation).extend(reverseRelation: {key:'session', type:'HasOne'})
 
+  toJSON:=>
+    _(super).extend
+      search_session:
+        search_type: @get('results').currentFilter()
+        query: @get('current_search')
+        results_count: @get('results').length
+        convertable_id:   @get('convertable_id')
+        convertable_type: @get('convertable_type')
+        ui_session_data: JSON.stringify(_(@attributes).pick('active_ui', 'current_hint', 'hint_visible'))
+
   # Public Helpers
   # ----------------------------------------------------------------------
 
@@ -59,7 +71,10 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
     @set(flag, !val)
 
   openFocused: =>
-    @get('results').currentFocus().open()
+    eureka = @get('results').currentFocus()
+    return unless eureka
+    @set({convertable_id:eureka.get('id'), convertable_type:eureka.get('source')})
+    eureka.open()
 
   moveFocus: (up_down)=>
     @get('results').moveFocus(up_down)
@@ -107,7 +122,12 @@ class CStone.Community.Search.Models.Session extends Backbone.RelationalModel
     })
     sources_collection.updateFocus(to_focus)
 
-  _storeSearchHistory:->
+  _storeSearchHistory:=>
+    return if @searchState() == 'pre-search'
+    @save()
+    .done =>
+      @set({convertable_id:undefined, convertable_type:undefined, converted_at:undefined}, silent: true)
+
     # add @get('current_search') to a seperate SearchHistory object
     # collaps typing into the 'final' product
     # store the selected (opened) result

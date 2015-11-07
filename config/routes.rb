@@ -15,8 +15,7 @@ Rails.application.routes.draw do
   # Search
   get  'search' => 'search#index'
   get  'search/preload'     => 'search#preload'
-  post 'search/conversion'  => 'search#conversion'
-  post 'search/abandonment' => 'search#abandonment'
+  resources :search_sessions, only:[:create,:update,:show]
 
   resources :media do
   end
@@ -128,4 +127,9 @@ Rails.application.routes.draw do
 
   require 'mixins/http_authentication'
   mount RESQUE_DASHBOARD, at: "/queue"
+
+  authenticate :user, lambda{|user| user.admin? } do
+    mount Searchjoy::Engine, at: "admin/searchjoy"
+  end
+
 end

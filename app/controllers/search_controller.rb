@@ -1,6 +1,8 @@
 class SearchController < ApplicationController
   include ElasticsearchHelpers
 
+  skip_before_filter :verify_authenticity_token
+
   def index
     @results = Elasticsearch::Model.client.search({
       index: AppConfig.elasticsearch.index_name,
@@ -109,19 +111,11 @@ class SearchController < ApplicationController
     render json: MultiJson.dump({error:'timeout', took:0, hits:[]}, pretty:false)
   end
 
-  # POST search/conversion
-  def conversion
-  end
-
-  # POST search/abandonment
-  def abandonment
-  end
-
-
 private
+
   def search_params
     # params.require(:q)
-    @search_params ||= params.permit(:q, :types, :page)
+    @search_params ||= params.permit(:q, :types, :page, :results_count)
   end
 
   def query

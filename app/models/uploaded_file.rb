@@ -30,7 +30,6 @@ class UploadedFile < ActiveRecord::Base
 
   belongs_to :from, polymorphic:true
 
-  attr_protected #none
   has_attachable_file :image,
                       :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"],
                       :processors => [:thumbnail, :paperclip_optimizer],

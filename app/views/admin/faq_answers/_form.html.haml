@@ -1,0 +1,16 @@
+= form_for @admin_faq_answer do |f|
+  - if @admin_faq_answer.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@admin_faq_answer.errors.count, "error")} prohibited this admin_faq_answer from being saved:"
+      %ul
+        - @admin_faq_answer.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :user
+    = f.text_field :user
+  .field
+    = f.label :body
+    = f.text_area :body
+  .actions
+    = f.submit 'Save'

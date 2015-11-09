@@ -2,11 +2,13 @@
 #
 # Table name: faqs
 #
-#  id            :integer          not null, primary key
-#  faq_answer_id :integer
-#  body          :text             not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  id                :integer          not null, primary key
+#  faq_answer_id     :integer
+#  body              :text             not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  author_email      :string
+#  author_email_body :text
 #
 # Indexes
 #
@@ -15,8 +17,6 @@
 
 class Faq < ActiveRecord::Base
   include Searchable
-
-  attr_protected #none
 
   belongs_to :answer, :class_name => "FaqAnswer", :foreign_key => "faq_answer_id"
 

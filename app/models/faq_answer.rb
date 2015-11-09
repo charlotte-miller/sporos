@@ -15,7 +15,6 @@
 #
 
 class FaqAnswer < ActiveRecord::Base
-  attr_protected #none
   # attr_accessor :question_variants
 
   belongs_to :author, :class_name => "User", :foreign_key => "user_id"

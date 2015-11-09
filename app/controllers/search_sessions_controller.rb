@@ -56,19 +56,21 @@ private
     #  @search_session = SearchSession.find_by(id: params[:id], rails_session_id:session.id)
 
     @search_session = SearchSession
-    .where( rails_session_id: session.id )
-    .where( "converted_at IS NULL" )
-
-    .where( "results_count > 0" ) #keep dead ends for inspection
-
-    .where( "updated_at > ?", 1.minute.ago ) #stale
-    .order( "updated_at DESC" )
-    .first
+    @search_session = @search_session.where( rails_session_id: session.id )
+    @search_session = @search_session.where( "converted_at IS NULL" )
+    if search_session_params[:results_count] == 0
+      @search_session = @search_session.where( "results_count > 0" ) #keep dead ends for inspection
+    else
+      @search_session = @search_session.where( "results_count > 0" ) #keep dead ends for inspection
+    end
+    @search_session = @search_session.where( "updated_at > ?", 1.minute.ago ) #stale
+    @search_session = @search_session.order( "updated_at DESC" )
+    @search_session = @search_session.first
 
     # Create a new search_session unless this is MORE of the previous search
 
-    is_continuted = (@search_session && (/^#{@search_session.query}/ =~ search_session_params[:query])) ||
-                    (@search_session && (/^#{search_session_params[:query]}/ =~ @search_session.query))
+    is_continuted = @search_session && (/^#{@search_session.query}/ =~ search_session_params[:query] ||
+                                        /^#{search_session_params[:query]}/ =~ @search_session.query)
 
     if is_continuted
       @search_session.update_attributes(search_session_params)

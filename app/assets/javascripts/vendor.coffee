@@ -21,8 +21,6 @@
 #= require bootstrap/alert
 #
 #  -- Community Only -----
-#= require headroom.js/dist/headroom.js
-#= require headroom.js/dist/jQuery.headroom.js
 #= require isotope/dist/isotope.pkgd
 #= require vide
 #= require jquery-resize/jquery.ba-resize.js

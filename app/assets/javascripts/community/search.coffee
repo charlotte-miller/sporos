@@ -28,9 +28,6 @@ class CStone.Community.Search
         {name: 'sermon'       },
       ]
 
-    # @main   = new @Views.UI( ui_name: 'main',   el:'#main-header' )
-    # @header = new @Views.UI( ui_name: 'header', el:'#headroom'    )
-
     $ =>
       @main = CStone.UJSComponents['CStone.Community.Search.Components.UI']
       @session.set('current_search', @main.refs['global-search-input'].getDOMNode().value)
@@ -95,7 +92,8 @@ class CStone.Community.Search
         search.displayValue = ''
         done()
       theater.addScene('search:What are you looking for?', 1000)
-      theater.play()
+
+      _.delay theater.play, 800
 
 
     CStone.Shared.ScrollSpy.addCallback (scroll)=>

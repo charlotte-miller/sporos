@@ -28,19 +28,18 @@ $ ->
 
   $('#main-page a').not('.ministry, .photo-gallery, #photo-stack a, .evergreen-link a').click (e)->
     e.preventDefault()
-
-    $('#headroom').removeClass('headroom--pinned')
-    $('#headroom').addClass('headroom--unpinned')
-
     CStone.Base.Pages.layout.loadPage $(@).prop('href')
 
-  $('#headroom').headroom
-    offset : 800
-    scroller: document.getElementById('main-page')
-    onUnpin: -> CStone.Community.Search.session.set(dropdown_visible:false)
-    tolerance:
-      down:30
-      up:100
+  CStone.Shared.ScrollSpy.addCallback (scroll)=>
+    scroll_past = scroll > 500
+    if scroll_past
+      $('#main-footer').addClass('active')
+
+  CStone.Shared.ScrollSpy.addCallback (scroll)=>
+    scroll_past = scroll < 500
+    if scroll_past
+      $('#main-footer').removeClass('active')
+
 
   $('#evergreen-links .evergreen-link').click (e)->
     e.preventDefault()

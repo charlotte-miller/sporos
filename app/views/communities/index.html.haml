@@ -4,27 +4,19 @@
   = javascript_include_tag 'page_initializers/main'
 
 
-%header#headroom.header
-  #headroom-content
-    %a#headroom-logo{href:'#'}
-      = image_tag 'white_cornerstone.png', class:'logo-img'
-
-    = render partial:'search', locals: {namespace_id:'headroom-search'}
-
-
 = react_component('CStone.Community.Search.Components.UI', {}, {prerender:true, id:'main-header-wrapper'})
 
 #main-body
   #evergreen-links
+    #times-and-locations-link.evergreen-link
+      %a{href:'/times-and-locations', data:{drawer:'times-and-locations'}}
+        .panel.panel-default
+          .panel-body Visitor Information
+
     #new-to-cornerstone-link.evergreen-link
       %a{href:'/new', data:{drawer:'new-to-cornerstone'}}
         .panel.panel-default
           .panel-body New to Cornerstone?
-
-    #times-and-locations-link.evergreen-link
-      %a{href:'/times-and-locations', data:{drawer:'times-and-locations'}}
-        .panel.panel-default
-          .panel-body Service Times, Locations & Parking
 
     #invest-in-community-link.evergreen-link
       %a{href:'/invest-in-community', data:{drawer:'invest-in-community'}}

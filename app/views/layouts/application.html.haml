@@ -29,6 +29,13 @@
     = main_frame_toggle do
       = render :partial => 'layouts/backlink_tab'
       = yield
+    #main-footer
+      %a.col-xs-3.pos0.logo
+      %a.col-xs-3.pos1{href:'#'} Visitor Information
+      %a.col-xs-3.pos2{href:'#'} New to Cornerstone
+      %a.col-xs-3.pos3{href:'#'} Invest in Community
+
+
 
     #javascripts
       / = partial 'layouts/ie'

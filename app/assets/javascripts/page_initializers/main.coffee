@@ -11,7 +11,7 @@ $ ->
 
   $main_header  = $('#main-header')
   video_element = $main_header.vide(
-    mp4:    "http://vodkabears.github.io/vide/video/ocean.mp4"
+    mp4:    "https://player.vimeo.com/external/144705298.hd.mp4?s=a65c31dcb9787fb34caf94ede0245263852fffc5&profile_id=113" #"http://vodkabears.github.io/vide/video/ocean.mp4"
     webm:   "http://vodkabears.github.io/vide/video/ocean.webm"
     ogv:    "http://vodkabears.github.io/vide/video/ocean.ogv"
     # poster: "/assets/background_video_start.jpg" # handled with CSS

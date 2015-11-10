@@ -66,6 +66,9 @@ CStone.Community.Search.Components.UI = React.createClass({
             </div>
           </div>
         </div>
+        <div id="volume-controls">
+          <i className="glyphicon glyphicon-volume-up"></i>
+        </div>
       </div>
     );
   },

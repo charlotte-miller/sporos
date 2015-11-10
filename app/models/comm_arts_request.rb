@@ -39,7 +39,6 @@ class CommArtsRequest < ActiveRecord::Base
     :badges_quantity,
     to: :print_quantity)
 
-  attr_protected #none
 
   def ministry_with_fallback
     if ministry.present?

@@ -20,7 +20,6 @@
 class ApprovalRequest < ActiveRecord::Base
   include Commentable
 
-  attr_protected #none
   # attr_accessible :user, :user_id, :post, :post_id, :status, :comment_threads_attributes
   enum status: [ :pending, :accepted, :rejected, :archived ].freeze
 

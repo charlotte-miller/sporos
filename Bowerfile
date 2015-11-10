@@ -25,7 +25,6 @@ group :vendor, assets_path:'assets/javascripts' do
   # asset "shine", "~0.2.7"
   # asset "sweetalert"
   asset "quill", "~0.19.3"
-  asset "headroom.js", "~0.7.0"
   # asset "backbone_query", "*"
   asset "backbone-filtered-collection", "~0.4.0"
   asset "jasmine-jquery", "~2.0.5"

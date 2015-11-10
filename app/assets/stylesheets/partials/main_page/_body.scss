@@ -1,5 +1,6 @@
 #main-body{
   @extend .container-fluid;
+  padding-bottom:70px;
 }
 
     #evergreen-links{
@@ -169,3 +170,54 @@
               }
 
 
+#main-footer{
+  @extend .row;
+  @extend %flexCenter;
+  @include transitionValue(all);
+  position: fixed;
+  bottom: 0px;
+  background: black;
+  color: white;
+  overflow:hidden;
+  height:0px;
+  width:100%;
+  margin:0;
+  border-top:0px solid $gray;
+
+  a{
+    color:$gray-lighter;
+  }
+
+  .logo{
+    height:100%;
+    @include containImage('experiencegrowth_logo_reverse.svg');
+  }
+
+  &.active{
+    height:70px;
+    border-width:3px;
+    padding-top:10px;
+    padding-bottom:10px;
+
+    a{
+      @extend .animated;
+      @extend .fadeInUp;
+
+      &.pos0{}
+      &.pos1{
+        @include delay(0.1s)
+      }
+      &.pos2{
+        @include delay(0.2s)
+      }
+      &.pos3{
+        @include delay(0.3s)
+      }
+    }
+  }
+
+  &:hover{
+    height:80px;
+    border-width:5px;
+  }
+}

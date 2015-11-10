@@ -19,8 +19,6 @@ class Ministry < ActiveRecord::Base
   include Sluggable
   slug_candidates :name
 
-  attr_protected #none - using strong params
-
   # ---------------------------------------------------------------------------------
   # Associations
   # ---------------------------------------------------------------------------------

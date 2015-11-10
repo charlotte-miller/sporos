@@ -67,6 +67,7 @@ class Lesson < ActiveRecord::Base
   # friendly_id :position, :use => :scoped, :scope => :study
 
   delegate :title, :to => :study, prefix:true  # study_title
+  delegate :url_helpers, to: 'Rails.application.routes'
   acts_as_listable scope: :study
 
   # Private 'sudo' access to everything

@@ -17,6 +17,16 @@ CStone.Community.Search.Components.Results = React.createClass({
         this.spinner_interval = false;
       }
     }
+
+    if (this.session().searchState()=='no-results') {
+      var textarea = this.refs.faqEmailDetails.getDOMNode();
+      if (textarea.dataset.autosizeOn != "true") {
+       autosize( textarea );
+      }
+      autosize.update( textarea );
+    }else{
+      if (this.state.editedEmailMessage) { this.setState({ editedEmailMessage: '' }); }
+    }
   },
 
   componentWillUnmount: function () {
@@ -27,6 +37,10 @@ CStone.Community.Search.Components.Results = React.createClass({
   },
 
   session: function(){ return this.getModel().session; },
+
+  bestEmailBody: function(){
+    return this.state.editedEmailMessage || "Hi,\n  Can you help me get more information about: "+this.session().get('current_search')+'\n\nThanks!';
+  },
 
   render: function(){
     var _this = this;
@@ -95,13 +109,33 @@ CStone.Community.Search.Components.Results = React.createClass({
 
     var buildResults= function() {
       var buildEmptyHelp, buildInitHelp, buildResults, eachResult;
+
       buildEmptyHelp = <div className="search-help" id="empty-help">
         <div className="search-help-content">
           <h3 className="search-help-text">
             <i className="icon"></i>
-            Sorry, Nothing like that was found.
-            <p className="lead">Our search is getting smarter every day, but we still do not understand "{session.get('current_search')}".  Please try searching someting similar.</p>
+            Nothing Found. Can we get back to you?
+            <p className="lead">Our search gets smarter every day, but sometimes you just need to talk to a real person.</p>
           </h3>
+          <form className="" onSubmit={_this.onEmailSubmit}>
+            <div className="form-group">
+              <div className="input-group">
+                <div className="input-group-addon">
+                  <b>From:</b>
+                </div>
+                <label className="sr-only" htmlFor="faq-sender-email">Email Body</label>
+                <input placeholder="your@email.com" className="form-control" type="email" id="faq-sender-email" ref="faqEmailAddress"></input>
+                <div className="input-group-addon" id="faq-recipient"><b>To:</b> faq@cornerstonesf.org</div>
+              </div>
+            </div>
+            <div className="form-group">
+              <label className="sr-only" htmlFor="faq-email-details">Email Body</label>
+              <textarea id="faq-email-details" className="form-control" rows="3" value={_this.bestEmailBody()} onChange={_this.onEmailEdit} ref="faqEmailDetails"></textarea>
+            </div>
+            <div className="form-group">
+              <button type="submit" className="btn btn-primary btn-block" >Send Email</button>
+            </div>
+          </form>
         </div>
       </div>;
 
@@ -124,8 +158,8 @@ CStone.Community.Search.Components.Results = React.createClass({
             <li className={result.focusClass+" suggestion"} data-result-id={result.id} onClick={_this.onClick} onMouseOver={_this.onMouseover} >
               <i className={result.source+" icon"}></i>
               <span dangerouslySetInnerHTML={ {__html: result.title} } />
-              <div class='preview'     dangerouslySetInnerHTML={ {__html: result.preview} } />
-              <div class='description' dangerouslySetInnerHTML={ {__html: result.description} } />
+              <div className='preview'     dangerouslySetInnerHTML={ {__html: result.preview} } />
+              <div className='description' dangerouslySetInnerHTML={ {__html: result.description} } />
             </li>
           );
         });
@@ -163,10 +197,26 @@ CStone.Community.Search.Components.Results = React.createClass({
 
   // Event Handlers
   //---------------------------------------------------------
+  onEmailEdit: function(e){
+    var textarea = this.refs.faqEmailDetails.getDOMNode();
+    this.setState({ editedEmailMessage: textarea.value });
+  },
+
+  onEmailSubmit: function(e){
+    e.preventDefault()
+    var node = this.refs.faqEmailAddress.getDOMNode();
+    if (node.value) {
+      console.log(this.bestEmailBody());
+    }else{
+      $(node).focus();
+    }
+  },
+
   onClick: function(e) {
-    var result_id = this.$(e.target).closest('li').data('resultId');
-    var result = this.getCollection().results.get(result_id);
-    return result.open();
+    // var result_id = this.$(e.target).closest('li').data('resultId');
+    // var result = this.getCollection().results.get(result_id);
+    // return result.open();
+    this.session().openFocused()
   },
 
   onMouseover: function(e) {

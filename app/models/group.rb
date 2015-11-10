@@ -42,7 +42,6 @@ class Group < ActiveRecord::Base
   # ---------------------------------------------------------------------------------
   # attr_accessible :description, :name, :is_public, :state, :meets_every_days, :poster_img, :poster_img_remote_url
   # attr_accessible :members, :members_attributes,  as: 'leader'
-  attr_protected #none
 
   has_public_id :public_id, prefix:'GRP', length:20
 

@@ -1,0 +1,23 @@
+%h1 Listing admin_faq_answers
+
+%table
+  %thead
+    %tr
+      %th User
+      %th Body
+      %th
+      %th
+      %th
+
+  %tbody
+    - @admin_faq_answers.each do |admin_faq_answer|
+      %tr
+        %td= admin_faq_answer.user
+        %td= admin_faq_answer.body
+        %td= link_to 'Show', admin_faq_answer
+        %td= link_to 'Edit', edit_admin_faq_answer_path(admin_faq_answer)
+        %td= link_to 'Destroy', admin_faq_answer, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Faq answer', new_admin_faq_answer_path

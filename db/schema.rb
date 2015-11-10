@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150922222254) do
+ActiveRecord::Schema.define(version: 20151105205627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -120,9 +120,11 @@ ActiveRecord::Schema.define(version: 20150922222254) do
 
   create_table "faqs", force: :cascade do |t|
     t.integer  "faq_answer_id"
-    t.text     "body",          null: false
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.text     "body",              null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "author_email"
+    t.text     "author_email_body"
   end
 
   add_index "faqs", ["faq_answer_id"], name: "index_faqs_on_faq_answer_id", using: :btree
@@ -333,6 +335,26 @@ ActiveRecord::Schema.define(version: 20150922222254) do
   add_index "questions", ["source_id", "source_type"], name: "index_questions_on_source_id_and_source_type", using: :btree
   add_index "questions", ["stared_count", "answers_count"], name: "index_questions_on_stared_count_and_answers_count", using: :btree
   add_index "questions", ["user_id"], name: "index_questions_on_user_id", using: :btree
+
+  create_table "searchjoy_searches", force: :cascade do |t|
+    t.text     "rails_session_id"
+    t.jsonb    "ui_session_data",  default: {}, null: false
+    t.text     "search_type"
+    t.text     "query"
+    t.text     "normalized_query"
+    t.integer  "results_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "convertable_id"
+    t.text     "convertable_type"
+    t.datetime "converted_at"
+  end
+
+  add_index "searchjoy_searches", ["convertable_id", "convertable_type"], name: "index_searchjoy_searches_on_convertable_id_and_convertable_type", using: :btree
+  add_index "searchjoy_searches", ["created_at"], name: "index_searchjoy_searches_on_created_at", using: :btree
+  add_index "searchjoy_searches", ["rails_session_id"], name: "index_searchjoy_searches_on_rails_session_id", using: :btree
+  add_index "searchjoy_searches", ["search_type", "created_at"], name: "index_searchjoy_searches_on_search_type_and_created_at", using: :btree
+  add_index "searchjoy_searches", ["search_type", "normalized_query", "created_at"], name: "index_searchjoy_searches_on_search_type_and_normalized_query_an", using: :btree
 
   create_table "stars", force: :cascade do |t|
     t.integer  "user_id",                null: false

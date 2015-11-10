@@ -28,9 +28,6 @@ class CStone.Community.Search
         {name: 'sermon'       },
       ]
 
-    # @main   = new @Views.UI( ui_name: 'main',   el:'#main-header' )
-    # @header = new @Views.UI( ui_name: 'header', el:'#headroom'    )
-
     $ =>
       @main = CStone.UJSComponents['CStone.Community.Search.Components.UI']
       @session.set('current_search', @main.refs['global-search-input'].getDOMNode().value)
@@ -67,24 +64,19 @@ class CStone.Community.Search
         search = actor.getCurrentActor()
         search.displayValue = 'What are you looking for?'
         done()
-      theater.addScene(500, ' I can help',400,'!!',300, '!',1500)
+      theater.addScene(500, ' I can help',400,'!',1500)
       theater.addScene (done)->
         actor.getCurrentActor().displayValue = ''
         done()
-      theater.addScene('search:Scroll down to explore the community',1500)
-      theater.addScene('... or',800)
+      theater.addScene('search:Scroll down to explore the community', 500, '... or',1500)
       theater.addScene (done)->
         actor.getCurrentActor().displayValue = ''
         done()
-      # theater.addScene('search:Click here to search our music, messages, and events', 1200)
-      # theater.addScene (done)->
-      #   actor.getCurrentActor().displayValue = ''
-      #   done()
-      theater.addScene('search:Click here to search by name', 800)
+      theater.addScene('search:Click here to search for music, messages, and events', 1200)
       theater.addScene (done)->
         actor.getCurrentActor().displayValue = ''
         done()
-      theater.addScene('Or a topic like "forgiveness"', 800)
+      theater.addScene('search:Try searching a topic like',800, ' "forgiveness"', 800)
       theater.addScene(-12)
       theater.addScene('parenting"', 800)
       theater.addScene(-11)
@@ -100,7 +92,8 @@ class CStone.Community.Search
         search.displayValue = ''
         done()
       theater.addScene('search:What are you looking for?', 1000)
-      theater.play()
+
+      _.delay theater.play, 800
 
 
     CStone.Shared.ScrollSpy.addCallback (scroll)=>

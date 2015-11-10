@@ -6,6 +6,7 @@ module Sluggable
   included do
     extend FriendlyId
     friendly_id :slug_candidates, use: [:slugged, :history]
+    require 'protected_attributes'
     attr_protected :slug
   end
 

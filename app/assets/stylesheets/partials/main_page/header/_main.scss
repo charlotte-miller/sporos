@@ -5,6 +5,7 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  background-color:black;
   @extend %transitionHeight;
 
   height:400px;
@@ -87,4 +88,27 @@
   margin-right:20px;
   color: white;
   text-size:22px;
+  @extend %flexCenter;
+  height:30px;
+  min-width:30px;
+  border-radius:15px;
+  background-color:rgba(0, 0, 0, 0.5);
+  cursor:pointer;
+
+  &:hover{
+//    @include square(50px);
+  }
+
+  i{
+    margin-left:10px;
+  }
+
+  .volume{
+    @extend .glyphicon-volume-off;
+  }
+  &.sound-out{
+    .volume{
+      @extend .glyphicon-volume-up;
+    }
+  }
 }

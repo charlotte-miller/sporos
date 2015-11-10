@@ -67,7 +67,9 @@ CStone.Community.Search.Components.UI = React.createClass({
           </div>
         </div>
         <div id="volume-controls">
-          <i className="glyphicon glyphicon-volume-up"></i>
+          <i className="glyphicon glyphicon glyphicon-sound-stereo" ref="header-video-fit" onClick={this.headerFitClick} ></i>
+          <i className="glyphicon glyphicon glyphicon-repeat" ref="header-video-restart" onClick={this.headerRestartClick} ></i>
+          <i className="volume glyphicon glyphicon-volume-off" ref="header-volume" onClick={this.headerVolumeClick} ></i>
         </div>
       </div>
     );
@@ -75,6 +77,27 @@ CStone.Community.Search.Components.UI = React.createClass({
 
   // = Event Handlers =
   // ----------------------------------------------------------------------
+  headerFitClick: function(e){
+
+  },
+
+  headerRestartClick: function(e){
+    var $video = $('#main-header video').first();
+    $video.prop('currentTime', 0);
+  },
+
+  headerVolumeClick: function(e){
+    var $video = $('#main-header video').first();
+    var $volume = $('#volume-controls');
+    $volume.toggleClass('sound-out');
+    if ($volume.hasClass('sound-out')) {
+      $video.prop({'muted':false, volume:0});
+      $video.animate({volume: 0.7}, 2000, 'easeOutCirc');
+    } else {
+      $video.animate({volume: 0}, 2000, 'easeOutCirc');
+    }
+  },
+
   onInputFocus: function(e) {
     if (e) { e.preventDefault();}
     this.session().set({

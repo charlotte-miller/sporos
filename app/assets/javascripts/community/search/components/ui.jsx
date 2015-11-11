@@ -67,9 +67,9 @@ CStone.Community.Search.Components.UI = React.createClass({
           </div>
         </div>
         <div id="volume-controls">
-          <i className="glyphicon glyphicon glyphicon-sound-stereo" ref="header-video-fit" onClick={this.headerFitClick} ></i>
+          <i className="theater-icon glyphicon" ref="header-video-fit" onClick={this.headerFitClick} ></i>
           <i className="glyphicon glyphicon glyphicon-repeat" ref="header-video-restart" onClick={this.headerRestartClick} ></i>
-          <i className="volume glyphicon glyphicon-volume-off" ref="header-volume" onClick={this.headerVolumeClick} ></i>
+          <i className="volume glyphicon" ref="header-volume" onClick={this.headerVolumeClick} ></i>
         </div>
       </div>
     );
@@ -78,7 +78,15 @@ CStone.Community.Search.Components.UI = React.createClass({
   // = Event Handlers =
   // ----------------------------------------------------------------------
   headerFitClick: function(e){
+    var $video = $('#main-header video').first();
+    var $main = $('#main-header').first();
+    $main.toggleClass('theater-mode');
 
+    if ($main.hasClass('theater-mode') && ($video.prop('muted') || !$video.prop('volume'))) {
+      $('#volume-controls').addClass('sound-out');
+      $video.prop({'muted':false, volume:0});
+      $video.animate({volume: 0.7}, 2000, 'easeOutCirc');
+    }
   },
 
   headerRestartClick: function(e){
@@ -92,9 +100,9 @@ CStone.Community.Search.Components.UI = React.createClass({
     $volume.toggleClass('sound-out');
     if ($volume.hasClass('sound-out')) {
       $video.prop({'muted':false, volume:0});
-      $video.animate({volume: 0.7}, 2000, 'easeOutCirc');
+      $video.animate({volume: 0.7}, 2500, 'easeOutCirc');
     } else {
-      $video.animate({volume: 0}, 2000, 'easeOutCirc');
+      $video.animate({volume: 0}, 800, 'easeOutCirc');
     }
   },
 

@@ -15,9 +15,14 @@ CStone.Community.Search.Components.UI = React.createClass({
   },
 
   render: function() {
+    var _this = this;
     var defaults = {
       dropdown_visible:false
     };
+
+    var iOS = (typeof navigator !== 'undefined') && /iPad|iPhone|iPod/i.test(navigator.userAgent),
+        android = (typeof navigator !== 'undefined') && /Android/i.test(navigator.userAgent),
+        isMobile = (iOS || android);
 
     var session, session_model, Results;
     session = this.state.model || defaults;
@@ -66,11 +71,15 @@ CStone.Community.Search.Components.UI = React.createClass({
             </div>
           </div>
         </div>
-        <div id="volume-controls">
-          <i className="theater-icon glyphicon" ref="header-video-fit" onClick={this.headerFitClick} ></i>
-          <i className="glyphicon glyphicon glyphicon-repeat" ref="header-video-restart" onClick={this.headerRestartClick} ></i>
-          <i className="volume glyphicon" ref="header-volume" onClick={this.headerVolumeClick} ></i>
-        </div>
+        {(function(){
+          if (!isMobile) {
+            return <div id="volume-controls">
+              <i className="theater-icon glyphicon" onClick={_this.headerFitClick} ></i>
+              <i className="glyphicon glyphicon glyphicon-repeat" ref="header-video-restart" onClick={_this.headerRestartClick} ></i>
+              <i className="volume glyphicon" ref="header-volume" onClick={_this.headerVolumeClick} ></i>
+            </div>
+          }
+        })()}
       </div>
     );
   },
@@ -82,10 +91,13 @@ CStone.Community.Search.Components.UI = React.createClass({
     var $main = $('#main-header').first();
     $main.toggleClass('theater-mode');
 
-    if ($main.hasClass('theater-mode') && ($video.prop('muted') || !$video.prop('volume'))) {
-      $('#volume-controls').addClass('sound-out');
-      $video.prop({'muted':false, volume:0});
-      $video.animate({volume: 0.7}, 2000, 'easeOutCirc');
+    if ($main.hasClass('theater-mode')) {
+      $video[0].play();
+      if (($video.prop('muted') || !$video.prop('volume'))) {
+        $('#volume-controls').addClass('sound-out');
+        $video.prop({'muted':false, volume:0});
+        $video.animate({volume: 0.7}, 2000, 'easeOutCirc');
+      }
     }
   },
 

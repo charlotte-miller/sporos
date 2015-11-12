@@ -82,7 +82,7 @@
 %transitionMargin     { @include transitionValue(margin);        }
 %transitionTop        { @include transitionValue(top);           }
 %transitionTransform  { @include transitionValue(transform);     }
-%transitionAll  { @include transitionValue(all);     }
+%transitionAll        { @include transitionValue(all);     }
 
 .fadeIn{ @include animation(fadein 1s); }
 @include keyframes(fadein) {

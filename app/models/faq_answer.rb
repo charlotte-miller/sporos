@@ -17,6 +17,8 @@
 class FaqAnswer < ActiveRecord::Base
   # attr_accessor :question_variants
 
+  validates_presence_of :body
+
   belongs_to :author, :class_name => "User", :foreign_key => "user_id"
 
   has_many :questions, class_name: "Faq", dependent: :nullify

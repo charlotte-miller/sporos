@@ -17,6 +17,8 @@
 require 'rails_helper'
 
 RSpec.describe FaqAnswer, :type => :model do
+  subject { build(:faq_answer) }
+
   it "builds from factory", :internal do
     expect { create(:faq_answer) }.to_not raise_error
   end

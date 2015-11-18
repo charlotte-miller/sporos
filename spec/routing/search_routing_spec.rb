@@ -7,12 +7,8 @@ describe SearchController do
       get("/search").should route_to("search#index")
     end
 
-    it "routes to #conversion" do
-      post("/search/conversion").should route_to("search#conversion")
-    end
-
-    it "routes to #abandonment" do
-      post("/search/abandonment").should route_to("search#abandonment")
+    it "routes to #preload" do
+      get("/search/preload").should route_to("search#preload")
     end
 
   end

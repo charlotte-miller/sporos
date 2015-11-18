@@ -21,4 +21,5 @@ RSpec.describe Faq, :type => :model do
   it "builds from factory", :internal do
     expect { create(:faq) }.to_not raise_error
   end
+
 end

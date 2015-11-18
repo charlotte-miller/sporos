@@ -17,7 +17,7 @@
 
 FactoryGirl.define do
   factory :faq do
-    answer
+    faq_answer
     body { Faker::Lorem.sentence(rand(3..6)) }
   end
 

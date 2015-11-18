@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SearchController, :focus, :type => :controller do
+RSpec.describe SearchController, :type => :controller do
 
   describe "GET index", :elasticsearch do
     let(:stub_search) { Elasticsearch::Model.client.stub :search }

@@ -1,0 +1,34 @@
+%h2
+  =@post.title
+
+%p
+  =@post.description
+
+/ Post::Event section
+-if @post.is_a? Posts::Event
+  %p
+    Event time:
+    =@post.combined_event_time_obj.to_s
+
+  %p
+    Event location:
+    =@post.location
+
+/ Post::Link section
+-if @post.is_a? Posts::Link
+  %p
+    Link URL:
+    =link_to @post.url, @post.url
+
+/ Post::Photo section
+-if @post.is_a? Posts::Photo
+  %p
+    Photo Count:
+    =@post.uploaded_files.count
+
+#view_post
+  = link_to 'View the Post & Discussion', admin_post_url(@approval_request.post)
+
+#instant
+  =link_to("Approve", update_status_from_link_admin_approval_request_url(@approval_request, { commit: 'Approve' }))
+  =link_to("Reject", update_status_from_link_admin_approval_request_url(@approval_request, { commit: 'Reject' }))

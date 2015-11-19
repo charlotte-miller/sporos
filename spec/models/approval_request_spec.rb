@@ -223,14 +223,14 @@ RSpec.describe ApprovalRequest, :type => :model do
 
     it 'does nothing if ALREADY accepted?' do
       subject = build_stubbed(:approval_request, status:'accepted')
-      expect(NewApprovalRequestMailer).not_to receive(:request_approval)
-      subject.send_notification
+      expect(ApprovalRequestMailer).not_to receive(:open_approval_request)
+      subject.bypass.send_notification
     end
 
     it 'sends an email' do
       subject = build_stubbed(:approval_request)
-      expect(NewApprovalRequestMailer).to receive(:request_approval).with({:klass=>"ApprovalRequest", :id=>subject.id}).and_call_original
-      subject.send_notification
+      expect(ApprovalRequestMailer).to receive(:open_approval_request).with({:klass=>"ApprovalRequest", :id=>subject.id}).and_call_original
+      subject.bypass.send_notification
     end
   end
 end

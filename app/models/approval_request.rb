@@ -75,10 +75,8 @@ class ApprovalRequest < ActiveRecord::Base
   # Methods
   # ---------------------------------------------------------------------------------
 
-  def send_notification
-    unless accepted?
-      NewApprovalRequestMailer.request_approval(self.to_findable_hash).deliver_later
-    end
+  def is_author?
+    author == user
   end
 
   def check_for_concensus
@@ -149,4 +147,12 @@ class ApprovalRequest < ActiveRecord::Base
     self.add_comment comment = Comment.create(body:text, user_id:user_id)
     return comment
   end
+
+private
+
+  # after_create
+  def send_notification
+    ApprovalRequestMailer.open_approval_request(self.to_findable_hash).deliver_later
+  end
+
 end

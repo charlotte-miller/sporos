@@ -6,29 +6,31 @@ RSpec.describe NewApprovalRequestMailer, :type => :mailer do
     @approval_requests = 3.times.map { create(:approval_request, post:@post) }
     @approval_request = @approval_requests.last
     @ministry = @approval_request.ministry
-    @peers = @approval_request.peers
-    @sender = @approval_request.user
+    # @peers    = @approval_request.peers
+    @sender   = @approval_request.author
+    @receiver = @approval_request.user
   end
 
   subject { NewApprovalRequestMailer.request_approval(@approval_request.to_findable_hash) }
   let(:run!) {subject.deliver_now}
 
-  it 'should send from the @post.author Cornerstone DO NOT REPLY' do
+  it 'sends FROM the @post.author Cornerstone DO NOT REPLY' do
     expect(subject.header['From'].to_s).to eq( "#{@sender.first_name} from Cornerstone <do-not-reply@cornerstonesf.org>")
   end
 
-  it 'should have a subject' do
+  it 'sends TO @approval_request.user' do
+    expect(subject.to).to eq([@receiver.email])
+    expect { run! }.to change { ActionMailer::Base.deliveries.count }.by(1)
+  end
+
+  it 'should have a subject that includes the Ministry' do
     expect(subject.subject).to_not be_nil
     expect(subject.subject).to match(@ministry.name)
   end
 
-  it 'should send to all the peers' do
-    expect(subject.to).to eq(@peers.map(&:user).map(&:email))
-    expect { run! }.to change { ActionMailer::Base.deliveries.count }.by(1)
-  end
-
-  it 'CCs the post author' do
-    expect(subject.cc).to eq([@sender.email])
+  it 'should have a subject that includes the Post type' do
+    expect(subject.subject).to_not be_nil
+    expect(subject.subject).to match('Link')
   end
 
   describe "email body" do

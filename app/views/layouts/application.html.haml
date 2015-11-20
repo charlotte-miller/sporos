@@ -51,3 +51,11 @@
       %script{src:"//use.typekit.net/lob8jts.js"}
       :javascript
         try{Typekit.load();}catch(e){}
+
+      :javascript
+        window.doorbellOptions = {
+            appKey: 'YMkHgaDBEH47LdFy8iTIVmvcK90mRh8Jl8dlkqCpjqIpuZyLW4HsC8dlHEyQ56yH'
+        };
+        (function(d, t) {
+            var g = d.createElement(t);g.id = 'doorbellScript';g.type = 'text/javascript';g.async = true;g.src = 'https://embed.doorbell.io/button/2618?t='+(new Date().getTime());(d.getElementsByTagName('head')[0]||d.getElementsByTagName('body')[0]).appendChild(g);
+        }(document, 'script'));

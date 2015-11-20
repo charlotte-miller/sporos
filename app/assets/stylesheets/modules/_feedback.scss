@@ -1,0 +1,18 @@
+body #doorbell{
+  #doorbell-powered-by{
+    display:none;
+  }
+
+  #doorbell-email-label{
+    margin-top: 34px;
+  }
+
+  #doorbell-email{
+    margin-bottom:20px;
+  }
+
+  #doorbell-attach-screenshot-wrapper{
+    margin-top: -120px;
+    position: absolute;
+  }
+}

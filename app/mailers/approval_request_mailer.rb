@@ -6,7 +6,7 @@ class ApprovalRequestMailer < ApplicationMailer
     @approval_request = approval_request.to_obj
     set_template_data
 
-    if @approval_request.is_author?
+    if @approval_request.for_author?
       mail(from: "\"CornerstoneSF\" <do-not-reply@cornerstonesf.org>",
            to: @receiver.email,
            subject: "Thank You For Posting: #{@post.title}",
@@ -23,7 +23,7 @@ class ApprovalRequestMailer < ApplicationMailer
     set_template_data
 
     # same subject for threading
-    if @approval_request.is_author?
+    if @approval_request.for_author?
       mail(from: "\"CornerstoneSF\" <do-not-reply@cornerstonesf.org>",
            to: @receiver.email,
            subject: "Thank You For Posting: #{@post.title}")

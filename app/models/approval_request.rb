@@ -50,6 +50,8 @@ class ApprovalRequest < ActiveRecord::Base
   scope :current, -> { where('status < 3') }
   scope :decided, -> { where('status = 1 OR status = 2') }
   scope :action_required, -> { where('status = 0 OR status = 2') }
+  scope :only_authors, -> { joins(:post).where("approval_requests.user_id = posts.user_id") }
+  scope :except_authors, -> { joins(:post).where("approval_requests.user_id != posts.user_id") }
 
 
   # ---------------------------------------------------------------------------------
@@ -75,7 +77,7 @@ class ApprovalRequest < ActiveRecord::Base
   # Methods
   # ---------------------------------------------------------------------------------
 
-  def is_author?
+  def for_author?
     author == user
   end
 

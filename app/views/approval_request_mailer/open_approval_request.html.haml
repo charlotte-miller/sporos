@@ -27,7 +27,7 @@
     =@post.uploaded_files.count
 
 #view_post
-  = link_to 'View the Post & Discussion', admin_post_url(@approval_request.post)
+  = link_to 'Post Approval Dashboard', admin_post_url(@approval_request.post)
 
 #instant
   =link_to("Approve", update_status_from_link_admin_approval_request_url(@approval_request, { commit: 'Approve' }))

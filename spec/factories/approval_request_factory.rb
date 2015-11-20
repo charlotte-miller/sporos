@@ -24,4 +24,8 @@ FactoryGirl.define do
     status {ApprovalRequest.statuses.first[0].to_sym}
   end
 
+  factory :author_approval_request, parent: :approval_request do
+    user { post.author }
+  end
+
 end

@@ -193,6 +193,10 @@
     @include containImage('experiencegrowth_logo_reverse.svg');
   }
 
+  .feedback{
+    font-size:22px;
+  }
+
   &.active{
     height:70px;
     border-width:3px;

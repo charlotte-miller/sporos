@@ -34,11 +34,13 @@ $ ->
     scroll_past = scroll > 500
     if scroll_past
       $('#main-footer').addClass('active')
+      $('#doorbell-button').addClass('hide')
 
   CStone.Shared.ScrollSpy.addCallback (scroll)=>
     scroll_past = scroll < 500
     if scroll_past
       $('#main-footer').removeClass('active')
+      $('#doorbell-button').removeClass('hide')
 
 
   $('#evergreen-links .evergreen-link').click (e)->
@@ -55,3 +57,8 @@ $ ->
 
       $(scroll_to).smoothScroll 500, CStone.Animation.layoutTransition.easing,
         container: container
+
+  $('#main-footer .feedback').click (e)->
+    e.preventDefault()
+    doorbell.show() if doorbell?
+    $('#doorbell-attach-screenshot').prop('checked',true)

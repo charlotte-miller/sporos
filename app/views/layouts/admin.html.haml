@@ -15,7 +15,7 @@
     = stylesheet_link_tag "admin", :media => "all"
     = favicon_by_environment
   %body
-    = render :partial => 'posts/lightbox'
+    = render partial: 'posts/lightbox'
     .container
       / - cache do
       = react_component('CStone.Admin.Components.GlobalNav', {is_editable: true}, {prerender: true})
@@ -37,3 +37,5 @@
           = yield :page_specific_js
         #load_every_time
           = yield :page_specific_js_initializers
+
+      = render partial:'layouts/feedback'

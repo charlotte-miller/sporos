@@ -15,6 +15,7 @@
     %link{ rel:'dns-prefetch', href:'//assets3.cornerstonesf.org'}
     %link{ rel:'dns-prefetch', href:'//use.typekit.net'}
     %link{ rel:'dns-prefetch', href:'//www.google-analytics.com'}
+    %link{ rel:'dns-prefetch', href:'//embed.doorbell.io'}
 
     %title= @title || "Cornerstone SF Church"
     = favicon_by_environment
@@ -25,11 +26,11 @@
     / = partial 'layouts/social'
 
   %body
-    = render :partial => 'posts/lightbox'
+    = render partial:'posts/lightbox'
     = main_frame_toggle do
       = render :partial => 'layouts/backlink_tab'
       = yield
-    = render :partial => 'layouts/main_footer'
+    = render partial:'layouts/main_footer'
 
 
     #javascripts
@@ -47,10 +48,4 @@
       :javascript
         try{Typekit.load();}catch(e){}
 
-      :javascript
-        window.doorbellOptions = {
-            appKey: 'YMkHgaDBEH47LdFy8iTIVmvcK90mRh8Jl8dlkqCpjqIpuZyLW4HsC8dlHEyQ56yH'
-        };
-        (function(d, t) {
-            var g = d.createElement(t);g.id = 'doorbellScript';g.type = 'text/javascript';g.async = true;g.src = 'https://embed.doorbell.io/button/2618?t='+(new Date().getTime());(d.getElementsByTagName('head')[0]||d.getElementsByTagName('body')[0]).appendChild(g);
-        }(document, 'script'));
+      = render partial:'layouts/feedback'

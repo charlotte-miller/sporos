@@ -11,6 +11,10 @@ CStone.Admin.Components.GlobalNav = React.createClass
     e.preventDefault()
     @setState(is_open: !@state.is_open)
 
+  clickFeedback: (e)->
+    e.preventDefault()
+    doorbell.show() if doorbell?
+
   clickNewPostBackground:(e)->
     unless e.target.nodeName == "A"
       @setState(is_open: false)
@@ -59,7 +63,7 @@ CStone.Admin.Components.GlobalNav = React.createClass
         </div>
         <div className="global_nav_item col-xs-3">
 
-          <a href="/admin/ministries"><i className="glyphicon glyphicon-cog"></i>
+          <a href="#" onClick={ this.clickFeedback }><i className="glyphicon glyphicon-comment"></i>
           </a>
         </div>
       </div>

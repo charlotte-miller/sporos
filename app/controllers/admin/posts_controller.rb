@@ -111,7 +111,7 @@ class Admin::PostsController < Admin::BaseController
 private
   def set_post
     @post ||= current_user.posts.includes(:ministry).find_by(public_id:params[:id])
-    @post ||= current_user.approval_requests.action_required.includes(:post).map(&:post).find {|post| post.public_id == params[:id]}
+    @post ||= current_user.approval_requests.includes(:post).map(&:post).find {|post| post.public_id == params[:id]}
   end
 
   def set_type

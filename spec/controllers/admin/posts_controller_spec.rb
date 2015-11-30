@@ -94,6 +94,17 @@ RSpec.describe Admin::PostsController, :type => :controller do
         expect(lambda { get :show, {:id => post.to_param}, valid_session }).not_to raise_error
       end
     end
+
+    context 'post is already approved' do
+      before(:all) { @user = @editor } #login_user this user
+      let(:post) { create(:post, ministry:@ministry, author:@volunteer) }
+
+      it 'does not throw an error' do
+        post.approval_requests.first.publish_post!
+        post.approval_requests.reload
+        expect(lambda { get :show, {:id => post.to_param}, valid_session }).not_to raise_error
+      end
+    end
   end
 
   describe "GET new" do

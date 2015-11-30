@@ -159,6 +159,11 @@ html,body{
 #comm-arts-requests-index{
 }
 
+#post-index-flash-message{
+  @extend .row;
+  margin-top:100px;
+}
+
 #posts-index{
 
   h1,h2,h3,h4,h5,button,.title{

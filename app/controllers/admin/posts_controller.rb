@@ -8,6 +8,7 @@ class Admin::PostsController < Admin::BaseController
   # rescue_from ::LinkThumbnailer::BadUriFormat,      with: :bad_request
   # rescue_from ::ActionController::ParameterMissing, with: :bad_request
   # rescue_from ::NameError,                          with: :bad_request
+  rescue_from ActiveRecord::RecordNotFound, with: :redirect_to_index
 
   respond_to :html
 
@@ -112,6 +113,8 @@ private
   def set_post
     @post ||= current_user.posts.includes(:ministry).find_by(public_id:params[:id])
     @post ||= current_user.approval_requests.includes(:post).map(&:post).find {|post| post.public_id == params[:id]}
+    raise ActiveRecord::RecordNotFound unless @post
+    @post
   end
 
   def set_type
@@ -172,5 +175,9 @@ private
 
   def set_comm_arts_request
     @post.comm_arts_request || @post.build_comm_arts_request
+  end
+
+  def redirect_to_index
+    redirect_to admin_posts_url, :flash => { :error => 'This account does not have access to that post.' }
   end
 end

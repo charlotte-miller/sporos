@@ -86,6 +86,10 @@ RSpec.describe Admin::PostsController, :type => :controller do
       end
     end
 
+    it 'redirects to index if NOT FOUND' do
+      expect(get( :show, {id:'foobar'})).to redirect_to(admin_posts_url)
+    end
+
     context 'author is an editor' do
       before(:all) { @user = @editor } #login_user this user
       let(:post) { create(:post, ministry:@ministry, author:@editor) }

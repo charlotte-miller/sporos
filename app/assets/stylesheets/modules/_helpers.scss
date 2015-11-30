@@ -55,7 +55,7 @@
 }
 
 .blurable {
-  @extend %newCSSLayer;
+//  @extend %newCSSLayer;
   @include transitionValue('all');
   @include duration(1s);
 

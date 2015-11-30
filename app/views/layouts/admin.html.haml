@@ -20,7 +20,7 @@
       / - cache do
       = react_component('CStone.Admin.Components.GlobalNav', {is_editable: true}, {prerender: true})
       #admin-body.blurable
-        .row
+        #post-index-flash-message
           = flash_messages
         = yield
 

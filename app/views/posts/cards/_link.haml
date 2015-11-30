@@ -1,14 +1,17 @@
 - post && @post = post
 .card.link{class:ministry_class(@post)}
-  %a.thumbnail{href: post.display_options.url, target:'_blank'}
-    %img.thumbnail-img{src: @post.poster.url(:medium),
-        data: {src: @post.poster.url(:medium)},
-        alt: @post.title,
-        height:'360',
-        width:'640'}
+  .thumbnail
+    = render partial:'admin/posts/post_management', locals:{post:post}
 
-    .captions
-      %h3.title= @post.title
-      .source-domain= get_host_domain(post.display_options.url)
-      %p.description= @post.description
-    .social_buttons= #post_path(id:@post)
+    %a{href: post.display_options.url, target:'_blank'}
+      %img.thumbnail-img{src: @post.poster.url(:medium),
+          data: {src: @post.poster.url(:medium)},
+          alt: @post.title,
+          height:'360',
+          width:'640'}
+
+      .captions
+        %h3.title= @post.title
+        .source-domain= get_host_domain(post.display_options.url)
+        %p.description= @post.description
+      .social_buttons= #post_path(id:@post)

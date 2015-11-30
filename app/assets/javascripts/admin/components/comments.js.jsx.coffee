@@ -147,11 +147,11 @@ CStone.Admin.Components.Comments= React.createClass
 
     btn_cta = if @state.already_decided
       status_title = if @state.approve_default then 'Approved' else 'Rejected'
-      "Already #{status_title}"
+      "You #{status_title}"
     else if @state.approve_default
-      "Approve Post"
+      "Comment & Approve Post"
     else
-      "Reject Post"
+      "Comment & Reject Post"
 
     context = @
     if @state.archived
@@ -160,7 +160,7 @@ CStone.Admin.Components.Comments= React.createClass
        </div>`
     else
       `<div id="comment-buttons">
-        <input onClick={ context.handleOnlyComment } id="add-comment-btn" type="submit" name="commit" value="Only Comment" className="btn btn-link" />
+        <input onClick={ context.handleOnlyComment } id="add-comment-btn" type="submit" name="commit" value="Comment" className="btn btn-primary" />
 
         <div className="btn-group dropup">
           <input type="submit" name="commit" value={btn_cta} className={ classes() } />

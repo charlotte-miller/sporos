@@ -9,7 +9,7 @@ class Admin::ApprovalRequestsController < Admin::BaseController
     @current_users_approval_request =  @approval_request
     @post = @approval_request.post
 
-    if stale?(:etag => @approval_request.id, :last_modified => @approval_request.updated_at.utc, :public => true)
+    if stale?(:etag => @approval_request, :last_modified => @post.updated_at.utc, :public => true)
       render json: comments_data
     end
   end

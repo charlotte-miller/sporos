@@ -36,6 +36,14 @@ RSpec.describe ApprovalRequest, :type => :model do
   it { should belong_to(:post) }
   it { should belong_to(:user) }
 
+  it 'touches the associated Post' do
+    Timecop.travel(2.minutes.ago) { @subject = create(:approval_request) }
+    Timecop.freeze do
+      @subject.touch
+      expect(@subject.updated_at).to eq(@subject.post.updated_at)
+    end
+  end
+
   describe '#peers [association]' do
     before(:all) do
       @subject = create(:approval_request)

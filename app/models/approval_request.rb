@@ -31,7 +31,7 @@ class ApprovalRequest < ActiveRecord::Base
   # Associations
   # ---------------------------------------------------------------------------------
   belongs_to :user
-  belongs_to :post
+  belongs_to :post, touch:true
 
   has_one :ministry, through: :post
 

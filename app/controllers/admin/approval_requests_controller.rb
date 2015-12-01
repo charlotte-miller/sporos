@@ -5,7 +5,7 @@ class Admin::ApprovalRequestsController < Admin::BaseController
   before_action :set_approval_request
 
   def show
-    @comments = @approval_request.comment_threads
+    @comments = @approval_request.post.comment_threads
     @current_users_approval_request =  @approval_request
     @post = @approval_request.post
 
@@ -21,7 +21,7 @@ class Admin::ApprovalRequestsController < Admin::BaseController
     end
 
     # comments_data
-    @comments = @approval_request.comment_threads
+    @comments = @approval_request.post.comment_threads
     @current_users_approval_request =  @approval_request
     @post = @approval_request.post
 

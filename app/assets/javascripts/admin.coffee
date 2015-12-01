@@ -37,3 +37,9 @@ $ ->
   $('img').unveil()
 
 
+  $messages = $('#onboarding_messages')
+  $('.read-more', $messages).click (e)->
+    e.preventDefault()
+    $messages.removeClass('preview')
+
+

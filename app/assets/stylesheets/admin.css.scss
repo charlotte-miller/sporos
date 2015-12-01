@@ -161,7 +161,9 @@ html,body{
 
 #post-index-flash-message{
   @extend .row;
-  margin-top:100px;
+  .alert{
+    margin-top:100px;
+  }
 }
 
 #posts-index{
@@ -525,6 +527,22 @@ html,body{
   h3{
     margin-top:0 !important;
     font-size:20px;
+  }
+
+  .read-more{
+    display:none;
+  }
+
+  &.preview{
+    p{ @extend %truncate; }
+
+    .read-more{
+      display:block;
+      color: inherit;
+      font-weight: 500;
+      text-decoration: underline;
+      float:right;
+    }
   }
 }
 

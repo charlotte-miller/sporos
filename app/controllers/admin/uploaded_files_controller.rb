@@ -49,8 +49,9 @@ class Admin::UploadedFilesController < Admin::BaseController
 private
 
   def set_uploaded_file
-    uploaded_file      = UploadedFile.find(params[:id])
-    this_is_my_upload  = current_user.posts.map(&:id).include?( uploaded_file.from_id ) && (uploaded_file.from_type =~ /^Post/)
+    uploaded_file       = UploadedFile.find(params[:id])
+    this_is_my_upload   = current_user.posts.map(&:id).include?( uploaded_file.from_id ) && (uploaded_file.from_type =~ /^Post/)
+    this_is_my_upload ||= uploaded_file.session_id == session.id
 
     unless current_user.admin? || this_is_my_upload
       (redirect_to admin_posts_url and return)

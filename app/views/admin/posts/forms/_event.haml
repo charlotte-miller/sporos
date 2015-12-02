@@ -29,13 +29,14 @@
 
 .field
   = f.label :poster, 'Event Graphic'
-  #dropzone
+  #dropzone.event
+    = f.file_field :poster, id:'upload-event-poster', class:'form-control', multiple:false, accept:"image/*" #, data:{url:'/admin/uploaded_files.json'}
+
     .row
       .col-xs-5
         %span.btn.btn-success.fileinput-button
           %i.glyphicon.glyphicon-plus
           %span Add Event Graphic
-          = f.file_field :poster, id:'upload-event-poster', class:'form-control', multiple:false, accept:"image/*" #, data:{url:'/admin/uploaded_files.json'}
       .col-xs-7
         %b Drag & Drop Here
     #dropzone-file-manager

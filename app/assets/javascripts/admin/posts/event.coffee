@@ -47,7 +47,9 @@ $ ->
 
 
   if $('#upload-event-poster').length
-    $(document).on 'drop dragover', (e)-> e.preventDefault() #prevent's browser from just opening the file
+    $(document).on 'dragover drop', (e)->
+      unless e.target.id == 'upload-event-poster'
+        e.preventDefault() #prevent's browser from just opening the file
 
     if post_id = $('#post_public_id').val()
       $.getJSON "/admin/posts/#{post_id}", (data)->
@@ -55,8 +57,14 @@ $ ->
         template = HandlebarsTemplates.event_poster(template_data)
         $('#dropzone-file-manager').append(template)
 
+    $('#upload-event-poster').bind 'dragover',   -> $('#dropzone').addClass 'active'
+    $('#upload-event-poster').bind 'dragleave',  -> $('#dropzone').removeClass 'active'
+    $('#upload-event-poster').bind 'mouseenter', -> $('#dropzone').addClass 'active'
+    $('#upload-event-poster').bind 'mouseleave', -> $('#dropzone').removeClass 'active'
+    $('#upload-event-poster').bind 'mouseleave', -> $('#dropzone').removeClass 'active'
+
     $('#upload-event-poster').fileupload
-      dropZone: $('#dropzone')
+      dropZone: false
       autoUpload: false
       acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
       filesContainer: '#dropzone-file-manager'
@@ -64,19 +72,6 @@ $ ->
       prependFiles: true
       singleFileUploads:true
       replaceFileInput:false
-      dragover: _.throttle(->
-        dropZone = $('#dropzone')
-        timeout = window.dropZoneTimeout
-        if !timeout
-          dropZone.addClass 'active'
-        else
-          clearTimeout timeout
-
-        window.dropZoneTimeout = setTimeout((->
-          window.dropZoneTimeout = null
-          dropZone.removeClass 'active'
-        ), 50)
-      , 50)
       previewMaxHeight:180
       previewMinHeight:179
       previewMaxWidth:300

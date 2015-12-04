@@ -30,6 +30,7 @@
     "image-picker": "latest",
     "jquery-file-upload": "latest",
     "blueimp-load-image": "latest",
-    "blueimp-canvas-to-blob": "latest"
+    "blueimp-canvas-to-blob": "latest",
+    "Chart.js": "latest"
   }
 }

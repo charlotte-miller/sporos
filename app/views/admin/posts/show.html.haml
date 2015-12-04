@@ -21,21 +21,23 @@
   #cards
     = render_partial_for @post
 
-  .row
-    %hr
+  - if @approval_statuses.length > 1
     %h3 Approval Status
-    .col-sm-6
-      %h5 Personal Approval
-    .col-sm-6
-      %h5 Global Approval
-      - if @approval_statuses.length > 1
-        %a#step-progress-help{href:'#'}
-          %i.glyphicon.glyphicon-question-sign
-        #status-action
-          = link_to '#write-comments' do
-            = render partial: 'post_progress', locals:{approval_statuses:@approval_statuses}
+    #approval-status
+      .global-approval-status.col-xs-8
+        .col-sm-4
+          %canvas#global-approval-chart
+          .chart-center
+            33%
+        .col-sm-8
+          %h4
+            %strong Leader
+            &
+            %strong Editor
+            Approval Required
+      .col-xs-4
+        %h5 Personal Approval
 
-    %hr
 
   - if @approval_statuses.length > 1 || true
     = react_component('CStone.Admin.Components.Comments ', @comments_data, {prerender: true})

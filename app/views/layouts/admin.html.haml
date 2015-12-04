@@ -38,4 +38,8 @@
         #load_every_time
           = yield :page_specific_js_initializers
 
+      %script{src:"//use.typekit.net/lob8jts.js"}
+      :javascript
+        try{Typekit.load();}catch(e){}
+
       = render partial:'layouts/feedback'

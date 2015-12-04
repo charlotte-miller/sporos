@@ -17,7 +17,14 @@
 html,body{
   background-color:$gray-lighter;
   padding-bottom:60px;
+
+  -webkit-font-smoothing: antialiased;
+  font-family: "museo-sans",sans-serif;
+  font-weight:300;
 }
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { font-weight: 300; font-family: "museo-slab",sans-serif;}
+h1, h2{ font-weight: 700 }
 
 #event-pickadate, #expired-at-pickadate, #comm-arts-due-pickadate {
   background:white !important;
@@ -325,6 +332,12 @@ html,body{
     height:80px;
     line-height:65px;
     background-color:$gray-lighter;
+
+    strong{
+//      font-weight: 300;
+      font-family: "museo-slab",sans-serif;
+//      font-size:16px;
+    }
   }
 
   .col-xs-7{
@@ -519,6 +532,29 @@ html,body{
       &:first-child  > .progress {left: 50%; width: 50%;}
       &:last-child  > .progress {width: 50%;}
        .step-progress-step.accepted a.step-progress-dot{ pointer-events: none; }
+    }
+  }
+
+  #approval-status{
+    @extend .row;
+    height:120px;
+
+    &, .global-approval-status{
+      @extend %flexCenter;
+    }
+
+    canvas{
+      height:120px;
+      width:120px;
+    }
+
+    .chart-center{
+      position:absolute;
+      left: 50%;
+      top: 48%;
+      transform: translate(-50%,-50%);
+      font-weight:100;
+      font-size:32px;
     }
   }
 }

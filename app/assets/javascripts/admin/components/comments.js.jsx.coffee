@@ -137,6 +137,11 @@ CStone.Admin.Components.Comments= React.createClass
      </div>`
 
   buildSubmitButton: ->
+    `<div id="comment-buttons">
+      <input onClick={ this.handleOnlyComment } id="add-comment-btn" type="submit" name="commit" value="Comment" className="btn btn-primary" />
+     </div>`
+
+  buildApprovalSubmitButton: ->
     classes = (options={})=>
       React.addons.classSet( _({
         'btn':true
@@ -149,36 +154,56 @@ CStone.Admin.Components.Comments= React.createClass
       status_title = if @state.approve_default then 'Approved' else 'Rejected'
       "You #{status_title}"
     else if @state.approve_default
-      "Comment & Approve Post"
+      "Approve Post"
     else
-      "Comment & Reject Post"
+      " Reject Post"
 
     context = @
-    if @state.archived
-      `<div id="comment-buttons">
-        <input onClick={ context.handleOnlyComment } type="submit" name="commit" value="Comment" className="btn btn-primary btn-sm" />
+    unless @state.archived
+      `<div className="btn-group dropup">
+         <input type="submit" name="commit" value={btn_cta} className={ classes() } />
+         <button className={classes({'dropdown-toggle':true, disabled:false})} data-toggle='dropdown'>
+           <span className="caret"></span>
+           <span className="sr-only">Toggle Dropdown</span>
+         </button>
+         <ul className="dropdown-menu dropdown-menu-right" role="menu">
+           <li>
+             <a href="#" onClick={ function(e){ context.handleToggleStatus(e, true) } }>Approve Post</a>
+           </li>
+           <li className="divider"></li>
+           <li>
+             <a href="#" onClick={ function(e) { context.handleToggleStatus(e, false) }  }>Reject Post</a>
+           </li>
+         </ul>
        </div>`
-    else
-      `<div id="comment-buttons">
-        <input onClick={ context.handleOnlyComment } id="add-comment-btn" type="submit" name="commit" value="Comment" className="btn btn-primary" />
 
-        <div className="btn-group dropup">
-          <input type="submit" name="commit" value={btn_cta} className={ classes() } />
-          <button className={classes({'dropdown-toggle':true, disabled:false})} data-toggle='dropdown'>
-            <span className="caret"></span>
-            <span className="sr-only">Toggle Dropdown</span>
-          </button>
-          <ul className="dropdown-menu dropdown-menu-right" role="menu">
-            <li>
-              <a href="#" onClick={ function(e){ context.handleToggleStatus(e, true) } }>Approve Post</a>
-            </li>
-            <li className="divider"></li>
-            <li>
-              <a href="#" onClick={ function(e) { context.handleToggleStatus(e, false) }  }>Reject Post</a>
-            </li>
-          </ul>
+
+  buildApprovalStatus: ->
+    `<div id="approval-status-row">
+      <div className="global-approval-status col-xs-4">
+        <div className="">
+          <canvas id="global-approval-chart" width="120" height="120"></canvas>
+          <div className="chart-center">
+            33%
+          </div>
         </div>
-       </div>`
+      </div>
+      <div className="col-xs-8 approval-status-right">
+        <div className="row approval-status-right">
+          <div className="col-sm-7">
+            <h4>
+              <strong>Leader </strong>
+              &amp;
+              <strong> Editor </strong>
+              Approval Required
+            </h4>
+          </div>
+          <div className="col-sm-5">
+            { this.buildApprovalSubmitButton() }
+          </div>
+        </div>
+      </div>
+    </div>`
 
   buildCommentBox: ->
     `<form onSubmit={ this.handleSubmit } ref="comment_form" className="edit_approval_request" id={"edit_approval_request_"+this.props.approval_request_id} action={"/admin/approval_requests/"+this.props.approval_request_id+".json"} acceptCharset="UTF-8" method="post">
@@ -208,12 +233,19 @@ CStone.Admin.Components.Comments= React.createClass
     </form>`
 
   render:->
-    `<div id="comments">
-      <h3>Discussion:</h3>
-      <div id="read-comments">
-        { this.buildComments() }
-      </div>
-      <div id="write-comments">
-        { this.buildCommentBox() }
+    `<div>
+       <div id="approval-status">
+         <h3>Approval Status</h3>
+         { this.buildApprovalStatus() }
+       </div>
+
+       <div id="comments">
+        <h3>Discussion:</h3>
+        <div id="read-comments">
+          { this.buildComments() }
+        </div>
+        <div id="write-comments">
+          { this.buildCommentBox() }
+        </div>
       </div>
     </div>`

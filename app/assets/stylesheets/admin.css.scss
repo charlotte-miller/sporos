@@ -376,7 +376,6 @@ h1, h2{ font-weight: 700 }
   }
 
   #comments{
-    @extend .col-xs-12;
     color:$gray-darker;
 
     #read-comments{
@@ -535,12 +534,18 @@ h1, h2{ font-weight: 700 }
     }
   }
 
-  #approval-status{
+  #approval-status-row{
     @extend .row;
     height:120px;
 
     &, .global-approval-status{
       @extend %flexCenter;
+    }
+
+    .approval-status-right{
+      @media (max-width: 550px) {
+        text-align:left;
+      }
     }
 
     canvas{

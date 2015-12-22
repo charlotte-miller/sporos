@@ -34,27 +34,6 @@
 #= require_tree ./admin/components
 #= require_self
 
-ctx = document.getElementById("global-approval-chart").getContext("2d")
-myNewChart = new Chart(ctx).Doughnut [
-  {
-      value: 100,
-      color:"#5cb85c",
-      highlight: "#FF5A5E",
-      label: "Author"
-  },
-  {
-      value: 100,
-      color: "#5cb85c",
-      highlight: "#5AD3D1",
-      label: "Leader"
-  },
-  {
-      value: 100,
-      color: "#777777",
-      highlight: "#FFC870",
-      label: "Editor"
-  }
-], {animationEasing:'easeInOutQuint', percentageInnerCutout:80}
 
 $ ->
   autosize($('textarea'))

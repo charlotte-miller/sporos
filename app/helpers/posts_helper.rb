@@ -24,7 +24,7 @@ module PostsHelper
   end
 
   def comments_data
-    raise ArgumentError.new('Missing required instance variable') unless @comments && @post && @current_users_approval_request
+    raise ArgumentError.new('Missing required instance variable') unless @comments && @post && @current_users_approval_request && @approval_statuses
 
     @comments_data ||= {
       approval_request_id: @current_users_approval_request.id,
@@ -47,6 +47,7 @@ module PostsHelper
           profile_thumb: approver.profile_image.url(:thumb),  }
           hash
         end,
+      approval_statuses:@approval_statuses,
       post:{
         ministry_possessive: @post.ministry.name.titleize.possessive,
         author_first_name: @post.author.first_name

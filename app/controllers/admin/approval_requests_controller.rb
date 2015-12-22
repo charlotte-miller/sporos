@@ -5,9 +5,7 @@ class Admin::ApprovalRequestsController < Admin::BaseController
   before_action :set_approval_request
 
   def show
-    @comments = @approval_request.post.comment_threads
-    @current_users_approval_request =  @approval_request
-    @post = @approval_request.post
+    set_approval_request_data
 
     if stale?(:etag => @approval_request, :last_modified => @post.updated_at.utc, :public => true)
       render json: comments_data
@@ -20,10 +18,7 @@ class Admin::ApprovalRequestsController < Admin::BaseController
       ApprovalRequestCommentMailer.notify_all(@approval_request.to_findable_hash, comment_body).deliver_later if comment_body.present?
     end
 
-    # comments_data
-    @comments = @approval_request.post.comment_threads
-    @current_users_approval_request =  @approval_request
-    @post = @approval_request.post
+    set_approval_request_data
 
     render json: comments_data
   end
@@ -37,6 +32,13 @@ class Admin::ApprovalRequestsController < Admin::BaseController
   end
 
 private
+  def set_approval_request_data
+    @comments = @approval_request.post.comment_threads
+    @current_users_approval_request =  @approval_request
+    @approval_statuses = @current_users_approval_request.current_concensus(:mark_author)
+    @post = @approval_request.post
+  end
+
   def set_approval_request
     @approval_request ||= current_user.approval_requests.find(params[:id])
   end

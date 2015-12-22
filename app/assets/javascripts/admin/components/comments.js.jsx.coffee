@@ -30,12 +30,15 @@ CStone.Admin.Components.Comments= React.createClass
   # getDefaultProps: ->
 
   componentDidMount: ->
+    chartDOM = document.getElementById("global-approval-chart").getContext("2d")
+
     @setState
       poll_process: setInterval =>
         if @isMounted()
           $.getJSON "#{@props.approval_request_path}.json", (data)=>
             @setProps(data) if @isMounted()
       , 5000
+      approvalChart: new Chart(chartDOM).Doughnut @approvalChartData(), {animationEasing:'easeInOutQuint', percentageInnerCutout:80}
 
     setTimeout =>
       @setState( animate_comments:true ) if @isMounted()
@@ -58,11 +61,44 @@ CStone.Admin.Components.Comments= React.createClass
   proposed_status: ->
     if @state.approve_default then 'accepted' else 'rejected'
 
+  approvalChartData: ->
+    # [{
+    #     value: 100,
+    #     color:"#5cb85c",
+    #     highlight: "#FF5A5E",
+    #     label: "Author"
+    # },
+    # {
+    #     value: 100,
+    #     color: "#5cb85c",
+    #     highlight: "#5AD3D1",
+    #     label: "Leader"
+    # },
+    # {
+    #     value: 100,
+    #     color: "#777777",
+    #     highlight: "#FFC870",
+    #     label: "Editor"
+    # }]
+    color = (state)->
+      switch state
+        when 'accepted' then "#5cb85c"
+        when 'rejected' then "#b92c28"
+        else "#777777"
+
+    _(@props.approval_statuses).map (status,role)->
+      value:1
+      color:color(status)
+      highlight:color(status)
+      label:role
+
+
+
   handleCommentChange: (e)->
     e.preventDefault()
     @setState(comment: event.target.value)
 
-  handleSubmit: (e, options={})->
+  handleApprovalStatusSubmit: (e, options={})->
     e.preventDefault()
     url       = @refs.comment_form.props.action
     $form     = $('input, textarea', @refs.comment_form.getDOMNode())
@@ -86,7 +122,7 @@ CStone.Admin.Components.Comments= React.createClass
 
   handleOnlyComment: (e)->
     e.preventDefault()
-    @handleSubmit(e, {without_status:true})
+    @handleApprovalStatusSubmit(e, {without_status:true})
 
   buildComments: ->
     _(@props.comments).map (comment)=>
@@ -136,7 +172,7 @@ CStone.Admin.Components.Comments= React.createClass
       { approver_pics }
      </div>`
 
-  buildSubmitButton: ->
+  buildCommentSubmitButton: ->
     `<div id="comment-buttons">
       <input onClick={ this.handleOnlyComment } id="add-comment-btn" type="submit" name="commit" value="Comment" className="btn btn-primary" />
      </div>`
@@ -161,7 +197,7 @@ CStone.Admin.Components.Comments= React.createClass
     context = @
     unless @state.archived
       `<div className="btn-group dropup">
-         <input type="submit" name="commit" value={btn_cta} className={ classes() } />
+         <input type="submit" name="commit" value={btn_cta} className={ classes() } onClick={ this.handleApprovalStatusSubmit } />
          <button className={classes({'dropdown-toggle':true, disabled:false})} data-toggle='dropdown'>
            <span className="caret"></span>
            <span className="sr-only">Toggle Dropdown</span>
@@ -179,12 +215,36 @@ CStone.Admin.Components.Comments= React.createClass
 
 
   buildApprovalStatus: ->
+    # @state.approvalChart.update( @approvalChartData() ) if @state.approvalChart?
+
+    ballot_box = _(@props.approval_statuses).inject (obj, vote, voter)->
+      obj[vote].push voter
+      obj
+    , {accepted:[], rejected:[], undecided:[]} #defaults
+
+    if ballot_box.rejected.length
+      percentage = 0
+      message = 'This post has been rejected (for now). Find out more by chatting with your team:'
+    else
+      percentage = parseInt( ballot_box.accepted.length / _(@props.approval_statuses).keys().length *100 )
+      message = _(ballot_box.undecided).map (role)->
+        titleized = role.replace /\w\S*/g, (txt)->
+          txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+        `<strong>{titleized}</strong>`
+
+      if message.length > 1
+        message.splice(1, 0, `<span>, </span>`) if message.length == 3
+        message = message.concat [`<span> &amp; </span>`, message.pop()]
+
+      message.push(`<span> Approval Required</span>`)
+
+    # debugger
     `<div id="approval-status-row">
       <div className="global-approval-status col-xs-4">
         <div className="">
           <canvas id="global-approval-chart" width="120" height="120"></canvas>
           <div className="chart-center">
-            33%
+            { percentage }%
           </div>
         </div>
       </div>
@@ -192,10 +252,8 @@ CStone.Admin.Components.Comments= React.createClass
         <div className="row approval-status-right">
           <div className="col-sm-7">
             <h4>
-              <strong>Leader </strong>
-              &amp;
-              <strong> Editor </strong>
-              Approval Required
+              { message }
+
             </h4>
           </div>
           <div className="col-sm-5">
@@ -206,7 +264,7 @@ CStone.Admin.Components.Comments= React.createClass
     </div>`
 
   buildCommentBox: ->
-    `<form onSubmit={ this.handleSubmit } ref="comment_form" className="edit_approval_request" id={"edit_approval_request_"+this.props.approval_request_id} action={"/admin/approval_requests/"+this.props.approval_request_id+".json"} acceptCharset="UTF-8" method="post">
+    `<form onSubmit={ this.handleOnlyComment } ref="comment_form" className="edit_approval_request" id={"edit_approval_request_"+this.props.approval_request_id} action={"/admin/approval_requests/"+this.props.approval_request_id+".json"} acceptCharset="UTF-8" method="post">
       <input name="utf8" type="hidden" value="&#x2713;" />
       <input type="hidden" name="_method" value="patch" />
       <input type="hidden" name="authenticity_token" value={this.xss_token} />
@@ -216,8 +274,6 @@ CStone.Admin.Components.Comments= React.createClass
           <div id="comment-field" className="word-bubble">
             <textarea placeholder={this.placeholder()} value={this.state.comment} onChange={this.handleCommentChange} className="form-control" name="approval_request[comment_threads_attributes][][body]"></textarea>
           </div>
-
-
         </div>
         <div className="user media-right media-bottom">
           <div className="tri-right"></div>
@@ -228,7 +284,7 @@ CStone.Admin.Components.Comments= React.createClass
       </div>
       <div id="comment-submit-row">
         { this.buildApprovers() }
-        { this.buildSubmitButton() }
+        { this.buildCommentSubmitButton() }
       </div>
     </form>`
 
@@ -238,7 +294,6 @@ CStone.Admin.Components.Comments= React.createClass
          <h3>Approval Status</h3>
          { this.buildApprovalStatus() }
        </div>
-
        <div id="comments">
         <h3>Discussion:</h3>
         <div id="read-comments">

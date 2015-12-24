@@ -26,6 +26,7 @@ CStone.Admin.Components.Comments= React.createClass
     approve_default: @props.current_user.status != 'rejected'
     already_decided: @props.current_user.status != 'pending'
     archived:        @props.current_user.status == 'archived'
+    presentation_order: ['AUTHOR', 'LEADER', 'EDITOR']
 
   # getDefaultProps: ->
 
@@ -86,11 +87,16 @@ CStone.Admin.Components.Comments= React.createClass
         when 'rejected' then "#b92c28"
         else "#777777"
 
-    _(@props.approval_statuses).map (status,role)->
+    _(@props.approval_statuses).chain().map (status,role)->
       value:1
       color:color(status)
-      highlight:color(status)
+      color:color(status)
+      fillColor:color(status)
+      highlightColor:color(status)
+      role:role
       label:role
+    .sortBy (obj)=> _(@state.presentation_order).indexOf(obj.role)
+    .value()
 
 
 
@@ -215,30 +221,41 @@ CStone.Admin.Components.Comments= React.createClass
 
 
   buildApprovalStatus: ->
-    # @state.approvalChart.update( @approvalChartData() ) if @state.approvalChart?
+    if @state.approvalChart?
+      vintageSegments = @state.approvalChart.segments
+      @state.approvalChart.segments = _( @approvalChartData() ).map (data_obj)=>
+        _(@state.approvalChart.segments).chain()
+        .findWhere label:data_obj.label
+        .tap (me)-> _(me).extend(data_obj)
+        .value()
 
-    ballot_box = _(@props.approval_statuses).inject (obj, vote, voter)->
+      if _(vintageSegments).pluck('color') != _(@state.approvalChart.segments).pluck('color')
+        console.log([_(vintageSegments).pluck('fillColor'), _(@state.approvalChart.segments).pluck('fillColor')]) if console?
+        @state.approvalChart.update()
+
+    ballot_box = _(@props.approval_statuses).inject( (obj, vote, voter)->
       obj[vote].push voter
       obj
-    , {accepted:[], rejected:[], undecided:[]} #defaults
+    , {accepted:[], rejected:[], undecided:[]}) #defaults
 
     if ballot_box.rejected.length
       percentage = 0
       message = 'This post has been rejected (for now). Find out more by chatting with your team:'
     else
       percentage = parseInt( ballot_box.accepted.length / _(@props.approval_statuses).keys().length *100 )
-      message = _(ballot_box.undecided).map (role)->
+      message = _(ballot_box.undecided).chain()
+      .sortBy (role)=> _(@state.presentation_order).indexOf(role)
+      .map (role)->
         titleized = role.replace /\w\S*/g, (txt)->
           txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
         `<strong>{titleized}</strong>`
+      .value()
 
       if message.length > 1
         message.splice(1, 0, `<span>, </span>`) if message.length == 3
         message = message.concat [`<span> &amp; </span>`, message.pop()]
-
       message.push(`<span> Approval Required</span>`)
 
-    # debugger
     `<div id="approval-status-row">
       <div className="global-approval-status col-xs-4">
         <div className="">

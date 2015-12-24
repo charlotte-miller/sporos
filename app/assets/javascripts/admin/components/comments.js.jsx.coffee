@@ -222,15 +222,14 @@ CStone.Admin.Components.Comments= React.createClass
 
   buildApprovalStatus: ->
     if @state.approvalChart?
-      vintageSegments = @state.approvalChart.segments
+      vintageSegmentsStr = _(@state.approvalChart.segments).pluck('fillColor').join(', ')
       @state.approvalChart.segments = _( @approvalChartData() ).map (data_obj)=>
         _(@state.approvalChart.segments).chain()
         .findWhere label:data_obj.label
         .tap (me)-> _(me).extend(data_obj)
         .value()
 
-      if _(vintageSegments).pluck('color') != _(@state.approvalChart.segments).pluck('color')
-        console.log([_(vintageSegments).pluck('fillColor'), _(@state.approvalChart.segments).pluck('fillColor')]) if console?
+      if vintageSegmentsStr != _(@state.approvalChart.segments).pluck('fillColor').join(', ')
         @state.approvalChart.update()
 
     ballot_box = _(@props.approval_statuses).inject( (obj, vote, voter)->
@@ -239,10 +238,10 @@ CStone.Admin.Components.Comments= React.createClass
     , {accepted:[], rejected:[], undecided:[]}) #defaults
 
     if ballot_box.rejected.length
-      percentage = 0
+      percentage = `<i className="glyphicon glyphicon-comment"><small>Learn More</small></i>`
       message = 'This post has been rejected (for now). Find out more by chatting with your team:'
     else
-      percentage = parseInt( ballot_box.accepted.length / _(@props.approval_statuses).keys().length *100 )
+      percentage = "#{parseInt( ballot_box.accepted.length / _(@props.approval_statuses).keys().length *100 )}%"
       message = _(ballot_box.undecided).chain()
       .sortBy (role)=> _(@state.presentation_order).indexOf(role)
       .map (role)->
@@ -261,7 +260,7 @@ CStone.Admin.Components.Comments= React.createClass
         <div className="">
           <canvas id="global-approval-chart" width="120" height="120"></canvas>
           <div className="chart-center">
-            { percentage }%
+            { percentage }
           </div>
         </div>
       </div>

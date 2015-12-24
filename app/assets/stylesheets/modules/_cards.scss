@@ -129,13 +129,10 @@
   }
 }
 
-#posts-show{
-  .post-management-cog{
-    opacity:1 !important;
 
-    i{
-      top:0 !important;
-    }
-  }
-
-}
+//#posts-show{
+//  .post-management{ @extend .active; }
+//  .post-management-cog{
+//    display:none !important;
+//  }
+//}

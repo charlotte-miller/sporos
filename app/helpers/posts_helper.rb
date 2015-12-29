@@ -9,9 +9,9 @@ module PostsHelper
   end
 
   def render_partial_for(post)
-    # Rails.cache.fetch(post) do
+    Rails.cache.fetch(post) do
       render partial:"posts/cards/#{post_type_of(post)}", locals:{post:post}
-    # end
+    end
   end
 
   # Only parses twice if url doesn't start with a scheme

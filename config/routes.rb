@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  namespace :admin do
-    resources :faq_answers
-  end
-
   get 'sso/authenticate'
 
   # See how all your routes lay out with "rake routes".
@@ -64,6 +60,8 @@ Rails.application.routes.draw do
 
   get 'admin' => 'admin/posts#index'
   namespace :admin do
+    resources :faq_answers
+
     resources :ministries, except: :show
     resources :posts do
       collection do
@@ -81,6 +79,7 @@ Rails.application.routes.draw do
     resources :uploaded_files, only: [:index, :create, :destroy]
     patch 'uploaded_files' => 'uploaded_files#create'
 
+    get 'editable_posts' => 'approval_requests#editable_posts'
     resources :approval_requests, only: [:show, :update] do
       member do
         get 'update_status_from_link'

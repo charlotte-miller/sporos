@@ -1,8 +1,8 @@
 - post && @post = post
 / - placeholder_img = placeholder_image '640x360', text:'default'
-.card.photo{class:ministry_class(@post)}
+.card.photo{class:ministry_class(@post), id:@post.public_id}
   .thumbnail
-    = render partial:'admin/posts/post_management', locals:{post:post}
+    .post-management-placeholder
 
     %a.photo-gallery{href: post_path(id:@post, format:'json')}
       .stack-frame

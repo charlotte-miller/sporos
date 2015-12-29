@@ -1,7 +1,7 @@
 - post && @post = post
-.card.link{class:ministry_class(@post)}
+.card.link{class:ministry_class(@post), id:@post.public_id}
   .thumbnail
-    = render partial:'admin/posts/post_management', locals:{post:post}
+    .post-management-placeholder
 
     %a{href: post.display_options.url, target:'_blank'}
       %img.thumbnail-img{src: @post.poster.url(:medium),

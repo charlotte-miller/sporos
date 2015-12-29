@@ -64,6 +64,7 @@
       }
     }
 
+    .post-management-placeholder{ margin:-4px; }
     .post-management{
       .post-management-actions{
         @extend %transitionHeight;
@@ -83,6 +84,7 @@
             color:white
           }
         }
+        .delete{display:none;}
 
         .post-action-copy{
           @extend .hidden-xs;
@@ -130,9 +132,9 @@
 }
 
 
-//#posts-show{
-//  .post-management{ @extend .active; }
-//  .post-management-cog{
-//    display:none !important;
-//  }
-//}
+#posts-show{
+  .post-management .post-management-actions{
+    .post-action.unpublish{display:none;}
+    .post-action.delete{display:block;}
+  }
+}

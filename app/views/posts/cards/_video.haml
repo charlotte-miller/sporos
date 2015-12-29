@@ -1,7 +1,7 @@
 - post && @post = post
-.card.video{class:ministry_class(@post)}
+.card.video{class:ministry_class(@post), id:@post.public_id}
   .thumbnail
-    = render partial:'admin/posts/post_management', locals:{post:post}
+    .post-management-placeholder
 
     %a{href: post_path(id:@post)}
       = react_component('CStone.Shared.Components.VimeoPlayer', {vimeoId: @post.vimeo_id}, {prerender: true})

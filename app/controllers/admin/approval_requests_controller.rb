@@ -1,13 +1,11 @@
 class Admin::ApprovalRequestsController < Admin::BaseController
   include PostsHelper
 
-  before_action :merge_commit_into_params
-  before_action :set_approval_request
+  before_action :merge_commit_into_params, except:[:editable_posts]
+  before_action :set_approval_request,     except:[:editable_posts]
 
   def show
-    @comments = @approval_request.post.comment_threads
-    @current_users_approval_request =  @approval_request
-    @post = @approval_request.post
+    set_approval_request_data
 
     if stale?(:etag => @approval_request, :last_modified => @post.updated_at.utc, :public => true)
       render json: comments_data
@@ -20,10 +18,7 @@ class Admin::ApprovalRequestsController < Admin::BaseController
       ApprovalRequestCommentMailer.notify_all(@approval_request.to_findable_hash, comment_body).deliver_later if comment_body.present?
     end
 
-    # comments_data
-    @comments = @approval_request.post.comment_threads
-    @current_users_approval_request =  @approval_request
-    @post = @approval_request.post
+    set_approval_request_data
 
     render json: comments_data
   end
@@ -36,7 +31,20 @@ class Admin::ApprovalRequestsController < Admin::BaseController
     redirect_to admin_post_url(@approval_request.post)
   end
 
+  def editable_posts
+    # - if current_user && current_user.admin? || current_user == post.author
+    my_approval_requests = current_user.approval_requests.joins(:post).pluck('posts.public_id')
+    render json: { public_ids: my_approval_requests }
+  end
+
 private
+  def set_approval_request_data
+    @comments = @approval_request.post.comment_threads
+    @current_users_approval_request =  @approval_request
+    @approval_statuses = @current_users_approval_request.current_concensus(:mark_author)
+    @post = @approval_request.post
+  end
+
   def set_approval_request
     @approval_request ||= current_user.approval_requests.find(params[:id])
   end

@@ -1,9 +1,12 @@
 - post && @post = post
-.card.video{class:ministry_class(@post)}
-  %a.thumbnail{href: post_path(id:@post)}
-    = react_component('CStone.Shared.Components.VimeoPlayer', {vimeoId: @post.vimeo_id}, {prerender: true})
+.card.video{class:ministry_class(@post), id:@post.public_id}
+  .thumbnail
+    .post-management-placeholder
 
-    .captions
-      %h3.title= @post.title
-      %p.description= @post.description
-    .expires-in{ data:{expired_at:@post.expired_at.to_i}}
+    %a{href: post_path(id:@post)}
+      = react_component('CStone.Shared.Components.VimeoPlayer', {vimeoId: @post.vimeo_id}, {prerender: true})
+
+      .captions
+        %h3.title= @post.title
+        %p.description= @post.description
+      .expires-in{ data:{expired_at:@post.expired_at.to_i}}

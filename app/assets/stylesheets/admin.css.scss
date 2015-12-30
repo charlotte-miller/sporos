@@ -17,7 +17,14 @@
 html,body{
   background-color:$gray-lighter;
   padding-bottom:60px;
+
+  -webkit-font-smoothing: antialiased;
+  font-family: "museo-sans",sans-serif;
+  font-weight:300;
 }
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { font-weight: 300; font-family: "museo-slab",sans-serif;}
+h1, h2{ font-weight: 700 }
 
 #event-pickadate, #expired-at-pickadate, #comm-arts-due-pickadate {
   background:white !important;
@@ -325,6 +332,12 @@ html,body{
     height:80px;
     line-height:65px;
     background-color:$gray-lighter;
+
+    strong{
+//      font-weight: 300;
+      font-family: "museo-slab",sans-serif;
+//      font-size:16px;
+    }
   }
 
   .col-xs-7{
@@ -347,6 +360,10 @@ html,body{
     }
   }
 
+  .info-i{
+    i{ padding-right:3px; }
+  }
+
   #status-action{
     @extend .pull-right;
     padding: 0 0 0 20px;
@@ -354,16 +371,15 @@ html,body{
     margin-top: -5px;
   }
 
-  #step-progress-help{
-    position:absolute;
-    top:-10px;
-    right:5px;
-    color:$gray-light;
-    font-size: 15px;
-  }
+//  #step-progress-help{
+//    position:absolute;
+//    top:-10px;
+//    right:5px;
+//    color:$gray-light;
+//    font-size: 15px;
+//  }
 
   #comments{
-    @extend .col-xs-12;
     color:$gray-darker;
 
     #read-comments{
@@ -497,28 +513,63 @@ html,body{
         .progress-bar {width:100%; box-shadow: none; background: $brand-success;}
       }
       &.undecided > .step-progress-dot{background-color: $gray-lighter; border:3px solid $brand-success;}
-      &.rejected > .step-progress-dot {background-color: darken($brand-danger, 5%); border:2px solid $gray-lighter;}
+      &.rejected > .step-progress-dot {background-color: #b92c28; border:2px solid $gray-lighter;}
       &.accepted .glyphicon {
         @extend .glyphicon-ok;
         color:$gray-lighter;
         left:8px;
-        top:4px;
+        top:5px;
       }
       &.undecided .glyphicon {
         @extend .glyphicon-refresh;
         color:$gray-light;
-        top:2px;
+        top:3px;
         left:5px;
       }
       &.rejected .glyphicon {
         @extend .glyphicon-remove;
         color:$gray-lighter;
-        top:3px;
+        top:4px;
         left:6px;
       }
       &:first-child  > .progress {left: 50%; width: 50%;}
       &:last-child  > .progress {width: 50%;}
        .step-progress-step.accepted a.step-progress-dot{ pointer-events: none; }
+    }
+  }
+
+  #approval-status-row{
+    @extend .row;
+    height:180px;
+
+    &, .global-approval-status{
+      @extend %flexCenter;
+    }
+
+    .approval-status-right{
+      @media (max-width: 550px) {
+        text-align:left;
+      }
+    }
+
+    canvas{
+      height:120px;
+      width:120px;
+    }
+
+    .chart-center{
+      position:absolute;
+      left: 50%;
+      top: 48%;
+      transform: translate(-50%,-50%);
+      font-weight:100;
+      font-size:32px;
+
+      .glyphicon > small{
+        font-family: museo-slab;
+        font-size: 12px;
+        display:block;
+      }
     }
   }
 }

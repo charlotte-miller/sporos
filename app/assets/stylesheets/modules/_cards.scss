@@ -20,8 +20,8 @@
     max-width:$screen-xs-max;
     display: inline-flex;
     padding:  .25rem;
-
-
+    position: relative;
+    flex-direction:column;
 
     &.photo{  }
 
@@ -29,10 +29,13 @@
       overflow:hidden;
       text-decoration:none;
       width:100%;
+      position:relative;
 
       .thumbnail-img{
        height: auto;
-       width: 100%;
+       width: calc(100% + 8px);
+       max-width: calc(100% + 8px);
+       margin-left: -4px;
       }
 
       .stack-frame{
@@ -60,5 +63,91 @@
         text-align: justify;
       }
     }
+
+    .post-management-placeholder{ margin:-4px; }
+    .post-management{
+      .post-management-actions{
+        @extend %transitionHeight;
+        height:0px;
+        overflow:hidden;
+        background-color:$gray-darker;
+        color:white;
+        margin:-4px;
+
+        .post-action{
+          @extend .col-xs-6;
+          @extend .center-block;
+          @extend %transitionOpacity;
+          opacity:0;
+          a{
+            text-decoration:none;
+            color:white
+          }
+        }
+        .delete{display:none;}
+
+        .post-action-copy{
+          @extend .hidden-xs;
+          @extend .hidden-sm;
+          display:inline-block;
+        }
+      }
+
+      .post-management-cog{
+        position:absolute;
+        top:4px;
+        right:4px;
+        color:$gray-darker;
+        z-index:1;
+        border-radius: 50%;
+        background-color: rgba(255,255,255,0.5);
+        height: 24px;
+        width: 24px;
+        line-height: 28px;
+        font-size: 16px;
+        opacity:0;
+      }
+
+      &.active{
+        .post-management-actions{
+          height:36px;
+        }
+
+        .post-action{
+          opacity:1;
+        }
+
+        .post-management-cog{
+          color:white;
+          opacity:1;
+        }
+      }
+
+    }
+
+    &:hover{
+      .post-management-cog{opacity:1;}
+    }
+  }
+}
+
+
+#posts-show{
+  #cards{
+    @media (min-width: 500px) {
+      @include coverImage('newsfeed-placeholder-lite.png');
+      @include box-shadow(50px 50px 113px #EEEEEE inset,-50px -100px 150px #EEEEEE inset);
+      padding-top: 40px;
+      padding-bottom: 60px;
+      margin-bottom: -20px;
+
+      .thumbnail{
+        @include box-shadow(0 1px 20px rgba(0, 0, 0, 0.2));
+      }
+    }
+  }
+  .post-management .post-management-actions{
+    .post-action.unpublish{display:none;}
+    .post-action.delete{display:block;}
   }
 }

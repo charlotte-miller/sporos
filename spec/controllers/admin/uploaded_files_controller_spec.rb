@@ -76,6 +76,42 @@ RSpec.describe Admin::UploadedFilesController, :type => :controller do
       }.to change(UploadedFile, :count).by(-1)
     end
 
+    describe 'access control' do
+      before(:each) do
+        @user = create(:user) #current_user
+        sign_in @user
+      end
+
+      it "allows the post's author" do
+        @user = @post.author
+        sign_in @user
+        uploaded_file = create(:uploaded_file, from:@post)
+        expect(delete :destroy, {:id => uploaded_file.to_param}, valid_session).to have_http_status(:success)
+      end
+
+      it "allows the current session" do
+        uploaded_file = create(:uploaded_file, session_id:controller.session.id)
+        expect(delete :destroy, {:id => uploaded_file.to_param}, valid_session).to have_http_status(:success)
+      end
+
+      it "allows the post's approvers " do
+        @post.approvers << @user
+        uploaded_file = create(:uploaded_file, from:@post)
+        expect(delete :destroy, {:id => uploaded_file.to_param}, valid_session).to have_http_status(:success)
+      end
+
+      it 'allows an admin' do
+        @user.update_attribute(:admin, true)
+        uploaded_file = create(:uploaded_file, from:@post)
+        expect(delete :destroy, {:id => uploaded_file.to_param}, valid_session).to have_http_status(:success)
+      end
+
+      it 'does NOT allow ' do
+        uploaded_file = create(:uploaded_file, from:@post)
+        expect(delete :destroy, {:id => uploaded_file.to_param}, valid_session).to redirect_to(admin_posts_url)
+      end
+    end
+
     it "returns true via JSON" do
       uploaded_file = create(:uploaded_file, from:@post)
       delete :destroy, {:id => uploaded_file.to_param}, valid_session

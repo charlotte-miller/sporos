@@ -41,6 +41,7 @@ group :vendor, assets_path:'assets/javascripts' do
   asset 'jquery-file-upload'
   asset 'blueimp-load-image'
   asset 'blueimp-canvas-to-blob'
+  asset 'Chart.js'
 end
 
 group :lib do

@@ -1,6 +1,8 @@
 class Admin::UploadedFilesController < Admin::BaseController
   respond_to :json
 
+  before_filter :set_uploaded_file, only:[:destroy]
+
   def index
     @uploaded_files = if set_post
       @post.uploaded_files
@@ -33,7 +35,6 @@ class Admin::UploadedFilesController < Admin::BaseController
   end
 
   def destroy
-    set_uploaded_file
     deceased_file_name = @uploaded_file.file.name
     if @uploaded_file.destroy
       render json: { files:[{
@@ -49,12 +50,13 @@ class Admin::UploadedFilesController < Admin::BaseController
 private
 
   def set_uploaded_file
-    uploaded_file      = UploadedFile.find(params[:id])
-    this_is_my_upload  = current_user.posts.map(&:id).include?( uploaded_file.from_id ) && (uploaded_file.from_type =~ /^Post/)
+    uploaded_file       = UploadedFile.find(params[:id])
+    this_is_my_upload   = current_user.posts.pluck(:id).include?( uploaded_file.from_id ) && !!(uploaded_file.from_type =~ /^Post/)
+    this_is_my_upload ||= uploaded_file.session_id == session.id
+    this_is_my_upload ||= current_user.approval_requests.pluck(:post_id).include?( uploaded_file.from_id ) && !!(uploaded_file.from_type =~ /^Post/)
+    this_is_my_upload ||= current_user.admin?
 
-    unless current_user.admin? || this_is_my_upload
-      (redirect_to admin_posts_url and return)
-    end
+    redirect_to admin_posts_url and return unless this_is_my_upload
     @uploaded_file ||= uploaded_file
   end
 

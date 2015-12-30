@@ -540,7 +540,7 @@ h1, h2{ font-weight: 700 }
 
   #approval-status-row{
     @extend .row;
-    height:120px;
+    height:180px;
 
     &, .global-approval-status{
       @extend %flexCenter;

@@ -239,9 +239,11 @@ CStone.Admin.Components.Comments= React.createClass
 
     if ballot_box.rejected.length
       percentage = `<i className="glyphicon glyphicon-comment"><small>Learn More</small></i>`
-      message = 'This post has been rejected (for now). Find out more by chatting with your team:'
+      help_message = 'Find out more by chatting with your team:'
+      message = 'This post has been rejected (for now)'
     else
       percentage = "#{parseInt( ballot_box.accepted.length / _(@props.approval_statuses).keys().length *100 )}%"
+      help_message = 'Required before a post is published or updated.'
       message = _(ballot_box.undecided).chain()
       .sortBy (role)=> _(@state.presentation_order).indexOf(role)
       .map (role)->
@@ -272,7 +274,7 @@ CStone.Admin.Components.Comments= React.createClass
             </h4>
             <div className="hidden-sm hidden-xs info-i">
               <i className="glyphicon glyphicon-info-sign"> </i>
-              Required before a post is published or updated.
+              { help_message }
             </div>
           </div>
           <div className="col-sm-5">

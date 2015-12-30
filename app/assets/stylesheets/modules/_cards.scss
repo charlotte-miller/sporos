@@ -133,6 +133,19 @@
 
 
 #posts-show{
+  #cards{
+    @media (min-width: 500px) {
+      @include coverImage('newsfeed-placeholder-lite.png');
+      @include box-shadow(50px 50px 113px #EEEEEE inset,-50px -100px 150px #EEEEEE inset);
+      padding-top: 40px;
+      padding-bottom: 60px;
+      margin-bottom: -20px;
+
+      .thumbnail{
+        @include box-shadow(0 1px 20px rgba(0, 0, 0, 0.2));
+      }
+    }
+  }
   .post-management .post-management-actions{
     .post-action.unpublish{display:none;}
     .post-action.delete{display:block;}

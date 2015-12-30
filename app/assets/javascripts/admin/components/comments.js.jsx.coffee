@@ -45,10 +45,14 @@ CStone.Admin.Components.Comments= React.createClass
       @setState( animate_comments:true ) if @isMounted()
     , 1000
 
+    @hackPostStatus()
+
 
   componentWillUnmount: ->
     clearInterval @state.poll_process
 
+  componentDidUpdate: ->
+    @hackPostStatus()
 
   current_user: ->
     @props.approvers[@props.current_user.id]
@@ -129,6 +133,27 @@ CStone.Admin.Components.Comments= React.createClass
   handleOnlyComment: (e)->
     e.preventDefault()
     @handleApprovalStatusSubmit(e, {without_status:true})
+
+  hackPostStatus: ->
+    # intermediate hack -- pending approval refactor
+    vintage_post_status_string = @state.post_status_string
+    ballot_box = _(@props.approval_statuses).inject( (obj, vote, voter)->
+      obj[vote].push voter
+      obj
+    , {accepted:[], rejected:[], undecided:[]}) #defaults
+
+    if ballot_box.rejected.length
+      post_status_string= 'CLOSED'
+    else
+      percentage = parseInt( ballot_box.accepted.length / _(@props.approval_statuses).keys().length *100 )
+      if percentage < 100
+        post_status_string= 'PENDING'
+      else
+        post_status_string= 'PUBLISHED'
+
+    unless vintage_post_status_string == post_status_string
+      @setState(post_status_string: post_status_string)
+      $('#post-status').text(post_status_string)
 
   buildComments: ->
     _(@props.comments).map (comment)=>
@@ -256,6 +281,8 @@ CStone.Admin.Components.Comments= React.createClass
         message.splice(1, 0, `<span>, </span>`) if message.length == 3
         message = message.concat [`<span> &amp; </span>`, message.pop()]
       message.push(`<span> Approval Required</span>`)
+
+
 
     `<div id="approval-status-row">
       <div className="global-approval-status col-xs-4">

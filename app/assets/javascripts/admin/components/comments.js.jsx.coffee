@@ -269,8 +269,11 @@ CStone.Admin.Components.Comments= React.createClass
           <div className="col-sm-7">
             <h4>
               { message }
-
             </h4>
+            <div className="hidden-sm hidden-xs info-i">
+              <i className="glyphicon glyphicon-info-sign"> </i>
+              Required before a post is published or updated.
+            </div>
           </div>
           <div className="col-sm-5">
             { this.buildApprovalSubmitButton() }

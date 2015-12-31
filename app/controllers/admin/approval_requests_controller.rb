@@ -19,7 +19,6 @@ class Admin::ApprovalRequestsController < Admin::BaseController
     end
 
     set_approval_request_data
-
     render json: comments_data
   end
 
@@ -33,8 +32,10 @@ class Admin::ApprovalRequestsController < Admin::BaseController
 
   def editable_posts
     # - if current_user && current_user.admin? || current_user == post.author
-    my_approval_requests = current_user.approval_requests.joins(:post).pluck('posts.public_id')
-    render json: { public_ids: my_approval_requests }
+    if stale?(last_modified:current_user.approval_requests.maximum(:updated_at), public:true)
+      my_approval_requests = current_user.approval_requests.joins(:post).pluck('posts.public_id')
+      render json: { public_ids: my_approval_requests }
+    end
   end
 
 private

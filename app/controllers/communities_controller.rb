@@ -1,17 +1,23 @@
 class CommunitiesController < ApplicationController
   # should always render index
 
-  before_filter :set_posts
+  # before_filter :set_posts
 
   def index
-
+    fresh_when(etag:@posts, last_modified:last_updated_at, public:true)
+    set_posts
   end
 
   def show
+    fresh_when(etag:@posts, last_modified:last_updated_at, public:true)
+    set_posts
     render :index
   end
 
 private
+  def last_updated_at
+    Post.current.order('updated_at DESC').first.updated_at
+  end
 
   def set_posts
     @posts ||= Post.current

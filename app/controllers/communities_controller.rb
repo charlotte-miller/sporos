@@ -4,11 +4,13 @@ class CommunitiesController < ApplicationController
   # before_filter :set_posts
 
   def index
+    expires_in 5.seconds, public:true
     fresh_when(etag:@posts, last_modified:last_updated_at, public:true)
     set_posts
   end
 
   def show
+    expires_in 5.seconds, public:true
     fresh_when(etag:@posts, last_modified:last_updated_at, public:true)
     set_posts
     render :index

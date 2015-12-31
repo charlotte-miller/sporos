@@ -34,7 +34,7 @@ CStone.Admin.Components.VimeoUploadHelp = React.createClass
          </div>
          <div className="help-block">
           <div className="col-xs-5">
-            <a href="/assets/vimeo-id-help.png"><img src="/assets/vimeo-id-help.png" alt="Vimeo id help"/></a>
+            <a href="/static/images/vimeo-id-help.png"><img src="/static/images/vimeo-id-help.png" alt="Vimeo id help"/></a>
           </div>
           <div className="col-xs-7">
             <span>

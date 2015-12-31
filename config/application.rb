@@ -55,6 +55,13 @@ module Sporos
     config.cache_store = :redis_store, "#{AppConfig.redis.url}/0/cache", { expires_in: 1.week }
 
     config.assets.enabled = true
+    config.assets.initialize_on_precompile = false
+
+    config.assets.precompile += %w{ vendor.js admin.js admin.css}
+    config.assets.precompile += ['groups/*.js', 'page_initializers/*.js','community/posts/all.js']
+    config.assets.precompile += ['library/*.js']
+
+
     config.assets.image_optim = {
       pack:true,    skip_missing_workers: true,
       pngout:false, svgo: false,

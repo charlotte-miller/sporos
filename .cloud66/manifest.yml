@@ -1,8 +1,9 @@
-production:  
+production:
   rails:
     server:
       unique_name: app1
     configuration:
+      asset_pipeline_precompile: true
       extra_packages:
         - chrony
         - htop
@@ -12,7 +13,7 @@ production:
   redis:
     server:
       same_as: app1
-      
+
   postgresql:
     server:
       unique_name: db1
@@ -21,7 +22,7 @@ production:
       extra_packages:
         - chrony
         - htop
-  
+
   elasticsearch:
     server:
       unique_name: search1
@@ -30,4 +31,3 @@ production:
       extra_packages:
         - chrony
         - htop
-  

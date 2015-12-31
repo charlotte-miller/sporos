@@ -35,7 +35,7 @@ module ApplicationHelper
 
     # / For all other devices
     # / Size should be 32 x 32 pixels
-    favicons << favicon_link_tag( 'favicon.ico', :rel => 'shortcut icon' )
+    favicons << favicon_link_tag( 'favicon.png', :rel => 'shortcut icon' )
     favicons.join("\n").html_safe
   end
 

@@ -10,12 +10,15 @@
 .field#video-upload-tabs
   = f.label :uploaded_files, 'Video'
   %ul.nav.nav-tabs{role:'tablist'}
-    %li{role:'presentation', class:(f.object.vimeo_id.present? ? '' : 'active')}
-      %a{href:'#upload-video', data:{toggle:'tab'}} Upload Video
-    %li{role:'presentation', class:(f.object.vimeo_id.present? ? 'active' : '')}
+    %li{role:'presentation', class:'active'}
       %a{href:'#vimeo-video', data:{toggle:'tab'}} Use Vimeo
+    %li{role:'presentation'}
+      %a{href:'#upload-video', data:{toggle:'tab'}} Upload Video
   .tab-content
-    .field.tab-pane#upload-video{role:'tabpanel', class:(f.object.vimeo_id.present? ? '' : 'active')}
+    .field.tab-pane#vimeo-video{role:'tabpanel', class:'active'}
+      = Rails.cache.fetch("CStone.Admin.Components.VimeoUploadHelp-#{f.object.vimeo_id}") { react_component('CStone.Admin.Components.VimeoUploadHelp ', {vimeoId: f.object.vimeo_id}, {prerender: true}) }
+
+    .field.tab-pane#upload-video{role:'tabpanel'}
       #dropzone
         .row
           .col-xs-5
@@ -26,9 +29,6 @@
           .col-xs-7
             %b Drag & Drop Here
         #dropzone-file-manager
-
-    .field.tab-pane#vimeo-video{role:'tabpanel', class:(f.object.vimeo_id.present? ? 'active' : '')}
-      = react_component('CStone.Admin.Components.VimeoUploadHelp ', {vimeoId: f.object.vimeo_id}, {prerender: true})
 
 / .field
 /   = f.label :expired_at, 'Archive at:'

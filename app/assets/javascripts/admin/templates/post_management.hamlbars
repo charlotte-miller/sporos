@@ -7,7 +7,7 @@
     .post-action.unpublish{html:{role:'presentation'}}
       %a{html:{role:"button"}, class:"btn btn-link", href:"/admin/posts/{{public_id}}"}
         %i.glyphicon.glyphicon-eye-close
-        .post-action-copy Unpublish
+        .post-action-copy Review
     .post-action.delete{html:{role:'presentation'}}
       %a{data:{confirm:"Are you sure? It will really be gone.", method:"delete"}, html:{role:"button"}, class:"btn btn-link", rel:"nofollow", href:"/admin/posts/{{public_id}}"}
         %i.glyphicon.glyphicon-trash

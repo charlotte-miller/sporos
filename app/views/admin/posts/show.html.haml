@@ -22,4 +22,4 @@
     = render_partial_for @post
 
   - if @approval_statuses.length > 1
-    = react_component('CStone.Admin.Components.Comments ', @comments_data, {prerender: true})
+    = react_component('CStone.Admin.Components.Comments ', @comments_data, {prerender: false})

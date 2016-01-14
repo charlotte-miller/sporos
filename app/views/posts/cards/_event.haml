@@ -5,7 +5,7 @@
     .post-management-placeholder
 
     %a{href: post_path(id:@post)}
-      %img.thumbnail-img{src: placeholder_img,
+      %img.thumbnail-img{src: @post.poster.url(:medium),
           data: {src: @post.poster.url},
           alt: @post.title,
           height:'360',

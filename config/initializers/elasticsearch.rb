@@ -7,5 +7,5 @@ Elasticsearch::Model.client = Elasticsearch::Client.new({
   retry_on_failure: Rails.env.test? ? false : 1,
   host: AppConfig.elasticsearch.address,
   adapter: :typhoeus,
-  transport_options: { request: { timeout:2 }, },
+  transport_options: { request: { timeout:5 }, },
 })

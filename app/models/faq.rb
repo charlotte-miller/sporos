@@ -27,9 +27,9 @@ class Faq < ActiveRecord::Base
   def as_indexed_json(options={})
     {
       title:       body,
-      preview:     shorter_plain_text(answer.body),
-      path:        answer.more_info_path,
-      description: answer.body,
+      preview:     shorter_plain_text(faq_answer.body),
+      path:        faq_answer.more_info_path,
+      description: faq_answer.body,
       keywords:    [],
     }
   end

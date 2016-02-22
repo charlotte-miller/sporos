@@ -132,18 +132,19 @@ class CStone.Community.Search.Models.AbstractSource extends Backbone.RelationalM
       highlighted = (h = result.highlight) && (d = h.description) && (d[0])
       most_relevant_preview = highlighted || result._source.preview
 
-      combined_payload = _([
-        result._source.title,
-        $("<span>#{most_relevant_preview}</span>").text(),
-        # result._source.keywords.join('|'),
-        result._source.study_title,
-        result._source.author,
-      ]).compact().join(' | ')
+      # (too broad for small datasets)
+      # combined_payload = _([
+      #   result._source.title,
+      #   $("<span>#{most_relevant_preview}</span>").text(),
+      #   # result._source.keywords.join('|'),
+      #   result._source.study_title,
+      #   result._source.author,
+      # ]).compact().join(' | ')
 
       type:    result._type
       id:      parseInt(result._id)
       score:   result._score
-      payload: combined_payload
+      payload: result._source.title  # combined_payload
       title:        result._source.title
       description:  most_relevant_preview
       path:         result._source.path

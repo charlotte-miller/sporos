@@ -1,11 +1,10 @@
 #main-header-wrapper{ display:initial; }
 #main-header{
-//  background: url( image_path('background_video_start.jpg') ) no-repeat center center; //video background
-//  -webkit-background-size: cover;
-//  -moz-background-size: cover;
-//  -o-background-size: cover;
-//  background-size: cover;
-  background-color:black;
+  background: url( "http://assets.cornerstonesf.org/Blue-Bottle/Snapshots/Blue-Bottle.jpg" ) no-repeat center center; //video background
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   padding-top:0%;
   @extend %transitionAll;
 
@@ -45,8 +44,23 @@
     opacity:1;
   }
 
+  .music-title{
+    margin:10px;
+    overflow:hidden;
+    width:135px;
+    white-space:nowrap;
+    @extend %transitionAll;
+  }
+
   .theater-icon{
-    @extend .glyphicon-fullscreen;
+    @extend .glyphicon-play;
+  }
+
+  .glyphicon-repeat{
+    width:0px;
+    margin:0px;
+    overflow:hidden;
+    @extend %transitionAll;
   }
 
   &.theater-mode{
@@ -60,8 +74,24 @@
       opacity:0;
     }
 
+    .music-title{
+      margin:0px;
+      width:0px;
+    }
+
     .theater-icon{
       @extend .glyphicon-search;
+    }
+
+    .glyphicon-repeat{
+      width:14px;
+      margin:10px;
+      overflow:hidden ;
+    }
+
+    i{
+      margin-left:10px;
+      margin-right:10px;
     }
   }
 }
@@ -130,16 +160,17 @@
   }
 
   i{
-    margin-left:10px;
-    margin-right:10px;
+    margin-left:7px;
+    margin-right:7px;
+    @extend %transitionMargin;
   }
 
   .volume{
-    @extend .glyphicon-volume-up;
+    @extend .glyphicon-volume-off;
   }
   &.sound-out{
     .volume{
-      @extend .glyphicon-volume-off;
+      @extend .glyphicon-volume-up;
     }
   }
 }

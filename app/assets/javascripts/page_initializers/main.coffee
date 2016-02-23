@@ -11,10 +11,10 @@ $ ->
 
   $main_header  = $('#main-header')
   video_element = $main_header.vide(
-    mp4:    "https://player.vimeo.com/external/144705298.hd.mp4?s=a65c31dcb9787fb34caf94ede0245263852fffc5&profile_id=113" #"http://vodkabears.github.io/vide/video/ocean.mp4"
-    webm:   "http://vodkabears.github.io/vide/video/ocean.webm"
-    ogv:    "http://vodkabears.github.io/vide/video/ocean.ogv"
-    # poster: "/assets/background_video_start.jpg" # handled with CSS
+    mp4:    "http://assets.cornerstonesf.org/Blue-Bottle/MP4/Blue-Bottle.mp4" # "https://player.vimeo.com/external/144705298.hd.mp4?s=a65c31dcb9787fb34caf94ede0245263852fffc5&profile_id=113" #"http://vodkabears.github.io/vide/video/ocean.mp4"
+    webm:   "http://assets.cornerstonesf.org/Blue-Bottle/WEBM/Blue-Bottle.webm" # "http://vodkabears.github.io/vide/video/ocean.webm"
+    ogv:    "http://assets.cornerstonesf.org/Blue-Bottle/OGV/Blue-Bottle.ogv" # "http://vodkabears.github.io/vide/video/ocean.ogv"
+    poster: "http://assets.cornerstonesf.org/Blue-Bottle/Snapshots/Blue-Bottle.jpg" # "/assets/background_video_start.jpg" # handled with CSS
   ,
     posterType:'jpg'
     autoplay:false

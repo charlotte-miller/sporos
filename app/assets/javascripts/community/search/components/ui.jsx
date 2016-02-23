@@ -74,8 +74,9 @@ CStone.Community.Search.Components.UI = React.createClass({
         {(function(){
           if (!isMobile) {
             return <div id="volume-controls">
+              <span className="music-title" ><b>New Music:</b> The Way</span>
               <i className="theater-icon glyphicon" onClick={_this.headerFitClick} ></i>
-              <i className="glyphicon glyphicon glyphicon-repeat" ref="header-video-restart" onClick={_this.headerRestartClick} ></i>
+              <i className="glyphicon glyphicon-repeat" ref="header-video-restart" onClick={_this.headerRestartClick} ></i>
               <i className="volume glyphicon" ref="header-volume" onClick={_this.headerVolumeClick} ></i>
             </div>
           }
@@ -91,14 +92,52 @@ CStone.Community.Search.Components.UI = React.createClass({
     var $main = $('#main-header').first();
     $main.toggleClass('theater-mode');
 
+    // DEMO
     if ($main.hasClass('theater-mode')) {
-      $video[0].play();
-      if (($video.prop('muted') || !$video.prop('volume'))) {
-        $('#volume-controls').addClass('sound-out');
-        $video.prop({'muted':false, volume:0});
-        $video.animate({volume: 0.7}, 2000, 'easeOutCirc');
-      }
+      $main.css('background-color', 'black');
+
+      setTimeout(function(){
+        $video.prop('src','https://player.vimeo.com/external/144705298.hd.mp4?s=a65c31dcb9787fb34caf94ede0245263852fffc5&profile_id=113')
+
+        $video.bind('loadeddata', function(){
+          $video[0].play();
+
+          if (($video.prop('muted') || !$video.prop('volume'))) {
+            $('#volume-controls').addClass('sound-out');
+            $video.prop({'muted':false, volume:0});
+            $video.animate({volume: 0.7}, 2000, 'easeOutCirc');
+          }
+
+          $main.css('background-color', 'transparent');
+          $(this).unbind( 'loadeddata' );
+        })
+
+      }, 500); //wait for css transition
+
+
+    }else{
+      $main.css('background-color', 'black');
+      $video.animate({volume: 0}, 500, 'easeOutCirc');
+
+      setTimeout(function(){
+        $video.prop('src','http://assets.cornerstonesf.org/Blue-Bottle/MP4/Blue-Bottle.mp4')
+        $video.bind('loadeddata', function(){
+          $('#volume-controls').removeClass('sound-out');
+          $video.prop({'muted':true, volume:0});
+          $video[0].play();
+          $main.css('background-color', 'transparent')
+        })
+      }, 500);  //wait for css transition
     }
+
+    // if ($main.hasClass('theater-mode')) {
+    //   $video[0].play();
+    //   if (($video.prop('muted') || !$video.prop('volume'))) {
+    //     $('#volume-controls').addClass('sound-out');
+    //     $video.prop({'muted':false, volume:0});
+    //     $video.animate({volume: 0.7}, 2000, 'easeOutCirc');
+    //   }
+    // }
   },
 
   headerRestartClick: function(e){

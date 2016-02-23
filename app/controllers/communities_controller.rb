@@ -5,14 +5,14 @@ class CommunitiesController < ApplicationController
 
   def index
     expires_in 5.seconds, public:true
-    fresh_when(etag:@posts, last_modified:last_updated_at, public:true)
     set_posts
+    fresh_when(etag:@posts, last_modified:last_updated_at, public:true)
   end
 
   def show
     expires_in 5.seconds, public:true
-    fresh_when(etag:@posts, last_modified:last_updated_at, public:true)
     set_posts
+    fresh_when(etag:@posts, last_modified:last_updated_at, public:true)
     render :index
   end
 

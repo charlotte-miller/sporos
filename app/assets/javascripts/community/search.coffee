@@ -60,10 +60,11 @@ class CStone.Community.Search
         search = actor.getCurrentActor()
         search.displayValue = ''
         done()
-      theater.addScene('search:Scroll down to explore the community',1500)
-      theater.addScene (done)->
-        actor.getCurrentActor().displayValue = 'Search for music, messages, events and more...'
-        done()
+      theater.addScene('search:Scroll down to explore the community',3000)
+      theater.addScene('search:Search for music, messages, events and more...',1500)
+      # theater.addScene (done)->
+      #   actor.getCurrentActor().displayValue = 'Search for music, messages, events and more...'
+      #   done()
 
       _.delay theater.play, 800
 

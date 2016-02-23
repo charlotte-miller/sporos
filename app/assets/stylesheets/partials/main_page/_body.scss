@@ -153,6 +153,12 @@
           @media (min-width: 665px) {
             margin-top: -75px;
           }
+
+          @media (max-width: 450px) {
+            .ministry{
+              padding:10px 8px;
+            }
+          }
         }
 
             #community-feed-links{

@@ -7,6 +7,7 @@ CStone.Community.Search.Components.UI = React.createClass({
   componentWillReceiveProps: function(props) {
     if (props.model) {
       props.model.on('change:dropdown_visible', this.thenScrollToMainUI);
+      props.model.on('change:dropdown_visible', this.thenToggleFeedbackTab);
     }
   },
 
@@ -277,5 +278,13 @@ CStone.Community.Search.Components.UI = React.createClass({
       container: container,
       offset: -100
     });
+  },
+
+  thenToggleFeedbackTab: function(){
+    if (this.session().get('dropdown_visible')) {
+      $('#doorbell-button').addClass('hide')
+    }else{
+      $('#doorbell-button').removeClass('hide')
+    }
   },
 });

@@ -1,39 +1,39 @@
+# production:
+#   rails:
+#     server:
+#       unique_name: app1
+#     configuration:
+#       asset_pipeline_precompile: true
+#       extra_packages:
+#         - chrony
+#         - htop
+#         - graphicsmagick
+#         - libcurl3
+#
+#   redis:
+#     server:
+#       same_as: app1
+#
+#   postgresql:
+#     server:
+#       unique_name: db1
+#     configuration:
+#       version: 9.3.11
+#       extra_packages:
+#         - chrony
+#         - htop
+#
+#   elasticsearch:
+#     server:
+#       unique_name: search1
+#     configuration:
+#       version: 1.5.0
+#       extra_packages:
+#         - chrony
+#         - htop
+
+
 production:
-  rails:
-    server:
-      unique_name: app1
-    configuration:
-      asset_pipeline_precompile: true
-      extra_packages:
-        - chrony
-        - htop
-        - graphicsmagick
-        - libcurl3
-
-  redis:
-    server:
-      same_as: app1
-
-  postgresql:
-    server:
-      unique_name: db1
-    configuration:
-      version: 9.3.11
-      extra_packages:
-        - chrony
-        - htop
-
-  elasticsearch:
-    server:
-      unique_name: search1
-    configuration:
-      version: 1.5.0
-      extra_packages:
-        - chrony
-        - htop
-
-
-staging:
   rails:
     server:
       unique_name: combined

@@ -18,7 +18,7 @@ production:
     server:
       unique_name: db1
     configuration:
-      version: 9.4.1
+      version: 9.3.11
       extra_packages:
         - chrony
         - htop
@@ -53,7 +53,7 @@ staging:
     server:
       same_as: combined
     configuration:
-      version: 9.4.1
+      version: 9.3.11
       extra_packages:
         - chrony
         - htop

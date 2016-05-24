@@ -74,8 +74,8 @@ test:
 
 production:
   domains:
-    primary: sporos.cornerstonesf.org                 # CLOUDFRONT -> ORIGIN
-    origin:  sporos.cornerstonesf.org                 # WEB SERVERS
+    primary: sporos.socialdevotional.com                 # CLOUDFRONT -> ORIGIN
+    origin:  sporos.socialdevotional.com                 # WEB SERVERS
     assets:  assets.cornerstonesf.org                 # CLOUDFRONT -> S3
     legacy_media:  media.cornerstone-sf.org
 

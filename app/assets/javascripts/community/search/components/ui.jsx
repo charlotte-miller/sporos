@@ -121,7 +121,7 @@ CStone.Community.Search.Components.UI = React.createClass({
       $video.animate({volume: 0}, 500, 'easeOutCirc');
 
       setTimeout(function(){
-        $video.prop('src','http://assets.cornerstonesf.org/Blue-Bottle/MP4/Blue-Bottle.mp4')
+        $video.prop('src','http://assets.sporos.socialdevotional.com/Blue-Bottle/MP4/Blue-Bottle.mp4')
         $video.bind('loadeddata', function(){
           $('#volume-controls').removeClass('sound-out');
           $video.prop({'muted':true, volume:0});

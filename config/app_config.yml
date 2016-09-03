@@ -16,7 +16,7 @@ common:
   domains:
     primary: cornerstonesf.org                        # CLOUDFRONT -> ORIGIN
     origin:  origin.cornerstonesf.org                 # WEB SERVERS
-    assets:  assets.cornerstonesf.org                 # CLOUDFRONT -> S3
+    assets:  assets.sporos.socialdevotional.com       # CLOUDFRONT -> S3
     legacy_media: media.cornerstone-sf.org
     live:    live.cornerstonesf.org                   # CHURCH ONLINE PLATFORM
 
@@ -88,7 +88,7 @@ production:
 
   s3:
     url: s3-us-west-1.amazonaws.com #s3.amazonaws.com
-    bucket: assets.cornerstonesf.org
+    bucket: assets.sporos.socialdevotional.com
     credentials:
       access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
       secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>

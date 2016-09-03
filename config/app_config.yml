@@ -76,7 +76,7 @@ production:
   domains:
     primary: sporos.socialdevotional.com                 # CLOUDFRONT -> ORIGIN
     origin:  sporos.socialdevotional.com                 # WEB SERVERS
-    assets:  assets.cornerstonesf.org                 # CLOUDFRONT -> S3
+    assets:  assets.sporos.socialdevotional.com          # CLOUDFRONT -> S3
     legacy_media:  media.cornerstone-sf.org
 
   dev_user: developer
